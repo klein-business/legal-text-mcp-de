@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "mcp-law-tools"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: mcp-law-tools
@@ -63,6 +63,11 @@ The MCP law tools expose the Phase 1 legal text runtime to MCP clients. They ret
 - Invalid citation shapes return `INVALID_CITATION`.
 - Empty or punctuation-only search input returns `INVALID_QUERY`.
 - The tools do not provide legal interpretation or hallucinated fallback text.
+- A plain HTTP probe against `/mcp` is not a valid MCP readiness check and may return `406 Not Acceptable`; use a real MCP streamable-HTTP client handshake for E2E verification.
+
+## E2E Verification
+
+`scripts/verify_e2e.py` starts the MCP server process with the fixture dataset, connects through `mcp.client.streamable_http.streamablehttp_client`, initializes a `ClientSession`, verifies the Phase 1 tool list, and calls `get_norm`, `resolve_citation`, `search_laws`, and a structured missing-norm error path.
 
 ## Related Features
 

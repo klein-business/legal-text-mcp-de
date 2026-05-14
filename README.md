@@ -112,6 +112,14 @@ PYTHONPATH=mcp python scripts/verify_phase1_release.py
 
 The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, scope exclusions, and real local HTTP/MCP network E2E.
 
+Run only the local network E2E check:
+
+```bash
+PYTHONPATH=mcp python scripts/verify_e2e.py
+```
+
+The E2E check starts real local HTTP and MCP streamable-HTTP server processes against the fixture dataset, then verifies HTTP routes over network requests and MCP tools through the official MCP client.
+
 ## License
 
 This project is proprietary commercial software. See [LICENSE](LICENSE).

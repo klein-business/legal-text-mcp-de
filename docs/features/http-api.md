@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "http-api"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: http-api
@@ -42,6 +42,10 @@ STRICT_STARTUP=true \
 PYTHONPATH=mcp \
 uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
 ```
+
+## E2E Verification
+
+`scripts/verify_e2e.py` starts a real Uvicorn process with the fixture dataset and checks `/health`, `/ready`, `/laws`, EGBGB encoded child norm lookup, `/search`, and structured invalid-query errors over localhost HTTP.
 
 ## Error Handling
 

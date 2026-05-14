@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.1
+version: 1.2
 ---
 
 # legal-text-mcp-de
@@ -10,7 +10,7 @@ version: 1.1
 
 `legal-text-mcp-de` provides source-backed German legal texts through MCP and a small HTTP API. Phase 1 is focused on reliable local/server-side data handling: reproducible source import, normalized legal text records, deterministic search, exact citation resolution, and structured provenance/error contracts.
 
-The project does not provide legal advice and does not include SaaS, billing, account, authorization, or multi-tenant features.
+The project is proprietary commercial software. It does not provide legal advice and does not include SaaS, billing, account, authorization, or multi-tenant features.
 
 ## Architecture
 
@@ -96,6 +96,12 @@ PYTHONPATH=mcp python scripts/verify_phase1_release.py
 ```
 
 This command includes the full test suite plus real local HTTP and MCP streamable-HTTP E2E checks.
+
+```bash
+PYTHONPATH=mcp python scripts/verify_e2e.py
+```
+
+This command runs only the local network E2E check. It starts temporary HTTP and MCP servers with the fixture dataset, verifies HTTP endpoints through network requests, and verifies MCP through the official streamable-HTTP client.
 
 ## References
 
