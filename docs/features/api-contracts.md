@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "api-contracts"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: api-contracts
@@ -81,3 +81,10 @@ For HTTP path transport, slash-containing norm IDs must be URL encoded:
 ## Search Contract
 
 Search normalizes Unicode, case-folds input, collapses whitespace, tokenizes as plain text, and uses AND semantics for unique query tokens. Snippets are plain text and do not include HTML fragments. Public scores are normalized so the top result is `1.0`, with stable tie-breaking by score, canonical law ID, and norm ID.
+
+## Verification
+
+Transport contracts are covered at two levels:
+
+- in-process contract tests for MCP tool registration, HTTP route schemas, structured errors, resolver behavior, and search behavior;
+- local network E2E through `scripts/verify_e2e.py`, which starts real HTTP and MCP streamable-HTTP server processes and calls them through network clients.

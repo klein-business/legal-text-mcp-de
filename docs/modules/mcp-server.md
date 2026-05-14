@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "mcp-server"
-version: 1.1
+version: 1.2
 ---
 
 # Module: mcp-server
@@ -57,6 +57,8 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 | `mcp/legal_texts/errors.py` | file | Shared structured error codes and envelopes. |
 | `mcp/parser.py` | file | Legacy Markdown parser retained for compatibility tests. |
 | `mcp/tests/` | dir | Fixture-backed test suite and release-gate coverage. |
+| `scripts/verify_phase1_release.py` | file | Runs the full release gate and then local network E2E. |
+| `scripts/verify_e2e.py` | file | Starts real local HTTP/MCP server processes and verifies both transports end-to-end. |
 
 ## Key Symbols
 
@@ -96,6 +98,8 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 ## Test Coverage
 
 The release gate is `PYTHONPATH=mcp python scripts/verify_phase1_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through `scripts/verify_e2e.py`.
+
+The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports, checks HTTP with real network requests, and checks MCP through `mcp.client.streamable_http.streamablehttp_client` plus `ClientSession`. It intentionally waits for MCP TCP readiness rather than probing `/mcp` with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.
 
 ## Inventory Notes
 

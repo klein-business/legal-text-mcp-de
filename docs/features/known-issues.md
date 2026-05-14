@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "known-issues"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: known-issues
@@ -18,6 +18,7 @@ version: 1.1
 - DSGVO provenance is separate from GII and uses Cellar XML; it is not imported through the German-law source pipeline.
 - The HTTP API is local/server-side read-only infrastructure. It is not a SaaS API surface with accounts, billing, authorization, or tenant isolation.
 - No tool performs legal advice, legal classification, or hallucinated fallback generation.
+- MCP streamable HTTP must be exercised with an MCP client. A plain request to `/mcp` without MCP protocol headers is not a valid readiness or tool-call check.
 
 ## Known Invalid Source Paths
 
