@@ -11,7 +11,7 @@ version: 1.1
 
 ## Summary
 
-Phase 1 supports the legal-audit fixture set defined in [fixture-inventory.md](../../plans/reliable-law-data-mcp/fixture-inventory.md). It is not a claim of complete German-law coverage.
+Phase 1 supports the committed legal-audit fixture set under `mcp/tests/fixtures/`. It is not a claim of complete German-law coverage.
 
 ## Canonical IDs
 

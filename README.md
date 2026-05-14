@@ -121,4 +121,3 @@ The release gate covers source matrix probes, fixture coverage, import validatio
 - [API contracts](docs/features/api-contracts.md)
 - [HTTP API](docs/features/http-api.md)
 - [Known issues](docs/features/known-issues.md)
-- [Implementation plan](plans/reliable-law-data-mcp/plan.md)

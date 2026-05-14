@@ -20,8 +20,8 @@ def test_fixture_inventory_expected_matches_normalized_records():
     assert not missing
 
 
-def test_fixture_inventory_markdown_mentions_all_required_laws():
-    text = Path("plans/reliable-law-data-mcp/fixture-inventory.md").read_text(encoding="utf-8")
+def test_supported_laws_docs_mentions_all_required_laws():
+    text = Path("docs/features/supported-laws.md").read_text(encoding="utf-8")
     expected = json.loads(EXPECTED.read_text(encoding="utf-8"))
     for law_id in expected:
         assert f"`{law_id}`" in text
