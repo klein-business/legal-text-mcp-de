@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "api-contracts"
-version: 1.2
+version: 1.3
 ---
 
 # Feature: api-contracts
@@ -11,7 +11,7 @@ version: 1.2
 
 ## Summary
 
-Phase 1 exposes one shared domain contract through MCP and HTTP. Transport handlers are intentionally thin; they return the same law, norm, citation, search, source metadata, readiness, and error shapes.
+The API exposes one shared domain contract through MCP and HTTP. Transport handlers are intentionally thin; they return the same law, norm, citation, search, source metadata, readiness, and error shapes.
 
 ## MCP Tools
 

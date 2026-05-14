@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "data-preparation"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: data-preparation
@@ -11,9 +11,9 @@ version: 1.1
 
 ## Summary
 
-The historical data-preparation helper is retained, but Phase 1 reliable data preparation is the importer/normalizer workflow under `mcp/legal_texts/`.
+The historical data-preparation helper is retained, but reliable data preparation is the importer/normalizer workflow under `mcp/legal_texts/`.
 
-## Phase 1 Workflow
+## Reliable Data Workflow
 
 1. Use source specs from `mcp/legal_texts/sources.py`.
 2. Probe and download official source artifacts with `mcp/legal_texts/importer.py`.
@@ -24,7 +24,7 @@ The historical data-preparation helper is retained, but Phase 1 reliable data pr
 
 ## Legacy Helper
 
-`prepare_data/prepare_gesetze_im_internet.sh` still exists for manual Markdown-era experimentation through `gesetze-tools`. Its output is not a production source for Phase 1.
+`prepare_data/prepare_gesetze_im_internet.sh` still exists for manual Markdown-era experimentation through `gesetze-tools`. Its output is not a production source for the supported runtime.
 
 ## Related Features
 

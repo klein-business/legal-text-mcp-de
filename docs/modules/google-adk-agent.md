@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "google-adk-agent"
-version: 1.1
+version: 1.2
 ---
 
 # Module: google-adk-agent
@@ -11,7 +11,7 @@ version: 1.1
 
 ## Overview
 
-The `google-adk-agent/` module is an optional legacy demonstration client for the MCP endpoint. It is not part of the Phase 1 reliable legal text data pipeline, but it can still connect to the server through `MCP_URL`.
+The `google-adk-agent/` module is an optional legacy demonstration client for the MCP endpoint. It is not part of the reliable legal text data pipeline, but it can still connect to the server through `MCP_URL`.
 
 ### Responsibility
 
@@ -36,7 +36,7 @@ This module demonstrates one LLM client integration path. It is not responsible 
 
 ## Current Compatibility Note
 
-The Phase 1 MCP tool surface is `list_laws`, `get_law`, `get_norm`, `resolve_citation`, `search_laws`, and `get_source_metadata`. The ADK demo relies on dynamic MCP tool discovery, but its natural-language prompt was written for the earlier paragraph-oriented demo. Treat it as a client example, not as a tested Phase 1 acceptance path.
+The stable MCP tool surface is `list_laws`, `get_law`, `get_norm`, `resolve_citation`, `search_laws`, and `get_source_metadata`. The ADK demo relies on dynamic MCP tool discovery, but its natural-language prompt was written for the earlier paragraph-oriented demo. Treat it as a client example, not as a tested acceptance path.
 
 ## Configuration
 
@@ -47,5 +47,5 @@ The Phase 1 MCP tool surface is `list_laws`, `get_law`, `get_norm`, `resolve_cit
 
 ## Inventory Notes
 
-- **Coverage**: partial for Phase 1.
+- **Coverage**: partial for the supported runtime.
 - **Notes**: The legacy `google-adk-agent/README.md` was archived to `docs-legacy/google-adk-agent--README.md`.

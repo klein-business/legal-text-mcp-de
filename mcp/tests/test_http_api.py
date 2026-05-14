@@ -52,7 +52,7 @@ def test_search_endpoint_and_errors():
     assert invalid.json()["error"]["code"] == "INVALID_QUERY"
 
 
-def test_openapi_contains_phase1_paths_and_schemas():
+def test_openapi_contains_supported_paths_and_schemas():
     schema = client().get("/openapi.json").json()
     for path in ["/health", "/ready", "/laws", "/laws/{code}", "/laws/{code}/norms/{norm}", "/search"]:
         assert path in schema["paths"]

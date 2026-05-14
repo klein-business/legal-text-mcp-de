@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "law-loading-and-indexing"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: law-loading-and-indexing
@@ -55,7 +55,7 @@ Every text-bearing norm requires canonical law ID, norm ID, text, URL, source me
 - Startup is strict by default and fails when no valid dataset is configured.
 - Known invalid upstream paths, such as `tddsg` and `pangv`, are regression checks and not import sources.
 - DSGVO uses Cellar XML (`CELEX:32016R0679`, German expression `0004.02`, `DOC_2`) and is separate from GII.
-- Search is Phase 1 deterministic plain-text search, not backend-specific relevance ranking.
+- Search is deterministic plain-text search, not backend-specific relevance ranking.
 
 ## Related Features
 

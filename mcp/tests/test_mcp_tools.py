@@ -17,7 +17,7 @@ def call_tool(application, name, **kwargs):
     return application._tool_manager._tools[name].fn(**kwargs)
 
 
-def test_tool_registry_has_only_phase1_tools():
+def test_tool_registry_has_only_supported_tools():
     names = set(app()._tool_manager._tools)
     assert names == {"list_laws", "get_law", "get_norm", "resolve_citation", "search_laws", "get_source_metadata"}
     assert "get_lawlibrary" not in names

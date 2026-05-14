@@ -1,14 +1,14 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.2
+version: 1.3
 ---
 
 # legal-text-mcp-de
 
 ## Purpose
 
-`legal-text-mcp-de` provides source-backed German legal texts through MCP and a small HTTP API. Phase 1 is focused on reliable local/server-side data handling: reproducible source import, normalized legal text records, deterministic search, exact citation resolution, and structured provenance/error contracts.
+`legal-text-mcp-de` provides source-backed German legal texts through MCP and a small HTTP API. The current implementation focuses on reliable local/server-side data handling: reproducible source import, normalized legal text records, deterministic search, exact citation resolution, and structured provenance/error contracts.
 
 The project is proprietary commercial software. It does not provide legal advice and does not include SaaS, billing, account, authorization, or multi-tenant features.
 
@@ -46,20 +46,20 @@ LegalTextRuntime
 | ------ | ----------- | ------------- |
 | mcp-server | MCP server, HTTP app, legal text services, importer, normalizer, resolver, search, and tests. | [Detail](modules/mcp-server.md) |
 | container-runtime | Docker packaging for the server with external normalized dataset mounting. | [Detail](modules/container-runtime.md) |
-| data-preparation | Legacy helper workflow for Markdown-era data preparation; not the Phase 1 production source path. | [Detail](modules/data-preparation.md) |
-| google-adk-agent | Optional legacy demo agent kept outside the Phase 1 reliability surface. | [Detail](modules/google-adk-agent.md) |
+| data-preparation | Legacy helper workflow for Markdown-era data preparation; not the production source path. | [Detail](modules/data-preparation.md) |
+| google-adk-agent | Optional legacy demo agent kept outside the reliable legal text runtime. | [Detail](modules/google-adk-agent.md) |
 
 ## Key Features
 
 | Feature | Description | Documentation |
 | ------- | ----------- | ------------- |
-| supported-laws | Phase 1 law set and canonical IDs. | [Detail](features/supported-laws.md) |
+| supported-laws | Supported law set and canonical IDs. | [Detail](features/supported-laws.md) |
 | source-provenance | Raw/normalized data separation and source metadata rules. | [Detail](features/source-provenance.md) |
 | law-loading-and-indexing | Normalized dataset loading, readiness, and search index behavior. | [Detail](features/law-loading-and-indexing.md) |
 | mcp-law-tools | Stable MCP tool surface. | [Detail](features/mcp-law-tools.md) |
 | api-contracts | Shared JSON response and error contracts. | [Detail](features/api-contracts.md) |
 | http-api | FastAPI endpoints and OpenAPI contract. | [Detail](features/http-api.md) |
-| known-issues | Explicit Phase 1 limitations and non-goals. | [Detail](features/known-issues.md) |
+| known-issues | Explicit limitations and non-goals. | [Detail](features/known-issues.md) |
 
 ## Development
 
@@ -92,7 +92,7 @@ uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
 ### Testing
 
 ```bash
-PYTHONPATH=mcp python scripts/verify_phase1_release.py
+PYTHONPATH=mcp python scripts/verify_release.py
 ```
 
 This command includes the full test suite plus real local HTTP and MCP streamable-HTTP E2E checks.

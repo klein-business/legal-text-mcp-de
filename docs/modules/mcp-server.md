@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "mcp-server"
-version: 1.2
+version: 1.3
 ---
 
 # Module: mcp-server
@@ -11,7 +11,7 @@ version: 1.2
 
 ## Overview
 
-The `mcp/` tree contains the MCP server, HTTP app factory, Phase 1 legal text services, source import helpers, normalization parsers, validated fixture data, and tests.
+The `mcp/` tree contains the MCP server, HTTP app factory, legal text services, source import helpers, normalization parsers, validated fixture data, and tests.
 
 ### Responsibility
 
@@ -57,7 +57,7 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 | `mcp/legal_texts/errors.py` | file | Shared structured error codes and envelopes. |
 | `mcp/parser.py` | file | Legacy Markdown parser retained for compatibility tests. |
 | `mcp/tests/` | dir | Fixture-backed test suite and release-gate coverage. |
-| `scripts/verify_phase1_release.py` | file | Runs the full release gate and then local network E2E. |
+| `scripts/verify_release.py` | file | Runs the full release gate and then local network E2E. |
 | `scripts/verify_e2e.py` | file | Starts real local HTTP/MCP server processes and verifies both transports end-to-end. |
 
 ## Key Symbols
@@ -65,7 +65,7 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 | Symbol | Kind | Location | Purpose |
 | ------ | ---- | -------- | ------- |
 | `Settings` | class | `mcp/config.py` | Defines `DATASET_PATH`, `STRICT_STARTUP`, host, port, debug, and legacy parser settings. |
-| `create_mcp_app` | function | `mcp/server.py` | Builds the FastMCP app and registers stable Phase 1 tools. |
+| `create_mcp_app` | function | `mcp/server.py` | Builds the FastMCP app and registers the stable tool surface. |
 | `create_http_app` | function | `mcp/http_api.py` | Builds the FastAPI app over an injected or configured runtime. |
 | `LegalTextRuntime` | class | `mcp/legal_texts/runtime.py` | Shared application service used by both transports. |
 | `LawRegistry` | class | `mcp/legal_texts/registry.py` | Resolves aliases to canonical IDs and validates collisions. |
@@ -97,11 +97,11 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 
 ## Test Coverage
 
-The release gate is `PYTHONPATH=mcp python scripts/verify_phase1_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through `scripts/verify_e2e.py`.
+The release gate is `PYTHONPATH=mcp python scripts/verify_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through `scripts/verify_e2e.py`.
 
 The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports, checks HTTP with real network requests, and checks MCP through `mcp.client.streamable_http.streamablehttp_client` plus `ClientSession`. It intentionally waits for MCP TCP readiness rather than probing `/mcp` with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.
 
 ## Inventory Notes
 
-- **Coverage**: full for Phase 1 runtime and tests.
-- **Notes**: The legacy Markdown parser remains documented as compatibility code, not as the Phase 1 production data source.
+- **Coverage**: full for the supported runtime and tests.
+- **Notes**: The legacy Markdown parser remains documented as compatibility code, not as the production data source.

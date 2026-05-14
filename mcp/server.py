@@ -49,7 +49,7 @@ def create_mcp_app(runtime: LegalTextRuntime | None = None) -> FastMCP:
 
     @app.tool()
     def list_laws(query: str | None = None) -> dict[str, Any]:
-        """List Phase 1 supported laws, optionally filtered by law metadata."""
+        """List supported laws, optionally filtered by law metadata."""
         return _call(runtime.list_laws, query)
 
     @app.tool()

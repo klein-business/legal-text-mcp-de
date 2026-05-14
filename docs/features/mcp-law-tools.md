@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "mcp-law-tools"
-version: 1.2
+version: 1.3
 ---
 
 # Feature: mcp-law-tools
@@ -11,7 +11,7 @@ version: 1.2
 
 ## Summary
 
-The MCP law tools expose the Phase 1 legal text runtime to MCP clients. They return JSON-compatible objects directly and share the same registry, resolver, search, readiness, and source metadata services as the HTTP API.
+The MCP law tools expose the legal text runtime to MCP clients. They return JSON-compatible objects directly and share the same registry, resolver, search, readiness, and source metadata services as the HTTP API.
 
 ## How It Works
 
@@ -67,7 +67,7 @@ The MCP law tools expose the Phase 1 legal text runtime to MCP clients. They ret
 
 ## E2E Verification
 
-`scripts/verify_e2e.py` starts the MCP server process with the fixture dataset, connects through `mcp.client.streamable_http.streamablehttp_client`, initializes a `ClientSession`, verifies the Phase 1 tool list, and calls `get_norm`, `resolve_citation`, `search_laws`, and a structured missing-norm error path.
+`scripts/verify_e2e.py` starts the MCP server process with the fixture dataset, connects through `mcp.client.streamable_http.streamablehttp_client`, initializes a `ClientSession`, verifies the stable tool list, and calls `get_norm`, `resolve_citation`, `search_laws`, and a structured missing-norm error path.
 
 ## Related Features
 

@@ -43,7 +43,7 @@ def resolve_citation(
         except ValueError as exc:
             raise invalid_citation(str(exc), {"child_unit": child_unit}) from exc
         if normalized_child_unit != "par":
-            raise invalid_citation("Only paragraph child units are supported in Phase 1.", {"child_unit": child_unit})
+            raise invalid_citation("Only paragraph child units are supported.", {"child_unit": child_unit})
         child_norm_id = f"par:{_validate_value(child_value, 'child_value')}"
 
     _validate_subdivision_hierarchy(absatz, satz, nummer, buchstabe)

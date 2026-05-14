@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "data-preparation"
-version: 1.1
+version: 1.2
 ---
 
 # Module: data-preparation
@@ -11,11 +11,11 @@ version: 1.1
 
 ## Overview
 
-The `prepare_data/` directory contains the legacy helper workflow around `gesetze-tools`. It is kept for historical/manual experimentation, but it is not the Phase 1 production import path.
+The `prepare_data/` directory contains the legacy helper workflow around `gesetze-tools`. It is kept for historical/manual experimentation, but it is not the production import path.
 
 ### Responsibility
 
-This module can bootstrap an external helper checkout and convert law data to Markdown. The reliable Phase 1 pipeline instead uses `mcp/legal_texts/importer.py`, `normalizer.py`, source manifests, and validated normalized datasets.
+This module can bootstrap an external helper checkout and convert law data to Markdown. The reliable pipeline instead uses `mcp/legal_texts/importer.py`, `normalizer.py`, source manifests, and validated normalized datasets.
 
 ### Dependencies
 
@@ -33,11 +33,11 @@ This module can bootstrap an external helper checkout and convert law data to Ma
 | `prepare_data/prepare_gesetze_im_internet.sh` | file | Legacy helper script for `gesetze-tools`. |
 | `prepare_data/requirements.txt` | file | Dependencies used by that helper workflow. |
 
-## Phase 1 Boundary
+## Production Boundary
 
 Production serving does not use this module. Docker, MCP startup, HTTP startup, and source import tests use the normalized dataset pipeline and official source specs under `mcp/legal_texts/`.
 
 ## Inventory Notes
 
 - **Coverage**: legacy only.
-- **Notes**: Keep this documentation explicit so `prepare_data/` is not mistaken for the reliable Phase 1 import path.
+- **Notes**: Keep this documentation explicit so `prepare_data/` is not mistaken for the reliable import path.

@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "source-provenance"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: source-provenance
@@ -37,7 +37,7 @@ Raw snapshots and normalized data are separate:
 
 ## Source Rules
 
-- German Phase 1 laws use `gesetze-im-internet.de` source paths from the source matrix.
+- Supported German laws use `gesetze-im-internet.de` source paths from the source matrix.
 - DSGVO uses the official Publications Office / Cellar XML source for CELEX `32016R0679`, German expression `0004.02`, document `DOC_2`.
 - Known invalid GII paths, including `tddsg` and `pangv`, are regression checks and are not production source paths.
 - Missing or invalid source metadata fails validation instead of producing partial silent data.

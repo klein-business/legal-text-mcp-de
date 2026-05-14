@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "google-adk-agent-demo"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: google-adk-agent-demo
@@ -11,7 +11,7 @@ version: 1.1
 
 ## Summary
 
-The Google ADK demo shows that an external LLM client can connect to the MCP endpoint. It is retained as a demonstration asset only; Phase 1 reliability is verified through deterministic MCP tool tests, not through this LLM client.
+The Google ADK demo shows that an external LLM client can connect to the MCP endpoint. It is retained as a demonstration asset only; runtime reliability is verified through deterministic MCP tool tests, not through this LLM client.
 
 ## How It Works
 
@@ -28,11 +28,11 @@ The Google ADK demo shows that an external LLM client can connect to the MCP end
 | [google-adk-agent](../modules/google-adk-agent.md) | `MCP_URL` | Selects the MCP endpoint. |
 | [google-adk-agent](../modules/google-adk-agent.md) | `toolset` | Connects the ADK agent to MCP tools. |
 | [google-adk-agent](../modules/google-adk-agent.md) | `root_agent` | Defines the demo model, prompt, and tools. |
-| [mcp-server](../modules/mcp-server.md) | `create_mcp_app` | Supplies the stable Phase 1 MCP tools. |
+| [mcp-server](../modules/mcp-server.md) | `create_mcp_app` | Supplies the stable MCP tools. |
 
 ## Edge Cases & Limitations
 
-- The module is not covered by the Phase 1 release gate.
+- The module is not covered by the release gate.
 - The prompt predates the final structured citation resolver and may need tightening before production client use.
 - Reference extraction is handled by the model, not by deterministic legal text logic.
 - The module has no tests in this repository.

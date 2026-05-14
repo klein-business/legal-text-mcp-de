@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "supported-laws"
-version: 1.1
+version: 1.2
 ---
 
 # Feature: supported-laws
@@ -11,7 +11,7 @@ version: 1.1
 
 ## Summary
 
-Phase 1 supports the committed legal-audit fixture set under `mcp/tests/fixtures/`. It is not a claim of complete German-law coverage.
+The supported scope is represented by the committed legal-audit fixture set under `mcp/tests/fixtures/`. It is not a claim of complete German-law coverage.
 
 ## Canonical IDs
 
@@ -38,4 +38,4 @@ Phase 1 supports the committed legal-audit fixture set under `mcp/tests/fixtures
 
 ## Fixture Coverage
 
-The committed fixture dataset covers the required Phase 1 legal-audit citations, including BGB `§ 312`, `§ 355`, `§ 309`; EGBGB `Art. 246a` and `Art. 246a § 1`; DDG `§ 5`; UWG `§ 3`, `§ 5`, `§ 5a`, `§ 5b`, `§ 7`; TDDDG `§ 25`, `§ 26`; selected BDSG provisions; BFSG `§ 1`; VSBG `§ 36`; PAngV `§ 1`, `§ 4`, `§ 5`; and DSGVO Articles 5, 6, 12, 13, 14, 15, 17, 21, 25, 32, and 82.
+The committed fixture dataset covers the required legal-audit citations, including BGB `§ 312`, `§ 355`, `§ 309`; EGBGB `Art. 246a` and `Art. 246a § 1`; DDG `§ 5`; UWG `§ 3`, `§ 5`, `§ 5a`, `§ 5b`, `§ 7`; TDDDG `§ 25`, `§ 26`; selected BDSG provisions; BFSG `§ 1`; VSBG `§ 36`; PAngV `§ 1`, `§ 4`, `§ 5`; and DSGVO Articles 5, 6, 12, 13, 14, 15, 17, 21, 25, 32, and 82.
