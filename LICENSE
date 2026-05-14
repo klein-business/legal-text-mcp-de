@@ -1,21 +1,21 @@
-MIT License
+Commercial License
 
-Copyright (c) 2025 Florian Leuerer
+Copyright (c) 2026 Florian Leuerer. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software and the associated documentation are proprietary. No permission is
+granted to use, copy, modify, merge, publish, distribute, sublicense, host, make
+available, sell, or otherwise exploit this software except under a separate
+written commercial license agreement with the copyright holder.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Any rights not expressly granted in such a written agreement are reserved.
+Unauthorized use, reproduction, distribution, or modification is prohibited.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Third-party dependencies and external services remain subject to their
+respective licenses and terms.
+
+Unless expressly agreed otherwise in a written commercial license agreement, the
+software is provided "as is", without warranty of any kind, express or implied,
+including but not limited to warranties of merchantability, fitness for a
+particular purpose, and non-infringement. In no event shall the copyright holder
+be liable for any claim, damages, or other liability arising from or in
+connection with the software or its use.

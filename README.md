@@ -112,6 +112,10 @@ PYTHONPATH=mcp python scripts/verify_phase1_release.py
 
 The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, and scope exclusions.
 
+## License
+
+This project is proprietary commercial software. See [LICENSE](LICENSE).
+
 ## Documentation
 
 - [Project overview](docs/overview.md)
