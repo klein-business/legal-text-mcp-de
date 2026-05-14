@@ -1,12 +1,12 @@
 # legal-text-mcp-de
 
-`legal-text-mcp-de` is a Python MCP server for loading, validating, searching, and resolving German legal texts with source provenance. Phase 1 focuses on a reliable local/server-side legal text foundation: no SaaS, no billing, no accounts, no tenant model, and no legal advice.
+`legal-text-mcp-de` is a Python MCP server for loading, validating, searching, and resolving German legal texts with source provenance. It focuses on a reliable local/server-side legal text foundation: no SaaS, no billing, no accounts, no tenant model, and no legal advice.
 
-The server uses `gesetze-im-internet.de` as the canonical source for German Phase 1 laws. DSGVO is handled separately through the official Publications Office / Cellar XML source and is not mixed into GII provenance.
+The server uses `gesetze-im-internet.de` as the canonical source for supported German laws. DSGVO is handled separately through the official Publications Office / Cellar XML source and is not mixed into GII provenance.
 
 Older repository documentation was archived under [docs-legacy/summary.md](docs-legacy/summary.md).
 
-## Phase 1 Scope
+## Supported Scope
 
 Supported canonical law IDs:
 
@@ -104,7 +104,7 @@ docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts le
 
 ## Tests
 
-Run the full Phase 1 release gate:
+Run the full release gate:
 
 ```bash
 PYTHONPATH=mcp python scripts/verify_phase1_release.py
