@@ -1,66 +1,110 @@
-from mcp.server.fastmcp import FastMCP
-from parser import LawLibrary
-import json
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+try:
+    from mcp.server.fastmcp import FastMCP
+except ModuleNotFoundError:
+    # When tests import this file as top-level `server` with PYTHONPATH=mcp,
+    # the local mcp/ directory can shadow the installed `mcp` package.
+    import importlib
+    import sys
+
+    local_dir = Path(__file__).resolve().parent
+    local_parent = local_dir.parent
+    original_path = list(sys.path)
+    sys.modules.pop("mcp", None)
+    sys.modules.pop("mcp.server", None)
+    sys.path = [
+        path
+        for path in sys.path
+        if path
+        and Path(path).resolve() not in {local_dir, local_parent}
+    ]
+    FastMCP = importlib.import_module("mcp.server.fastmcp").FastMCP
+    sys.path = original_path
+
 from config import settings
-
-mcp = FastMCP("deutsche-gesetze-mcp", stateless_http=True, host='0.0.0.0', port=8001, debug=True)
-
-LAWS = []
-
-library = LawLibrary()
-
-# Load multiple laws
-if settings.load_from_folder:
-    library.load_laws_from_folder(settings.load_from_folder)
-elif settings.load_from_github:
-    library.load_laws_from_github(settings.load_from_github)
-else:
-    ValueError('No law source provided')
+from legal_texts.errors import LegalTextError, as_error_dict
+from legal_texts.runtime import LegalTextRuntime
 
 
-@mcp.tool()
-def get_lawlibrary(law: str | None = None) -> str:
-    """Get a list of available german laws. If `law` is provided, list 
-    all laws with similar names."""
-    if len(library.laws) > 50:
-        return 'Es sind mehr als 50 Gesetze in der Datenbank. Um nach einem Gesetz zu suchen' \
-                'übergebe ein Gesetzeskürzel (EStG, HGB, etc ...) als `law` Parameter.'
-    
-    laws = library.get_available_laws_json(law)
-    laws = json.dumps(laws)
-    return laws
+def _call(func, *args, **kwargs) -> dict[str, Any]:
+    try:
+        return func(*args, **kwargs)
+    except LegalTextError as exc:
+        return exc.to_dict()
 
-@mcp.tool()
-def get_paragraph(law: str, paragraph: str) -> str:
-    """Get the content of a paragraph of a german law. 
-    Example values:
-    - law: BGB, HGB, SGB 5, etc ...
-    - paragraph: 2, 14a, etc ...
-    """
-    text = library.get_json(law, paragraph)
-    return text
 
-@mcp.tool()
-def search_laws(query: str, laws: list[str] | None = None) -> str:
-    """Fulltext search over all laws or a specific list of laws.
-    
-    Args:
-        query: The search query (e.g. "Schadensersatz", "Kündigung").
-        laws: Optional list of law codes to filter by (e.g. ["BGB", "HGB"]).
-    """
-    normalized_laws = None
-    if laws:
-        normalized_laws = []
-        for law in laws:
-            law_lower = law.strip().lower()
-            if law_lower not in library.laws:
-                available = library.get_available_laws_json(law)
-                return f"Law '{law}' not available. Available laws: {available}"
-            normalized_laws.append(law_lower)
-            
-    results = library.search(query, normalized_laws)
-    return json.dumps(results, ensure_ascii=False, indent=2)
+def create_mcp_app(runtime: LegalTextRuntime | None = None) -> FastMCP:
+    runtime = runtime or LegalTextRuntime.from_settings(settings, strict=False)
+    app = FastMCP(
+        "legal-text-mcp-de",
+        stateless_http=True,
+        host=settings.host,
+        port=settings.port,
+        debug=settings.debug,
+    )
+
+    @app.tool()
+    def list_laws(query: str | None = None) -> dict[str, Any]:
+        """List Phase 1 supported laws, optionally filtered by law metadata."""
+        return _call(runtime.list_laws, query)
+
+    @app.tool()
+    def get_law(code: str) -> dict[str, Any]:
+        """Return law metadata and normalized norm summaries for a law code or alias."""
+        return _call(runtime.get_law, code)
+
+    @app.tool()
+    def get_norm(code: str, norm: str) -> dict[str, Any]:
+        """Return one structured norm by canonical norm path or simple norm shorthand."""
+        return _call(runtime.get_norm, code, norm)
+
+    @app.tool()
+    def resolve_citation(
+        code: str,
+        unit: str,
+        paragraph_or_article: str,
+        child_unit: str | None = None,
+        child_value: str | None = None,
+        absatz: str | None = None,
+        satz: str | None = None,
+        nummer: str | None = None,
+        buchstabe: str | None = None,
+    ) -> dict[str, Any]:
+        """Resolve a structured legal citation without free-form parsing."""
+        return _call(
+            runtime.resolve_citation,
+            code=code,
+            unit=unit,
+            paragraph_or_article=paragraph_or_article,
+            child_unit=child_unit,
+            child_value=child_value,
+            absatz=absatz,
+            satz=satz,
+            nummer=nummer,
+            buchstabe=buchstabe,
+        )
+
+    @app.tool()
+    def search_laws(query: str, codes: list[str] | None = None) -> dict[str, Any]:
+        """Search normalized legal texts with optional law-code filters."""
+        return _call(runtime.search_laws, query, codes)
+
+    @app.tool()
+    def get_source_metadata(code: str | None = None) -> dict[str, Any]:
+        """Return source provenance for all laws or one law code/alias."""
+        return _call(runtime.get_source_metadata, code)
+
+    return app
+
+
+mcp = create_mcp_app()
 
 
 if __name__ == "__main__":
+    runtime = LegalTextRuntime.from_settings(settings, strict=settings.strict_startup)
+    mcp = create_mcp_app(runtime)
     mcp.run(transport="streamable-http")

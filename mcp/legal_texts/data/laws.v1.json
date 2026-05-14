@@ -1,0 +1,101 @@
+{
+  "registry_version": "1",
+  "laws": [
+    {
+      "canonical_id": "bgb",
+      "display_code": "BGB",
+      "display_name": "Buergerliches Gesetzbuch",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgb",
+      "source_metadata": {"source_path": "bgb"},
+      "aliases": ["BGB", "bgb", "Buergerliches Gesetzbuch", "Bürgerliches Gesetzbuch"]
+    },
+    {
+      "canonical_id": "egbgb",
+      "display_code": "EGBGB",
+      "display_name": "Einführungsgesetz zum Bürgerlichen Gesetzbuche",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgbeg",
+      "source_metadata": {"source_path": "bgbeg"},
+      "aliases": ["EGBGB", "BGBEG", "bgbeg", "Einführungsgesetz zum Bürgerlichen Gesetzbuche"]
+    },
+    {
+      "canonical_id": "ddg",
+      "display_code": "DDG",
+      "display_name": "Digitale-Dienste-Gesetz",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ddg",
+      "source_metadata": {"source_path": "ddg"},
+      "aliases": ["DDG", "ddg", "Digitale-Dienste-Gesetz"]
+    },
+    {
+      "canonical_id": "uwg_2004",
+      "display_code": "UWG",
+      "display_name": "Gesetz gegen den unlauteren Wettbewerb",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_metadata": {"source_path": "uwg_2004"},
+      "aliases": ["UWG", "uwg_2004", "Gesetz gegen den unlauteren Wettbewerb"]
+    },
+    {
+      "canonical_id": "tdddg",
+      "display_code": "TDDDG",
+      "display_name": "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ttdsg",
+      "source_metadata": {"source_path": "ttdsg"},
+      "aliases": ["TDDDG", "TTDSG", "ttdsg", "tddsg", "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz"]
+    },
+    {
+      "canonical_id": "bdsg_2018",
+      "display_code": "BDSG",
+      "display_name": "Bundesdatenschutzgesetz",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_metadata": {"source_path": "bdsg_2018"},
+      "aliases": ["BDSG", "bdsg_2018", "Bundesdatenschutzgesetz"]
+    },
+    {
+      "canonical_id": "bfsg",
+      "display_code": "BFSG",
+      "display_name": "Barrierefreiheitsstärkungsgesetz",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bfsg",
+      "source_metadata": {"source_path": "bfsg"},
+      "aliases": ["BFSG", "bfsg", "Barrierefreiheitsstärkungsgesetz", "Barrierefreiheitsstaerkungsgesetz"]
+    },
+    {
+      "canonical_id": "vsbg",
+      "display_code": "VSBG",
+      "display_name": "Verbraucherstreitbeilegungsgesetz",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "vsbg",
+      "source_metadata": {"source_path": "vsbg"},
+      "aliases": ["VSBG", "vsbg", "Verbraucherstreitbeilegungsgesetz"]
+    },
+    {
+      "canonical_id": "pangv_2022",
+      "display_code": "PAngV",
+      "display_name": "Preisangabenverordnung",
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "pangv_2022",
+      "source_metadata": {"source_path": "pangv_2022"},
+      "aliases": ["PAngV", "pangv", "pangv_2022", "Preisangabenverordnung"]
+    },
+    {
+      "canonical_id": "dsgvo_eu_2016_679",
+      "display_code": "DSGVO",
+      "display_name": "Verordnung (EU) 2016/679 Datenschutz-Grundverordnung",
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "aliases": ["DSGVO", "GDPR", "Datenschutz-Grundverordnung", "Verordnung (EU) 2016/679"]
+    }
+  ]
+}

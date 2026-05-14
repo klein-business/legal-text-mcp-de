@@ -6,7 +6,30 @@ import urllib.request
 from pathlib import Path
 
 from typing import List, Dict, Optional
-from rapidfuzz import process, fuzz
+try:
+    from rapidfuzz import process, fuzz
+except ModuleNotFoundError:
+    from difflib import SequenceMatcher
+
+    class _FallbackFuzz:
+        @staticmethod
+        def QRatio(a, b):
+            return int(SequenceMatcher(None, str(a).lower(), str(b).lower()).ratio() * 100)
+
+    class _FallbackProcess:
+        @staticmethod
+        def extract(search_string, choices, scorer, processor=None, limit=50, score_cutoff=60):
+            results = []
+            processed_search = processor(search_string) if processor else search_string
+            for choice in choices:
+                processed_choice = processor(choice) if processor else choice
+                score = scorer(processed_search, processed_choice)
+                if score >= score_cutoff:
+                    results.append((choice, score, None))
+            return sorted(results, key=lambda item: item[1], reverse=True)[:limit]
+
+    process = _FallbackProcess()
+    fuzz = _FallbackFuzz()
 from config import settings
 
 class LawNode:

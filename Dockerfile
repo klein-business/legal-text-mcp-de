@@ -2,11 +2,11 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get -y install git
-RUN git clone https://github.com/bundestag/gesetze.git
-
 COPY mcp/ .
 
 RUN pip install --no-cache-dir -r requirements.txt
+
+ENV DATASET_PATH=/data/legal-texts
+ENV STRICT_STARTUP=true
 
 CMD ["python", "server.py"]

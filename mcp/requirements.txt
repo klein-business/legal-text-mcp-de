@@ -1,3 +1,5 @@
 mcp[cli]==1.10
 rapidfuzz
 pydantic-settings
+fastapi
+uvicorn
