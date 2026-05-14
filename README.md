@@ -1,3 +1,16 @@
+<p align="center">
+  <img src="assets/readme-banner.svg" alt="legal-text-mcp-de: German legal text MCP server banner" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/klein-business/legal-text-mcp-de"><img alt="Repository" src="https://img.shields.io/badge/repo-klein--business%2Flegal--text--mcp--de-111827?style=for-the-badge&logo=github"></a>
+  <img alt="Python 3.12" src="https://img.shields.io/badge/python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="MCP streamable HTTP" src="https://img.shields.io/badge/MCP-streamable%20HTTP-0EA5E9?style=for-the-badge">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-HTTP%20API-009688?style=for-the-badge&logo=fastapi&logoColor=white">
+  <img alt="Release gate" src="https://img.shields.io/badge/release%20gate-52%20tests%20%2B%20E2E-16A34A?style=for-the-badge">
+  <img alt="License" src="https://img.shields.io/badge/license-proprietary%20commercial-B91C1C?style=for-the-badge">
+</p>
+
 # legal-text-mcp-de
 
 `legal-text-mcp-de` is a Python MCP server for loading, validating, searching, and resolving German legal texts with source provenance. It focuses on a reliable local/server-side legal text foundation: no SaaS, no billing, no accounts, no tenant model, and no legal advice.
