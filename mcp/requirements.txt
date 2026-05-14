@@ -1,4 +1,4 @@
-mcp[cli]==1.10
+mcp[cli]==1.23.0
 rapidfuzz
 pydantic-settings
 fastapi
