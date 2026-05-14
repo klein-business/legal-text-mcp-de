@@ -1,0 +1,273 @@
+[
+  {
+    "canonical_id": "bgb",
+    "display_code": "BGB",
+    "display_name": "Buergerliches Gesetzbuch",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgb",
+      "source_url": "https://www.gesetze-im-internet.de/bgb/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "012ed20dda715ca111559a62e76e9e6b9104a7fd09a6ae6dc392d5b1d3ac5844",
+      "source_metadata": {
+        "source_path": "bgb"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "BGB",
+      "bgb",
+      "Buergerliches Gesetzbuch",
+      "Bürgerliches Gesetzbuch"
+    ],
+    "norm_count": 3,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "egbgb",
+    "display_code": "EGBGB",
+    "display_name": "Einführungsgesetz zum Bürgerlichen Gesetzbuche",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgbeg",
+      "source_url": "https://www.gesetze-im-internet.de/bgbeg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "ce049442922238926669878bc6173df411450da9df2242c40350f58fc0aca218",
+      "source_metadata": {
+        "source_path": "bgbeg"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "EGBGB",
+      "BGBEG",
+      "bgbeg",
+      "Einführungsgesetz zum Bürgerlichen Gesetzbuche"
+    ],
+    "norm_count": 2,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "ddg",
+    "display_code": "DDG",
+    "display_name": "Digitale-Dienste-Gesetz",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ddg",
+      "source_url": "https://www.gesetze-im-internet.de/ddg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "7ce4447f503678b31bc0d16b498967ea83b2e81724019249761332ddbc3a11df",
+      "source_metadata": {
+        "source_path": "ddg"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "DDG",
+      "ddg",
+      "Digitale-Dienste-Gesetz"
+    ],
+    "norm_count": 1,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "uwg_2004",
+    "display_code": "UWG",
+    "display_name": "Gesetz gegen den unlauteren Wettbewerb",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "UWG",
+      "uwg_2004",
+      "Gesetz gegen den unlauteren Wettbewerb"
+    ],
+    "norm_count": 5,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "tdddg",
+    "display_code": "TDDDG",
+    "display_name": "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ttdsg",
+      "source_url": "https://www.gesetze-im-internet.de/ttdsg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "7af771d7974a03cb77b7c14feae4e5cca91859432814b805b65809ee6554af09",
+      "source_metadata": {
+        "source_path": "ttdsg"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "TDDDG",
+      "TTDSG",
+      "ttdsg",
+      "tddsg",
+      "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz"
+    ],
+    "norm_count": 2,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "bdsg_2018",
+    "display_code": "BDSG",
+    "display_name": "Bundesdatenschutzgesetz",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "BDSG",
+      "bdsg_2018",
+      "Bundesdatenschutzgesetz"
+    ],
+    "norm_count": 5,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "bfsg",
+    "display_code": "BFSG",
+    "display_name": "Barrierefreiheitsstärkungsgesetz",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bfsg",
+      "source_url": "https://www.gesetze-im-internet.de/bfsg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c06587f0e61579b40e61345f77078c8fb8aa7af3651fec2956038034071a3ee5",
+      "source_metadata": {
+        "source_path": "bfsg"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "BFSG",
+      "bfsg",
+      "Barrierefreiheitsstärkungsgesetz",
+      "Barrierefreiheitsstaerkungsgesetz"
+    ],
+    "norm_count": 1,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "vsbg",
+    "display_code": "VSBG",
+    "display_name": "Verbraucherstreitbeilegungsgesetz",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "vsbg",
+      "source_url": "https://www.gesetze-im-internet.de/vsbg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "fcb669e8ee0fcd6f5405c5ffa5532cd72fb1ac95de1a78f173f3fe2601438d90",
+      "source_metadata": {
+        "source_path": "vsbg"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "VSBG",
+      "vsbg",
+      "Verbraucherstreitbeilegungsgesetz"
+    ],
+    "norm_count": 1,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "pangv_2022",
+    "display_code": "PAngV",
+    "display_name": "Preisangabenverordnung",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "pangv_2022",
+      "source_url": "https://www.gesetze-im-internet.de/pangv_2022/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "4940a2de0c0541a2b8014b244bc3d5629442724706d02a5f2fdba269b687ddd8",
+      "source_metadata": {
+        "source_path": "pangv_2022"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "PAngV",
+      "pangv",
+      "pangv_2022",
+      "Preisangabenverordnung"
+    ],
+    "norm_count": 3,
+    "stand_date": null
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679",
+    "display_code": "DSGVO",
+    "display_name": "Verordnung (EU) 2016/679 Datenschutz-Grundverordnung",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "aliases": [
+      "DSGVO",
+      "GDPR",
+      "Datenschutz-Grundverordnung",
+      "Verordnung (EU) 2016/679"
+    ],
+    "norm_count": 11,
+    "stand_date": null
+  }
+]

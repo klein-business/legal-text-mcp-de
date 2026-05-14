@@ -1,0 +1,56 @@
+{
+  "bgb": [
+    "par:312",
+    "par:355",
+    "par:309"
+  ],
+  "egbgb": [
+    "art:246a",
+    "art:246a/par:1"
+  ],
+  "ddg": [
+    "par:5"
+  ],
+  "uwg_2004": [
+    "par:3",
+    "par:5",
+    "par:5a",
+    "par:5b",
+    "par:7"
+  ],
+  "tdddg": [
+    "par:25",
+    "par:26"
+  ],
+  "bdsg_2018": [
+    "par:1",
+    "par:22",
+    "par:26",
+    "par:34",
+    "par:35"
+  ],
+  "bfsg": [
+    "par:1"
+  ],
+  "vsbg": [
+    "par:36"
+  ],
+  "pangv_2022": [
+    "par:1",
+    "par:4",
+    "par:5"
+  ],
+  "dsgvo_eu_2016_679": [
+    "art:5",
+    "art:6",
+    "art:12",
+    "art:13",
+    "art:14",
+    "art:15",
+    "art:17",
+    "art:21",
+    "art:25",
+    "art:32",
+    "art:82"
+  ]
+}

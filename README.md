@@ -1,140 +1,123 @@
-# Deutsche Gesetze MCP Server
+# legal-text-mcp-de
 
-Dieser Server implementiert das [Model Context Protocol (MCP)](https://modelcontextprotocol.io), um deutschen Gesetzestexte für LLMs (Large Language Models) bereitzustellen. Er ermöglicht es KI-Assistenten, gezielt nach Gesetzen zu suchen und spezifische Paragraphen abzurufen.
+`legal-text-mcp-de` is a Python MCP server for loading, validating, searching, and resolving German legal texts with source provenance. Phase 1 focuses on a reliable local/server-side legal text foundation: no SaaS, no billing, no accounts, no tenant model, and no legal advice.
 
-Die Gesetzestexte werden aus Markdown-Dateien geparst, die dem Format des [Bundestag/gesetze](https://github.com/bundestag/gesetze) Repositories entsprechen (Hinweis: Dieses Repository ist veraltet und dient nur zu Demozwecken).
+The server uses `gesetze-im-internet.de` as the canonical source for German Phase 1 laws. DSGVO is handled separately through the official Publications Office / Cellar XML source and is not mixed into GII provenance.
 
-## Funktionen
+Older repository documentation was archived under [docs-legacy/summary.md](docs-legacy/summary.md).
 
-*   **Gesetze auflisten & suchen**: Durchsuchen der verfügbaren Gesetze (z.B. BGB, StGB, HGB).
-*   **Volltextsuche**: Suche nach Begriffen in den Gesetzestexten.
-*   **Paragraphen abrufen**: Abruf des Volltextes spezifischer Paragraphen (inkl. Absätze).
-*   **Flexible Datenquellen**: Laden der Gesetze aus einem lokalen Ordner oder direkt von GitHub.
+## Phase 1 Scope
+
+Supported canonical law IDs:
+
+- `bgb`
+- `egbgb`
+- `ddg`
+- `uwg_2004`
+- `tdddg`
+- `bdsg_2018`
+- `bfsg`
+- `vsbg`
+- `pangv_2022`
+- `dsgvo_eu_2016_679`
+
+The data model separates raw snapshots from normalized serving packages. Every normalized law and norm carries canonical IDs, source URL, retrieval timestamp, stand-date status, content hash, and source-kind metadata.
+
+## MCP Tools
+
+| Tool | Purpose |
+| ---- | ------- |
+| `list_laws(query?: string)` | List supported laws, optionally filtered by metadata. |
+| `get_law(code: string)` | Return law metadata and normalized norm summaries. |
+| `get_norm(code: string, norm: string)` | Return one structured norm by canonical ID or shorthand. |
+| `resolve_citation(...)` | Resolve exact structured citations without legal interpretation. |
+| `search_laws(query: string, codes?: string[])` | Search normalized texts with optional law filters. |
+| `get_source_metadata(code?: string)` | Return provenance metadata for one law or all laws. |
+
+MCP tools return JSON-compatible objects directly. They do not return double-serialized JSON strings.
+
+## HTTP API
+
+The HTTP API is a small FastAPI transport over the same services:
+
+- `GET /health`
+- `GET /ready`
+- `GET /laws`
+- `GET /laws/{code}`
+- `GET /laws/{code}/norms/{norm}`
+- `GET /search`
+- `GET /openapi.json`
+
+Article-plus-section norm paths must be URL encoded, for example:
+
+```text
+/laws/egbgb/norms/art%3A246a%2Fpar%3A1
+```
 
 ## Installation
 
-### Lokal
-
-1.  **Repository klonen:**
-    ```bash
-    git clone https://github.com/floleuerer/deutsche-gesetze-mcp.git
-    cd deutsche-gesetze-mcp
-    ```
-
-2.  **Abhängigkeiten installieren:**
-    Es wird empfohlen, eine virtuelle Umgebung zu verwenden (z.B. `venv` oder `conda`).
-    ```bash
-    pip install -r mcp/requirements.txt
-    ```
-
-### Docker (Empfohlen)
-
-Die Docker-Version klont automatisch das gesamte [Bundestag/gesetze](https://github.com/bundestag/gesetze) Repository (veraltet, nur Demo) in das Image, sodass alle Gesetze sofort lokal verfügbar sind.
-
-1.  **Image bauen:**
-    ```bash
-    docker build -t deutsche-gesetze-mcp .
-    ```
-
-2.  **Container starten:**
-    ```bash
-    docker run -p 8001:8001 deutsche-gesetze-mcp
-    ```
-
-## Datenvorbereitung
-
-Das Projekt enthält im Ordner `prepare_data` Skripte, um aktuelle Gesetzestexte direkt von [www.gesetze-im-internet.de](https://www.gesetze-im-internet.de) herunterzuladen und für den Server aufzubereiten.
-
-1.  **Skript ausführen:**
-    ```bash
-    cd prepare_data
-    ./prepare_gesetze_im_internet.sh
-    ```
-    Dies lädt die Gesetze herunter, entpackt sie und konvertiert sie in das benötigte Format.
-
-## Konfiguration
-
-Die Konfiguration erfolgt über Umgebungsvariablen oder eine `.env` Datei. Die Einstellungen werden in `mcp/config.py` definiert.
-
-| Variable | Beschreibung | Standardwert |
-| :--- | :--- | :--- |
-| `LOAD_FROM_FOLDER` | Pfad zu einem lokalen Ordner mit Gesetzes-Markdown-Dateien. | `/app/gesetze/` |
-| `LOAD_FROM_GITHUB` | JSON-Liste von Gesetzeskürzeln, die von GitHub geladen werden sollen (überschreibt `LOAD_FROM_FOLDER`, wenn gesetzt). | `None` |
-| `MIN_PARAGRAPHS` | Minimale Anzahl an Paragraphen, damit ein Gesetz geladen wird. | `5` |
-
-**Beispiel `.env` Datei:**
-Um Gesetze direkt von GitHub zu laden (z.B. BGB und StGB):
-```env
-LOAD_FROM_GITHUB='["BGB", "StGB"]'
-LOAD_FROM_FOLDER=
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r mcp/requirements.txt
 ```
 
-Um lokale Dateien zu nutzen (angenommen, sie liegen in `./gesetze`):
-```env
-LOAD_FROM_FOLDER=./gesetze
-```
+## Run MCP
 
-## Nutzung
-
-### Server starten
-
-Der Server kann direkt über Python gestartet werden. Er nutzt `FastMCP` und stellt standardmäßig einen HTTP-Server auf Port 8001 bereit.
+Use a validated normalized dataset package:
 
 ```bash
+DATASET_PATH=/path/to/normalized-dataset \
+STRICT_STARTUP=true \
+PYTHONPATH=mcp \
 python mcp/server.py
 ```
 
-### Tests
-
-Die Tests können mit `pytest` ausgeführt werden. Um die Tests zu starten, muss der `mcp` Ordner im Python-Pfad liegen:
+For local development, the committed fixture dataset can be used:
 
 ```bash
-PYTHONPATH=mcp python3 -m pytest mcp/tests
+DATASET_PATH=mcp/tests/fixtures/normalized \
+STRICT_STARTUP=true \
+PYTHONPATH=mcp \
+python mcp/server.py
 ```
 
-### Verfügbare Tools
+The default MCP transport is streamable HTTP on `http://localhost:8001/mcp`.
 
-Der Server stellt folgende MCP-Tools zur Verfügung:
+## Run HTTP API
 
-1.  **`get_lawlibrary(law: str | None)`**
-    *   Listet verfügbare Gesetze auf.
-    *   Parameter `law`: (Optional) Suchbegriff oder Kürzel, um die Liste zu filtern (z.B. "BGB").
-    *   Gibt eine JSON-Liste der gefundenen Gesetze zurück.
-
-2.  **`get_paragraph(law: str, paragraph: str)`**
-    *   Ruft den Inhalt eines Paragraphen ab.
-    *   Parameter `law`: Das Kürzel des Gesetzes (z.B. "BGB").
-    *   Parameter `paragraph`: Die Nummer des Paragraphen (z.B. "1", "14a").
-    *   Gibt den Text des Paragraphen (und ggf. spezifische Absätze) zurück.
-
-3.  **`search_laws(query: str, laws: list[str] | None)`**
-    *   Volltextsuche über alle oder ausgewählte Gesetze.
-    *   Parameter `query`: Der Suchbegriff (z.B. "Schadensersatz", "Kündigung").
-    *   Parameter `laws`: (Optional) Liste von Gesetzeskürzeln zur Einschränkung der Suche (z.B. `["BGB", "HGB"]`).
-    *   Gibt eine Liste von Treffern mit Paragraphen und Textausschnitten zurück.
-
-### Verwendung mit MCP-Clients
-
-Dieser Server kann mit jedem MCP-kompatiblen Client verbunden werden. Da er als HTTP-Server (SSE) läuft, muss der Client entsprechend konfiguriert werden, um sich mit `http://localhost:8001/mcp` zu verbinden.
-
-Ein Beispiel für die Integration in einen KI-Agenten findest du im Ordner [google-adk-agent](./google-adk-agent), der das **Google Agent Development Kit (ADK)** nutzt.
-
-## Datenformat
-
-Der Parser erwartet Markdown-Dateien, wie sie im Projekt [bundestag/gesetze](https://github.com/bundestag/gesetze) (veraltet, nur Demo) verwendet werden. Die Struktur sieht typischerweise so aus:
-
-```markdown
----
-Title: Bürgerliches Gesetzbuch
-jurabk: BGB
----
-
-# § 1 Beginn der Rechtsfähigkeit
-
-Die Rechtsfähigkeit des Menschen beginnt mit der Vollendung der Geburt.
-...
+```bash
+DATASET_PATH=mcp/tests/fixtures/normalized \
+STRICT_STARTUP=true \
+PYTHONPATH=mcp \
+uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
 ```
 
-## Lizenz
+## Docker
 
-Siehe [LICENSE](LICENSE) Datei.
+The Docker image no longer clones `bundestag/gesetze`. Mount or provide a normalized dataset at `/data/legal-texts`:
+
+```bash
+docker build -t legal-text-mcp-de .
+docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts legal-text-mcp-de
+```
+
+## Tests
+
+Run the full Phase 1 release gate:
+
+```bash
+PYTHONPATH=mcp python scripts/verify_phase1_release.py
+```
+
+The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, and scope exclusions.
+
+## Documentation
+
+- [Project overview](docs/overview.md)
+- [MCP/server module](docs/modules/mcp-server.md)
+- [Supported laws](docs/features/supported-laws.md)
+- [Source provenance](docs/features/source-provenance.md)
+- [API contracts](docs/features/api-contracts.md)
+- [HTTP API](docs/features/http-api.md)
+- [Known issues](docs/features/known-issues.md)

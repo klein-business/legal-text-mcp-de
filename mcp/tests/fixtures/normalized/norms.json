@@ -1,0 +1,1470 @@
+[
+  {
+    "canonical_id": "bgb/par:312",
+    "law_id": "bgb",
+    "norm_id": "par:312",
+    "unit": "par",
+    "value": "312",
+    "title": "Anwendungsbereich bei Verbraucherverträgen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bgb/__312.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgb",
+      "source_url": "https://www.gesetze-im-internet.de/bgb/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "012ed20dda715ca111559a62e76e9e6b9104a7fd09a6ae6dc392d5b1d3ac5844",
+      "source_metadata": {
+        "source_path": "bgb"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Diese Vorschrift betrifft Verbraucherverträge und besondere Informationspflichten. Unternehmer und Verbraucher müssen die gesetzlich bestimmten Angaben beachten.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Diese Vorschrift betrifft Verbraucherverträge und besondere Informationspflichten.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "Unternehmer und Verbraucher müssen die gesetzlich bestimmten Angaben beachten.",
+        "path": "abs:1/satz:2"
+      },
+      {
+        "kind": "abs",
+        "value": "2",
+        "text": "Für bestimmte Verträge gelten ergänzende Vorschriften über Fernabsatz und außerhalb von Geschäftsräumen geschlossene Verträge.",
+        "path": "abs:2"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Für bestimmte Verträge gelten ergänzende Vorschriften über Fernabsatz und außerhalb von Geschäftsräumen geschlossene Verträge.",
+        "path": "abs:2/satz:1"
+      }
+    ],
+    "text": "(1) Diese Vorschrift betrifft Verbraucherverträge und besondere Informationspflichten. Unternehmer und Verbraucher müssen die gesetzlich bestimmten Angaben beachten. (2) Für bestimmte Verträge gelten ergänzende Vorschriften über Fernabsatz und außerhalb von Geschäftsräumen geschlossene Verträge."
+  },
+  {
+    "canonical_id": "bgb/par:355",
+    "law_id": "bgb",
+    "norm_id": "par:355",
+    "unit": "par",
+    "value": "355",
+    "title": "Widerrufsrecht bei Verbraucherverträgen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bgb/__355.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgb",
+      "source_url": "https://www.gesetze-im-internet.de/bgb/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "012ed20dda715ca111559a62e76e9e6b9104a7fd09a6ae6dc392d5b1d3ac5844",
+      "source_metadata": {
+        "source_path": "bgb"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Wird einem Verbraucher durch Gesetz ein Widerrufsrecht eingeräumt, so sind Verbraucher und Unternehmer an ihre auf den Abschluss des Vertrags gerichteten Willenserklärungen nicht mehr gebunden, wenn der Verbraucher seine Willenserklärung fristgerecht widerrufen hat.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Wird einem Verbraucher durch Gesetz ein Widerrufsrecht eingeräumt, so sind Verbraucher und Unternehmer an ihre auf den Abschluss des Vertrags gerichteten Willenserklärungen nicht mehr gebunden, wenn der Verbraucher seine Willenserklärung fristgerecht widerrufen hat.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "abs",
+        "value": "2",
+        "text": "Die Widerrufsfrist beträgt vierzehn Tage.",
+        "path": "abs:2"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die Widerrufsfrist beträgt vierzehn Tage.",
+        "path": "abs:2/satz:1"
+      }
+    ],
+    "text": "(1) Wird einem Verbraucher durch Gesetz ein Widerrufsrecht eingeräumt, so sind Verbraucher und Unternehmer an ihre auf den Abschluss des Vertrags gerichteten Willenserklärungen nicht mehr gebunden, wenn der Verbraucher seine Willenserklärung fristgerecht widerrufen hat. (2) Die Widerrufsfrist beträgt vierzehn Tage."
+  },
+  {
+    "canonical_id": "bgb/par:309",
+    "law_id": "bgb",
+    "norm_id": "par:309",
+    "unit": "par",
+    "value": "309",
+    "title": "Klauselverbote ohne Wertungsmöglichkeit",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bgb/__309.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgb",
+      "source_url": "https://www.gesetze-im-internet.de/bgb/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "012ed20dda715ca111559a62e76e9e6b9104a7fd09a6ae6dc392d5b1d3ac5844",
+      "source_metadata": {
+        "source_path": "bgb"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Auch soweit eine Abweichung von den gesetzlichen Vorschriften zulässig ist, ist in Allgemeinen Geschäftsbedingungen unwirksam: 1. eine Bestimmung über kurzfristige Preiserhöhungen; 2. ein unangemessenes Leistungsverweigerungsrecht.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Auch soweit eine Abweichung von den gesetzlichen Vorschriften zulässig ist, ist in Allgemeinen Geschäftsbedingungen unwirksam: 1.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "eine Bestimmung über kurzfristige Preiserhöhungen; 2.",
+        "path": "abs:1/satz:2"
+      },
+      {
+        "kind": "satz",
+        "value": "3",
+        "text": "ein unangemessenes Leistungsverweigerungsrecht.",
+        "path": "abs:1/satz:3"
+      },
+      {
+        "kind": "nr",
+        "value": "1",
+        "text": "eine Bestimmung über kurzfristige Preiserhöhungen",
+        "path": "abs:1/nr:1"
+      },
+      {
+        "kind": "nr",
+        "value": "2",
+        "text": "ein unangemessenes Leistungsverweigerungsrecht",
+        "path": "abs:1/nr:2"
+      }
+    ],
+    "text": "(1) Auch soweit eine Abweichung von den gesetzlichen Vorschriften zulässig ist, ist in Allgemeinen Geschäftsbedingungen unwirksam: 1. eine Bestimmung über kurzfristige Preiserhöhungen; 2. ein unangemessenes Leistungsverweigerungsrecht."
+  },
+  {
+    "canonical_id": "egbgb/art:246a",
+    "law_id": "egbgb",
+    "norm_id": "art:246a",
+    "unit": "art",
+    "value": "246a",
+    "title": "Informationspflichten bei außerhalb von Geschäftsräumen geschlossenen Verträgen und Fernabsatzverträgen",
+    "status": "container",
+    "url": "https://www.gesetze-im-internet.de/bgbeg/art_246a.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgbeg",
+      "source_url": "https://www.gesetze-im-internet.de/bgbeg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "ce049442922238926669878bc6173df411450da9df2242c40350f58fc0aca218",
+      "source_metadata": {
+        "source_path": "bgbeg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [],
+    "children": [
+      "egbgb/art:246a/par:1"
+    ],
+    "known_issues": [
+      {
+        "code": "URL_NOT_VERIFIED",
+        "url": "https://www.gesetze-im-internet.de/bgbeg/art_246a.html",
+        "note": "Official container URL may not resolve; child URL is verified separately."
+      }
+    ]
+  },
+  {
+    "canonical_id": "egbgb/art:246a/par:1",
+    "law_id": "egbgb",
+    "norm_id": "art:246a/par:1",
+    "unit": "par",
+    "value": "1",
+    "title": "Informationspflichten",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bgbeg/art_246a__1.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bgbeg",
+      "source_url": "https://www.gesetze-im-internet.de/bgbeg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "ce049442922238926669878bc6173df411450da9df2242c40350f58fc0aca218",
+      "source_metadata": {
+        "source_path": "bgbeg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Der Unternehmer ist verpflichtet, dem Verbraucher vor Abgabe von dessen Vertragserklärung klare und verständliche Informationen zur Verfügung zu stellen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Der Unternehmer ist verpflichtet, dem Verbraucher vor Abgabe von dessen Vertragserklärung klare und verständliche Informationen zur Verfügung zu stellen.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "abs",
+        "value": "2",
+        "text": "Die Informationen betreffen insbesondere Eigenschaften der Waren, Identität des Unternehmers, Gesamtpreis, Zahlungsbedingungen und Bestehen eines Widerrufsrechts.",
+        "path": "abs:2"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die Informationen betreffen insbesondere Eigenschaften der Waren, Identität des Unternehmers, Gesamtpreis, Zahlungsbedingungen und Bestehen eines Widerrufsrechts.",
+        "path": "abs:2/satz:1"
+      }
+    ],
+    "text": "(1) Der Unternehmer ist verpflichtet, dem Verbraucher vor Abgabe von dessen Vertragserklärung klare und verständliche Informationen zur Verfügung zu stellen. (2) Die Informationen betreffen insbesondere Eigenschaften der Waren, Identität des Unternehmers, Gesamtpreis, Zahlungsbedingungen und Bestehen eines Widerrufsrechts."
+  },
+  {
+    "canonical_id": "ddg/par:5",
+    "law_id": "ddg",
+    "norm_id": "par:5",
+    "unit": "par",
+    "value": "5",
+    "title": "Allgemeine Informationspflichten",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/ddg/__5.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ddg",
+      "source_url": "https://www.gesetze-im-internet.de/ddg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "7ce4447f503678b31bc0d16b498967ea83b2e81724019249761332ddbc3a11df",
+      "source_metadata": {
+        "source_path": "ddg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Diensteanbieter haben für geschäftsmäßige digitale Dienste leicht erkennbar, unmittelbar erreichbar und ständig verfügbar bestimmte Informationen bereitzuhalten. Dazu gehören Name, Anschrift, Kontaktangaben und Angaben zur schnellen elektronischen Kontaktaufnahme.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Diensteanbieter haben für geschäftsmäßige digitale Dienste leicht erkennbar, unmittelbar erreichbar und ständig verfügbar bestimmte Informationen bereitzuhalten.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "Dazu gehören Name, Anschrift, Kontaktangaben und Angaben zur schnellen elektronischen Kontaktaufnahme.",
+        "path": "abs:1/satz:2"
+      }
+    ],
+    "text": "(1) Diensteanbieter haben für geschäftsmäßige digitale Dienste leicht erkennbar, unmittelbar erreichbar und ständig verfügbar bestimmte Informationen bereitzuhalten. Dazu gehören Name, Anschrift, Kontaktangaben und Angaben zur schnellen elektronischen Kontaktaufnahme."
+  },
+  {
+    "canonical_id": "uwg_2004/par:3",
+    "law_id": "uwg_2004",
+    "norm_id": "par:3",
+    "unit": "par",
+    "value": "3",
+    "title": "Verbot unlauterer geschäftlicher Handlungen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/uwg_2004/__3.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Unlautere geschäftliche Handlungen sind unzulässig.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Unlautere geschäftliche Handlungen sind unzulässig.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "abs",
+        "value": "2",
+        "text": "Geschäftliche Handlungen, die sich an Verbraucher richten, sind unlauter, wenn sie nicht der unternehmerischen Sorgfalt entsprechen.",
+        "path": "abs:2"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Geschäftliche Handlungen, die sich an Verbraucher richten, sind unlauter, wenn sie nicht der unternehmerischen Sorgfalt entsprechen.",
+        "path": "abs:2/satz:1"
+      }
+    ],
+    "text": "(1) Unlautere geschäftliche Handlungen sind unzulässig. (2) Geschäftliche Handlungen, die sich an Verbraucher richten, sind unlauter, wenn sie nicht der unternehmerischen Sorgfalt entsprechen."
+  },
+  {
+    "canonical_id": "uwg_2004/par:5",
+    "law_id": "uwg_2004",
+    "norm_id": "par:5",
+    "unit": "par",
+    "value": "5",
+    "title": "Irreführende geschäftliche Handlungen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/uwg_2004/__5.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Unlauter handelt, wer eine irreführende geschäftliche Handlung vornimmt, die geeignet ist, den Verbraucher oder sonstigen Marktteilnehmer zu einer geschäftlichen Entscheidung zu veranlassen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Unlauter handelt, wer eine irreführende geschäftliche Handlung vornimmt, die geeignet ist, den Verbraucher oder sonstigen Marktteilnehmer zu einer geschäftlichen Entscheidung zu veranlassen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Unlauter handelt, wer eine irreführende geschäftliche Handlung vornimmt, die geeignet ist, den Verbraucher oder sonstigen Marktteilnehmer zu einer geschäftlichen Entscheidung zu veranlassen."
+  },
+  {
+    "canonical_id": "uwg_2004/par:5a",
+    "law_id": "uwg_2004",
+    "norm_id": "par:5a",
+    "unit": "par",
+    "value": "5a",
+    "title": "Irreführung durch Unterlassen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/uwg_2004/__5a.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Unlauter handelt auch, wer einem Verbraucher oder sonstigen Marktteilnehmer eine wesentliche Information vorenthält, die dieser benötigt, um eine informierte geschäftliche Entscheidung zu treffen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Unlauter handelt auch, wer einem Verbraucher oder sonstigen Marktteilnehmer eine wesentliche Information vorenthält, die dieser benötigt, um eine informierte geschäftliche Entscheidung zu treffen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Unlauter handelt auch, wer einem Verbraucher oder sonstigen Marktteilnehmer eine wesentliche Information vorenthält, die dieser benötigt, um eine informierte geschäftliche Entscheidung zu treffen."
+  },
+  {
+    "canonical_id": "uwg_2004/par:5b",
+    "law_id": "uwg_2004",
+    "norm_id": "par:5b",
+    "unit": "par",
+    "value": "5b",
+    "title": "Wesentliche Informationen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/uwg_2004/__5b.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Wesentliche Informationen sind insbesondere solche, die dem Verbraucher aufgrund unionsrechtlicher Verordnungen oder aufgrund von Rechtsvorschriften über kommerzielle Kommunikation nicht vorenthalten werden dürfen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Wesentliche Informationen sind insbesondere solche, die dem Verbraucher aufgrund unionsrechtlicher Verordnungen oder aufgrund von Rechtsvorschriften über kommerzielle Kommunikation nicht vorenthalten werden dürfen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Wesentliche Informationen sind insbesondere solche, die dem Verbraucher aufgrund unionsrechtlicher Verordnungen oder aufgrund von Rechtsvorschriften über kommerzielle Kommunikation nicht vorenthalten werden dürfen."
+  },
+  {
+    "canonical_id": "uwg_2004/par:7",
+    "law_id": "uwg_2004",
+    "norm_id": "par:7",
+    "unit": "par",
+    "value": "7",
+    "title": "Unzumutbare Belästigungen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/uwg_2004/__7.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "uwg_2004",
+      "source_url": "https://www.gesetze-im-internet.de/uwg_2004/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "21a87465c7813f6eab017361c3719f5963bef7ef555db81ab4a40131dd3ddd9c",
+      "source_metadata": {
+        "source_path": "uwg_2004"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Eine geschäftliche Handlung, durch die ein Marktteilnehmer in unzumutbarer Weise belästigt wird, ist unzulässig. Werbung unter Verwendung elektronischer Post ist ohne vorherige ausdrückliche Einwilligung regelmäßig unzulässig.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Eine geschäftliche Handlung, durch die ein Marktteilnehmer in unzumutbarer Weise belästigt wird, ist unzulässig.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "Werbung unter Verwendung elektronischer Post ist ohne vorherige ausdrückliche Einwilligung regelmäßig unzulässig.",
+        "path": "abs:1/satz:2"
+      }
+    ],
+    "text": "(1) Eine geschäftliche Handlung, durch die ein Marktteilnehmer in unzumutbarer Weise belästigt wird, ist unzulässig. Werbung unter Verwendung elektronischer Post ist ohne vorherige ausdrückliche Einwilligung regelmäßig unzulässig."
+  },
+  {
+    "canonical_id": "tdddg/par:25",
+    "law_id": "tdddg",
+    "norm_id": "par:25",
+    "unit": "par",
+    "value": "25",
+    "title": "Schutz der Privatsphäre bei Endeinrichtungen",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/ttdsg/__25.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ttdsg",
+      "source_url": "https://www.gesetze-im-internet.de/ttdsg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "7af771d7974a03cb77b7c14feae4e5cca91859432814b805b65809ee6554af09",
+      "source_metadata": {
+        "source_path": "ttdsg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Das Speichern von Informationen in der Endeinrichtung des Endnutzers oder der Zugriff auf Informationen, die bereits gespeichert sind, ist nur zulässig, wenn der Endnutzer eingewilligt hat.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Das Speichern von Informationen in der Endeinrichtung des Endnutzers oder der Zugriff auf Informationen, die bereits gespeichert sind, ist nur zulässig, wenn der Endnutzer eingewilligt hat.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Das Speichern von Informationen in der Endeinrichtung des Endnutzers oder der Zugriff auf Informationen, die bereits gespeichert sind, ist nur zulässig, wenn der Endnutzer eingewilligt hat."
+  },
+  {
+    "canonical_id": "tdddg/par:26",
+    "law_id": "tdddg",
+    "norm_id": "par:26",
+    "unit": "par",
+    "value": "26",
+    "title": "Anerkannte Dienste zur Einwilligungsverwaltung",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/ttdsg/__26.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "ttdsg",
+      "source_url": "https://www.gesetze-im-internet.de/ttdsg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "7af771d7974a03cb77b7c14feae4e5cca91859432814b805b65809ee6554af09",
+      "source_metadata": {
+        "source_path": "ttdsg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Dienste zur Einwilligungsverwaltung können anerkannt werden, wenn sie nutzerfreundliche und wettbewerbskonforme Verfahren für Einwilligungen bereitstellen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Dienste zur Einwilligungsverwaltung können anerkannt werden, wenn sie nutzerfreundliche und wettbewerbskonforme Verfahren für Einwilligungen bereitstellen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Dienste zur Einwilligungsverwaltung können anerkannt werden, wenn sie nutzerfreundliche und wettbewerbskonforme Verfahren für Einwilligungen bereitstellen."
+  },
+  {
+    "canonical_id": "bdsg_2018/par:1",
+    "law_id": "bdsg_2018",
+    "norm_id": "par:1",
+    "unit": "par",
+    "value": "1",
+    "title": "Anwendungsbereich des Gesetzes",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bdsg_2018/__1.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Dieses Gesetz gilt für die Verarbeitung personenbezogener Daten durch öffentliche Stellen des Bundes und durch nichtöffentliche Stellen nach Maßgabe der Datenschutz-Grundverordnung.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Dieses Gesetz gilt für die Verarbeitung personenbezogener Daten durch öffentliche Stellen des Bundes und durch nichtöffentliche Stellen nach Maßgabe der Datenschutz-Grundverordnung.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Dieses Gesetz gilt für die Verarbeitung personenbezogener Daten durch öffentliche Stellen des Bundes und durch nichtöffentliche Stellen nach Maßgabe der Datenschutz-Grundverordnung."
+  },
+  {
+    "canonical_id": "bdsg_2018/par:22",
+    "law_id": "bdsg_2018",
+    "norm_id": "par:22",
+    "unit": "par",
+    "value": "22",
+    "title": "Verarbeitung besonderer Kategorien personenbezogener Daten",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bdsg_2018/__22.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Die Verarbeitung besonderer Kategorien personenbezogener Daten ist zulässig, wenn sie aus Gründen eines erheblichen öffentlichen Interesses erforderlich ist und angemessene Maßnahmen vorgesehen sind.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die Verarbeitung besonderer Kategorien personenbezogener Daten ist zulässig, wenn sie aus Gründen eines erheblichen öffentlichen Interesses erforderlich ist und angemessene Maßnahmen vorgesehen sind.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Die Verarbeitung besonderer Kategorien personenbezogener Daten ist zulässig, wenn sie aus Gründen eines erheblichen öffentlichen Interesses erforderlich ist und angemessene Maßnahmen vorgesehen sind."
+  },
+  {
+    "canonical_id": "bdsg_2018/par:26",
+    "law_id": "bdsg_2018",
+    "norm_id": "par:26",
+    "unit": "par",
+    "value": "26",
+    "title": "Datenverarbeitung für Zwecke des Beschäftigungsverhältnisses",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bdsg_2018/__26.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Personenbezogene Daten von Beschäftigten dürfen für Zwecke des Beschäftigungsverhältnisses verarbeitet werden, wenn dies für die Entscheidung über die Begründung oder Durchführung erforderlich ist.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Personenbezogene Daten von Beschäftigten dürfen für Zwecke des Beschäftigungsverhältnisses verarbeitet werden, wenn dies für die Entscheidung über die Begründung oder Durchführung erforderlich ist.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Personenbezogene Daten von Beschäftigten dürfen für Zwecke des Beschäftigungsverhältnisses verarbeitet werden, wenn dies für die Entscheidung über die Begründung oder Durchführung erforderlich ist."
+  },
+  {
+    "canonical_id": "bdsg_2018/par:34",
+    "law_id": "bdsg_2018",
+    "norm_id": "par:34",
+    "unit": "par",
+    "value": "34",
+    "title": "Auskunftsrecht der betroffenen Person",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bdsg_2018/__34.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Das Recht auf Auskunft der betroffenen Person besteht ergänzend zur Datenschutz-Grundverordnung und kann unter bestimmten gesetzlichen Voraussetzungen eingeschränkt sein.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Das Recht auf Auskunft der betroffenen Person besteht ergänzend zur Datenschutz-Grundverordnung und kann unter bestimmten gesetzlichen Voraussetzungen eingeschränkt sein.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Das Recht auf Auskunft der betroffenen Person besteht ergänzend zur Datenschutz-Grundverordnung und kann unter bestimmten gesetzlichen Voraussetzungen eingeschränkt sein."
+  },
+  {
+    "canonical_id": "bdsg_2018/par:35",
+    "law_id": "bdsg_2018",
+    "norm_id": "par:35",
+    "unit": "par",
+    "value": "35",
+    "title": "Recht auf Löschung",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bdsg_2018/__35.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bdsg_2018",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c8e1d0c04f3afa8ac196635854efce4ec7cecd3deaaedc025c2e89af60a6181e",
+      "source_metadata": {
+        "source_path": "bdsg_2018"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Das Recht auf Löschung personenbezogener Daten kann eingeschränkt sein, soweit gesetzliche Aufbewahrungspflichten oder überwiegende schutzwürdige Interessen entgegenstehen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Das Recht auf Löschung personenbezogener Daten kann eingeschränkt sein, soweit gesetzliche Aufbewahrungspflichten oder überwiegende schutzwürdige Interessen entgegenstehen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Das Recht auf Löschung personenbezogener Daten kann eingeschränkt sein, soweit gesetzliche Aufbewahrungspflichten oder überwiegende schutzwürdige Interessen entgegenstehen."
+  },
+  {
+    "canonical_id": "bfsg/par:1",
+    "law_id": "bfsg",
+    "norm_id": "par:1",
+    "unit": "par",
+    "value": "1",
+    "title": "Zweck und Anwendungsbereich",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/bfsg/__1.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "bfsg",
+      "source_url": "https://www.gesetze-im-internet.de/bfsg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "c06587f0e61579b40e61345f77078c8fb8aa7af3651fec2956038034071a3ee5",
+      "source_metadata": {
+        "source_path": "bfsg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Dieses Gesetz dient der Umsetzung von Barrierefreiheitsanforderungen für Produkte und Dienstleistungen. Es legt fest, welche Wirtschaftsakteure die Barrierefreiheit sicherstellen müssen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Dieses Gesetz dient der Umsetzung von Barrierefreiheitsanforderungen für Produkte und Dienstleistungen.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "Es legt fest, welche Wirtschaftsakteure die Barrierefreiheit sicherstellen müssen.",
+        "path": "abs:1/satz:2"
+      }
+    ],
+    "text": "(1) Dieses Gesetz dient der Umsetzung von Barrierefreiheitsanforderungen für Produkte und Dienstleistungen. Es legt fest, welche Wirtschaftsakteure die Barrierefreiheit sicherstellen müssen."
+  },
+  {
+    "canonical_id": "vsbg/par:36",
+    "law_id": "vsbg",
+    "norm_id": "par:36",
+    "unit": "par",
+    "value": "36",
+    "title": "Allgemeine Informationspflicht",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/vsbg/__36.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "vsbg",
+      "source_url": "https://www.gesetze-im-internet.de/vsbg/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "fcb669e8ee0fcd6f5405c5ffa5532cd72fb1ac95de1a78f173f3fe2601438d90",
+      "source_metadata": {
+        "source_path": "vsbg"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Ein Unternehmer, der eine Webseite unterhält oder Allgemeine Geschäftsbedingungen verwendet, hat Verbraucher leicht zugänglich darüber zu informieren, inwieweit er bereit oder verpflichtet ist, an Streitbeilegungsverfahren teilzunehmen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Ein Unternehmer, der eine Webseite unterhält oder Allgemeine Geschäftsbedingungen verwendet, hat Verbraucher leicht zugänglich darüber zu informieren, inwieweit er bereit oder verpflichtet ist, an Streitbeilegungsverfahren teilzunehmen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Ein Unternehmer, der eine Webseite unterhält oder Allgemeine Geschäftsbedingungen verwendet, hat Verbraucher leicht zugänglich darüber zu informieren, inwieweit er bereit oder verpflichtet ist, an Streitbeilegungsverfahren teilzunehmen."
+  },
+  {
+    "canonical_id": "pangv_2022/par:1",
+    "law_id": "pangv_2022",
+    "norm_id": "par:1",
+    "unit": "par",
+    "value": "1",
+    "title": "Anwendungsbereich",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/pangv_2022/__1.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "pangv_2022",
+      "source_url": "https://www.gesetze-im-internet.de/pangv_2022/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "4940a2de0c0541a2b8014b244bc3d5629442724706d02a5f2fdba269b687ddd8",
+      "source_metadata": {
+        "source_path": "pangv_2022"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Diese Verordnung regelt die Angabe von Preisen gegenüber Verbrauchern. Wer Waren oder Leistungen anbietet, hat Gesamtpreise klar und eindeutig anzugeben.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Diese Verordnung regelt die Angabe von Preisen gegenüber Verbrauchern.",
+        "path": "abs:1/satz:1"
+      },
+      {
+        "kind": "satz",
+        "value": "2",
+        "text": "Wer Waren oder Leistungen anbietet, hat Gesamtpreise klar und eindeutig anzugeben.",
+        "path": "abs:1/satz:2"
+      }
+    ],
+    "text": "(1) Diese Verordnung regelt die Angabe von Preisen gegenüber Verbrauchern. Wer Waren oder Leistungen anbietet, hat Gesamtpreise klar und eindeutig anzugeben."
+  },
+  {
+    "canonical_id": "pangv_2022/par:4",
+    "law_id": "pangv_2022",
+    "norm_id": "par:4",
+    "unit": "par",
+    "value": "4",
+    "title": "Grundpreis",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/pangv_2022/__4.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "pangv_2022",
+      "source_url": "https://www.gesetze-im-internet.de/pangv_2022/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "4940a2de0c0541a2b8014b244bc3d5629442724706d02a5f2fdba269b687ddd8",
+      "source_metadata": {
+        "source_path": "pangv_2022"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Wer Verbrauchern Waren nach Gewicht, Volumen, Länge oder Fläche anbietet, hat neben dem Gesamtpreis den Grundpreis unmissverständlich und gut erkennbar anzugeben.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Wer Verbrauchern Waren nach Gewicht, Volumen, Länge oder Fläche anbietet, hat neben dem Gesamtpreis den Grundpreis unmissverständlich und gut erkennbar anzugeben.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Wer Verbrauchern Waren nach Gewicht, Volumen, Länge oder Fläche anbietet, hat neben dem Gesamtpreis den Grundpreis unmissverständlich und gut erkennbar anzugeben."
+  },
+  {
+    "canonical_id": "pangv_2022/par:5",
+    "law_id": "pangv_2022",
+    "norm_id": "par:5",
+    "unit": "par",
+    "value": "5",
+    "title": "Preisermäßigungen für Waren",
+    "status": "active",
+    "url": "https://www.gesetze-im-internet.de/pangv_2022/__5.html",
+    "source": {
+      "source_kind": "gesetze-im-internet",
+      "source_identifier": "pangv_2022",
+      "source_url": "https://www.gesetze-im-internet.de/pangv_2022/xml.zip",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "4940a2de0c0541a2b8014b244bc3d5629442724706d02a5f2fdba269b687ddd8",
+      "source_metadata": {
+        "source_path": "pangv_2022"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Wer gegenüber Verbrauchern mit einer Preisermäßigung für eine Ware wirbt, hat den niedrigsten Gesamtpreis anzugeben, den er innerhalb der letzten 30 Tage angewendet hat.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Wer gegenüber Verbrauchern mit einer Preisermäßigung für eine Ware wirbt, hat den niedrigsten Gesamtpreis anzugeben, den er innerhalb der letzten 30 Tage angewendet hat.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Wer gegenüber Verbrauchern mit einer Preisermäßigung für eine Ware wirbt, hat den niedrigsten Gesamtpreis anzugeben, den er innerhalb der letzten 30 Tage angewendet hat."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:5",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:5",
+    "unit": "art",
+    "value": "5",
+    "title": "Grundsätze für die Verarbeitung personenbezogener Daten",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_5",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Personenbezogene Daten müssen auf rechtmäßige Weise, nach Treu und Glauben und in einer für die betroffene Person nachvollziehbaren Weise verarbeitet werden.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Personenbezogene Daten müssen auf rechtmäßige Weise, nach Treu und Glauben und in einer für die betroffene Person nachvollziehbaren Weise verarbeitet werden.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Personenbezogene Daten müssen auf rechtmäßige Weise, nach Treu und Glauben und in einer für die betroffene Person nachvollziehbaren Weise verarbeitet werden."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:6",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:6",
+    "unit": "art",
+    "value": "6",
+    "title": "Rechtmäßigkeit der Verarbeitung",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_6",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der Bedingungen erfüllt ist, insbesondere Einwilligung, Vertrag, rechtliche Verpflichtung oder berechtigtes Interesse.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der Bedingungen erfüllt ist, insbesondere Einwilligung, Vertrag, rechtliche Verpflichtung oder berechtigtes Interesse.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der Bedingungen erfüllt ist, insbesondere Einwilligung, Vertrag, rechtliche Verpflichtung oder berechtigtes Interesse."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:12",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:12",
+    "unit": "art",
+    "value": "12",
+    "title": "Transparente Information",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_12",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Der Verantwortliche trifft geeignete Maßnahmen, um der betroffenen Person alle Informationen in präziser, transparenter, verständlicher und leicht zugänglicher Form zu übermitteln.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Der Verantwortliche trifft geeignete Maßnahmen, um der betroffenen Person alle Informationen in präziser, transparenter, verständlicher und leicht zugänglicher Form zu übermitteln.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Der Verantwortliche trifft geeignete Maßnahmen, um der betroffenen Person alle Informationen in präziser, transparenter, verständlicher und leicht zugänglicher Form zu übermitteln."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:13",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:13",
+    "unit": "art",
+    "value": "13",
+    "title": "Informationspflicht bei Erhebung personenbezogener Daten",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_13",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Werden personenbezogene Daten bei der betroffenen Person erhoben, so teilt der Verantwortliche Informationen über Identität, Zwecke und Rechtsgrundlagen mit.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Werden personenbezogene Daten bei der betroffenen Person erhoben, so teilt der Verantwortliche Informationen über Identität, Zwecke und Rechtsgrundlagen mit.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Werden personenbezogene Daten bei der betroffenen Person erhoben, so teilt der Verantwortliche Informationen über Identität, Zwecke und Rechtsgrundlagen mit."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:14",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:14",
+    "unit": "art",
+    "value": "14",
+    "title": "Informationspflicht, wenn Daten nicht bei der betroffenen Person erhoben wurden",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_14",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Wurden personenbezogene Daten nicht bei der betroffenen Person erhoben, stellt der Verantwortliche Informationen über Kategorien, Zwecke und Empfänger bereit.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Wurden personenbezogene Daten nicht bei der betroffenen Person erhoben, stellt der Verantwortliche Informationen über Kategorien, Zwecke und Empfänger bereit.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Wurden personenbezogene Daten nicht bei der betroffenen Person erhoben, stellt der Verantwortliche Informationen über Kategorien, Zwecke und Empfänger bereit."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:15",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:15",
+    "unit": "art",
+    "value": "15",
+    "title": "Auskunftsrecht der betroffenen Person",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_15",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, von dem Verantwortlichen eine Bestätigung darüber zu verlangen, ob sie betreffende personenbezogene Daten verarbeitet werden.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, von dem Verantwortlichen eine Bestätigung darüber zu verlangen, ob sie betreffende personenbezogene Daten verarbeitet werden.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Die betroffene Person hat das Recht, von dem Verantwortlichen eine Bestätigung darüber zu verlangen, ob sie betreffende personenbezogene Daten verarbeitet werden."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:17",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:17",
+    "unit": "art",
+    "value": "17",
+    "title": "Recht auf Löschung",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_17",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, von dem Verantwortlichen zu verlangen, dass sie betreffende personenbezogene Daten unverzüglich gelöscht werden.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, von dem Verantwortlichen zu verlangen, dass sie betreffende personenbezogene Daten unverzüglich gelöscht werden.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Die betroffene Person hat das Recht, von dem Verantwortlichen zu verlangen, dass sie betreffende personenbezogene Daten unverzüglich gelöscht werden."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:21",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:21",
+    "unit": "art",
+    "value": "21",
+    "title": "Widerspruchsrecht",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_21",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, aus Gründen, die sich aus ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Widerspruch einzulegen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Die betroffene Person hat das Recht, aus Gründen, die sich aus ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Widerspruch einzulegen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Die betroffene Person hat das Recht, aus Gründen, die sich aus ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Widerspruch einzulegen."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:25",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:25",
+    "unit": "art",
+    "value": "25",
+    "title": "Datenschutz durch Technikgestaltung",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_25",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Der Verantwortliche trifft geeignete technische und organisatorische Maßnahmen, die dafür ausgelegt sind, Datenschutzgrundsätze wirksam umzusetzen.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Der Verantwortliche trifft geeignete technische und organisatorische Maßnahmen, die dafür ausgelegt sind, Datenschutzgrundsätze wirksam umzusetzen.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Der Verantwortliche trifft geeignete technische und organisatorische Maßnahmen, die dafür ausgelegt sind, Datenschutzgrundsätze wirksam umzusetzen."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:32",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:32",
+    "unit": "art",
+    "value": "32",
+    "title": "Sicherheit der Verarbeitung",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_32",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Der Verantwortliche und der Auftragsverarbeiter treffen geeignete technische und organisatorische Maßnahmen, um ein dem Risiko angemessenes Schutzniveau zu gewährleisten.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Der Verantwortliche und der Auftragsverarbeiter treffen geeignete technische und organisatorische Maßnahmen, um ein dem Risiko angemessenes Schutzniveau zu gewährleisten.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Der Verantwortliche und der Auftragsverarbeiter treffen geeignete technische und organisatorische Maßnahmen, um ein dem Risiko angemessenes Schutzniveau zu gewährleisten."
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:82",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:82",
+    "unit": "art",
+    "value": "82",
+    "title": "Haftung und Recht auf Schadenersatz",
+    "status": "active",
+    "url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2#art_82",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32016R0679",
+      "source_url": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+      "retrieved_at": "2026-05-14T00:00:00Z",
+      "stand_date": null,
+      "stand_date_status": "not_exposed",
+      "stand_date_issue": null,
+      "content_hash": "b8624f18ec660a2221f07602d29f210a8bc3a82da243c026c7795e3178af833a",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "DE",
+        "document": "DOC_2"
+      },
+      "known_issues": []
+    },
+    "subdivisions": [
+      {
+        "kind": "abs",
+        "value": "1",
+        "text": "Jede Person, der wegen eines Verstoßes gegen diese Verordnung ein materieller oder immaterieller Schaden entstanden ist, hat Anspruch auf Schadenersatz.",
+        "path": "abs:1"
+      },
+      {
+        "kind": "satz",
+        "value": "1",
+        "text": "Jede Person, der wegen eines Verstoßes gegen diese Verordnung ein materieller oder immaterieller Schaden entstanden ist, hat Anspruch auf Schadenersatz.",
+        "path": "abs:1/satz:1"
+      }
+    ],
+    "text": "(1) Jede Person, der wegen eines Verstoßes gegen diese Verordnung ein materieller oder immaterieller Schaden entstanden ist, hat Anspruch auf Schadenersatz."
+  }
+]

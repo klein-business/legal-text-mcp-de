@@ -1,0 +1,8 @@
+{
+  "stage": "serving_dataset",
+  "state": "ready",
+  "details": {
+    "law_count": 10,
+    "norm_count": 34
+  }
+}

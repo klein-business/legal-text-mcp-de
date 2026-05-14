@@ -1,12 +1,16 @@
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    min_paragraphs: int = 5
-    load_from_github: list[str] | None = None
-    load_from_folder: str | None = '/app/gesetze/'
+    model_config = ConfigDict(env_file='.env')
 
-    class Config:
-        env_file = '.env'
-        # alternativ: json/yaml
+    min_paragraphs: int = 5
+    dataset_path: str | None = None
+    strict_startup: bool = True
+    host: str = '0.0.0.0'
+    port: int = 8001
+    debug: bool = False
+    load_from_github: list[str] | None = None
+    load_from_folder: str | None = None
 
 settings = Settings()
