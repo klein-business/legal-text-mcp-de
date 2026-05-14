@@ -38,7 +38,12 @@ def main() -> int:
     check_docs_links()
     cmd = [sys.executable, "-m", "pytest", *TESTS]
     print("Running:", " ".join(cmd), flush=True)
-    return subprocess.call(cmd)
+    test_result = subprocess.call(cmd)
+    if test_result != 0:
+        return test_result
+    e2e_cmd = [sys.executable, "scripts/verify_e2e.py"]
+    print("Running:", " ".join(e2e_cmd), flush=True)
+    return subprocess.call(e2e_cmd)
 
 
 if __name__ == "__main__":

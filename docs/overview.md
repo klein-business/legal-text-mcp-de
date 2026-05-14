@@ -95,6 +95,8 @@ uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
 PYTHONPATH=mcp python scripts/verify_phase1_release.py
 ```
 
+This command includes the full test suite plus real local HTTP and MCP streamable-HTTP E2E checks.
+
 ## References
 
 - [Model Context Protocol](https://modelcontextprotocol.io)

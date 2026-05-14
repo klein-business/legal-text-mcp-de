@@ -95,7 +95,7 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 
 ## Test Coverage
 
-The release gate is `PYTHONPATH=mcp python scripts/verify_phase1_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, and scope checks.
+The release gate is `PYTHONPATH=mcp python scripts/verify_phase1_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through `scripts/verify_e2e.py`.
 
 ## Inventory Notes
 

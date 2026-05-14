@@ -1,0 +1,237 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import asyncio
+import json
+import os
+import socket
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
+
+
+def free_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
+
+
+def env_for_server(port: int | None = None) -> dict[str, str]:
+    env = os.environ.copy()
+    pythonpath = str(ROOT / "mcp")
+    if env.get("PYTHONPATH"):
+        pythonpath = pythonpath + os.pathsep + env["PYTHONPATH"]
+    env.update(
+        {
+            "PYTHONPATH": pythonpath,
+            "DATASET_PATH": str(DATASET),
+            "STRICT_STARTUP": "true",
+        }
+    )
+    if port is not None:
+        env.update({"HOST": "127.0.0.1", "PORT": str(port)})
+    return env
+
+
+def start_process(args: list[str], env: dict[str, str]) -> subprocess.Popen[str]:
+    return subprocess.Popen(
+        args,
+        cwd=ROOT,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+
+
+def wait_for_url(url: str, timeout: float = 10.0) -> None:
+    deadline = time.monotonic() + timeout
+    last_error: Exception | None = None
+    while time.monotonic() < deadline:
+        try:
+            with urllib.request.urlopen(url, timeout=1.0) as response:
+                if 200 <= response.status < 500:
+                    return
+        except Exception as exc:  # noqa: BLE001 - surfaced on timeout.
+            last_error = exc
+        time.sleep(0.1)
+    raise RuntimeError(f"Timed out waiting for {url}: {last_error}")
+
+
+def wait_for_port(port: int, timeout: float = 10.0) -> None:
+    deadline = time.monotonic() + timeout
+    last_error: Exception | None = None
+    while time.monotonic() < deadline:
+        try:
+            with socket.create_connection(("127.0.0.1", port), timeout=1.0):
+                return
+        except Exception as exc:  # noqa: BLE001 - surfaced on timeout.
+            last_error = exc
+        time.sleep(0.1)
+    raise RuntimeError(f"Timed out waiting for 127.0.0.1:{port}: {last_error}")
+
+
+def get_json(url: str, *, expected_status: int = 200) -> dict[str, Any]:
+    try:
+        with urllib.request.urlopen(url, timeout=5.0) as response:
+            status = response.status
+            body = response.read().decode("utf-8")
+    except urllib.error.HTTPError as exc:
+        status = exc.code
+        body = exc.read().decode("utf-8")
+    if status != expected_status:
+        raise AssertionError(f"{url} returned {status}, expected {expected_status}: {body}")
+    return json.loads(body)
+
+
+def run_http_e2e(port: int) -> None:
+    base = f"http://127.0.0.1:{port}"
+    health = get_json(f"{base}/health")
+    ready = get_json(f"{base}/ready")
+    laws = get_json(f"{base}/laws?query=DSGVO")
+    law = get_json(f"{base}/laws/BGB")
+    container = get_json(f"{base}/laws/egbgb/norms/art%3A246a")
+    child = get_json(f"{base}/laws/egbgb/norms/art%3A246a%2Fpar%3A1")
+    search = get_json(f"{base}/search?query=Werbung&codes=UWG")
+    invalid = get_json(f"{base}/search?query=!!!", expected_status=422)
+
+    assert health == {"status": "ok"}
+    assert ready["stage"] == "serving_dataset"
+    assert ready["state"] == "ready"
+    assert laws["count"] == 1
+    assert laws["laws"][0]["canonical_id"] == "dsgvo_eu_2016_679"
+    assert law["law"]["canonical_id"] == "bgb"
+    assert law["norms"]
+    assert container["norm"]["status"] == "container"
+    assert child["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
+    assert search["codes"] == ["uwg_2004"]
+    assert search["results"]
+    assert invalid["error"]["code"] == "INVALID_QUERY"
+
+
+def import_external_mcp_client():
+    original_path = list(sys.path)
+    blocked = {ROOT.resolve(), (ROOT / "mcp").resolve()}
+    sys.modules.pop("mcp", None)
+    sys.modules.pop("mcp.client", None)
+    sys.path = [
+        path
+        for path in sys.path
+        if path and Path(path).resolve() not in blocked
+    ]
+    try:
+        from mcp import ClientSession
+        from mcp.client.streamable_http import streamablehttp_client
+    finally:
+        sys.path = original_path
+    return ClientSession, streamablehttp_client
+
+
+async def run_mcp_e2e(port: int) -> None:
+    ClientSession, streamablehttp_client = import_external_mcp_client()
+    async with streamablehttp_client(f"http://127.0.0.1:{port}/mcp") as (read, write, _get_session_id):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = await session.list_tools()
+            names = {tool.name for tool in tools.tools}
+            assert names == {
+                "list_laws",
+                "get_law",
+                "get_norm",
+                "resolve_citation",
+                "search_laws",
+                "get_source_metadata",
+            }
+
+            norm = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 355"})
+            citation = await session.call_tool(
+                "resolve_citation",
+                {
+                    "code": "EGBGB",
+                    "unit": "art",
+                    "paragraph_or_article": "246a",
+                    "child_unit": "par",
+                    "child_value": "1",
+                },
+            )
+            search = await session.call_tool("search_laws", {"query": "Werbung", "codes": ["UWG"]})
+            missing = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 999"})
+
+            assert structured_content(norm)["norm"]["canonical_id"] == "bgb/par:355"
+            assert structured_content(citation)["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
+            search_data = structured_content(search)
+            assert search_data["codes"] == ["uwg_2004"]
+            assert search_data["results"]
+            assert structured_content(missing)["error"]["code"] == "NORM_NOT_FOUND"
+
+
+def structured_content(result: Any) -> dict[str, Any]:
+    payload = getattr(result, "structuredContent", None)
+    if payload is None:
+        payload = getattr(result, "structured_content", None)
+    if payload is None:
+        raise AssertionError(f"MCP result has no structured content: {result!r}")
+    return payload
+
+
+def terminate(process: subprocess.Popen[str]) -> str:
+    if process.poll() is None:
+        process.terminate()
+        try:
+            return process.communicate(timeout=5)[0]
+        except subprocess.TimeoutExpired:
+            process.kill()
+            return process.communicate(timeout=5)[0]
+    return process.communicate(timeout=5)[0]
+
+
+def main() -> int:
+    http_port = free_port()
+    mcp_port = free_port()
+    http_process = start_process(
+        [
+            sys.executable,
+            "-m",
+            "uvicorn",
+            "http_api:app",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            str(http_port),
+        ],
+        env_for_server(),
+    )
+    mcp_process = start_process(
+        [sys.executable, "mcp/server.py"],
+        env_for_server(mcp_port),
+    )
+    outputs: list[tuple[str, str]] = []
+    try:
+        wait_for_url(f"http://127.0.0.1:{http_port}/health")
+        wait_for_port(mcp_port)
+        run_http_e2e(http_port)
+        asyncio.run(run_mcp_e2e(mcp_port))
+        print("HTTP CLI E2E OK")
+        print("MCP streamable HTTP E2E OK")
+        return 0
+    except Exception as exc:
+        print(f"E2E FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return 1
+    finally:
+        outputs.append(("HTTP", terminate(http_process)))
+        outputs.append(("MCP", terminate(mcp_process)))
+        if any(process.returncode not in {0, -15, None} for process in [http_process, mcp_process]):
+            for name, output in outputs:
+                print(f"\n--- {name} server output ---\n{output}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

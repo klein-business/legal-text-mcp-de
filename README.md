@@ -110,7 +110,7 @@ Run the full Phase 1 release gate:
 PYTHONPATH=mcp python scripts/verify_phase1_release.py
 ```
 
-The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, and scope exclusions.
+The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, scope exclusions, and real local HTTP/MCP network E2E.
 
 ## License
 
