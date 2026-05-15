@@ -17,6 +17,7 @@ dev = [
     "httpx",
     "PyYAML~=6.0.1",
     "ruff",
+    "detect-secrets~=1.5",
 ]
 prepare-data = [
     "GitPython~=3.1.32",
