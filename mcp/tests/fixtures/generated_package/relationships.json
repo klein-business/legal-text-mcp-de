@@ -1,0 +1,24 @@
+[
+  {
+    "relationship_id": "rel-dsgvo-art5-limitation",
+    "relationship_type": "source_scope_link",
+    "subject": {
+      "kind": "norm",
+      "id": "dsgvo_eu_2016_679/art:5"
+    },
+    "object": {
+      "kind": "source_limitation",
+      "id": "lim-state-be-missing"
+    },
+    "source_family": "third-party-scope",
+    "source_id": "third-party-scope:fixture",
+    "provenance": {
+      "basis": "fixture metadata",
+      "source_url": "https://example.test/scope",
+      "retrieved_at": "2026-05-15T00:00:00Z"
+    },
+    "metadata": {
+      "confidence": "fixture"
+    }
+  }
+]

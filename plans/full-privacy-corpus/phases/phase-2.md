@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 2
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -43,27 +43,27 @@ behavior.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
+- [x] Phase 1 manifest contract is complete.
 
 ## Deliverables
 
-- [ ] Documented generated package format.
-- [ ] Documented citation-unit schema and backwards compatibility rules.
-- [ ] Documented relationship record package schema.
-- [ ] Runtime-compatible fixture package.
-- [ ] Validation tests for package metadata and manifest references.
-- [ ] Backwards compatibility tests for existing MCP and HTTP tools.
+- [x] Documented generated package format.
+- [x] Documented citation-unit schema and backwards compatibility rules.
+- [x] Documented relationship record package schema.
+- [x] Runtime-compatible fixture package.
+- [x] Validation tests for package metadata and manifest references.
+- [x] Backwards compatibility tests for existing MCP and HTTP tools.
 
 ## Acceptance Criteria
 
-- [ ] Existing MCP and HTTP E2E checks pass against the fixture package.
-- [ ] Package validation fails when manifest and normalized records disagree.
-- [ ] Package validation rejects unsupported or malformed citation units.
-- [ ] Package validation rejects relationship records with missing provenance,
+- [x] Existing MCP and HTTP E2E checks pass against the fixture package.
+- [x] Package validation fails when manifest and normalized records disagree.
+- [x] Package validation rejects unsupported or malformed citation units.
+- [x] Package validation rejects relationship records with missing provenance,
       unsupported relationship types, duplicate relationship IDs, or targets that
       resolve to neither official records nor source limitations.
-- [ ] Existing `par` and `art` fixture behavior remains unchanged.
-- [ ] The package format can represent source failures without adding fake law or
+- [x] Existing `par` and `art` fixture behavior remains unchanged.
+- [x] The package format can represent source failures without adding fake law or
       norm records.
 
 ## Dependencies on Other Phases

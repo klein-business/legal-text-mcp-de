@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 10
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -35,22 +35,22 @@ unstructured, unstable, or limitation-only.
 
 ## Prerequisites
 
-- [ ] Phase 8 state-law inventory is complete.
-- [ ] Phase 9 machine-readable and stable HTML adapter outcomes are known.
+- [x] Phase 8 state-law inventory is complete.
+- [x] Phase 9 machine-readable and stable HTML adapter outcomes are known.
 
 ## Deliverables
 
-- [ ] PDF adapter or explicit limitation for every remaining state.
-- [ ] Source limitation records for unsupported states.
-- [ ] Tests proving unsupported sources are visible as limitations.
-- [ ] Updated state-law coverage summary.
+- [x] PDF adapter or explicit limitation for every remaining state.
+- [x] Source limitation records for unsupported states.
+- [x] Tests proving unsupported sources are visible as limitations.
+- [x] Updated state-law coverage summary.
 
 ## Acceptance Criteria
 
-- [ ] Every one of 16 states has either imported records or an explicit source
+- [x] Every one of 16 states has either imported records or an explicit source
       limitation after Phases 9 and 10.
-- [ ] No state-law text is manually transcribed or invented.
-- [ ] PDF extraction, if implemented, records official source URL, content hash,
+- [x] No state-law text is manually transcribed or invented.
+- [x] PDF extraction, if implemented, records official source URL, content hash,
       extraction method, and parser version.
 
 ## Dependencies on Other Phases

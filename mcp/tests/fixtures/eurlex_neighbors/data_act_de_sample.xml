@@ -1,0 +1,19 @@
+<ROOT>
+  <LG.DOC>DE</LG.DOC>
+  <ACT>
+    <PREAMBLE>
+      <GR.CONSID>
+        <CONSID>
+          <NP>
+            <NO.P>(1)</NO.P>
+            <TXT>Diese Verordnung legt harmonisierte Vorschriften fuer einen fairen Datenzugang fest.</TXT>
+          </NP>
+        </CONSID>
+      </GR.CONSID>
+    </PREAMBLE>
+    <ARTICLE IDENTIFIER="001">
+      <TI.ART>Artikel 1 Gegenstand und Anwendungsbereich</TI.ART>
+      <P>(1) Diese Verordnung legt harmonisierte Vorschriften fuer die Bereitstellung von Daten fest.</P>
+    </ARTICLE>
+  </ACT>
+</ROOT>

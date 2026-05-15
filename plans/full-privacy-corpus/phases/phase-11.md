@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 11
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -38,28 +38,28 @@ behavior.
 
 ## Prerequisites
 
-- [ ] Phase 2 generated package format is complete.
-- [ ] Phase 4 GII normalization status is available.
-- [ ] Phase 7 EU neighbor records and relationship targets are available.
-- [ ] Phase 9 and Phase 10 state-law outcomes are available.
+- [x] Phase 2 generated package format is complete.
+- [x] Phase 4 GII normalization status is available.
+- [x] Phase 7 EU neighbor records and relationship targets are available.
+- [x] Phase 9 and Phase 10 state-law outcomes are available.
 
 ## Deliverables
 
-- [ ] Runtime coverage and source limitation access.
-- [ ] Related-norm lookup behavior over validated package relationship records
+- [x] Runtime coverage and source limitation access.
+- [x] Related-norm lookup behavior over validated package relationship records
       if approved by implementation planning.
-- [ ] MCP and HTTP tests for coverage and relationship surfaces.
-- [ ] Backwards compatibility checks for existing MCP/HTTP tools.
-- [ ] Negative tests for malformed units, missing relationships, unavailable
+- [x] MCP and HTTP tests for coverage and relationship surfaces.
+- [x] Backwards compatibility checks for existing MCP/HTTP tools.
+- [x] Negative tests for malformed units, missing relationships, unavailable
       corpus entries, and source limitations.
 
 ## Acceptance Criteria
 
-- [ ] Existing tools continue to return compatible responses.
-- [ ] Clients can inspect corpus coverage and source failures.
-- [ ] Relationship metadata is returned separately from legal text.
-- [ ] New citation units are accepted or rejected deterministically.
-- [ ] Local HTTP/MCP E2E passes against representative generated fixture package.
+- [x] Existing tools continue to return compatible responses.
+- [x] Clients can inspect corpus coverage and source failures.
+- [x] Relationship metadata is returned separately from legal text.
+- [x] New citation units are accepted or rejected deterministically.
+- [x] Local HTTP/MCP E2E passes against representative generated fixture package.
 
 ## Dependencies on Other Phases
 

@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 3
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -37,24 +37,24 @@ the corpus manifest.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
-- [ ] Phase 2 generated package format is complete.
+- [x] Phase 1 manifest contract is complete.
+- [x] Phase 2 generated package format is complete.
 
 ## Deliverables
 
-- [ ] GII TOC discovery manifest records.
-- [ ] Tests proving `discovered_gii_items` equals fixture TOC item count.
-- [ ] Explicit or scheduled network-heavy check for live GII TOC schema and
+- [x] GII TOC discovery manifest records.
+- [x] Tests proving `discovered_gii_items` equals fixture TOC item count.
+- [x] Explicit or scheduled network-heavy check for live GII TOC schema and
       count, with persisted output.
-- [ ] Documentation of complete GII coverage measurement.
+- [x] Documentation of complete GII coverage measurement.
 
 ## Acceptance Criteria
 
-- [ ] Every TOC item in the fixture TOC has exactly one manifest record.
-- [ ] Discovery does not rely on the old hand-maintained `GERMAN_SOURCES` list.
-- [ ] Live discovery can report the current TOC item count without importing all
+- [x] Every TOC item in the fixture TOC has exactly one manifest record.
+- [x] Discovery does not rely on the old hand-maintained `GERMAN_SOURCES` list.
+- [x] Live discovery can report the current TOC item count without importing all
       payloads.
-- [ ] A live or recorded live-gate artifact proves the fetched TOC count used by
+- [x] A live or recorded live-gate artifact proves the fetched TOC count used by
       the import run.
 
 ## Dependencies on Other Phases

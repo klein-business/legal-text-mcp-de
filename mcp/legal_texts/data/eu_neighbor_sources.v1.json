@@ -1,0 +1,53 @@
+{
+  "schema_version": "eu-neighbor-sources.v1",
+  "sources": [
+    {
+      "canonical_id": "ai_act_eu_2024_1689",
+      "display_code": "AI Act",
+      "display_name": "Verordnung (EU) 2024/1689 ueber kuenstliche Intelligenz",
+      "source_family": "eur-lex-cellar",
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32024R1689",
+      "celex": "32024R1689",
+      "language": "de",
+      "official_eurlex_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32024R1689",
+      "oj_expression_uri": "https://publications.europa.eu/resource/oj/L_202401689.DEU",
+      "fmx4_manifestation_uri": "https://publications.europa.eu/resource/oj/L_202401689.DEU.fmx4",
+      "source_url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0004.02/DOC_1",
+      "version_policy": "official-german-eurlex-expression",
+      "document_policy": "official-german-text",
+      "expected_limitation_id": "lim-eu-ai-act-32024r1689",
+      "source_metadata": {
+        "celex": "32024R1689",
+        "cellar_work": "dc8116a1-3fe6-11ef-865a-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "de",
+        "document": "DOC_1"
+      }
+    },
+    {
+      "canonical_id": "data_act_eu_2023_2854",
+      "display_code": "Data Act",
+      "display_name": "Verordnung (EU) 2023/2854 ueber harmonisierte Vorschriften fuer einen fairen Datenzugang",
+      "source_family": "eur-lex-cellar",
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "CELEX:32023R2854",
+      "celex": "32023R2854",
+      "language": "de",
+      "official_eurlex_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854",
+      "oj_expression_uri": "https://publications.europa.eu/resource/oj/L_202302854.DEU",
+      "fmx4_manifestation_uri": "https://publications.europa.eu/resource/oj/L_202302854.DEU.fmx4",
+      "source_url": "https://publications.europa.eu/resource/cellar/ef51c6ab-a06c-11ee-b164-01aa75ed71a1.0004.02/DOC_1",
+      "version_policy": "official-german-eurlex-expression",
+      "document_policy": "official-german-text",
+      "expected_limitation_id": "lim-eu-data-act-32023r2854",
+      "source_metadata": {
+        "celex": "32023R2854",
+        "cellar_work": "ef51c6ab-a06c-11ee-b164-01aa75ed71a1",
+        "expression": "0004.02",
+        "language": "de",
+        "document": "DOC_1"
+      }
+    }
+  ]
+}

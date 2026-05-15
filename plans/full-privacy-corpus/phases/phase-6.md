@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 6
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -44,27 +44,27 @@ depends on it.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
-- [ ] Phase 5 full DSGVO articles and recitals are complete.
+- [x] Phase 1 manifest contract is complete.
+- [x] Phase 5 full DSGVO articles and recitals are complete.
 
 ## Deliverables
 
-- [ ] Scope graph policy decision record.
-- [ ] Seed graph manifest or manually maintained fallback graph.
-- [ ] Relationship record generation rules that target the Phase 2 package
+- [x] Scope graph policy decision record.
+- [x] Seed graph manifest or manually maintained fallback graph.
+- [x] Relationship record generation rules that target the Phase 2 package
       schema.
-- [ ] Minimum EU neighbor seed list including AI Act and Data Act CELEX IDs.
-- [ ] Relationship-source limitation records when automated discovery is not
+- [x] Minimum EU neighbor seed list including AI Act and Data Act CELEX IDs.
+- [x] Relationship-source limitation records when automated discovery is not
       permitted.
 
 ## Acceptance Criteria
 
-- [ ] Implementation has a permitted discovery path or an explicit fallback seed
+- [x] Implementation has a permitted discovery path or an explicit fallback seed
       graph before relationship work proceeds.
-- [ ] AI Act and Data Act have concrete CELEX identifiers or source limitations.
-- [ ] No phase depends on unapproved third-party crawling or copied editorial
+- [x] AI Act and Data Act have concrete CELEX identifiers or source limitations.
+- [x] No phase depends on unapproved third-party crawling or copied editorial
       text.
-- [ ] Approved seed/fallback graph entries can be converted into package
+- [x] Approved seed/fallback graph entries can be converted into package
       relationship records whose targets are official records or source
       limitations.
 

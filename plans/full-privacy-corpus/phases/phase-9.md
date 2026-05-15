@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 9
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -35,22 +35,22 @@ their official privacy-law sources as machine-readable or stable HTML.
 
 ## Prerequisites
 
-- [ ] Phase 8 state-law inventory is complete.
+- [x] Phase 8 state-law inventory is complete.
 
 ## Deliverables
 
-- [ ] Official source adapters for machine-readable state-law sources.
-- [ ] Official source adapters for stable HTML state-law sources.
-- [ ] State-law normalized fixtures for supported adapter classes.
-- [ ] Validation tests for state-law provenance and citation IDs.
+- [x] Official source adapters for machine-readable state-law sources.
+- [x] Official source adapters for stable HTML state-law sources.
+- [x] State-law normalized fixtures for supported adapter classes.
+- [x] Validation tests for state-law provenance and citation IDs.
 
 ## Acceptance Criteria
 
-- [ ] Every machine-readable or stable HTML state from Phase 8 has imported
+- [x] Every machine-readable or stable HTML state from Phase 8 has imported
       records or a justified source limitation if implementation proves
       infeasible.
-- [ ] State-law canonical IDs encode jurisdiction clearly.
-- [ ] State-law records do not collide with GII or EUR-Lex records.
+- [x] State-law canonical IDs encode jurisdiction clearly.
+- [x] State-law records do not collide with GII or EUR-Lex records.
 
 ## Dependencies on Other Phases
 

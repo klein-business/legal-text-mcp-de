@@ -1,0 +1,8 @@
+{
+  "stage": "normalized_dataset",
+  "state": "ready",
+  "details": {
+    "law_count": 1,
+    "norm_count": 2
+  }
+}

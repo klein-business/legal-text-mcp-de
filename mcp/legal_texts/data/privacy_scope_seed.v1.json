@@ -1,0 +1,254 @@
+{
+  "schema_version": "privacy-scope-seed.v1",
+  "policy_id": "dsgvo-scope-policy-2026-05-15",
+  "maintained_at": "2026-05-15T00:00:00Z",
+  "source_basis": "manual_seed",
+  "relationship_source": {
+    "relationship_source_id": "rel-src:dsgvo-scope-policy",
+    "source_family": "third-party-scope",
+    "source_id": "third-party-scope:dsgvo-scope-policy",
+    "provider": "dsgvo-gesetz.de scope reference",
+    "source_url": "https://dsgvo-gesetz.de/",
+    "robots_reviewed_at": "2026-05-15T00:00:00Z",
+    "terms_reviewed_at": "2026-05-15T00:00:00Z",
+    "policy_review_reference": "dsgvo-scope-policy-2026-05-15",
+    "allowed_use": "manual_seed_only",
+    "target_official_record": "dsgvo_eu_2016_679",
+    "no_editorial_text_copied": true
+  },
+  "official_targets": {
+    "laws": [
+      {
+        "kind": "law",
+        "id": "dsgvo_eu_2016_679",
+        "source_family": "eur-lex-cellar",
+        "source_id": "eur-lex-cellar:32016R0679",
+        "celex": "32016R0679"
+      },
+      {
+        "kind": "law",
+        "id": "bdsg_2018",
+        "source_family": "gii",
+        "source_id": "gii:bdsg_2018",
+        "source_path": "bdsg_2018"
+      },
+      {
+        "kind": "law",
+        "id": "tdddg",
+        "source_family": "gii",
+        "source_id": "gii:ttdsg",
+        "source_path": "ttdsg"
+      },
+      {
+        "kind": "law",
+        "id": "ai_act_eu_2024_1689",
+        "source_family": "eur-lex-cellar",
+        "source_id": "eur-lex-cellar:32024R1689",
+        "celex": "32024R1689"
+      },
+      {
+        "kind": "law",
+        "id": "data_act_eu_2023_2854",
+        "source_family": "eur-lex-cellar",
+        "source_id": "eur-lex-cellar:32023R2854",
+        "celex": "32023R2854"
+      }
+    ],
+    "norms": [
+      {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/art:5",
+        "source_family": "eur-lex-cellar",
+        "source_id": "eur-lex-cellar:32016R0679",
+        "celex": "32016R0679"
+      },
+      {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/recital:1",
+        "source_family": "eur-lex-cellar",
+        "source_id": "eur-lex-cellar:32016R0679",
+        "celex": "32016R0679"
+      }
+    ]
+  },
+  "source_limitations": [
+    {
+      "limitation_id": "lim-eu-ai-act-32024r1689",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32024R1689",
+      "celex": "32024R1689",
+      "language": "de",
+      "official_eurlex_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32024R1689",
+      "oj_expression_uri": "https://publications.europa.eu/resource/oj/L_202401689.DEU",
+      "fmx4_manifestation_uri": "https://publications.europa.eu/resource/oj/L_202401689.DEU.fmx4",
+      "work": "dc8116a1-3fe6-11ef-865a-01aa75ed71a1",
+      "expression": "0004.02",
+      "document": "DOC_1",
+      "version_policy": "official-german-eurlex-expression",
+      "terminal_state": "excluded_by_policy",
+      "source_url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0004.02/DOC_1",
+      "policy_reason": "deferred_to_phase_7",
+      "policy_reference": "full-privacy-corpus-phase-6",
+      "decided_at": "2026-05-15T00:00:00Z",
+      "reason": "AI Act official source target is seeded for Phase 7 import.",
+      "details": {
+        "phase": "phase-7",
+        "official_target": true,
+        "release_blocking": false
+      }
+    },
+    {
+      "limitation_id": "lim-eu-data-act-32023r2854",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32023R2854",
+      "celex": "32023R2854",
+      "language": "de",
+      "official_eurlex_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854",
+      "oj_expression_uri": "https://publications.europa.eu/resource/oj/L_202302854.DEU",
+      "fmx4_manifestation_uri": "https://publications.europa.eu/resource/oj/L_202302854.DEU.fmx4",
+      "work": "ef51c6ab-a06c-11ee-b164-01aa75ed71a1",
+      "expression": "0004.02",
+      "document": "DOC_1",
+      "version_policy": "official-german-eurlex-expression",
+      "terminal_state": "excluded_by_policy",
+      "source_url": "https://publications.europa.eu/resource/cellar/ef51c6ab-a06c-11ee-b164-01aa75ed71a1.0004.02/DOC_1",
+      "policy_reason": "deferred_to_phase_7",
+      "policy_reference": "full-privacy-corpus-phase-6",
+      "decided_at": "2026-05-15T00:00:00Z",
+      "reason": "Data Act official source target is seeded for Phase 7 import.",
+      "details": {
+        "phase": "phase-7",
+        "official_target": true,
+        "release_blocking": false
+      }
+    },
+    {
+      "limitation_id": "lim-state-be-dsg-source-pending",
+      "source_family": "state-law",
+      "source_id": "state-law:be/berliner-datenschutzgesetz",
+      "state_code": "be",
+      "jurisdiction": "Berlin",
+      "official_source_url": "https://gesetze.berlin.de/bsbe/document/jlr-DSGBE2018rahmen",
+      "source_format": "html",
+      "adapter_class": "Phase8StateLawAdapterPending",
+      "terminal_state": "excluded_by_policy",
+      "source_url": "https://gesetze.berlin.de/bsbe/document/jlr-DSGBE2018rahmen",
+      "policy_reason": "deferred_to_state_law_phase",
+      "policy_reference": "full-privacy-corpus-phase-6",
+      "decided_at": "2026-05-15T00:00:00Z",
+      "reason": "State privacy law source is represented as an official source limitation until state-law phases implement adapters.",
+      "details": {
+        "phase": "phase-8",
+        "official_target": true,
+        "release_blocking": false
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_id": "rel-scope-dsgvo-art5-bdsg",
+      "relationship_type": "same_subject_as",
+      "subject": {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/art:5"
+      },
+      "object": {
+        "kind": "law",
+        "id": "bdsg_2018"
+      },
+      "source_basis": "manual_seed",
+      "provenance": {
+        "basis": "metadata-only fallback seed",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "decided_at": "2026-05-15T00:00:00Z"
+      },
+      "metadata": {
+        "topic_tags": ["privacy-scope", "processing-principles"]
+      }
+    },
+    {
+      "relationship_id": "rel-scope-dsgvo-recital1-tdddg",
+      "relationship_type": "same_subject_as",
+      "subject": {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/recital:1"
+      },
+      "object": {
+        "kind": "law",
+        "id": "tdddg"
+      },
+      "source_basis": "manual_seed",
+      "provenance": {
+        "basis": "metadata-only fallback seed",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "decided_at": "2026-05-15T00:00:00Z"
+      },
+      "metadata": {
+        "topic_tags": ["privacy-scope", "digital-services"]
+      }
+    },
+    {
+      "relationship_id": "rel-scope-dsgvo-art5-ai-act",
+      "relationship_type": "source_scope_link",
+      "subject": {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/art:5"
+      },
+      "object": {
+        "kind": "source_limitation",
+        "id": "lim-eu-ai-act-32024r1689"
+      },
+      "source_basis": "manual_seed",
+      "provenance": {
+        "basis": "metadata-only fallback seed",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "decided_at": "2026-05-15T00:00:00Z"
+      },
+      "metadata": {
+        "topic_tags": ["privacy-scope", "eu-neighbor"]
+      }
+    },
+    {
+      "relationship_id": "rel-scope-dsgvo-art5-data-act",
+      "relationship_type": "source_scope_link",
+      "subject": {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/art:5"
+      },
+      "object": {
+        "kind": "source_limitation",
+        "id": "lim-eu-data-act-32023r2854"
+      },
+      "source_basis": "manual_seed",
+      "provenance": {
+        "basis": "metadata-only fallback seed",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "decided_at": "2026-05-15T00:00:00Z"
+      },
+      "metadata": {
+        "topic_tags": ["privacy-scope", "eu-neighbor"]
+      }
+    },
+    {
+      "relationship_id": "rel-scope-state-be-dsg-limitation",
+      "relationship_type": "limitation_for",
+      "subject": {
+        "kind": "source_limitation",
+        "id": "lim-state-be-dsg-source-pending"
+      },
+      "object": {
+        "kind": "norm",
+        "id": "dsgvo_eu_2016_679/art:5"
+      },
+      "source_basis": "manual_seed",
+      "provenance": {
+        "basis": "metadata-only fallback seed",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "decided_at": "2026-05-15T00:00:00Z"
+      },
+      "metadata": {
+        "topic_tags": ["privacy-scope", "state-law"]
+      }
+    }
+  ]
+}

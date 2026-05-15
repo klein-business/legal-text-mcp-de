@@ -22,9 +22,10 @@ Die Gesetzestexte werden aus Markdown-Dateien geparst, die dem Format des [Bunde
     ```
 
 2.  **Abhängigkeiten installieren:**
-    Es wird empfohlen, eine virtuelle Umgebung zu verwenden (z.B. `venv` oder `conda`).
+    Dieses archivierte Dokument wird release-clean gehalten; der aktuelle
+    Workflow verwendet `uv`.
     ```bash
-    pip install -r mcp/requirements.txt
+    uv sync --group dev
     ```
 
 ### Docker (Empfohlen)
@@ -81,7 +82,7 @@ LOAD_FROM_FOLDER=./gesetze
 Der Server kann direkt über Python gestartet werden. Er nutzt `FastMCP` und stellt standardmäßig einen HTTP-Server auf Port 8001 bereit.
 
 ```bash
-python mcp/server.py
+uv run python mcp/server.py
 ```
 
 ### Tests
@@ -89,7 +90,7 @@ python mcp/server.py
 Die Tests können mit `pytest` ausgeführt werden. Um die Tests zu starten, muss der `mcp` Ordner im Python-Pfad liegen:
 
 ```bash
-PYTHONPATH=mcp python3 -m pytest mcp/tests
+PYTHONPATH=mcp uv run --group dev pytest mcp/tests
 ```
 
 ### Verfügbare Tools
@@ -117,7 +118,7 @@ Der Server stellt folgende MCP-Tools zur Verfügung:
 
 Dieser Server kann mit jedem MCP-kompatiblen Client verbunden werden. Da er als HTTP-Server (SSE) läuft, muss der Client entsprechend konfiguriert werden, um sich mit `http://localhost:8001/mcp` zu verbinden.
 
-Ein Beispiel für die Integration in einen KI-Agenten findest du im Ordner [google-adk-agent](./google-adk-agent), der das **Google Agent Development Kit (ADK)** nutzt.
+Ein Beispiel für die Integration in einen KI-Agenten findest du im Ordner [google-adk-agent](../google-adk-agent), der das **Google Agent Development Kit (ADK)** nutzt.
 
 ## Datenformat
 
@@ -137,4 +138,4 @@ Die Rechtsfähigkeit des Menschen beginnt mit der Vollendung der Geburt.
 
 ## Lizenz
 
-Siehe [LICENSE](LICENSE) Datei.
+Siehe [LICENSE](../LICENSE) Datei.

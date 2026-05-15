@@ -1,0 +1,195 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "privacy-fixture",
+  "package_id": "privacy-fixture-2026-05-15",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "terminal",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "parser_versions": {
+    "gii": "gii-parser/1.0",
+    "eur-lex-cellar": "cellar-parser/1.0",
+    "state-law": "state-adapter/1.0",
+    "third-party-scope": "scope-review/1.0"
+  },
+  "discovered_sources": [
+    {
+      "source_family": "gii",
+      "source_id": "gii:bdsg",
+      "source_path": "bdsg",
+      "index_url": "https://www.gesetze-im-internet.de/bdsg_2018/",
+      "xml_zip_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "toc_url": "https://www.gesetze-im-internet.de/gii-toc.xml",
+      "toc_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "terminal_state": "imported",
+      "canonical_id": "bdsg",
+      "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "retrieved_at": "2026-05-15T00:01:00Z",
+      "parser_version": "gii-parser/1.0",
+      "generated_law_ids": [
+        "bdsg"
+      ],
+      "generated_norm_ids": [
+        "bdsg/par:1"
+      ]
+    },
+    {
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "language": "de",
+        "cellar_uri": "https://publications.europa.eu/resource/cellar/3e485e15-11bd-11e6-ba9a-01aa75ed71a1.0004.02/DOC_2",
+        "work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+        "expression": "0004.02",
+        "document": "DOC_2",
+        "version_policy": "latest_consolidated"
+      },
+      "terminal_state": "unsupported_format",
+      "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+      "retrieved_at": "2026-05-15T00:02:00Z",
+      "content_type": "application/pdf",
+      "reason": "No approved XML expression for this fixture row."
+    },
+    {
+      "source_family": "state-law",
+      "source_id": "state-law:be/bln-dsg",
+      "source_metadata": {
+        "state_code": "be",
+        "jurisdiction": "Berlin",
+        "official_source_url": "https://gesetze.berlin.de/bsbe/document/jlr-DSGBErahmen",
+        "source_format": "html",
+        "adapter_class": "BerlinStateLawAdapter"
+      },
+      "terminal_state": "source_unavailable",
+      "source_url": "https://gesetze.berlin.de/bsbe/document/jlr-DSGBErahmen",
+      "retrieved_at": "2026-05-15T00:03:00Z",
+      "http_status": 503,
+      "retryable": true
+    },
+    {
+      "source_family": "gii",
+      "source_id": "gii:tdddg",
+      "source_path": "tdddg",
+      "index_url": "https://www.gesetze-im-internet.de/tdddg/",
+      "xml_zip_url": "https://www.gesetze-im-internet.de/tdddg/xml.zip",
+      "toc_url": "https://www.gesetze-im-internet.de/gii-toc.xml",
+      "discovery_artifact_id": "gii-toc-2026-05-15",
+      "terminal_state": "parse_failed",
+      "source_url": "https://www.gesetze-im-internet.de/tdddg/xml.zip",
+      "retrieved_at": "2026-05-15T00:04:00Z",
+      "content_fetched": true,
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "parser_version": "gii-parser/1.0",
+      "diagnostic": "Fixture parser failed on unexpected container nesting."
+    },
+    {
+      "source_family": "third-party-scope",
+      "source_id": "third-party-scope:dsgvo-gesetz-scope",
+      "source_metadata": {
+        "provider": "dsgvo-gesetz.de",
+        "source_url": "https://dsgvo-gesetz.de/",
+        "robots_reviewed_at": "2026-05-15T00:05:00Z",
+        "terms_reviewed_at": "2026-05-15T00:05:00Z",
+        "policy_review_reference": "scope-policy-fixture",
+        "allowed_use": "metadata_only",
+        "target_official_record": "dsgvo_eu_2016_679",
+        "no_editorial_text_copied": true
+      },
+      "terminal_state": "excluded_by_policy",
+      "policy_reason": "Third-party editorial text is out of scope for fixture corpus.",
+      "policy_reference": "scope-policy-fixture",
+      "decided_at": "2026-05-15T00:06:00Z"
+    }
+  ],
+  "canonical_ids": [
+    {
+      "canonical_id": "bdsg",
+      "source_family": "gii",
+      "source_id": "gii:bdsg",
+      "aliases": [
+        "bdsg_2018"
+      ]
+    },
+    {
+      "canonical_id": "dsgvo_eu_2016_679",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679",
+      "celex": "32016R0679",
+      "aliases": [
+        "gdpr"
+      ]
+    },
+    {
+      "canonical_id": "state:be/bln-dsg",
+      "source_family": "state-law",
+      "source_id": "state-law:be/bln-dsg",
+      "state_code": "be"
+    }
+  ],
+  "relationship_sources": [
+    {
+      "relationship_source_id": "rel-src:dsgvo-gesetz-scope",
+      "source_family": "third-party-scope",
+      "source_id": "third-party-scope:dsgvo-gesetz-scope",
+      "provider": "dsgvo-gesetz.de",
+      "source_url": "https://dsgvo-gesetz.de/",
+      "robots_reviewed_at": "2026-05-15T00:05:00Z",
+      "terms_reviewed_at": "2026-05-15T00:05:00Z",
+      "policy_review_reference": "scope-policy-fixture",
+      "allowed_use": "metadata_only",
+      "target_official_record": "dsgvo_eu_2016_679",
+      "no_editorial_text_copied": true
+    }
+  ],
+  "generated_package": {
+    "schema_version": "normalized-package.v1",
+    "generated_at": "2026-05-15T00:10:00Z",
+    "record_counts": {
+      "laws": 1,
+      "norms": 1
+    },
+    "manifest_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "package_files": [
+      "laws.json",
+      "norms.json"
+    ]
+  },
+  "alias_migrations": [
+    {
+      "from_id": "bdsg_2018",
+      "to_id": "bdsg",
+      "reason": "Preserve existing hand-authored alias.",
+      "effective_from": "2026-05-15"
+    }
+  ],
+  "generated_records": [
+    {
+      "law_id": "bdsg",
+      "norm_ids": [
+        "bdsg/par:1"
+      ]
+    }
+  ],
+  "source_limitations": [
+    {
+      "source_family": "state-law",
+      "source_id": "state-law:hh/hmbdsg",
+      "source_metadata": {
+        "state_code": "hh",
+        "jurisdiction": "Hamburg",
+        "official_source_url": "https://www.landesrecht-hamburg.de/",
+        "source_format": "portal",
+        "adapter_class": "HamburgStateLawAdapter"
+      },
+      "terminal_state": "source_unavailable",
+      "source_url": "https://www.landesrecht-hamburg.de/",
+      "retrieved_at": "2026-05-15T00:07:00Z",
+      "error_code": "robots_blocked",
+      "retryable": false
+    }
+  ]
+}

@@ -15,7 +15,19 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
+LEGACY_DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
+GENERATED_PACKAGE = ROOT / "mcp" / "tests" / "fixtures" / "generated_package"
+EXPECTED_TOOLS = {
+    "list_laws",
+    "get_law",
+    "get_norm",
+    "resolve_citation",
+    "search_laws",
+    "get_source_metadata",
+    "get_corpus_coverage",
+    "get_source_limitations",
+    "get_related_norms",
+}
 
 
 def free_port() -> int:
@@ -24,7 +36,7 @@ def free_port() -> int:
         return int(sock.getsockname()[1])
 
 
-def env_for_server(port: int | None = None) -> dict[str, str]:
+def env_for_server(dataset_path: Path, port: int | None = None) -> dict[str, str]:
     env = os.environ.copy()
     pythonpath = str(ROOT / "mcp")
     if env.get("PYTHONPATH"):
@@ -32,7 +44,7 @@ def env_for_server(port: int | None = None) -> dict[str, str]:
     env.update(
         {
             "PYTHONPATH": pythonpath,
-            "DATASET_PATH": str(DATASET),
+            "DATASET_PATH": str(dataset_path),
             "STRICT_STARTUP": "true",
         }
     )
@@ -92,7 +104,7 @@ def get_json(url: str, *, expected_status: int = 200) -> dict[str, Any]:
     return json.loads(body)
 
 
-def run_http_e2e(port: int) -> None:
+def run_http_legacy_e2e(port: int) -> None:
     base = f"http://127.0.0.1:{port}"
     health = get_json(f"{base}/health")
     ready = get_json(f"{base}/ready")
@@ -100,6 +112,9 @@ def run_http_e2e(port: int) -> None:
     law = get_json(f"{base}/laws/BGB")
     container = get_json(f"{base}/laws/egbgb/norms/art%3A246a")
     child = get_json(f"{base}/laws/egbgb/norms/art%3A246a%2Fpar%3A1")
+    coverage = get_json(f"{base}/corpus/coverage")
+    limitations = get_json(f"{base}/corpus/source-limitations")
+    relationships = get_json(f"{base}/laws/BGB/norms/par%3A355/relationships")
     search = get_json(f"{base}/search?query=Werbung&codes=UWG")
     invalid = get_json(f"{base}/search?query=!!!", expected_status=422)
 
@@ -112,9 +127,36 @@ def run_http_e2e(port: int) -> None:
     assert law["norms"]
     assert container["norm"]["status"] == "container"
     assert child["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
+    assert coverage["generated_package_present"] is False
+    assert limitations["count"] == 0
+    assert relationships["count"] == 0
     assert search["codes"] == ["uwg_2004"]
     assert search["results"]
     assert invalid["error"]["code"] == "INVALID_QUERY"
+
+
+def run_http_generated_package_e2e(port: int) -> None:
+    base = f"http://127.0.0.1:{port}"
+    health = get_json(f"{base}/health")
+    ready = get_json(f"{base}/ready")
+    laws = get_json(f"{base}/laws?query=DSGVO")
+    law = get_json(f"{base}/laws/DSGVO")
+    norm = get_json(f"{base}/laws/DSGVO/norms/art%3A5")
+    coverage = get_json(f"{base}/corpus/coverage")
+    limitations = get_json(f"{base}/corpus/source-limitations?source_family=state-law")
+    relationships = get_json(f"{base}/laws/DSGVO/norms/art%3A5/relationships")
+
+    assert health == {"status": "ok"}
+    assert ready["stage"] == "serving_dataset"
+    assert ready["state"] == "ready"
+    assert laws["count"] == 1
+    assert law["law"]["canonical_id"] == "dsgvo_eu_2016_679"
+    assert norm["norm"]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
+    assert coverage["generated_package_present"] is True
+    assert coverage["counts"]["source_limitations"] == 1
+    assert limitations["count"] == 1
+    assert relationships["count"] == 1
+    assert relationships["relationships"][0]["relationship_id"] == "rel-dsgvo-art5-limitation"
 
 
 def import_external_mcp_client():
@@ -135,21 +177,14 @@ def import_external_mcp_client():
     return ClientSession, streamablehttp_client
 
 
-async def run_mcp_e2e(port: int) -> None:
+async def run_mcp_legacy_e2e(port: int) -> None:
     ClientSession, streamablehttp_client = import_external_mcp_client()
     async with streamablehttp_client(f"http://127.0.0.1:{port}/mcp") as (read, write, _get_session_id):
         async with ClientSession(read, write) as session:
             await session.initialize()
             tools = await session.list_tools()
             names = {tool.name for tool in tools.tools}
-            assert names == {
-                "list_laws",
-                "get_law",
-                "get_norm",
-                "resolve_citation",
-                "search_laws",
-                "get_source_metadata",
-            }
+            assert names == EXPECTED_TOOLS
 
             norm = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 355"})
             citation = await session.call_tool(
@@ -163,6 +198,9 @@ async def run_mcp_e2e(port: int) -> None:
                 },
             )
             search = await session.call_tool("search_laws", {"query": "Werbung", "codes": ["UWG"]})
+            coverage = await session.call_tool("get_corpus_coverage", {})
+            limitations = await session.call_tool("get_source_limitations", {})
+            relationships = await session.call_tool("get_related_norms", {"code": "BGB", "norm": "§ 355"})
             missing = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 999"})
 
             assert structured_content(norm)["norm"]["canonical_id"] == "bgb/par:355"
@@ -170,7 +208,32 @@ async def run_mcp_e2e(port: int) -> None:
             search_data = structured_content(search)
             assert search_data["codes"] == ["uwg_2004"]
             assert search_data["results"]
+            assert structured_content(coverage)["generated_package_present"] is False
+            assert structured_content(limitations)["count"] == 0
+            assert structured_content(relationships)["count"] == 0
             assert structured_content(missing)["error"]["code"] == "NORM_NOT_FOUND"
+
+
+async def run_mcp_generated_package_e2e(port: int) -> None:
+    ClientSession, streamablehttp_client = import_external_mcp_client()
+    async with streamablehttp_client(f"http://127.0.0.1:{port}/mcp") as (read, write, _get_session_id):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = await session.list_tools()
+            assert {tool.name for tool in tools.tools} == EXPECTED_TOOLS
+
+            norm = await session.call_tool("get_norm", {"code": "DSGVO", "norm": "art:5"})
+            coverage = await session.call_tool("get_corpus_coverage", {})
+            limitations = await session.call_tool("get_source_limitations", {"source_family": "state-law"})
+            relationships = await session.call_tool("get_related_norms", {"code": "DSGVO", "norm": "art:5"})
+
+            assert structured_content(norm)["norm"]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
+            assert structured_content(coverage)["generated_package_present"] is True
+            assert structured_content(coverage)["counts"]["relationships"] == 1
+            assert structured_content(limitations)["count"] == 1
+            relationship_data = structured_content(relationships)
+            assert relationship_data["count"] == 1
+            assert relationship_data["relationships"][0]["relationship_id"] == "rel-dsgvo-art5-limitation"
 
 
 def structured_content(result: Any) -> dict[str, Any]:
@@ -193,7 +256,12 @@ def terminate(process: subprocess.Popen[str]) -> str:
     return process.communicate(timeout=5)[0]
 
 
-def main() -> int:
+def run_case(
+    label: str,
+    dataset_path: Path,
+    http_check,
+    mcp_check,
+) -> None:
     http_port = free_port()
     mcp_port = free_port()
     http_process = start_process(
@@ -207,30 +275,36 @@ def main() -> int:
             "--port",
             str(http_port),
         ],
-        env_for_server(),
+        env_for_server(dataset_path),
     )
     mcp_process = start_process(
         [sys.executable, "mcp/server.py"],
-        env_for_server(mcp_port),
+        env_for_server(dataset_path, mcp_port),
     )
     outputs: list[tuple[str, str]] = []
     try:
         wait_for_url(f"http://127.0.0.1:{http_port}/health")
         wait_for_port(mcp_port)
-        run_http_e2e(http_port)
-        asyncio.run(run_mcp_e2e(mcp_port))
-        print("HTTP CLI E2E OK")
-        print("MCP streamable HTTP E2E OK")
-        return 0
-    except Exception as exc:
-        print(f"E2E FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
-        return 1
+        http_check(http_port)
+        asyncio.run(mcp_check(mcp_port))
+        print(f"{label} HTTP CLI E2E OK")
+        print(f"{label} MCP streamable HTTP E2E OK")
     finally:
         outputs.append(("HTTP", terminate(http_process)))
         outputs.append(("MCP", terminate(mcp_process)))
         if any(process.returncode not in {0, -15, None} for process in [http_process, mcp_process]):
             for name, output in outputs:
-                print(f"\n--- {name} server output ---\n{output}", file=sys.stderr)
+                print(f"\n--- {label} {name} server output ---\n{output}", file=sys.stderr)
+
+
+def main() -> int:
+    try:
+        run_case("legacy", LEGACY_DATASET, run_http_legacy_e2e, run_mcp_legacy_e2e)
+        run_case("generated-package", GENERATED_PACKAGE, run_http_generated_package_e2e, run_mcp_generated_package_e2e)
+        return 0
+    except Exception as exc:
+        print(f"E2E FAILED: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

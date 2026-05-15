@@ -1,0 +1,23 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "privacy-fixture",
+  "package_id": "privacy-fixture-2026-05-15",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "discovery",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "parser_versions": {
+    "third-party-scope": "scope-review/1.0"
+  },
+  "discovered_sources": [],
+  "canonical_ids": [
+    {
+      "canonical_id": "fake-third-party-law",
+      "source_family": "third-party-scope",
+      "source_id": "third-party-scope:dsgvo-gesetz-scope"
+    }
+  ],
+  "relationship_sources": []
+}

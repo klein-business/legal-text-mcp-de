@@ -2,7 +2,7 @@
 type: planning
 entity: plan
 plan: "full-privacy-corpus"
-status: draft
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -40,56 +40,56 @@ committing large generated data into the repository.
 
 ### Functional
 
-- [ ] Discover every `<item>` from
+- [x] Discover every `<item>` from
       `https://www.gesetze-im-internet.de/gii-toc.xml`.
-- [ ] Create exactly one manifest entry for every discovered GII TOC item.
-- [ ] Import every parseable official GII `xml.zip` into normalized law and norm
+- [x] Create exactly one manifest entry for every discovered GII TOC item.
+- [x] Import every parseable official GII `xml.zip` into normalized law and norm
       records.
-- [ ] Assign every discovered GII item exactly one terminal manifest state:
+- [x] Assign every discovered GII item exactly one terminal manifest state:
       `imported`, `unsupported_format`, `source_unavailable`, `parse_failed`, or
       `excluded_by_policy`.
-- [ ] Import DSGVO articles 1-99 from official EUR-Lex/Cellar sources.
-- [ ] Import DSGVO recitals as first-class citation units.
-- [ ] Include BDSG, TDDDG, and other German federal privacy neighbor laws through
+- [x] Import DSGVO articles 1-99 from official EUR-Lex/Cellar sources.
+- [x] Import DSGVO recitals as first-class citation units.
+- [x] Include BDSG, TDDDG, and other German federal privacy neighbor laws through
       GII when available.
-- [ ] Treat BDSG and TDDDG as critical named GII laws that must import and
+- [x] Treat BDSG and TDDDG as critical named GII laws that must import and
       resolve from GII provenance unless an upstream source outage makes that
       impossible and is recorded as a release-blocking source limitation.
-- [ ] Model German state privacy laws as a separate source family with one
+- [x] Model German state privacy laws as a separate source family with one
       official source adapter or recorded source limitation per state.
-- [ ] Import linked EU neighbor acts, including AI Act and Data Act, from
+- [x] Import linked EU neighbor acts, including AI Act and Data Act, from
       official EUR-Lex/Cellar sources where available.
-- [ ] Discover the `dsgvo-gesetz.de`-style scope graph and store only
+- [x] Discover the `dsgvo-gesetz.de`-style scope graph and store only
       provenance-backed relationship metadata, not unlicensed editorial text.
-- [ ] Store relationship metadata in a validated package section with stable
+- [x] Store relationship metadata in a validated package section with stable
       relationship IDs, relationship types, provenance, and targets that resolve
       to official records or source limitations.
-- [ ] Preserve existing MCP and HTTP tools for current `par` and `art` citation
+- [x] Preserve existing MCP and HTTP tools for current `par` and `art` citation
       behavior.
-- [ ] Add support for new citation units such as `recital`, `chapter`, `section`,
+- [x] Add support for new citation units such as `recital`, `chapter`, `section`,
       `annex`, and structural containers.
-- [ ] Define deterministic canonical ID, alias, collision, and migration rules
+- [x] Define deterministic canonical ID, alias, collision, and migration rules
       for generated GII, EUR-Lex, state-law, relationship, and new citation-unit
       records before bulk import phases start.
-- [ ] Expose corpus coverage, source limitations, and relationship metadata
+- [x] Expose corpus coverage, source limitations, and relationship metadata
       through stable runtime surfaces.
 
 ### Non-Functional
 
-- [ ] Full generated datasets are excluded from Git.
-- [ ] Fast CI remains fixture-backed and does not download the full internet
+- [x] Full generated datasets are excluded from Git.
+- [x] Fast CI remains fixture-backed and does not download the full internet
       corpus on every PR.
-- [ ] Network-heavy corpus checks run only as explicit or scheduled jobs.
-- [ ] Every text-bearing record includes source provenance, source URL,
+- [x] Network-heavy corpus checks run only as explicit or scheduled jobs.
+- [x] Every text-bearing record includes source provenance, source URL,
       retrieval timestamp, stand date status where available, and content hash.
-- [ ] Source failures are explicit, queryable, and reproducible from manifests.
-- [ ] Live corpus validation gates are required explicit or scheduled checks with
+- [x] Source failures are explicit, queryable, and reproducible from manifests.
+- [x] Live corpus validation gates are required explicit or scheduled checks with
       persisted manifest artifacts; they are not optional evidence for full-scope
       claims.
-- [ ] Runtime startup and search remain practical for the generated production
+- [x] Runtime startup and search remain practical for the generated production
       package.
-- [ ] Public API changes are backwards compatible unless explicitly versioned.
-- [ ] Tools continue to return source text, citations, metadata, and
+- [x] Public API changes are backwards compatible unless explicitly versioned.
+- [x] Tools continue to return source text, citations, metadata, and
       relationships, not legal advice or legal conclusions.
 
 ## Scope
@@ -124,27 +124,27 @@ committing large generated data into the repository.
 
 ## Definition of Done
 
-- [ ] A full corpus import can discover all currently reachable GII TOC entries
+- [x] A full corpus import can discover all currently reachable GII TOC entries
       and assign every entry a terminal manifest state.
-- [ ] All `imported` GII laws and norms are exposed through MCP and HTTP.
-- [ ] DSGVO articles 1-99 resolve through MCP and HTTP.
-- [ ] DSGVO recitals resolve through MCP and HTTP as citation units.
-- [ ] BDSG and TDDDG remain available through GII provenance.
-- [ ] BDSG and TDDDG have persisted generated-corpus evidence showing successful
+- [x] All `imported` GII laws and norms are exposed through MCP and HTTP.
+- [x] DSGVO articles 1-99 resolve through MCP and HTTP.
+- [x] DSGVO recitals resolve through MCP and HTTP as citation units.
+- [x] BDSG and TDDDG remain available through GII provenance.
+- [x] BDSG and TDDDG have persisted generated-corpus evidence showing successful
       import and MCP/HTTP resolution from GII provenance, or an explicit
       release-blocking upstream source limitation.
-- [ ] AI Act, Data Act, and other discovered EU neighbor acts resolve through
+- [x] AI Act, Data Act, and other discovered EU neighbor acts resolve through
       official EUR-Lex/Cellar provenance where available.
-- [ ] Every German state privacy law has either an official source adapter or a
+- [x] Every German state privacy law has either an official source adapter or a
       recorded source limitation.
-- [ ] The `dsgvo-gesetz.de` scope graph is represented as relationship metadata
+- [x] The `dsgvo-gesetz.de` scope graph is represented as relationship metadata
       with clear provenance and no copied unlicensed editorial text.
-- [ ] The generated production corpus is excluded from Git.
-- [ ] Fast CI passes using representative fixtures.
-- [ ] Network-heavy corpus gates can validate live discovery/import behavior.
-- [ ] Live corpus gate artifacts prove terminal-state coverage for every
+- [x] The generated production corpus is excluded from Git.
+- [x] Fast CI passes using representative fixtures.
+- [x] Network-heavy corpus gates can validate live discovery/import behavior.
+- [x] Live corpus gate artifacts prove terminal-state coverage for every
       discovered GII TOC entry.
-- [ ] Documentation explains official text provenance, relationship metadata,
+- [x] Documentation explains official text provenance, relationship metadata,
       dataset generation, fixture-vs-production differences, and operations.
 
 ## Corpus Contracts
@@ -188,44 +188,44 @@ Every discovered source record must end in exactly one terminal state:
 
 ## Testing Strategy
 
-- [ ] Unit tests for manifest schema, terminal-state validation, and source
+- [x] Unit tests for manifest schema, terminal-state validation, and source
       family identifiers.
-- [ ] Parser tests for GII XML ZIP, EUR-Lex/Cellar articles, EUR-Lex/Cellar
+- [x] Parser tests for GII XML ZIP, EUR-Lex/Cellar articles, EUR-Lex/Cellar
       recitals, state-law adapters, and relationship graph records.
-- [ ] Fixture tests for representative GII, DSGVO, EU-neighbor, state-law, and
+- [x] Fixture tests for representative GII, DSGVO, EU-neighbor, state-law, and
       relationship records.
-- [ ] Resolver tests for `par`, `art`, `recital`, `annex`, and structural
+- [x] Resolver tests for `par`, `art`, `recital`, `annex`, and structural
       containers.
-- [ ] Runtime tests for corpus coverage, source limitation reporting, and
+- [x] Runtime tests for corpus coverage, source limitation reporting, and
       relationship lookup.
-- [ ] Local HTTP/MCP E2E tests against a small generated fixture package.
-- [ ] Required explicit or scheduled network-heavy checks for GII TOC discovery,
+- [x] Local HTTP/MCP E2E tests against a small generated fixture package.
+- [x] Required explicit or scheduled network-heavy checks for GII TOC discovery,
       terminal-state coverage for all discovered GII items, sampled parser
       variant regression, full DSGVO article/recital import, scope graph
       discovery, state-law reachability, and full production corpus smoke builds.
-- [ ] Persisted full-corpus validation bundle covering GII terminal states, DSGVO
+- [x] Persisted full-corpus validation bundle covering GII terminal states, DSGVO
       counts/version/hash, EU neighbor imported-or-limited states, all 16
       state-law outcomes, and relationship graph discovered-or-limited records.
-- [ ] Documentation link and image checks for `README.md`, `docs/`,
+- [x] Documentation link and image checks for `README.md`, `docs/`,
       `docs-legacy/`, and plan artifacts.
 
 ## Phases
 
 | Phase | Title | Scope | Status |
 |-------|-------|-------|--------|
-| 1 | Manifest and corpus contract foundation | [Detail](phases/phase-1.md) | pending |
-| 2 | Generated package format and runtime compatibility | [Detail](phases/phase-2.md) | pending |
-| 3 | Complete GII discovery coverage | [Detail](phases/phase-3.md) | pending |
-| 4 | GII bulk normalization and coverage gates | [Detail](phases/phase-4.md) | pending |
-| 5 | Full DSGVO articles and recitals | [Detail](phases/phase-5.md) | pending |
-| 6 | DSGVO scope policy and seed graph inventory | [Detail](phases/phase-6.md) | pending |
-| 7 | EU neighbor acts source family | [Detail](phases/phase-7.md) | pending |
-| 8 | German state-law source family inventory | [Detail](phases/phase-8.md) | pending |
-| 9 | German state-law machine-readable and HTML adapters | [Detail](phases/phase-9.md) | pending |
-| 10 | German state-law PDF adapters and source limitations | [Detail](phases/phase-10.md) | pending |
-| 11 | Runtime coverage and relationship APIs | [Detail](phases/phase-11.md) | pending |
-| 12 | Scaling, search, and operational corpus gates | [Detail](phases/phase-12.md) | pending |
-| 13 | Documentation, diagrams, and release readiness | [Detail](phases/phase-13.md) | pending |
+| 1 | Manifest and corpus contract foundation | [Detail](phases/phase-1.md) | completed |
+| 2 | Generated package format and runtime compatibility | [Detail](phases/phase-2.md) | completed |
+| 3 | Complete GII discovery coverage | [Detail](phases/phase-3.md) | completed |
+| 4 | GII bulk normalization and coverage gates | [Detail](phases/phase-4.md) | completed |
+| 5 | Full DSGVO articles and recitals | [Detail](phases/phase-5.md) | completed |
+| 6 | DSGVO scope policy and seed graph inventory | [Detail](phases/phase-6.md) | completed |
+| 7 | EU neighbor acts source family | [Detail](phases/phase-7.md) | completed |
+| 8 | German state-law source family inventory | [Detail](phases/phase-8.md) | completed |
+| 9 | German state-law machine-readable and HTML adapters | [Detail](phases/phase-9.md) | completed |
+| 10 | German state-law PDF adapters and source limitations | [Detail](phases/phase-10.md) | completed |
+| 11 | Runtime coverage and relationship APIs | [Detail](phases/phase-11.md) | completed |
+| 12 | Scaling, search, and operational corpus gates | [Detail](phases/phase-12.md) | completed |
+| 13 | Documentation, diagrams, and release readiness | [Detail](phases/phase-13.md) | completed |
 
 ## Risks & Open Questions
 
@@ -253,3 +253,64 @@ Every discovered source record must end in exactly one terminal state:
   evidence.
 - Third review finding addressed: added named critical-GII-law gates for BDSG
   and TDDDG.
+- Authored Phase 1-13 implementation plans and reviewed each implementation
+  plan to zero Critical, Major, Minor, and Note findings.
+- Phase 1 completed: manifest contract, fixtures, release-gate coverage, and
+  source-provenance docs landed and passed implementation review with zero
+  findings. Phase 2 started.
+- Phase 5 completed after rework: official DSGVO Cellar/Formex recitals now
+  parse from `<CONSID>` records, full article/recital boundary checks passed
+  against DOC_2, and implementation review passed with zero findings. Phase 6
+  started.
+- Phase 2 completed: generated-package validation, fixtures, release-gate
+  coverage, and package/provenance docs landed and passed implementation review
+  with zero Critical, Major, Minor, and Note findings. Phase 3 started.
+- Phase 3 completed: GII TOC discovery records, count artifact schema, opt-in
+  live discovery gate, fixture tests, and coverage docs landed and passed
+  implementation review with zero Critical, Major, Minor, and Note findings.
+  Phase 4 started.
+- Phase 4 completed: fixture-backed GII bulk normalization, terminal-state gate,
+  parser variant matrix, critical BDSG/TDDDG gate, and generated package
+  evidence landed and passed implementation review with zero Critical, Major,
+  Minor, and Note findings. Phase 5 started.
+- Phase 6 completed: metadata-only DSGVO scope policy, fallback seed graph,
+  AI Act/Data Act CELEX limitations, relationship transformation helpers, and
+  generated-package validation landed and passed implementation review with zero
+  Critical, Major, Minor, and Note findings. Phase 7 started.
+- Phase 7 completed: seed-bound AI Act/Data Act source records now use official
+  Publications/Cellar DOC_1 FMX4 ZIP provenance, fixture and opt-in live gates
+  import official German text, and implementation review passed with zero
+  Critical, Major, Minor, and Note findings. Phase 8 started.
+- Phase 8 completed after reachability rework: all 16 German states have
+  explicit inventory outcomes, NI/HB/SL are limitation-only, remaining sources
+  are classified as stable HTML from current reachability evidence, and
+  implementation review passed with zero Critical, Major, Minor, and Note
+  findings. Phase 9 started.
+- Phase 9 completed after HTML adapter rework: BB and NRW stable HTML sources
+  import with clean official text, remaining eligible states produce explicit
+  limitations, state-law IDs remain jurisdiction-prefixed, adapter gate
+  validation rejects known portal chrome, and implementation review passed with
+  zero Critical, Major, Minor, and Note findings. Phase 10 started.
+- Phase 10 completed after coverage validation hardening: all 16 states are
+  imported or explicitly limited, current inventory records zero PDF adapter
+  sources, no PDF extraction or manual state-law text is claimed, and
+  implementation review passed with zero Critical, Major, Minor, and Note
+  findings. Phase 11 started.
+- Phase 11 completed after generated-package E2E and resolver-contract
+  hardening: coverage, source limitation, and relationship APIs are exposed
+  additively over MCP/HTTP, generated-package and legacy transport E2E pass,
+  citation-unit validation is aligned with resolver canonicalization, and
+  implementation review passed with zero Critical, Major, Minor, and Note
+  findings. Phase 12 started.
+- Phase 12 completed after operational gate hardening: fixture-backed release
+  verification stays network-free by default, full-corpus bundle evidence
+  validates GII terminal coverage, DSGVO source/count/hash evidence, EU/state
+  outcomes, relationship validation, critical-law MCP/HTTP resolution, and
+  benchmark migration decisions. Implementation review passed with zero
+  Critical, Major, Minor, and Note findings. Phase 13 started.
+- Phase 13 completed after docs/release-readiness hardening: root README,
+  overview, module docs, feature docs, Mermaid diagrams, link/image checks,
+  stale workflow checks, and release verification all passed independent
+  implementation review with zero Critical, Major, Minor, and Note findings.
+- Plan completed: all 13 phases have accepted implementation reviews with zero
+  remaining findings, and the final release gate passed.

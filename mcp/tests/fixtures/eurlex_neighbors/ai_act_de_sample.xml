@@ -1,0 +1,19 @@
+<ROOT>
+  <LG.DOC>DE</LG.DOC>
+  <ACT>
+    <PREAMBLE>
+      <GR.CONSID>
+        <CONSID>
+          <NP>
+            <NO.P>(1)</NO.P>
+            <TXT>Der Zweck dieser Verordnung ist die Verbesserung des Funktionierens des Binnenmarkts.</TXT>
+          </NP>
+        </CONSID>
+      </GR.CONSID>
+    </PREAMBLE>
+    <ARTICLE IDENTIFIER="004">
+      <TI.ART>Artikel 4 KI-Kompetenz</TI.ART>
+      <P>(1) Anbieter und Betreiber von KI-Systemen treffen Massnahmen zur Sicherstellung eines ausreichenden Masses an KI-Kompetenz.</P>
+    </ARTICLE>
+  </ACT>
+</ROOT>

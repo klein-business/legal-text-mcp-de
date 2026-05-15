@@ -1,0 +1,15 @@
+{
+  "schema_version": "dsgvo-scope-policy.v1",
+  "policy_id": "dsgvo-scope-policy-2026-05-15",
+  "source_url": "https://dsgvo-gesetz.de/",
+  "reviewed_at": "2026-05-15T00:00:00Z",
+  "robots_reviewed_at": "2026-05-15T00:00:00Z",
+  "robots_result": "not_approved_for_automated_corpus_use",
+  "terms_reviewed_at": "2026-05-15T00:00:00Z",
+  "terms_result": "manual_metadata_seed_only",
+  "allowed_use": "manual_seed_only",
+  "no_editorial_text_copied": true,
+  "fallback_seed_path": "mcp/legal_texts/data/privacy_scope_seed.v1.json",
+  "decision_basis": "Use third-party scope site only as a governed scope reference. Store manually maintained metadata relationships and official target/source-limitation provenance only.",
+  "reviewer_note": "No crawler or copied editorial content is approved by this policy record."
+}

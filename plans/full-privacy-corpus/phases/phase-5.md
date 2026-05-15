@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 5
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -40,28 +40,28 @@ Cellar coverage of articles 1-99 and all recitals.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
-- [ ] Phase 2 generated package format is complete.
+- [x] Phase 1 manifest contract is complete.
+- [x] Phase 2 generated package format is complete.
 
 ## Deliverables
 
-- [ ] DSGVO full article fixtures and parser coverage.
-- [ ] DSGVO recital fixtures and parser coverage.
-- [ ] Official-source check documenting the selected CELEX/Cellar source,
+- [x] DSGVO full article fixtures and parser coverage.
+- [x] DSGVO recital fixtures and parser coverage.
+- [x] Official-source check documenting the selected CELEX/Cellar source,
       German language expression, article count, and recital count.
-- [ ] DSGVO version/consolidation policy record with tests or source checks that
+- [x] DSGVO version/consolidation policy record with tests or source checks that
       fail if an unintended German expression/document is selected.
-- [ ] Resolver tests for `dsgvo_eu_2016_679/art:*` and
+- [x] Resolver tests for `dsgvo_eu_2016_679/art:*` and
       `dsgvo_eu_2016_679/recital:*`.
-- [ ] Documentation update describing article and recital citation units.
+- [x] Documentation update describing article and recital citation units.
 
 ## Acceptance Criteria
 
-- [ ] DSGVO articles 1-99 resolve in generated corpus checks.
-- [ ] DSGVO recitals 1-173 resolve as citation units.
-- [ ] DSGVO source metadata records the selected CELEX/Cellar expression,
+- [x] DSGVO articles 1-99 resolve in generated corpus checks.
+- [x] DSGVO recitals 1-173 resolve as citation units.
+- [x] DSGVO source metadata records the selected CELEX/Cellar expression,
       document, language, version/consolidation policy, and content hash.
-- [ ] Existing selected DSGVO article behavior remains backwards compatible.
+- [x] Existing selected DSGVO article behavior remains backwards compatible.
 
 ## Dependencies on Other Phases
 

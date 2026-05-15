@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 8
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -37,21 +37,21 @@ classify each state for adapter implementation or explicit source limitation.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
+- [x] Phase 1 manifest contract is complete.
 
 ## Deliverables
 
-- [ ] State-law source inventory covering all 16 states.
-- [ ] Source-format classification for each state.
-- [ ] Adapter-class grouping that assigns states to Phase 9 or Phase 10.
-- [ ] Fixture or manifest records for representative states and limitations.
-- [ ] Documentation of state-law source-family constraints.
+- [x] State-law source inventory covering all 16 states.
+- [x] Source-format classification for each state.
+- [x] Adapter-class grouping that assigns states to Phase 9 or Phase 10.
+- [x] Fixture or manifest records for representative states and limitations.
+- [x] Documentation of state-law source-family constraints.
 
 ## Acceptance Criteria
 
-- [ ] Every German state has an explicit inventory outcome.
-- [ ] No state is treated as missing without a recorded source limitation.
-- [ ] Official source provenance is captured before parser work begins.
+- [x] Every German state has an explicit inventory outcome.
+- [x] No state is treated as missing without a recorded source limitation.
+- [x] Official source provenance is captured before parser work begins.
 
 ## Dependencies on Other Phases
 

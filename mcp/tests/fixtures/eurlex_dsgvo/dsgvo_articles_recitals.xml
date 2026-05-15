@@ -1,0 +1,30 @@
+<ROOT>
+  <LG.DOC>DE</LG.DOC>
+  <ACT>
+    <PREAMBLE>
+      <GR.CONSID>
+        <GR.CONSID.INIT>in Erwaegung nachstehender Gruende:</GR.CONSID.INIT>
+        <CONSID>
+          <NP>
+            <NO.P>(1)</NO.P>
+            <TXT>Der Schutz natuerlicher Personen bei der Verarbeitung personenbezogener Daten ist ein Grundrecht.</TXT>
+          </NP>
+        </CONSID>
+        <CONSID>
+          <NP>
+            <NO.P>(173)</NO.P>
+            <TXT>Diese Verordnung sollte auf alle Fragen des Schutzes der Grundrechte Anwendung finden.</TXT>
+          </NP>
+        </CONSID>
+      </GR.CONSID>
+    </PREAMBLE>
+    <ARTICLE IDENTIFIER="001">
+      <TI.ART>Artikel 1 Gegenstand und Ziele</TI.ART>
+      <P>(1) Diese Verordnung enthaelt Vorschriften zum Schutz natuerlicher Personen.</P>
+    </ARTICLE>
+    <ARTICLE IDENTIFIER="099">
+      <TI.ART>Artikel 99 Inkrafttreten</TI.ART>
+      <P>Diese Verordnung tritt am zwanzigsten Tag nach ihrer Veroeffentlichung in Kraft.</P>
+    </ARTICLE>
+  </ACT>
+</ROOT>

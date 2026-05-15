@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 4
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -38,31 +38,31 @@ bulk scale, while preserving explicit source failures.
 
 ## Prerequisites
 
-- [ ] Phase 3 complete GII discovery coverage is complete.
+- [x] Phase 3 complete GII discovery coverage is complete.
 
 ## Deliverables
 
-- [ ] GII bulk normalization path.
-- [ ] Representative GII fixture corpus with multiple legal structure patterns.
-- [ ] Parser-variant matrix documenting covered GII XML structures and examples.
-- [ ] Tests proving imported GII records have stable canonical IDs and
+- [x] GII bulk normalization path.
+- [x] Representative GII fixture corpus with multiple legal structure patterns.
+- [x] Parser-variant matrix documenting covered GII XML structures and examples.
+- [x] Tests proving imported GII records have stable canonical IDs and
       provenance.
-- [ ] Coverage gate that reports terminal state for every discovered GII source.
-- [ ] Critical-law gate proving BDSG and TDDDG import successfully from GII
+- [x] Coverage gate that reports terminal state for every discovered GII source.
+- [x] Critical-law gate proving BDSG and TDDDG import successfully from GII
       provenance or emit explicit release-blocking upstream source limitations.
 
 ## Acceptance Criteria
 
-- [ ] All parseable fixture GII ZIPs produce validated law and norm records.
-- [ ] Parse failures are recorded in the manifest instead of being silently
+- [x] All parseable fixture GII ZIPs produce validated law and norm records.
+- [x] Parse failures are recorded in the manifest instead of being silently
       omitted.
-- [ ] Full-discovery coverage gate proves every discovered GII source has exactly
+- [x] Full-discovery coverage gate proves every discovered GII source has exactly
       one terminal state.
-- [ ] BDSG and TDDDG generated records resolve from the normalized package with
+- [x] BDSG and TDDDG generated records resolve from the normalized package with
       GII provenance, unless a release-blocking source limitation is recorded.
-- [ ] Sampled parser checks are used only for parser regression coverage, not as
+- [x] Sampled parser checks are used only for parser regression coverage, not as
       proof of full corpus completeness.
-- [ ] Generated full corpus data remains excluded from Git.
+- [x] Generated full corpus data remains excluded from Git.
 
 ## Dependencies on Other Phases
 

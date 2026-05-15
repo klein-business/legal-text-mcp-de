@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 12
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -37,42 +37,42 @@ served at production-corpus scale without making PR CI slow or flaky.
 
 ## Prerequisites
 
-- [ ] Phase 4 GII bulk normalization is complete.
-- [ ] Phase 11 runtime coverage APIs are complete.
+- [x] Phase 4 GII bulk normalization is complete.
+- [x] Phase 11 runtime coverage APIs are complete.
 
 ## Deliverables
 
-- [ ] Corpus-scale benchmark criteria.
-- [ ] Fast CI remains fixture-backed.
-- [ ] Network-heavy corpus checks are runnable outside ordinary PR CI.
-- [ ] Search and runtime behavior are validated against a larger package.
-- [ ] Package-format decision record if initial thresholds are missed.
+- [x] Corpus-scale benchmark criteria.
+- [x] Fast CI remains fixture-backed.
+- [x] Network-heavy corpus checks are runnable outside ordinary PR CI.
+- [x] Search and runtime behavior are validated against a larger package.
+- [x] Package-format decision record if initial thresholds are missed.
 
 ## Acceptance Criteria
 
-- [ ] PR CI does not require full corpus download/import.
-- [ ] Full-corpus smoke checks can run explicitly or on schedule.
-- [ ] Full-corpus import gate persists manifest artifacts with terminal-state
+- [x] PR CI does not require full corpus download/import.
+- [x] Full-corpus smoke checks can run explicitly or on schedule.
+- [x] Full-corpus import gate persists manifest artifacts with terminal-state
       coverage for all discovered GII sources.
-- [ ] Full-corpus validation bundle persists DSGVO article/recital counts,
+- [x] Full-corpus validation bundle persists DSGVO article/recital counts,
       selected expression/document, version/consolidation policy, and content
       hash.
-- [ ] Full-corpus validation bundle persists BDSG and TDDDG successful import and
+- [x] Full-corpus validation bundle persists BDSG and TDDDG successful import and
       MCP/HTTP resolution evidence from GII provenance, or a release-blocking
       upstream source limitation.
-- [ ] Full-corpus validation bundle persists EU neighbor imported-or-limited
+- [x] Full-corpus validation bundle persists EU neighbor imported-or-limited
       states.
-- [ ] Full-corpus validation bundle persists all 16 state-law imported-or-limited
+- [x] Full-corpus validation bundle persists all 16 state-law imported-or-limited
       outcomes.
-- [ ] Full-corpus validation bundle persists relationship graph
+- [x] Full-corpus validation bundle persists relationship graph
       discovered-or-limited records and validation status.
-- [ ] Initial runtime load budget is 120 seconds or less on the documented
+- [x] Initial runtime load budget is 120 seconds or less on the documented
       benchmark environment, or a package-format migration decision is recorded.
-- [ ] Initial sampled search budget is p95 under 1 second on the documented
+- [x] Initial sampled search budget is p95 under 1 second on the documented
       benchmark environment, or a search-index migration decision is recorded.
-- [ ] Initial runtime memory budget is 2 GB or less on the documented benchmark
+- [x] Initial runtime memory budget is 2 GB or less on the documented benchmark
       environment, or a package-format migration decision is recorded.
-- [ ] Generated production data remains excluded from Git.
+- [x] Generated production data remains excluded from Git.
 
 ## Dependencies on Other Phases
 

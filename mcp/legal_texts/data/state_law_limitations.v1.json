@@ -1,0 +1,69 @@
+{
+  "schema_version": "state-law-limitations.v1",
+  "created_at": "2026-05-15T00:00:00Z",
+  "limitations": [
+    {
+      "limitation_id": "lim-state-hb-dsg-source-limitation",
+      "source_family": "state-law",
+      "source_id": "state-law:hb/bremisches-datenschutzgesetz",
+      "state_code": "hb",
+      "jurisdiction": "Bremen",
+      "official_source_url": "https://www.transparenz.bremen.de/unavailable/bremisches-datenschutzgesetz",
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "terminal_state": "source_unavailable",
+      "source_url": "https://www.transparenz.bremen.de/unavailable/bremisches-datenschutzgesetz",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "retryable": false,
+      "error_code": "stable_official_source_not_identified",
+      "reason": "No stable usable official state-law source candidate is approved in Phase 8.",
+      "details": {
+        "phase": "phase-8",
+        "official_target": true,
+        "release_blocking": false
+      }
+    },
+    {
+      "limitation_id": "lim-state-ni-dsg-source-limitation",
+      "source_family": "state-law",
+      "source_id": "state-law:ni/niedersaechsisches-datenschutzgesetz",
+      "state_code": "ni",
+      "jurisdiction": "Niedersachsen",
+      "official_source_url": "https://voris.wolterskluwer-online.de/browse/document/5e17fb13-0000-0000-0000-000000000000",
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "terminal_state": "source_unavailable",
+      "source_url": "https://voris.wolterskluwer-online.de/browse/document/5e17fb13-0000-0000-0000-000000000000",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "retryable": false,
+      "http_status": 404,
+      "reason": "Reviewed official VORIS candidate returns HTTP 404; no alternate stable official source is approved in Phase 8.",
+      "details": {
+        "phase": "phase-8",
+        "official_target": true,
+        "release_blocking": false
+      }
+    },
+    {
+      "limitation_id": "lim-state-sl-dsg-source-limitation",
+      "source_family": "state-law",
+      "source_id": "state-law:sl/saarlaendisches-datenschutzgesetz",
+      "state_code": "sl",
+      "jurisdiction": "Saarland",
+      "official_source_url": "https://recht.saarland.de/unavailable/saarlaendisches-datenschutzgesetz",
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "terminal_state": "source_unavailable",
+      "source_url": "https://recht.saarland.de/unavailable/saarlaendisches-datenschutzgesetz",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "retryable": false,
+      "error_code": "stable_official_source_not_identified",
+      "reason": "No stable usable official state-law source candidate is approved in Phase 8.",
+      "details": {
+        "phase": "phase-8",
+        "official_target": true,
+        "release_blocking": false
+      }
+    }
+  ]
+}

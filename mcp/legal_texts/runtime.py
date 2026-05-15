@@ -64,6 +64,30 @@ class LegalTextRuntime:
     def get_source_metadata(self, code: str | None = None) -> dict[str, Any]:
         return self.require_dataset().get_source_metadata(code)
 
+    def get_corpus_coverage(self) -> dict[str, Any]:
+        return self.require_dataset().get_corpus_coverage()
+
+    def get_source_limitations(
+        self,
+        source_family: str | None = None,
+        terminal_state: str | None = None,
+        state_code: str | None = None,
+        law_id: str | None = None,
+    ) -> dict[str, Any]:
+        return self.require_dataset().get_source_limitations(
+            source_family=source_family,
+            terminal_state=terminal_state,
+            state_code=state_code,
+            law_id=law_id,
+        )
+
+    def get_related_norms(self, code: str, norm: str) -> dict[str, Any]:
+        citation = get_norm(self.require_dataset(), code, norm)
+        return self.require_dataset().get_related_norms(
+            citation["law"]["canonical_id"],
+            citation["norm"]["norm_id"],
+        )
+
     def get_norm(self, code: str, norm: str) -> dict[str, Any]:
         return get_norm(self.require_dataset(), code, norm)
 

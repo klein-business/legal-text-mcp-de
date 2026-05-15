@@ -18,12 +18,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
 IMAGE_TAG = "legal-text-mcp-de:uv-migration"
 EXPECTED_TOOLS = {
+    "get_corpus_coverage",
     "list_laws",
     "get_law",
     "get_norm",
     "resolve_citation",
     "search_laws",
     "get_source_metadata",
+    "get_source_limitations",
+    "get_related_norms",
 }
 
 

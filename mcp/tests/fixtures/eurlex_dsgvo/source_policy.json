@@ -1,0 +1,17 @@
+{
+  "schema_version": "dsgvo-source-policy.v1",
+  "celex": "32016R0679",
+  "language": "de",
+  "cellar_work": "3e485e15-11bd-11e6-ba9a-01aa75ed71a1",
+  "expression": "0004.02",
+  "document": "DOC_2",
+  "version_policy": "official-eurlex-cellar-doc2-german-expression",
+  "consolidation_policy": "fixture-represents-selected-official-expression",
+  "content_hash": "fixture-content-hash",
+  "article_count": 99,
+  "recital_count": 173,
+  "boundary_samples": {
+    "articles": ["art:1", "art:99"],
+    "recitals": ["recital:1", "recital:173"]
+  }
+}

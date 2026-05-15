@@ -100,6 +100,16 @@ def probe_known_invalid(fetch: Fetch = default_fetch) -> list[dict]:
 
 
 def validate_dsgvo_doc2(content: bytes, content_type: str = "") -> None:
+    validate_eurlex_german_act_xml(content, celex="32016R0679", content_type=content_type, label="DSGVO Cellar DOC_2")
+
+
+def validate_eurlex_german_act_xml(
+    content: bytes,
+    *,
+    celex: str,
+    content_type: str = "",
+    label: str | None = None,
+) -> None:
     text = content.decode("utf-8", errors="replace")
     missing = [
         marker
@@ -108,8 +118,8 @@ def validate_dsgvo_doc2(content: bytes, content_type: str = "") -> None:
     ]
     if missing:
         raise source_unavailable(
-            "DSGVO Cellar DOC_2 does not look like German article XML.",
-            {"missing_markers": missing, "content_type": content_type},
+            f"{label or celex} does not look like German article XML.",
+            {"celex": celex, "missing_markers": missing, "content_type": content_type},
         )
 
 

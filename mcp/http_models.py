@@ -60,3 +60,25 @@ class SearchResponse(FlexibleModel):
 class SourceMetadataResponse(FlexibleModel):
     sources: list[dict[str, Any]]
     count: int
+
+
+class CorpusCoverageResponse(FlexibleModel):
+    generated_package_present: bool
+    package: dict[str, Any]
+    manifest: dict[str, Any]
+    counts: dict[str, int]
+    source_families: list[str]
+    terminal_states: dict[str, int]
+    state_law_coverage: dict[str, Any]
+
+
+class SourceLimitationsResponse(FlexibleModel):
+    source_limitations: list[dict[str, Any]]
+    count: int
+    filters: dict[str, Any]
+
+
+class RelationshipsResponse(FlexibleModel):
+    norm: dict[str, Any]
+    relationships: list[dict[str, Any]]
+    count: int

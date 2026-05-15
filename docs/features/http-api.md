@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "http-api"
-version: 1.2
+version: 1.3
 ---
 
 # Feature: http-api
@@ -22,6 +22,9 @@ The HTTP API is a read-only FastAPI transport over `LegalTextRuntime`. It exists
 | `GET` | `/laws` | Lists supported/loaded laws. |
 | `GET` | `/laws/{code}` | Returns one law by canonical ID or alias. |
 | `GET` | `/laws/{code}/norms/{norm}` | Returns one norm by canonical norm path or shorthand. |
+| `GET` | `/laws/{code}/norms/{norm}/relationships` | Returns relationship metadata for a resolved norm. |
+| `GET` | `/corpus/coverage` | Returns generated-package, manifest, terminal-state, source-family, and state-law coverage summaries. |
+| `GET` | `/corpus/source-limitations` | Returns source limitations filtered by source family, terminal state, state code, or law ID. |
 | `GET` | `/search` | Searches with `query` and optional repeated `codes` filters. |
 | `GET` | `/openapi.json` | Returns generated OpenAPI. |
 
@@ -31,6 +34,9 @@ The HTTP API is a read-only FastAPI transport over `LegalTextRuntime`. It exists
 GET /laws/uwg
 GET /laws/egbgb/norms/art%3A246a
 GET /laws/egbgb/norms/art%3A246a%2Fpar%3A1
+GET /laws/dsgvo/norms/art%3A5/relationships
+GET /corpus/coverage
+GET /corpus/source-limitations?source_family=state-law&terminal_state=source_unavailable
 GET /search?query=widerruf&codes=bgb&codes=egbgb
 ```
 
@@ -45,7 +51,10 @@ uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 
 ## E2E Verification
 
-`scripts/verify_e2e.py` starts a real Uvicorn process with the fixture dataset and checks `/health`, `/ready`, `/laws`, EGBGB encoded child norm lookup, `/search`, and structured invalid-query errors over localhost HTTP.
+`scripts/verify_e2e.py` starts a real Uvicorn process with the fixture dataset
+and the generated package fixture. It checks `/health`, `/ready`, `/laws`, EGBGB
+encoded child norm lookup, `/search`, corpus coverage, source limitations,
+relationship lookup, and structured invalid-query errors over localhost HTTP.
 
 ## Error Handling
 

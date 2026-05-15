@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 13
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -41,29 +41,29 @@ understand, verify, and maintain the full generated corpus.
 
 ## Prerequisites
 
-- [ ] All implementation phases that change runtime or source behavior are
+- [x] All implementation phases that change runtime or source behavior are
       complete.
 
 ## Deliverables
 
-- [ ] Updated root `README.md`.
-- [ ] Updated `docs/overview.md`.
-- [ ] Updated affected module and feature docs.
-- [ ] Architecture and sequence diagrams in Markdown.
-- [ ] Docs link/image verification for README, `docs/`, `docs-legacy/`, and
+- [x] Updated root `README.md`.
+- [x] Updated `docs/overview.md`.
+- [x] Updated affected module and feature docs.
+- [x] Architecture and sequence diagrams in Markdown.
+- [x] Docs link/image verification for README, `docs/`, `docs-legacy/`, and
       `plans/`.
-- [ ] Final release-readiness checklist.
+- [x] Final release-readiness checklist.
 
 ## Acceptance Criteria
 
-- [ ] Docs describe fixture vs generated production corpus accurately.
-- [ ] Docs explain official text provenance and third-party relationship
+- [x] Docs describe fixture vs generated production corpus accurately.
+- [x] Docs explain official text provenance and third-party relationship
       metadata.
-- [ ] Docs explain complete GII coverage measurement through the manifest.
-- [ ] Docs explain DSGVO articles, recitals, and related privacy-law scope.
-- [ ] Docs link/image checks include README, `docs/`, `docs-legacy/`, and
+- [x] Docs explain complete GII coverage measurement through the manifest.
+- [x] Docs explain DSGVO articles, recitals, and related privacy-law scope.
+- [x] Docs link/image checks include README, `docs/`, `docs-legacy/`, and
       `plans/`.
-- [ ] Release gates pass after documentation updates.
+- [x] Release gates pass after documentation updates.
 
 ## Dependencies on Other Phases
 

@@ -4,8 +4,8 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
 
-SourceKind = Literal["gesetze-im-internet", "eur-lex-cellar"]
-NormUnit = Literal["par", "art"]
+SourceKind = Literal["gesetze-im-internet", "eur-lex-cellar", "state-law"]
+NormUnit = Literal["par", "art", "recital", "chapter", "section", "annex", "container"]
 NormStatus = Literal["active", "repealed", "container", "known_issue"]
 ReadinessState = Literal["ready", "missing", "invalid", "source_unavailable"]
 ReadinessStage = Literal["normalized_dataset", "serving_dataset"]
@@ -119,10 +119,20 @@ def canonical_citation_id(law_id: str, norm_id: str) -> str:
 
 def normalize_unit(unit: str) -> NormUnit:
     value = unit.strip().lower().replace(".", "")
-    if value in {"§", "par", "section"}:
+    if value in {"§", "par"}:
         return "par"
     if value in {"art", "article"}:
         return "art"
+    if value in {"recital", "erwg", "erwaegungsgrund", "erwägungsgrund"}:
+        return "recital"
+    if value in {"chapter", "kapitel"}:
+        return "chapter"
+    if value in {"section", "abschnitt"}:
+        return "section"
+    if value in {"annex", "anhang"}:
+        return "annex"
+    if value == "container":
+        return "container"
     raise ValueError(f"Unsupported unit: {unit}")
 
 

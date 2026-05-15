@@ -3,7 +3,7 @@ type: planning
 entity: phase
 plan: "full-privacy-corpus"
 phase: 7
-status: pending
+status: completed
 created: "2026-05-15"
 updated: "2026-05-15"
 ---
@@ -37,27 +37,27 @@ acts from the approved scope graph, starting with AI Act and Data Act.
 
 ## Prerequisites
 
-- [ ] Phase 1 manifest contract is complete.
-- [ ] Phase 2 generated package format is complete.
-- [ ] Phase 5 DSGVO EUR-Lex parser path is complete or reusable.
-- [ ] Phase 6 scope policy and seed graph inventory is complete.
+- [x] Phase 1 manifest contract is complete.
+- [x] Phase 2 generated package format is complete.
+- [x] Phase 5 DSGVO EUR-Lex parser path is complete or reusable.
+- [x] Phase 6 scope policy and seed graph inventory is complete.
 
 ## Deliverables
 
-- [ ] EU neighbor source records and fixtures.
-- [ ] Parser and validation tests for representative EU acts.
-- [ ] Source limitation records for unreachable or unsupported official sources.
-- [ ] CELEX/language/version policy documentation.
+- [x] EU neighbor source records and fixtures.
+- [x] Parser and validation tests for representative EU acts.
+- [x] Source limitation records for unreachable or unsupported official sources.
+- [x] CELEX/language/version policy documentation.
 
 ## Acceptance Criteria
 
-- [ ] AI Act and Data Act resolve from official EUR-Lex/Cellar provenance when
+- [x] AI Act and Data Act resolve from official EUR-Lex/Cellar provenance when
       source text is available.
-- [ ] Missing or unsupported official sources are represented as manifest
+- [x] Missing or unsupported official sources are represented as manifest
       limitations, not silent omissions.
-- [ ] Additional EU acts are imported only when present in the approved scope
+- [x] Additional EU acts are imported only when present in the approved scope
       graph or explicitly added to the seed list.
-- [ ] Existing DSGVO behavior remains unchanged.
+- [x] Existing DSGVO behavior remains unchanged.
 
 ## Dependencies on Other Phases
 

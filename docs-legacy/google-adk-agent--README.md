@@ -43,7 +43,7 @@ Er verwendet dabei das Modell `gemini-2.5-flash`.
 
 ## adk web
 
-![screenshot](image.png)
+![screenshot](../google-adk-agent/image.png)
 
 ## Code-Struktur
 

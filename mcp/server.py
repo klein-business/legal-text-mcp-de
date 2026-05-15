@@ -98,6 +98,32 @@ def create_mcp_app(runtime: LegalTextRuntime | None = None) -> FastMCP:
         """Return source provenance for all laws or one law code/alias."""
         return _call(runtime.get_source_metadata, code)
 
+    @app.tool()
+    def get_corpus_coverage() -> dict[str, Any]:
+        """Return generated package, manifest, limitation, and relationship coverage metadata."""
+        return _call(runtime.get_corpus_coverage)
+
+    @app.tool()
+    def get_source_limitations(
+        source_family: str | None = None,
+        terminal_state: str | None = None,
+        state_code: str | None = None,
+        law_id: str | None = None,
+    ) -> dict[str, Any]:
+        """Return official-source limitations with optional metadata filters."""
+        return _call(
+            runtime.get_source_limitations,
+            source_family,
+            terminal_state,
+            state_code,
+            law_id,
+        )
+
+    @app.tool()
+    def get_related_norms(code: str, norm: str) -> dict[str, Any]:
+        """Return generated relationship metadata for one norm when package relationships exist."""
+        return _call(runtime.get_related_norms, code, norm)
+
     return app
 
 
