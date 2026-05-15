@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
 
@@ -223,8 +224,7 @@ def test_main_writes_json_report(tmp_path: Path) -> None:
     output = tmp_path / "report.json"
     vpf.main(["--root", str(tmp_path), "--output", str(output)])
     assert output.is_file()
-    import json as _json
-    payload = _json.loads(output.read_text())
+    payload = json.loads(output.read_text())
     assert isinstance(payload, list)
     assert {r["name"] for r in payload} >= {
         "LICENSE is Apache-2.0",
