@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
+
+import pytest
 
 from scripts import verify_pre_flip as vpf
 
@@ -190,8 +193,11 @@ def test_secrets_scan_fails_when_baseline_missing(tmp_path: Path) -> None:
     assert ".secrets.baseline" in result.message
 
 
-def test_secrets_scan_passes_on_real_repo(tmp_path: Path) -> None:
-    """The real repo carries .secrets.baseline by Task 3 and current state is clean."""
+@pytest.mark.skipif(
+    shutil.which("detect-secrets-hook") is None,
+    reason="detect-secrets-hook not on PATH; run via uv run --group dev",
+)
+def test_secrets_scan_passes_on_real_repo() -> None:
     real_root = Path(__file__).resolve().parents[2]
     result = vpf.check_no_unaudited_secrets(real_root)
     assert result.passed is True, result.message

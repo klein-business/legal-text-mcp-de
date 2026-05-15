@@ -149,21 +149,39 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
                 "uv run --group dev detect-secrets scan > .secrets.baseline"
             ),
         )
-    detect_secrets = shutil.which("detect-secrets")
-    if detect_secrets is None:
+    detect_secrets_hook = shutil.which("detect-secrets-hook")
+    if detect_secrets_hook is None:
         return CheckResult(
             name="no unaudited secrets",
             passed=False,
-            message="detect-secrets not on PATH; run via 'uv run --group dev'",
+            message="detect-secrets-hook not on PATH; run via 'uv run --group dev'",
+        )
+    try:
+        tracked = subprocess.check_output(
+            ["git", "ls-files"], cwd=root, text=True
+        ).splitlines()
+    except (FileNotFoundError, subprocess.CalledProcessError) as exc:
+        return CheckResult(
+            name="no unaudited secrets",
+            passed=False,
+            message=f"git ls-files failed: {exc}",
+        )
+    # Drop noise files that are tracked but should not be scanned.
+    excluded_prefixes = ("mcp/tests/fixtures/",)
+    excluded_exact = {"uv.lock", ".secrets.baseline"}
+    files = [
+        f for f in tracked
+        if f not in excluded_exact
+        and not any(f.startswith(p) for p in excluded_prefixes)
+    ]
+    if not files:
+        return CheckResult(
+            name="no unaudited secrets",
+            passed=True,
+            message="ok (no files to scan)",
         )
     proc = subprocess.run(
-        [
-            detect_secrets, "scan",
-            "--baseline", str(baseline),
-            "--exclude-files", r"\.git/",
-            "--exclude-files", r"uv\.lock",
-            "--exclude-files", r"mcp/tests/fixtures/",
-        ],
+        [detect_secrets_hook, "--baseline", str(baseline), *files],
         cwd=root,
         capture_output=True,
         text=True,
@@ -172,7 +190,10 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
         return CheckResult(
             name="no unaudited secrets",
             passed=False,
-            message=f"detect-secrets exit {proc.returncode}: {proc.stderr.strip()}",
+            message=(
+                f"detect-secrets-hook exit {proc.returncode}: "
+                f"{proc.stdout.strip() or proc.stderr.strip()}"
+            ),
         )
     return CheckResult(name="no unaudited secrets", passed=True, message="ok")
 
