@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "German legal text MCP server and HTTP API"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "mcp[cli]==1.14.1",
+    "mcp[cli]==1.23.0",
     "rapidfuzz",
     "pydantic-settings",
     "fastapi",
