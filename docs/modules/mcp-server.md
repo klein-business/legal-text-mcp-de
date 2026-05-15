@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "mcp-server"
-version: 1.8
+version: 1.9
 ---
 
 # Module: mcp-server
@@ -195,7 +195,7 @@ It validates artifact schemas, section-specific evidence, critical-law runtime
 resolution, benchmark threshold decisions, and relationship seed status without
 performing network fetches itself.
 
-The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports, checks HTTP with real network requests, and checks MCP through `mcp.client.streamable_http.streamablehttp_client` plus `ClientSession`. It intentionally waits for MCP TCP readiness rather than probing `/mcp` with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.
+The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports for both the legacy fixture dataset and the generated-package fixture. It checks HTTP with real network requests, validates that OpenAPI exposes every documented path, covers generated-package recitals/search and representative error responses, and checks MCP through `mcp.client.streamable_http.streamablehttp_client` plus `ClientSession`. The MCP pass verifies the stable tool list and calls every registered tool, including source metadata, corpus coverage, source limitations, and relationship lookup. It intentionally waits for MCP TCP readiness rather than probing `/mcp` with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.
 
 ## Inventory Notes
 

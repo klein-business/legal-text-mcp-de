@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "http-api"
-version: 1.3
+version: 1.4
 ---
 
 # Feature: http-api
@@ -51,10 +51,12 @@ uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 
 ## E2E Verification
 
-`scripts/verify_e2e.py` starts a real Uvicorn process with the fixture dataset
+`scripts/verify_e2e.py` starts real Uvicorn processes with the fixture dataset
 and the generated package fixture. It checks `/health`, `/ready`, `/laws`, EGBGB
-encoded child norm lookup, `/search`, corpus coverage, source limitations,
-relationship lookup, and structured invalid-query errors over localhost HTTP.
+encoded child norm lookup, generated-package DSGVO `art:5` and `recital:1`
+lookup, `/search`, corpus coverage, source limitations, relationship lookup,
+OpenAPI path presence for all documented endpoints, and structured invalid-query
+and unknown-law errors over localhost HTTP.
 
 ## Error Handling
 

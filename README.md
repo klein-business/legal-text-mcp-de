@@ -178,8 +178,12 @@ PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 The release gate covers docs link/image validation, stale workflow checks,
 fixture coverage, generated-package validation, operational gate tests, citation
 resolution, search, MCP tools, HTTP/OpenAPI, structured errors, source matrix
-fixtures, and local HTTP/MCP E2E. Live source probes remain opt-in through
-`RUN_LIVE_SOURCE_MATRIX=true`.
+fixtures, and local HTTP/MCP E2E. The E2E gate starts real localhost HTTP and
+MCP streamable-HTTP processes against both the legacy fixture dataset and the
+generated-package fixture. It verifies every MCP tool, all documented HTTP
+paths through OpenAPI, generated-package recitals/search, source metadata,
+coverage, source limitations, relationships, and representative error paths.
+Live source probes remain opt-in through `RUN_LIVE_SOURCE_MATRIX=true`.
 
 Run only local network E2E:
 

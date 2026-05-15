@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.6
+version: 1.7
 ---
 
 # legal-text-mcp-de
@@ -132,8 +132,11 @@ PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 ```
 
 This command includes docs verification, fixture-backed tests, and local HTTP
-and MCP streamable-HTTP E2E checks. Network-heavy corpus gates are explicit or
-scheduled, not default PR CI.
+and MCP streamable-HTTP E2E checks. The local E2E gate runs real server
+processes for the legacy fixture dataset and generated-package fixture, verifies
+the documented OpenAPI paths, and exercises every MCP tool over a real
+`ClientSession`. Network-heavy corpus gates are explicit or scheduled, not
+default PR CI.
 
 ## References
 
