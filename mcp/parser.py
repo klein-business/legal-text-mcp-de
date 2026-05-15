@@ -1,11 +1,10 @@
 import re
 import json
 import sqlite3
-from typing import List, Optional, Dict, Any, Union
+from typing import Any, Dict, List, Optional
 import urllib.request
 from pathlib import Path
 
-from typing import List, Dict, Optional
 try:
     from rapidfuzz import process, fuzz
 except ModuleNotFoundError:
@@ -254,7 +253,7 @@ class LawLibrary:
             return None
         
         if not parser.short_title:
-            raise ValueError(f"Could not determine short title")
+            raise ValueError("Could not determine short title")
             
         self.laws[parser.short_title.lower()] = parser
         
@@ -431,7 +430,7 @@ class LawLibrary:
             for row in cursor:
                 code = row[0]
                 # Filter by law code if requested
-                if law_codes and code.lower() not in [l.lower() for l in law_codes]:
+                if law_codes and code.lower() not in [law_code.lower() for law_code in law_codes]:
                     continue
                     
                 results.append({

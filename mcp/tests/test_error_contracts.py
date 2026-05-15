@@ -12,7 +12,6 @@ from legal_texts.errors import (
     LAW_NOT_FOUND,
     NORM_NOT_FOUND,
     LegalTextError,
-    ambiguous_law_alias,
     dataset_not_ready,
 )
 from legal_texts.registry import LawRegistry
