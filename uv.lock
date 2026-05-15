@@ -468,7 +468,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "detect-secrets", specifier = "~=1.5" },
+    { name = "detect-secrets", specifier = "~=1.5.0" },
     { name = "httpx" },
     { name = "pytest" },
     { name = "pyyaml", specifier = "~=6.0.1" },
