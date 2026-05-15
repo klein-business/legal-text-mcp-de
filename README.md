@@ -140,6 +140,14 @@ Article-plus-section paths must be URL-encoded:
 /laws/egbgb/norms/art%3A246a%2Fpar%3A1
 ```
 
+## Documentation
+
+- [Project overview](docs/overview.md)
+- [MCP tools reference](docs/features/mcp-law-tools.md)
+- [Supported laws](docs/features/supported-laws.md)
+- [Source provenance](docs/features/source-provenance.md)
+- [Scope and invariants](docs/features/known-issues.md)
+
 ## Development
 
 ```bash
