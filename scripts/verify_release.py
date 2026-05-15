@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 import re
+from collections.abc import Generator
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -91,7 +92,7 @@ def check_docs_links(roots: list[Path] | None = None) -> None:
         raise SystemExit(f"Documentation link/image check failed:\n{detail}")
 
 
-def _iter_markdown_files(roots: list[Path]):
+def _iter_markdown_files(roots: list[Path]) -> Generator[Path, None, None]:
     for root in roots:
         if not root.exists():
             continue
@@ -102,12 +103,11 @@ def _iter_markdown_files(roots: list[Path]):
             yield from sorted(
                 path
                 for path in root.rglob("*.md")
-                if path.is_file()
-                and not DOC_CHECK_EXCLUDED_DIRS.intersection(path.parts)
+                if path.is_file() and not DOC_CHECK_EXCLUDED_DIRS.intersection(path.parts)
             )
 
 
-def _markdown_targets(text: str):
+def _markdown_targets(text: str) -> Generator[tuple[bool, str], None, None]:
     for match in MARKDOWN_LINK_RE.finditer(text):
         raw_target = match.group(3).strip()
         if not raw_target:
@@ -189,7 +189,7 @@ def check_no_stale_workflow_refs(roots: list[Path] | None = None) -> None:
         DIRECT_PYTHON_WITH_PYTHONPATH_RE,
     ]
 
-    def iter_files(path: Path):
+    def iter_files(path: Path) -> Generator[Path, None, None]:
         if not path.exists():
             return
         if path.is_file():

@@ -10,6 +10,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -112,7 +113,7 @@ def get_json(url: str, *, expected_status: int = 200) -> dict[str, Any]:
         body = exc.read().decode("utf-8")
     if status != expected_status:
         raise AssertionError(f"{url} returned {status}, expected {expected_status}: {body}")
-    return json.loads(body)
+    return json.loads(body)  # type: ignore[no-any-return]
 
 
 def assert_openapi_paths(base: str) -> None:
@@ -187,18 +188,14 @@ def run_http_generated_package_e2e(port: int) -> None:
     assert search["results"][0]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
 
 
-def import_external_mcp_client():
+def import_external_mcp_client() -> tuple[Any, Any]:
     original_path = list(sys.path)
     blocked = {ROOT.resolve(), (ROOT / "mcp").resolve()}
     sys.modules.pop("mcp", None)
     sys.modules.pop("mcp.client", None)
-    sys.path = [
-        path
-        for path in sys.path
-        if path and Path(path).resolve() not in blocked
-    ]
+    sys.path = [path for path in sys.path if path and Path(path).resolve() not in blocked]
     try:
-        from mcp import ClientSession
+        from mcp import ClientSession  # type: ignore[attr-defined]
         from mcp.client.streamable_http import streamablehttp_client
     finally:
         sys.path = original_path
@@ -289,7 +286,7 @@ def structured_content(result: Any) -> dict[str, Any]:
         payload = getattr(result, "structured_content", None)
     if payload is None:
         raise AssertionError(f"MCP result has no structured content: {result!r}")
-    return payload
+    return payload  # type: ignore[no-any-return]
 
 
 def terminate(process: subprocess.Popen[str]) -> str:
@@ -306,8 +303,8 @@ def terminate(process: subprocess.Popen[str]) -> str:
 def run_case(
     label: str,
     dataset_path: Path,
-    http_check,
-    mcp_check,
+    http_check: Callable[[int], None],
+    mcp_check: Callable[[int], Any],
 ) -> None:
     http_port = free_port()
     mcp_port = free_port()

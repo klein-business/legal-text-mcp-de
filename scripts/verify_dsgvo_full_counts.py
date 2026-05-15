@@ -7,14 +7,18 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from legal_texts.validation import validate_generated_package
+from legal_texts.validation import validate_generated_package  # type: ignore[import-not-found]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate full DSGVO article and recital counts for a generated package.")
+    parser = argparse.ArgumentParser(
+        description="Validate full DSGVO article and recital counts for a generated package."
+    )
     parser.add_argument("--package", required=True, help="Generated package directory to validate.")
     parser.add_argument("--policy", required=True, help="DSGVO source/count policy JSON.")
-    parser.add_argument("--output", required=True, help="Path where the dsgvo-full-counts.v1 artifact should be written.")
+    parser.add_argument(
+        "--output", required=True, help="Path where the dsgvo-full-counts.v1 artifact should be written."
+    )
     return parser.parse_args(argv)
 
 
@@ -59,7 +63,9 @@ def validate_dsgvo_full_counts(package_dir: Path, policy: dict[str, Any]) -> dic
     else:
         source_metadata = dsgvo_laws[0].get("source", {}).get("source_metadata", {})
     article_count = sum(1 for norm in norms if norm.get("law_id") == "dsgvo_eu_2016_679" and norm.get("unit") == "art")
-    recital_count = sum(1 for norm in norms if norm.get("law_id") == "dsgvo_eu_2016_679" and norm.get("unit") == "recital")
+    recital_count = sum(
+        1 for norm in norms if norm.get("law_id") == "dsgvo_eu_2016_679" and norm.get("unit") == "recital"
+    )
     expected_article_count = policy.get("article_count")
     expected_recital_count = policy.get("recital_count")
     if expected_article_count is not None and article_count != expected_article_count:
@@ -76,12 +82,17 @@ def validate_dsgvo_full_counts(package_dir: Path, policy: dict[str, Any]) -> dic
         "consolidation_policy",
     ):
         if source_metadata.get(field) != policy.get(field):
-            errors.append(f"source metadata {field} {source_metadata.get(field)} does not match expected {policy.get(field)}")
+            errors.append(
+                f"source metadata {field} {source_metadata.get(field)} does not match expected {policy.get(field)}"
+            )
     source_content_hash = dsgvo_laws[0].get("source", {}).get("content_hash") if dsgvo_laws else None
     if policy.get("content_hash") and source_content_hash != policy.get("content_hash"):
         errors.append("source content_hash does not match policy")
     norm_ids = {norm["norm_id"] for norm in norms if norm.get("law_id") == "dsgvo_eu_2016_679"}
-    boundary_samples = {"articles": {"expected": [], "found": [], "missing": []}, "recitals": {"expected": [], "found": [], "missing": []}}
+    boundary_samples: dict[str, dict[str, list[str]]] = {
+        "articles": {"expected": [], "found": [], "missing": []},
+        "recitals": {"expected": [], "found": [], "missing": []},
+    }
     for norm_id in policy.get("boundary_samples", {}).get("articles", []):
         boundary_samples["articles"]["expected"].append(norm_id)
         if norm_id not in norm_ids:

@@ -1,0 +1,59 @@
+# Pre-commit hook configuration. Mirrors CI checks for fast local feedback.
+# CI is the authoritative gate; pre-commit is opt-in.
+# Install with: uv run --group dev pre-commit install
+# Run locally:  uv run --group dev pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6  # latest stable at time of authoring; check at install time
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        args: [--config-file=pyproject.toml]
+        additional_dependencies:
+          - pydantic-settings
+          - fastapi
+          - rapidfuzz
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+        exclude: |
+          (?x)^(
+            uv\.lock|
+            mcp/tests/fixtures/.*|
+            \.secrets\.baseline
+          )$
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.6
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        args: [--severity=warning]
+
+  - repo: local
+    hooks:
+      - id: spdx-header
+        name: SPDX-License-Identifier on new Python files
+        entry: scripts/check_spdx_header.py
+        language: python
+        types: [python]
+        pass_filenames: true

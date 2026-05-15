@@ -6,8 +6,8 @@ import json
 import sys
 from pathlib import Path
 
-from legal_texts.state_law_coverage import build_state_law_pdf_gate_artifact
-from legal_texts.state_law_inventory import load_state_law_inventory
+from legal_texts.state_law_coverage import build_state_law_pdf_gate_artifact  # type: ignore[import-not-found]
+from legal_texts.state_law_inventory import load_state_law_inventory  # type: ignore[import-not-found]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -15,7 +15,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--inventory", required=True, help="state_law_sources.v1.json path.")
     parser.add_argument("--phase9-outcomes", required=True, help="Phase 9 state-law adapter gate JSON path.")
     parser.add_argument("--package-dir", required=True, help="Generated state-law package directory.")
-    parser.add_argument("--output", required=True, help="Path where state-law-pdf-source-gate.v1 JSON should be written.")
+    parser.add_argument(
+        "--output", required=True, help="Path where state-law-pdf-source-gate.v1 JSON should be written."
+    )
     return parser.parse_args(argv)
 
 

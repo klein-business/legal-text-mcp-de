@@ -45,6 +45,7 @@ def test_required_files_passes_when_all_present(tmp_path: Path) -> None:
     (tmp_path / "NOTICE").write_text("notice", encoding="utf-8")
     (tmp_path / "AUTHORS.md").write_text("authors", encoding="utf-8")
     (tmp_path / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (tmp_path / "SECURITY.md").write_text("security", encoding="utf-8")
     (tmp_path / "licenses").mkdir()
     (tmp_path / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
 
@@ -58,6 +59,7 @@ def test_required_files_fails_when_any_missing(tmp_path: Path) -> None:
     assert result.passed is False
     assert "AUTHORS.md" in result.message
     assert "CHANGELOG.md" in result.message
+    assert "SECURITY.md" in result.message
     assert "MIT-floleuerer.txt" in result.message
 
 
@@ -223,6 +225,7 @@ def _populate_passing_repo(root: Path) -> None:
     (root / "NOTICE").write_text("notice", encoding="utf-8")
     (root / "AUTHORS.md").write_text("authors", encoding="utf-8")
     (root / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (root / "SECURITY.md").write_text("security", encoding="utf-8")
     (root / "licenses").mkdir()
     (root / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
     (root / "pyproject.toml").write_text(PYPROJECT_VALID, encoding="utf-8")
@@ -253,3 +256,165 @@ def test_main_returns_nonzero_when_license_wrong(tmp_path: Path) -> None:
     (tmp_path / "LICENSE").write_text("not apache", encoding="utf-8")
     rc = vpf.main(["--root", str(tmp_path)])
     assert rc == 1
+
+
+def test_check_result_supports_skipped_status() -> None:
+    """SKIPPED is a valid third status value."""
+    skipped = vpf.CheckResult(name="x", status="SKIP", message="reason")
+    assert skipped.status == "SKIP"
+    assert skipped.passed is False  # backwards-compat property
+    assert skipped.skipped is True
+
+
+def test_secrets_scan_skips_when_tool_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """When detect-secrets-hook is not on PATH, return SKIPPED, not FAIL."""
+    (tmp_path / ".secrets.baseline").write_text(
+        '{"version": "1.5.0", "results": {}}', encoding="utf-8"
+    )
+    monkeypatch.setattr(vpf.shutil, "which", lambda name: None)
+    result = vpf.check_no_unaudited_secrets(tmp_path)
+    assert result.status == "SKIP", result.message
+    assert "detect-secrets-hook" in result.message
+
+
+def test_aggregate_exit_code_returns_zero_for_pass_and_skip() -> None:
+    skipped = vpf.CheckResult(name="x", status="SKIP", message="m")
+    passed = vpf.CheckResult(name="y", status="PASS", message="ok")
+    assert vpf._aggregate_exit_code([skipped, passed]) == 0
+
+
+def test_aggregate_exit_code_returns_nonzero_when_any_fail() -> None:
+    failed = vpf.CheckResult(name="x", status="FAIL", message="m")
+    passed = vpf.CheckResult(name="y", status="PASS", message="ok")
+    skipped = vpf.CheckResult(name="z", status="SKIP", message="m")
+    assert vpf._aggregate_exit_code([passed, skipped, failed]) == 1
+
+
+EXPECTED_WORKFLOWS = {
+    "ci.yml",
+    "e2e.yml",
+    "codeql.yml",
+    "scorecard.yml",
+    "dependency-review.yml",
+    "commitlint.yml",
+    "dco.yml",
+    "megalinter.yml",
+}
+
+
+def test_workflow_set_passes_when_complete(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    for name in EXPECTED_WORKFLOWS:
+        (wf / name).write_text("name: x\non: push", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "PASS", result.message
+
+
+def test_workflow_set_fails_when_missing(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    (wf / "ci.yml").write_text("name: x", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "FAIL"
+    assert "missing" in result.message.lower()
+    assert "codeql.yml" in result.message
+
+
+def test_workflow_set_fails_when_extra(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    for name in EXPECTED_WORKFLOWS:
+        (wf / name).write_text("x", encoding="utf-8")
+    (wf / "rogue.yml").write_text("x", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "FAIL"
+    assert "unexpected" in result.message.lower()
+    assert "rogue.yml" in result.message
+
+
+from unittest.mock import patch
+
+
+EXPECTED_REQUIRED_CHECKS = {
+    "Lint (ruff)",
+    "Mypy strict (scripts)",
+    "Test (py3.12)",
+    "Test (py3.13)",
+    "Lockfile integrity",
+    "Build (sdist + wheel)",
+    "MegaLinter",
+    "Release gate (fixture-backed)",
+    "uv runtime and Docker",
+    "CodeQL analysis (python)",
+    "Dependency review",
+    "PR title (Conventional Commits)",
+    "DCO sign-off check",
+}
+
+
+def test_required_status_checks_skips_without_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("VERIFY_GITHUB_TOKEN", raising=False)
+    result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "SKIP"
+    assert "VERIFY_GITHUB_TOKEN" in result.message
+
+
+def test_required_status_checks_passes_when_all_present(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake-token")
+    payload = {
+        "required_status_checks": {
+            "contexts": list(EXPECTED_REQUIRED_CHECKS),
+        }
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_required_status_checks_fails_when_any_missing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake-token")
+    payload = {
+        "required_status_checks": {
+            "contexts": ["Lint (ruff)"],
+        }
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "missing" in result.message.lower()
+
+
+def test_branch_protection_skips_without_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("VERIFY_GITHUB_TOKEN", raising=False)
+    result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "SKIP"
+
+
+def test_branch_protection_passes_when_strict(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "enforce_admins": {"enabled": True},
+        "required_linear_history": {"enabled": True},
+        "allow_force_pushes": {"enabled": False},
+        "required_signatures": {"enabled": True},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_branch_protection_fails_when_admins_not_enforced(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "enforce_admins": {"enabled": False},
+        "required_linear_history": {"enabled": True},
+        "allow_force_pushes": {"enabled": False},
+        "required_signatures": {"enabled": True},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "enforce_admins" in result.message
