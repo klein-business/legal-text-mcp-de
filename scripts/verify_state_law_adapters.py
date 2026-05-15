@@ -6,14 +6,16 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from legal_texts.state_law import (
+from legal_texts.state_law import (  # type: ignore[import-not-found]
     build_state_law_adapter_gate_artifact,
     write_state_law_adapter_gate_artifact,
 )
-from legal_texts.state_law_inventory import load_state_law_inventory, load_state_law_limitations
+from legal_texts.state_law_inventory import load_state_law_inventory, load_state_law_limitations  # type: ignore[import-not-found]
 
 
-FIXTURE_HTML = """<!doctype html><html lang="de"><body><main data-state-law><h1>Landesdatenschutzgesetz</h1><section data-state-law-norm data-unit="par" data-value="1"><h2>§ 1 Zweck</h2><p>(1) Fixture text.</p></section></main></body></html>""".encode("utf-8")
+FIXTURE_HTML = """<!doctype html><html lang="de"><body><main data-state-law><h1>Landesdatenschutzgesetz</h1><section data-state-law-norm data-unit="par" data-value="1"><h2>§ 1 Zweck</h2><p>(1) Fixture text.</p></section></main></body></html>""".encode(
+    "utf-8"
+)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -23,7 +25,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--package-dir", required=True, help="Output directory for the generated state-law package.")
     parser.add_argument("--output", required=True, help="Path where state-law-adapter-gate.v1 JSON should be written.")
     parser.add_argument("--retrieved-at", default=None, help="Timestamp to stamp adapter artifacts with.")
-    parser.add_argument("--fixture-mode", action="store_true", help="Use deterministic fixture HTML instead of live fetches.")
+    parser.add_argument(
+        "--fixture-mode", action="store_true", help="Use deterministic fixture HTML instead of live fetches."
+    )
     return parser.parse_args(argv)
 
 

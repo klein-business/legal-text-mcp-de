@@ -1,0 +1,30 @@
+name: MegaLinter
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: megalinter-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  megalinter:
+    name: MegaLinter
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/python@8fbdead70d1409964ab3d5afa885e18ee85388bb # v9.4.0
+        env:
+          VALIDATE_ALL_CODEBASE: true

@@ -5,7 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from legal_texts.gii_toc import (
+from legal_texts.gii_toc import (  # type: ignore[import-not-found]
     DEFAULT_GII_TOC_URL,
     artifact_has_failures,
     fetch_gii_discovery_artifact,
@@ -15,7 +15,9 @@ from legal_texts.gii_toc import (
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Fetch the GII TOC and write a discovery artifact.")
-    parser.add_argument("--output", required=True, help="Path where the gii-discovery-artifact.v1 JSON should be written.")
+    parser.add_argument(
+        "--output", required=True, help="Path where the gii-discovery-artifact.v1 JSON should be written."
+    )
     parser.add_argument("--toc-url", default=DEFAULT_GII_TOC_URL, help="GII TOC URL to fetch.")
     return parser.parse_args()
 
