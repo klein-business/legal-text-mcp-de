@@ -115,6 +115,19 @@ def test_no_proprietary_strings_skips_verify_pre_flip_sources(tmp_path: Path) ->
     assert result.passed is True, result.message
 
 
+def test_no_proprietary_strings_skips_changelog(tmp_path: Path) -> None:
+    """CHANGELOG.md may contain 'proprietary commercial' as a historical note.
+
+    It MUST be skipped so the transition entry does not trigger the gate.
+    """
+    (tmp_path / "CHANGELOG.md").write_text(
+        "- Re-licensed from proprietary commercial to Apache License 2.0.\n",
+        encoding="utf-8",
+    )
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is True, result.message
+
+
 PYPROJECT_VALID = """\
 [project]
 name = "legal-text-mcp-de"
