@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "mcp-law-tools"
-version: 1.4
+version: 1.5
 ---
 
 # Feature: mcp-law-tools
@@ -95,7 +95,16 @@ sequenceDiagram
 
 ## E2E Verification
 
-`scripts/verify_e2e.py` starts the MCP server process with the fixture dataset, connects through `mcp.client.streamable_http.streamablehttp_client`, initializes a `ClientSession`, verifies the stable tool list, and calls `get_norm`, `resolve_citation`, `search_laws`, and a structured missing-norm error path.
+`scripts/verify_e2e.py` starts MCP server processes with the fixture dataset and
+the generated-package fixture, connects through
+`mcp.client.streamable_http.streamablehttp_client`, initializes a `ClientSession`,
+and verifies the stable tool list. It calls every registered tool over the real
+MCP transport: `list_laws`, `get_law`, `get_norm`, `resolve_citation`,
+`search_laws`, `get_source_metadata`, `get_corpus_coverage`,
+`get_source_limitations`, and `get_related_norms`. The generated-package pass
+also verifies DSGVO `recital:1`, source limitations, relationship metadata, and
+normalized search behavior; the legacy pass verifies the structured
+missing-norm error path.
 
 ## Related Features
 

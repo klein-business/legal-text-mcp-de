@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "api-contracts"
-version: 1.3
+version: 1.4
 ---
 
 # Feature: api-contracts
@@ -11,7 +11,7 @@ version: 1.3
 
 ## Summary
 
-The API exposes one shared domain contract through MCP and HTTP. Transport handlers are intentionally thin; they return the same law, norm, citation, search, source metadata, readiness, and error shapes.
+The API exposes one shared domain contract through MCP and HTTP. Transport handlers are intentionally thin; they return the same law, norm, citation, search, source metadata, coverage, limitation, relationship, readiness, and error shapes.
 
 ## MCP Tools
 
@@ -23,6 +23,9 @@ The API exposes one shared domain contract through MCP and HTTP. Transport handl
 | `resolve_citation` | `code`, `unit`, `paragraph_or_article`, optional `child_unit`, `child_value`, `absatz`, `satz`, `nummer`, `buchstabe` | Exact structured citation resolver. |
 | `search_laws` | `query: string`, `codes?: string[]` | Deterministic plain-text search. |
 | `get_source_metadata` | `code?: string` | Provenance for one law or all laws. |
+| `get_corpus_coverage` | none | Generated-package, manifest, terminal-state, limitation, relationship, and state-law coverage summary. |
+| `get_source_limitations` | optional `source_family`, `terminal_state`, `state_code`, `law_id` | Filtered source limitation records. |
+| `get_related_norms` | `code: string`, `norm: string` | Relationship metadata for one resolved norm. |
 
 MCP tools return JSON-compatible dictionaries/lists directly. Returning serialized JSON strings is a regression.
 
@@ -35,6 +38,9 @@ MCP tools return JSON-compatible dictionaries/lists directly. Returning serializ
 | `GET /laws` | Law list. |
 | `GET /laws/{code}` | Law metadata and norm summaries. |
 | `GET /laws/{code}/norms/{norm}` | Exact norm lookup. |
+| `GET /laws/{code}/norms/{norm}/relationships` | Relationship metadata for one resolved norm. |
+| `GET /corpus/coverage` | Corpus package, manifest, limitation, relationship, and state-law coverage. |
+| `GET /corpus/source-limitations` | Source limitations with optional filters. |
 | `GET /search` | Search with `query` and optional repeated `codes` parameters. |
 | `GET /openapi.json` | OpenAPI contract. |
 
@@ -66,7 +72,9 @@ HTTP maps these errors to stable non-2xx responses. MCP returns the same object 
 
 ## Citation IDs
 
-Canonical norm IDs use `par:<value>` or `art:<value>`. EGBGB article-plus-section citations use a child path, for example:
+Canonical norm IDs use source-specific citation units such as `par:<value>`,
+`art:<value>`, and generated-package `recital:<value>`. EGBGB
+article-plus-section citations use a child path, for example:
 
 ```text
 egbgb/art:246a/par:1
@@ -87,4 +95,4 @@ Search normalizes Unicode, case-folds input, collapses whitespace, tokenizes as 
 Transport contracts are covered at two levels:
 
 - in-process contract tests for MCP tool registration, HTTP route schemas, structured errors, resolver behavior, and search behavior;
-- local network E2E through `scripts/verify_e2e.py`, which starts real HTTP and MCP streamable-HTTP server processes and calls them through network clients.
+- local network E2E through `scripts/verify_e2e.py`, which starts real HTTP and MCP streamable-HTTP server processes for the legacy and generated-package fixtures, validates documented OpenAPI paths, and calls every MCP tool through network clients.
