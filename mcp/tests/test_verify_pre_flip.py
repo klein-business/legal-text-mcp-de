@@ -382,3 +382,36 @@ def test_required_status_checks_fails_when_any_missing(monkeypatch: pytest.Monke
         result = vpf.check_required_status_checks(Path("/tmp"))
     assert result.status == "FAIL"
     assert "missing" in result.message.lower()
+
+
+def test_branch_protection_skips_without_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("VERIFY_GITHUB_TOKEN", raising=False)
+    result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "SKIP"
+
+
+def test_branch_protection_passes_when_strict(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "enforce_admins": {"enabled": True},
+        "required_linear_history": {"enabled": True},
+        "allow_force_pushes": {"enabled": False},
+        "required_signatures": {"enabled": True},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_branch_protection_fails_when_admins_not_enforced(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "enforce_admins": {"enabled": False},
+        "required_linear_history": {"enabled": True},
+        "allow_force_pushes": {"enabled": False},
+        "required_signatures": {"enabled": True},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_branch_protection(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "enforce_admins" in result.message

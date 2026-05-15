@@ -286,6 +286,49 @@ def check_required_status_checks(root: Path) -> CheckResult:
     return CheckResult(name="required status checks", status="PASS", message="ok")
 
 
+EXPECTED_PROTECTION_RULES = (
+    ("enforce_admins", True),
+    ("required_linear_history", True),
+    ("allow_force_pushes", False),
+    ("required_signatures", True),
+)
+
+
+def check_branch_protection(root: Path) -> CheckResult:
+    token = os.environ.get("VERIFY_GITHUB_TOKEN")
+    if not token:
+        return CheckResult(
+            name="branch protection",
+            status="SKIP",
+            message="VERIFY_GITHUB_TOKEN not set; cannot query branch protection",
+        )
+    try:
+        payload = _fetch_github_json(
+            f"/repos/{GITHUB_REPO_SLUG}/branches/{GITHUB_DEFAULT_BRANCH}/protection",
+            token,
+        )
+    except urllib.error.HTTPError as exc:
+        return CheckResult(
+            name="branch protection",
+            status="FAIL",
+            message=f"GitHub API {exc.code}: {exc.reason}",
+        )
+    failures: list[str] = []
+    for rule, want in EXPECTED_PROTECTION_RULES:
+        block = payload.get(rule)
+        block_dict = block if isinstance(block, dict) else {}
+        got = bool(block_dict.get("enabled"))
+        if got != want:
+            failures.append(f"{rule}: expected {want}, got {got}")
+    if failures:
+        return CheckResult(
+            name="branch protection",
+            status="FAIL",
+            message="; ".join(failures),
+        )
+    return CheckResult(name="branch protection", status="PASS", message="ok")
+
+
 EXPECTED_WORKFLOWS = (
     "ci.yml",
     "e2e.yml",
@@ -336,6 +379,7 @@ CHECKS = [
     check_no_unaudited_secrets,
     check_workflow_set,
     check_required_status_checks,
+    check_branch_protection,
 ]
 
 
