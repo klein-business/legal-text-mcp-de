@@ -1,0 +1,26 @@
+name: DCO
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dco:
+    name: DCO sign-off check
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: DCO check
+        uses: tim-actions/dco@2fd24ae9f0e84576b48bbb1d09ba0caa31cb6a5b # v1.1.0
+        with:
+          commits: ${{ github.event.pull_request.head.sha }}
