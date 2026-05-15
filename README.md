@@ -70,9 +70,7 @@ Article-plus-section norm paths must be URL encoded, for example:
 ## Installation
 
 ```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-pip install -r mcp/requirements.txt
+uv sync --all-groups
 ```
 
 ## Run MCP
@@ -83,7 +81,7 @@ Use a validated normalized dataset package:
 DATASET_PATH=/path/to/normalized-dataset \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-python mcp/server.py
+uv run python mcp/server.py
 ```
 
 For local development, the committed fixture dataset can be used:
@@ -92,7 +90,7 @@ For local development, the committed fixture dataset can be used:
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-python mcp/server.py
+uv run python mcp/server.py
 ```
 
 The default MCP transport is streamable HTTP on `http://localhost:8001/mcp`.
@@ -103,7 +101,7 @@ The default MCP transport is streamable HTTP on `http://localhost:8001/mcp`.
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 ```
 
 ## Docker
@@ -112,7 +110,7 @@ The Docker image no longer clones `bundestag/gesetze`. Mount or provide a normal
 
 ```bash
 docker build -t legal-text-mcp-de .
-docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts legal-text-mcp-de
+docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts:ro legal-text-mcp-de
 ```
 
 ## Tests
@@ -120,7 +118,7 @@ docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts le
 Run the full release gate:
 
 ```bash
-PYTHONPATH=mcp python scripts/verify_release.py
+PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 ```
 
 The release gate covers source matrix probes, fixture coverage, import validation, parser normalization, citation resolution, search, MCP tools, HTTP/OpenAPI, structured errors, scope exclusions, and real local HTTP/MCP network E2E.
@@ -128,7 +126,7 @@ The release gate covers source matrix probes, fixture coverage, import validatio
 Run only the local network E2E check:
 
 ```bash
-PYTHONPATH=mcp python scripts/verify_e2e.py
+PYTHONPATH=mcp uv run --group dev python scripts/verify_e2e.py
 ```
 
 The E2E check starts real local HTTP and MCP streamable-HTTP server processes against the fixture dataset, then verifies HTTP routes over network requests and MCP tools through the official MCP client.

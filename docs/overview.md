@@ -34,6 +34,7 @@ LegalTextRuntime
 ### Tech Stack
 
 - Python 3.12
+- uv with `pyproject.toml` and `uv.lock` for locked runtime and development dependencies
 - FastMCP via `mcp[cli]`
 - FastAPI and Uvicorn for the HTTP API
 - Pydantic settings for runtime configuration
@@ -66,9 +67,7 @@ LegalTextRuntime
 ### Setup
 
 ```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-pip install -r mcp/requirements.txt
+uv sync --all-groups
 ```
 
 ### Run MCP
@@ -77,7 +76,7 @@ pip install -r mcp/requirements.txt
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-python mcp/server.py
+uv run python mcp/server.py
 ```
 
 ### Run HTTP API
@@ -86,19 +85,19 @@ python mcp/server.py
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 ```
 
 ### Testing
 
 ```bash
-PYTHONPATH=mcp python scripts/verify_release.py
+PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 ```
 
 This command includes the full test suite plus real local HTTP and MCP streamable-HTTP E2E checks.
 
 ```bash
-PYTHONPATH=mcp python scripts/verify_e2e.py
+PYTHONPATH=mcp uv run --group dev python scripts/verify_e2e.py
 ```
 
 This command runs only the local network E2E check. It starts temporary HTTP and MCP servers with the fixture dataset, verifies HTTP endpoints through network requests, and verifies MCP through the official streamable-HTTP client.

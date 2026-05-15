@@ -1,12 +1,42 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-set -e
+set -euo pipefail
 
 REPO_URL="https://github.com/bundestag/gesetze-tools"
 DIR_NAME="gesetze-tools"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Clone the repository
+usage() {
+    echo "Usage: $0 [--dry-run|--no-network]"
+}
+
+dry_run=false
+for arg in "$@"; do
+    case "$arg" in
+        --dry-run|--no-network)
+            dry_run=true
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+if [ "$dry_run" = true ]; then
+    echo "Validating prepare-data dependencies through uv without network work..."
+    uv run --project "$ROOT_DIR" --frozen --offline --group prepare-data --no-dev python -c "import git, yaml, docopt, lxml, cssselect, requests, bs4, roman_numbers"
+    echo "Dry-run validation completed successfully."
+    exit 0
+fi
+
+cd "$SCRIPT_DIR"
+
 if [ -d "$DIR_NAME" ]; then
     echo "Directory '$DIR_NAME' already exists. Entering directory..."
 else
@@ -16,30 +46,10 @@ fi
 
 cd "$DIR_NAME"
 
-# Create virtual environment if it doesn't exist
-if [ ! -d "venv" ]; then
-    echo "Creating virtual environment..."
-    python3 -m venv venv
-fi
-
-# Activate the virtual environment
-echo "Activating virtual environment..."
-source venv/bin/activate
-
-# Install requirements
-if [ -f "requirements.txt" ]; then
-    echo "Installing requirements from requirements.txt..."
-    pip install -r ../requirements.txt
-else
-    echo "Error: requirements.txt not found."
-    exit 1
-fi
-
-# Run the python commands
 echo "Running lawde.py loadall..."
-python lawde.py loadall
+uv run --project "$ROOT_DIR" --frozen --group prepare-data --no-dev python lawde.py loadall
 
 echo "Running lawdown.py convert laws laws_md..."
-python lawdown.py convert laws laws_md
+uv run --project "$ROOT_DIR" --frozen --group prepare-data --no-dev python lawdown.py convert laws laws_md
 
 echo "Script execution completed successfully."

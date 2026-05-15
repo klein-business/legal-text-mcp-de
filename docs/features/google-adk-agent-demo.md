@@ -11,7 +11,7 @@ version: 1.2
 
 ## Summary
 
-The Google ADK demo shows that an external LLM client can connect to the MCP endpoint. It is retained as a demonstration asset only; runtime reliability is verified through deterministic MCP tool tests, not through this LLM client.
+The Google ADK demo shows that an external LLM client can connect to the MCP endpoint. It is retained as an optional legacy demonstration asset only; it is outside the core uv-managed runtime, and runtime reliability is verified through deterministic MCP tool tests rather than this LLM client.
 
 ## How It Works
 
@@ -33,6 +33,7 @@ The Google ADK demo shows that an external LLM client can connect to the MCP end
 ## Edge Cases & Limitations
 
 - The module is not covered by the release gate.
+- The module's ADK dependencies are not installed by the core uv project groups.
 - The prompt predates the final structured citation resolver and may need tightening before production client use.
 - Reference extraction is handled by the model, not by deterministic legal text logic.
 - The module has no tests in this repository.
