@@ -1,0 +1,13 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "privacy-fixture",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "terminal",
+  "generator": {
+    "name": "fixture-generator"
+  },
+  "parser_versions": {},
+  "discovered_sources": [],
+  "canonical_ids": [],
+  "relationship_sources": []
+}

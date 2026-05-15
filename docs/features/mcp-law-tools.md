@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "mcp-law-tools"
-version: 1.3
+version: 1.4
 ---
 
 # Feature: mcp-law-tools
@@ -24,12 +24,15 @@ The MCP law tools expose the legal text runtime to MCP clients. They return JSON
 5. Fetch exact norms with `get_norm` or structured citations with `resolve_citation`.
 6. Search loaded laws with `search_laws`.
 7. Inspect provenance with `get_source_metadata`.
+8. Inspect corpus completeness with `get_corpus_coverage` and
+   `get_source_limitations`.
+9. Inspect generated package relationship metadata with `get_related_norms`.
 
 ### Technical Flow
 
 1. `create_mcp_app` builds a FastMCP application.
 2. Tool handlers call methods on `LegalTextRuntime`.
-3. Runtime delegates to `LawRegistry`, `NormalizedDataset`, `resolve_citation`, and `SearchService`.
+3. Runtime delegates to `LawRegistry`, `NormalizedDataset`, `resolve_citation`, `SearchService`, and generated-package coverage/relationship helpers.
 4. Domain errors are returned as `{"error": {"code", "message", "details"}}`.
 5. Successful responses are plain dictionaries/lists, not JSON strings.
 
@@ -53,6 +56,29 @@ The MCP law tools expose the legal text runtime to MCP clients. They return JSON
 | `resolve_citation` | `code`, `unit`, `paragraph_or_article`, optional child/subdivision fields | Citation response with law, norm, source, canonical citation, and optional selection. |
 | `search_laws` | `query`, optional `codes` | Deterministically ordered search results with plain snippets and normalized scores. |
 | `get_source_metadata` | optional `code` | Source metadata for one law or all supported laws. |
+| `get_corpus_coverage` | none | Generated-package, manifest, terminal-state, source-family, source-limitation, relationship, and state-law coverage summary. |
+| `get_source_limitations` | optional `source_family`, `terminal_state`, `state_code`, `law_id` | Filtered source limitation records. |
+| `get_related_norms` | `code`, `norm` | Relationship metadata for a resolved norm, including official-record or source-limitation targets. |
+
+## Citation and Relationship Request Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant MCP as MCP tool
+    participant Runtime as LegalTextRuntime
+    participant Dataset as NormalizedDataset
+    participant Rel as Relationship records
+
+    Client->>MCP: get_related_norms("DSGVO", "art:5")
+    MCP->>Runtime: resolve norm request
+    Runtime->>Dataset: resolve alias and norm
+    Dataset-->>Runtime: canonical norm dsgvo_eu_2016_679/art:5
+    Runtime->>Rel: find incoming/outgoing relationships
+    Rel-->>Runtime: official targets and source limitations
+    Runtime-->>MCP: structured relationship response
+    MCP-->>Client: JSON-compatible object
+```
 
 ## Edge Cases & Limitations
 
@@ -63,6 +89,8 @@ The MCP law tools expose the legal text runtime to MCP clients. They return JSON
 - Invalid citation shapes return `INVALID_CITATION`.
 - Empty or punctuation-only search input returns `INVALID_QUERY`.
 - The tools do not provide legal interpretation or hallucinated fallback text.
+- Relationship tools return metadata and provenance only. They do not import or
+  quote third-party editorial text.
 - A plain HTTP probe against `/mcp` is not a valid MCP readiness check and may return `406 Not Acceptable`; use a real MCP streamable-HTTP client handshake for E2E verification.
 
 ## E2E Verification

@@ -1,0 +1,23 @@
+[
+  {
+    "limitation_id": "gii-bdsg_2018-source-unavailable-upstream",
+    "source_family": "gii",
+    "source_id": "gii:bdsg_2018",
+    "source_path": "bdsg_2018",
+    "index_url": "https://www.gesetze-im-internet.de/bdsg_2018/index.html",
+    "xml_zip_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+    "toc_url": "https://www.gesetze-im-internet.de/gii-toc.xml",
+    "toc_sha256": "fixture-toc",
+    "terminal_state": "source_unavailable",
+    "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+    "retrieved_at": "2026-05-15T00:00:00Z",
+    "reason": "official upstream fixture outage",
+    "retryable": true,
+    "http_status": 503,
+    "details": {
+      "source_path": "bdsg_2018",
+      "release_blocking": true,
+      "official_upstream_evidence": true
+    }
+  }
+]

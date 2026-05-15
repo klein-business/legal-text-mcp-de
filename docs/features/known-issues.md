@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "scope-and-invariants"
-version: 1.4
+version: 1.5
 ---
 
 # Feature: scope-and-invariants
@@ -16,17 +16,21 @@ the runtime and release gate preserve deliberately.
 
 ## Scope Boundaries
 
-- The supported scope is the fixture-backed legal-audit dataset documented in
-  [supported laws](supported-laws.md), not a complete mirror of every German
-  law.
+- Fast CI uses the fixture-backed legal-audit dataset documented in
+  [supported laws](supported-laws.md). Full-corpus claims require generated
+  artifacts outside Git and the explicit full-corpus validation bundle.
 - Search is deterministic lexical search with normalized public scores. It does
   not claim legal relevance ranking.
 - The HTTP API is local/server-side read-only infrastructure. Accounts, billing,
   authorization, and tenant isolation remain outside the runtime contract.
 - Tools return source text, citations, and metadata. They do not perform legal
   advice, legal classification, or hallucinated fallback generation.
+- Relationship metadata describes provenance-backed links between official
+  records and source limitations. It does not copy third-party editorial text.
 - MCP streamable HTTP must be exercised with an MCP client. A plain request to
   `/mcp` without MCP protocol headers is not a readiness or tool-call check.
+- Live source and full-corpus gates are opt-in or scheduled. Default release
+  verification remains fixture-backed and network-stable.
 
 ## Source Invariants
 

@@ -1,0 +1,26 @@
+[
+  {
+    "canonical_id": "dsgvo_eu_2016_679",
+    "display_code": "DSGVO",
+    "display_name": "Datenschutz-Grundverordnung",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "eur-lex-cellar:32016R0679",
+      "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "stand_date": "2016-04-27",
+      "stand_date_status": "official",
+      "content_hash": "sha256:law-fixture",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "cellar:work",
+        "expression": "cellar:expression",
+        "language": "de",
+        "document": "cellar:document"
+      }
+    },
+    "aliases": ["dsgvo", "gdpr"],
+    "norm_count": 2,
+    "stand_date": "2016-04-27"
+  }
+]

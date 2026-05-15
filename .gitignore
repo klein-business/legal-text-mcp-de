@@ -30,6 +30,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+!mcp/tests/fixtures/manifest/
+!mcp/tests/fixtures/manifest/*.json
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -56,6 +58,15 @@ coverage.xml
 .pytest_cache/
 cover/
 megalinter-reports/
+.artifacts/
+
+# Generated production corpus data. Keep committed fixtures under mcp/tests/fixtures/.
+data/sources/raw/
+data/normalized/
+data/generated/
+data/full-corpus/
+data/corpus-bundles/
+data/benchmarks/
 
 # Translations
 *.mo

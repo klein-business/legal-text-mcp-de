@@ -1,0 +1,31 @@
+{
+  "schema_version": "generated-package.v1",
+  "dataset_id": "test-generated",
+  "package_id": "test-generated-2026-05-15",
+  "generated_at": "2026-05-15T00:00:00Z",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "manifest_path": "manifest.json",
+  "readiness_path": "readiness.json",
+  "record_counts": {
+    "laws": 1,
+    "norms": 2,
+    "relationships": 1,
+    "source_limitations": 1,
+    "discovered_sources": 2,
+    "imported_sources": 1
+  },
+  "content_hashes": {
+    "laws.json": "sha256:4c71ec1fd9347ada02673c5606f737d730b03f0635921c6254068bdaaa618635",
+    "norms.json": "sha256:abac9da63126c0c447b3442143c9937f6db252daab4319a33eefc44d97c075eb",
+    "manifest.json": "sha256:1514f238f2f5ca9de99c076b96e9f037f5be77e36244ffff3e444fa9dbcd8c37",
+    "source-limitations.json": "sha256:fcfb2663ae526c53a910ce768fc598238704b71e57f84da69ecdbfe68b534f02",
+    "relationships.json": "sha256:8db60725a94dad3af73641cbe45f7b61e3ef2091b065c93cacfe00cfa7d6a51b",
+    "readiness.json": "sha256:f1e258955fb291c903d4706140023506f2250098df2ac44e1c09669a02444a2c",
+    "search-index.json": "sha256:43050634754df6fbf5700219824fb8a01056ca7c59a3861e9a8a96a0c0ed2185"
+  },
+  "validation_mode": "terminal",
+  "source_families": ["eur-lex-cellar", "state-law", "third-party-scope"]
+}

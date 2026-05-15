@@ -1,0 +1,56 @@
+[
+  {
+    "canonical_id": "dsgvo_eu_2016_679/art:5",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "art:5",
+    "unit": "art",
+    "value": "5",
+    "title": "Grundsatze",
+    "text": "Personenbezogene Daten mussen rechtmassig verarbeitet werden.",
+    "status": "active",
+    "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679#art_5",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "eur-lex-cellar:32016R0679",
+      "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "stand_date": "2016-04-27",
+      "stand_date_status": "official",
+      "content_hash": "sha256:art-5-fixture",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "cellar:work",
+        "expression": "cellar:expression",
+        "language": "de",
+        "document": "cellar:document"
+      }
+    }
+  },
+  {
+    "canonical_id": "dsgvo_eu_2016_679/recital:1",
+    "law_id": "dsgvo_eu_2016_679",
+    "norm_id": "recital:1",
+    "unit": "recital",
+    "value": "1",
+    "title": "Erwagungsgrund 1",
+    "text": "Der Schutz naturlicher Personen ist ein Grundrecht.",
+    "status": "active",
+    "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679#rct_1",
+    "source": {
+      "source_kind": "eur-lex-cellar",
+      "source_identifier": "eur-lex-cellar:32016R0679",
+      "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "stand_date": "2016-04-27",
+      "stand_date_status": "official",
+      "content_hash": "sha256:recital-1-fixture",
+      "source_metadata": {
+        "celex": "32016R0679",
+        "cellar_work": "cellar:work",
+        "expression": "cellar:expression",
+        "language": "de",
+        "document": "cellar:document"
+      }
+    }
+  }
+]

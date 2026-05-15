@@ -1,0 +1,32 @@
+{
+  "schema_version": "gii-parser-variant-matrix.v1",
+  "version": "fixture-v1",
+  "parser_version": "gii-bulk-fixture.v1",
+  "covered_variants": [
+    {
+      "variant": "paragraph",
+      "source_path": "bgb",
+      "fixture": "payloads/bgb.zip"
+    },
+    {
+      "variant": "article_child_paragraph",
+      "source_path": "bgbeg",
+      "fixture": "payloads/bgbeg.zip"
+    },
+    {
+      "variant": "structural_container",
+      "source_path": "bgbeg",
+      "fixture": "payloads/bgbeg.zip"
+    },
+    {
+      "variant": "parse_failed",
+      "source_path": "parsefail",
+      "fixture": "payloads/parsefail.zip"
+    },
+    {
+      "variant": "unsupported_format",
+      "source_path": "unsupported-law",
+      "fixture": "payloads/unsupported-law.txt"
+    }
+  ]
+}

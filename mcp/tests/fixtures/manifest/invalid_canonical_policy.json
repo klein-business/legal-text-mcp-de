@@ -1,0 +1,46 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "privacy-fixture",
+  "package_id": "privacy-fixture-2026-05-15",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "discovery",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "parser_versions": {
+    "eur-lex-cellar": "cellar-parser/1.0",
+    "state-law": "state-adapter/1.0"
+  },
+  "discovered_sources": [],
+  "canonical_ids": [
+    {
+      "canonical_id": "dsgvo_eu_2016_679",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679",
+      "celex": "32024R1689"
+    },
+    {
+      "canonical_id": "dsgvo_eu_2016_679",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679"
+    },
+    {
+      "canonical_id": "bln-dsg",
+      "source_family": "state-law",
+      "source_id": "state-law:be/bln-dsg",
+      "state_code": "be"
+    },
+    {
+      "canonical_id": "state:/missing-state",
+      "source_family": "state-law",
+      "source_id": "state-law:missing"
+    }
+  ],
+  "relationship_sources": [],
+  "alias_migrations": [
+    {
+      "from_id": "old"
+    }
+  ]
+}

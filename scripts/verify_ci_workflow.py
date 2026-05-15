@@ -63,9 +63,11 @@ def verify_ci_workflow() -> None:
 
     test_job = jobs["tests"]
     require(test_job.get("runs-on") == "ubuntu-latest", "tests job must run on ubuntu-latest")
+    test_env = test_job.get("env", {}) or {}
+    require("SKIP_LIVE_SOURCE_MATRIX" not in test_env, "tests job must not use retired live-source skip flag")
     require(
-        test_job.get("env", {}).get("SKIP_LIVE_SOURCE_MATRIX") == "true",
-        "tests job must skip external live source probes",
+        test_env.get("RUN_LIVE_SOURCE_MATRIX") not in {True, "true"},
+        "tests job must not opt into external live source probes",
     )
     test_steps = steps(test_job, "tests")
     require(step_uses(test_steps, CHECKOUT_REF), "tests job must pin actions/checkout v6 by SHA")

@@ -1,0 +1,185 @@
+{
+  "schema_version": "state-law-sources.v1",
+  "maintained_at": "2026-05-15T00:00:00Z",
+  "states": [
+    {
+      "state_code": "BW",
+      "state_name": "Baden-Wuerttemberg",
+      "law_slug": "landesdatenschutzgesetz",
+      "law_id": "state:bw/landesdatenschutzgesetz",
+      "official_sources": [{"url": "https://www.landesrecht-bw.de/bsbw/document/jlr-DSGBW2018rahmen", "format": "html", "publisher": "Landesrecht Baden-Wuerttemberg"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official state-law portal record; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "BY",
+      "state_name": "Bayern",
+      "law_slug": "bayerisches-datenschutzgesetz",
+      "law_id": "state:by/bayerisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://www.gesetze-bayern.de/Content/Document/BayDSG", "format": "html", "publisher": "Bayern.Recht"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official Bayern.Recht document page; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "BE",
+      "state_name": "Berlin",
+      "law_slug": "berliner-datenschutzgesetz",
+      "law_id": "state:be/berliner-datenschutzgesetz",
+      "official_sources": [{"url": "https://gesetze.berlin.de/bsbe/document/jlr-DSGBE2018rahmen", "format": "html", "publisher": "Berlin Landesrecht"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official Berlin law portal candidate; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "BB",
+      "state_name": "Brandenburg",
+      "law_slug": "brandenburgisches-datenschutzgesetz",
+      "law_id": "state:bb/brandenburgisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://bravors.brandenburg.de/gesetze/bbgdsg", "format": "html", "publisher": "BRAVORS Brandenburg"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official BRAVORS source; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "HB",
+      "state_name": "Bremen",
+      "law_slug": "bremisches-datenschutzgesetz",
+      "law_id": "state:hb/bremisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://www.transparenz.bremen.de/unavailable/bremisches-datenschutzgesetz", "format": "unknown", "publisher": "Transparenzportal Bremen"}],
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "limitation_only", "content_type": "unknown"},
+      "stability_note": "No stable machine-readable source candidate is approved in Phase 8.",
+      "source_limitation_id": "lim-state-hb-dsg-source-limitation"
+    },
+    {
+      "state_code": "HH",
+      "state_name": "Hamburg",
+      "law_slug": "hamburgisches-datenschutzgesetz",
+      "law_id": "state:hh/hamburgisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://www.landesrecht-hamburg.de/bsha/document/jlr-DSGHA2018rahmen", "format": "html", "publisher": "Hamburg Landesrecht"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official Hamburg law portal candidate; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "HE",
+      "state_name": "Hessen",
+      "law_slug": "hessisches-datenschutz-und-informationsfreiheitsgesetz",
+      "law_id": "state:he/hessisches-datenschutz-und-informationsfreiheitsgesetz",
+      "official_sources": [{"url": "https://www.rv.hessenrecht.hessen.de/bshe/document/jlr-DSIFGHE2018rahmen", "format": "html", "publisher": "Hessenrecht"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official Hessenrecht source; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "MV",
+      "state_name": "Mecklenburg-Vorpommern",
+      "law_slug": "landesdatenschutzgesetz",
+      "law_id": "state:mv/landesdatenschutzgesetz",
+      "official_sources": [{"url": "https://www.landesrecht-mv.de/bsmv/document/jlr-DSGMV2018rahmen.pdf", "format": "html", "publisher": "Landesrecht Mecklenburg-Vorpommern"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Live reachability returns an HTML document page despite the URL suffix; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "NI",
+      "state_name": "Niedersachsen",
+      "law_slug": "niedersaechsisches-datenschutzgesetz",
+      "law_id": "state:ni/niedersaechsisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://voris.wolterskluwer-online.de/browse/document/5e17fb13-0000-0000-0000-000000000000", "format": "unknown", "publisher": "VORIS Niedersachsen"}],
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "limitation_only", "content_type": "unknown"},
+      "stability_note": "Reviewed VORIS candidate currently returns 404; no stable usable official source is approved in Phase 8.",
+      "source_limitation_id": "lim-state-ni-dsg-source-limitation"
+    },
+    {
+      "state_code": "NW",
+      "state_name": "Nordrhein-Westfalen",
+      "law_slug": "datenschutzgesetz",
+      "law_id": "state:nw/datenschutzgesetz",
+      "official_sources": [{"url": "https://recht.nrw.de/lmi/owa/br_text_anzeigen?v_id=3520071121100436275", "format": "html", "publisher": "Recht NRW"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Live reachability returns HTML, not XML; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "RP",
+      "state_name": "Rheinland-Pfalz",
+      "law_slug": "landesdatenschutzgesetz",
+      "law_id": "state:rp/landesdatenschutzgesetz",
+      "official_sources": [{"url": "https://landesrecht.rlp.de/bsrp/document/jlr-DSGRP2018rahmen", "format": "html", "publisher": "Landesrecht Rheinland-Pfalz"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official state-law portal source; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "SL",
+      "state_name": "Saarland",
+      "law_slug": "saarlaendisches-datenschutzgesetz",
+      "law_id": "state:sl/saarlaendisches-datenschutzgesetz",
+      "official_sources": [{"url": "https://recht.saarland.de/unavailable/saarlaendisches-datenschutzgesetz", "format": "unknown", "publisher": "Saarland Landesrecht"}],
+      "source_format": "unknown",
+      "adapter_class": "limitation_only",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "limitation_only", "content_type": "unknown"},
+      "stability_note": "No stable usable official source candidate is approved in Phase 8.",
+      "source_limitation_id": "lim-state-sl-dsg-source-limitation"
+    },
+    {
+      "state_code": "SN",
+      "state_name": "Sachsen",
+      "law_slug": "saechsisches-datenschutzdurchfuehrungsgesetz",
+      "law_id": "state:sn/saechsisches-datenschutzdurchfuehrungsgesetz",
+      "official_sources": [{"url": "https://www.revosax.sachsen.de/vorschrift/17707-Saechsisches-Datenschutzdurchfuehrungsgesetz", "format": "html", "publisher": "REVOSax"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official REVOSax source; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "ST",
+      "state_name": "Sachsen-Anhalt",
+      "law_slug": "datenschutzgrundverordnungs-ausfuellungsgesetz",
+      "law_id": "state:st/datenschutzgrundverordnungs-ausfuellungsgesetz",
+      "official_sources": [{"url": "https://www.landesrecht.sachsen-anhalt.de/bsst/document/jlr-DSGVOAGSTrahmen.pdf", "format": "html", "publisher": "Landesrecht Sachsen-Anhalt"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Live reachability returns an HTML document page despite the URL suffix; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "SH",
+      "state_name": "Schleswig-Holstein",
+      "law_slug": "landesdatenschutzgesetz",
+      "law_id": "state:sh/landesdatenschutzgesetz",
+      "official_sources": [{"url": "https://www.gesetze-rechtsprechung.sh.juris.de/bssh/document/jlr-DSGSH2018rahmen", "format": "html", "publisher": "Landesrecht Schleswig-Holstein"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official state-law portal source; stable HTML adapter planned for Phase 9."
+    },
+    {
+      "state_code": "TH",
+      "state_name": "Thueringen",
+      "law_slug": "thueringer-datenschutzgesetz",
+      "law_id": "state:th/thueringer-datenschutzgesetz",
+      "official_sources": [{"url": "https://landesrecht.thueringen.de/bsth/document/jlr-DSGTH2018rahmen", "format": "html", "publisher": "Landesrecht Thueringen"}],
+      "source_format": "html",
+      "adapter_class": "stable_html",
+      "reachability": {"checked_at": "2026-05-15T00:00:00Z", "status": "inventory", "content_type": "text/html"},
+      "stability_note": "Official state-law portal source; stable HTML adapter planned for Phase 9."
+    }
+  ]
+}

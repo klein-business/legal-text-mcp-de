@@ -1,0 +1,33 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "privacy-discovery-fixture",
+  "package_id": "privacy-discovery-fixture-2026-05-15",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "discovery",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "parser_versions": {
+    "gii": "gii-parser/1.0"
+  },
+  "discovered_sources": [
+    {
+      "source_family": "gii",
+      "source_id": "gii:bdsg",
+      "source_path": "bdsg",
+      "index_url": "https://www.gesetze-im-internet.de/bdsg_2018/",
+      "xml_zip_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+      "toc_url": "https://www.gesetze-im-internet.de/gii-toc.xml",
+      "toc_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "canonical_ids": [
+    {
+      "canonical_id": "bdsg",
+      "source_family": "gii",
+      "source_id": "gii:bdsg"
+    }
+  ],
+  "relationship_sources": []
+}

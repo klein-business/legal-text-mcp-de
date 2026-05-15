@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "container-runtime"
-version: 1.1
+version: 1.2
 ---
 
 # Module: container-runtime
@@ -11,11 +11,16 @@ version: 1.1
 
 ## Overview
 
-The container runtime is the root `Dockerfile`. It packages the MCP server code and dependencies, then expects a validated normalized dataset at `/data/legal-texts`.
+The container runtime is the root `Dockerfile`. It packages the MCP server code
+and dependencies, then expects a validated fixture or generated package at
+`/data/legal-texts`.
 
 ### Responsibility
 
-The image is responsible for running the MCP server in a reproducible Python environment. It is not responsible for cloning demo data, generating source snapshots, or embedding legal texts in the image.
+The image is responsible for running the MCP server in a reproducible Python
+environment. It is not responsible for cloning demo data, generating source
+snapshots, running full-corpus import gates, or embedding legal texts in the
+image.
 
 ### Dependencies
 
@@ -23,7 +28,7 @@ The image is responsible for running the MCP server in a reproducible Python env
 | ---------- | ---- | ------- |
 | `python:3.12-slim` | container base image | Provides the Python runtime. |
 | `uv.lock` and `pyproject.toml` | dependency metadata | Provide the locked uv-managed runtime dependencies. |
-| `/data/legal-texts` | mounted data path | Supplies the validated normalized dataset package. |
+| `/data/legal-texts` | mounted data path | Supplies the validated normalized or generated dataset package. |
 
 ## Structure
 
@@ -44,15 +49,27 @@ The image is responsible for running the MCP server in a reproducible Python env
 
 ## Data Flow
 
-At runtime, `server.py` loads `DATASET_PATH=/data/legal-texts`, validates readiness through `LegalTextRuntime`, and serves the MCP tools. The image no longer installs Git and no longer clones `bundestag/gesetze`.
+At runtime, `server.py` loads `DATASET_PATH=/data/legal-texts`, validates
+readiness through `LegalTextRuntime`, and serves the MCP tools. The image no
+longer installs Git and no longer clones `bundestag/gesetze`.
+
+Generated production packages should be built and validated before container
+startup. Operators mount the package read-only; operational artifacts such as
+`.artifacts/full-corpus/validation-bundle.json` remain outside the image and
+outside Git.
 
 ## Configuration
 
-Mount a normalized dataset package into the configured path:
+Mount a validated package into the configured path:
 
 ```bash
-docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts:ro legal-text-mcp-de
+docker run --rm -p 8001:8001 -v /path/to/legal-text-package:/data/legal-texts:ro legal-text-mcp-de
 ```
+
+The mounted directory may be a legacy fixture package with `laws.json` and
+`norms.json`, or a strict generated package with `package.json`, `manifest.json`,
+`source-limitations.json`, `relationships.json`, `readiness.json`, and
+`search-index.json`.
 
 ## Inventory Notes
 

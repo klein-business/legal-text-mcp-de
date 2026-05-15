@@ -1,4 +1,4 @@
-from legal_texts.eurlex_xml import parse_dsgvo_xml
+from legal_texts.eurlex_xml import parse_dsgvo_xml, parse_eurlex_act_xml
 
 
 def test_eurlex_parser_requires_doc2_article_xml(tmp_path):
@@ -22,3 +22,21 @@ def test_eurlex_parser_rejects_metadata_only_doc1(tmp_path):
         assert False
     except ValueError:
         pass
+
+
+def test_generic_eurlex_parser_supports_non_dsgvo_neighbor_act(tmp_path):
+    xml_path = tmp_path / "neighbor.xml"
+    xml_path.write_text(
+        "<ROOT><LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER=\"004\"><TI.ART>Artikel 4</TI.ART><P>KI-Kompetenz.</P></ARTICLE></ACT></ROOT>",
+        encoding="utf-8",
+    )
+    source = {
+        "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32024R1689",
+        "source_kind": "eur-lex-cellar",
+        "source_metadata": {"celex": "32024R1689", "document": "DOC_2"},
+    }
+
+    norms = parse_eurlex_act_xml(xml_path, {"canonical_id": "ai_act_eu_2024_1689"}, source)
+
+    assert norms[0]["canonical_id"] == "ai_act_eu_2024_1689/art:4"
+    assert norms[0]["source"]["source_metadata"]["celex"] == "32024R1689"

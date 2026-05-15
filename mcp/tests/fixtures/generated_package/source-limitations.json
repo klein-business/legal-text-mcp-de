@@ -1,0 +1,21 @@
+[
+  {
+    "limitation_id": "lim-state-be-missing",
+    "source_family": "state-law",
+    "source_id": "state-law:be/missing",
+    "state_code": "be",
+    "jurisdiction": "Berlin",
+    "official_source_url": "https://example.test/be/missing",
+    "source_format": "html",
+    "adapter_class": "FixtureAdapter",
+    "terminal_state": "source_unavailable",
+    "source_url": "https://example.test/be/missing",
+    "retrieved_at": "2026-05-15T00:00:00Z",
+    "retryable": false,
+    "http_status": 404,
+    "reason": "fixture unavailable",
+    "details": {
+      "note": "test fixture"
+    }
+  }
+]

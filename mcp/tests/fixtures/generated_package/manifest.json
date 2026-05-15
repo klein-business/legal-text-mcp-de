@@ -1,0 +1,93 @@
+{
+  "schema_version": "corpus-manifest.v1",
+  "dataset_id": "test-generated",
+  "package_id": "test-generated-2026-05-15",
+  "created_at": "2026-05-15T00:00:00Z",
+  "validation_mode": "terminal",
+  "generator": {
+    "name": "fixture-generator",
+    "version": "1.0.0"
+  },
+  "parser_versions": {
+    "eurlex": "1.0.0"
+  },
+  "discovered_sources": [
+    {
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679",
+      "celex": "32016R0679",
+      "language": "de",
+      "cellar_uri": "cellar:work",
+      "work": "cellar:work",
+      "expression": "cellar:expression",
+      "document": "cellar:document",
+      "version_policy": "fixture",
+      "terminal_state": "imported",
+      "canonical_id": "dsgvo_eu_2016_679",
+      "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+      "content_sha256": "fixture-content",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "parser_version": "1.0.0",
+      "generated_law_ids": ["dsgvo_eu_2016_679"],
+      "generated_norm_ids": ["dsgvo_eu_2016_679/art:5", "dsgvo_eu_2016_679/recital:1"]
+    },
+    {
+      "source_family": "state-law",
+      "source_id": "state-law:be/missing",
+      "state_code": "be",
+      "jurisdiction": "Berlin",
+      "official_source_url": "https://example.test/be/missing",
+      "source_format": "html",
+      "adapter_class": "FixtureAdapter",
+      "terminal_state": "source_unavailable",
+      "source_url": "https://example.test/be/missing",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "retryable": false,
+      "http_status": 404
+    }
+  ],
+  "canonical_ids": [
+    {
+      "canonical_id": "dsgvo_eu_2016_679",
+      "source_family": "eur-lex-cellar",
+      "source_id": "eur-lex-cellar:32016R0679",
+      "celex": "32016R0679"
+    }
+  ],
+  "relationship_sources": [
+    {
+      "relationship_source_id": "scope-fixture",
+      "source_family": "third-party-scope",
+      "source_id": "third-party-scope:fixture",
+      "provider": "Fixture",
+      "source_url": "https://example.test/scope",
+      "robots_reviewed_at": "2026-05-15T00:00:00Z",
+      "terms_reviewed_at": "2026-05-15T00:00:00Z",
+      "policy_review_reference": "fixture-policy",
+      "allowed_use": "metadata-only",
+      "target_official_record": "dsgvo_eu_2016_679/art:5",
+      "no_editorial_text_copied": true
+    }
+  ],
+  "source_limitations": [
+    {
+      "limitation_id": "lim-state-be-missing",
+      "source_family": "state-law",
+      "source_id": "state-law:be/missing",
+      "state_code": "be",
+      "jurisdiction": "Berlin",
+      "official_source_url": "https://example.test/be/missing",
+      "source_format": "html",
+      "adapter_class": "FixtureAdapter",
+      "terminal_state": "source_unavailable",
+      "source_url": "https://example.test/be/missing",
+      "retrieved_at": "2026-05-15T00:00:00Z",
+      "retryable": false,
+      "http_status": 404,
+      "reason": "fixture unavailable",
+      "details": {
+        "note": "test fixture"
+      }
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "supported-laws"
-version: 1.2
+version: 1.5
 ---
 
 # Feature: supported-laws
@@ -11,7 +11,9 @@ version: 1.2
 
 ## Summary
 
-The supported scope is represented by the committed legal-audit fixture set under `mcp/tests/fixtures/`. It is not a claim of complete German-law coverage.
+The committed fixture scope is represented by the legal-audit fixture set under
+`mcp/tests/fixtures/`. Generated production corpus scope is broader and is
+proved by explicit artifacts, not by committing generated data to Git.
 
 ## Canonical IDs
 
@@ -39,3 +41,37 @@ The supported scope is represented by the committed legal-audit fixture set unde
 ## Fixture Coverage
 
 The committed fixture dataset covers the required legal-audit citations, including BGB `§ 312`, `§ 355`, `§ 309`; EGBGB `Art. 246a` and `Art. 246a § 1`; DDG `§ 5`; UWG `§ 3`, `§ 5`, `§ 5a`, `§ 5b`, `§ 7`; TDDDG `§ 25`, `§ 26`; selected BDSG provisions; BFSG `§ 1`; VSBG `§ 36`; PAngV `§ 1`, `§ 4`, `§ 5`; and DSGVO Articles 5, 6, 12, 13, 14, 15, 17, 21, 25, 32, and 82.
+
+Generated DSGVO packages can represent official EUR-Lex/Cellar articles and
+recitals. The source policy fixture pins CELEX `32016R0679`, German expression
+`0004.02`, document `DOC_2`, selected version/consolidation policy, expected
+`article_count=99`, and expected `recital_count=173`. Fast tests use reduced
+fixtures; full generated packages are checked with the explicit DSGVO
+full-count gate.
+
+## Generated Full Corpus Scope
+
+Generated full-corpus packages expand beyond the fixture set:
+
+- GII discovery starts from every reachable official `gii-toc.xml` item and
+  records one terminal state per discovered source.
+- Imported GII laws and norms remain source-backed by official
+  `gesetze-im-internet.de` provenance.
+- DSGVO generated packages represent Articles 1-99 and Recitals 1-173 as
+  first-class citation units from official EUR-Lex/Cellar provenance.
+- EU neighbor acts start from approved CELEX seeds. AI Act `32024R1689` and
+  Data Act `32023R2854` are the required minimum seed set.
+- German state privacy-law coverage requires all 16 state outcomes as imported
+  records or accepted source limitations.
+- Relationship metadata links official records and source limitations; it is
+  not a separate legal-text source family.
+
+## Critical GII Gate
+
+Generated GII fixture gates treat BDSG and TDDDG as critical privacy laws.
+Passing evidence requires imported, resolvable GII records with canonical IDs
+`bdsg_2018` and `tdddg`, runtime/MCP/HTTP resolution evidence from the
+generated GII package, and preserved upstream source paths such as `ttdsg` in
+provenance. A release-blocking upstream `source_unavailable` limitation can
+satisfy the gate; reachable `parse_failed` or `unsupported_format` outcomes do
+not.

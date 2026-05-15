@@ -9,9 +9,19 @@ from .gii_xml import _subdivisions
 
 
 def parse_dsgvo_xml(xml_path: Path, law: dict[str, Any], source: dict[str, Any]) -> list[dict[str, Any]]:
+    return parse_eurlex_act_xml(xml_path, law, source, error_label="DSGVO source")
+
+
+def parse_eurlex_act_xml(
+    xml_path: Path,
+    law: dict[str, Any],
+    source: dict[str, Any],
+    *,
+    error_label: str = "EUR-Lex source",
+) -> list[dict[str, Any]]:
     data = xml_path.read_text(encoding="utf-8", errors="replace")
     if "<LG.DOC>DE</LG.DOC>" not in data or "<ACT" not in data:
-        raise ValueError("DSGVO source must be German article-bearing DOC_2 XML")
+        raise ValueError(f"{error_label} must be German article-bearing DOC_2 XML")
     root = ET.fromstring(data)
     norms = []
     for article in root.iter():
@@ -38,11 +48,39 @@ def parse_dsgvo_xml(xml_path: Path, law: dict[str, Any], source: dict[str, Any])
                 "subdivisions": _subdivisions(text),
             }
         )
+    for recital in root.iter():
+        if not _is_recital_element(recital):
+            continue
+        value = _recital_value(recital)
+        if not value:
+            continue
+        text = " ".join(" ".join(recital.itertext()).split())
+        title = f"Erwaegungsgrund {value}"
+        norm_id = f"recital:{value}"
+        norms.append(
+            {
+                "canonical_id": f"{law['canonical_id']}/{norm_id}",
+                "law_id": law["canonical_id"],
+                "norm_id": norm_id,
+                "unit": "recital",
+                "value": value,
+                "title": title,
+                "text": text,
+                "status": "active",
+                "url": f"{source['source_url']}#rct_{value}",
+                "source": source,
+                "subdivisions": [],
+            }
+        )
     return norms
 
 
 def _local(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
+
+
+def _is_recital_element(element: ET.Element) -> bool:
+    return _local(element.tag) in {"CONSID", "RECITAL"}
 
 
 def _article_value(article: ET.Element) -> str | None:
@@ -61,3 +99,18 @@ def _article_title(article: ET.Element) -> str | None:
             if text:
                 return text
     return None
+
+
+def _recital_value(recital: ET.Element) -> str | None:
+    identifier = recital.attrib.get("IDENTIFIER")
+    if identifier and identifier.isdigit():
+        return str(int(identifier))
+    for element in recital.iter():
+        if _local(element.tag) in {"NO.P", "NO", "NUM"}:
+            text = " ".join(" ".join(element.itertext()).split())
+            match = re.search(r"([0-9]+)", text)
+            if match:
+                return str(int(match.group(1)))
+    text = " ".join(recital.itertext())
+    match = re.search(r"\(?([0-9]+)\)?", text)
+    return str(int(match.group(1))) if match else None

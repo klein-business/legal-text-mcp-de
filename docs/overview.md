@@ -1,52 +1,73 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.3
+version: 1.6
 ---
 
 # legal-text-mcp-de
 
 ## Purpose
 
-`legal-text-mcp-de` provides source-backed German legal texts through MCP and a small HTTP API. The current implementation focuses on reliable local/server-side data handling: reproducible source import, normalized legal text records, deterministic search, exact citation resolution, and structured provenance/error contracts.
+`legal-text-mcp-de` provides source-backed German and EU privacy-law texts
+through MCP and a small HTTP API. The runtime serves validated local packages:
+small committed fixtures for fast CI, or generated production corpus packages
+kept outside Git.
 
-The project is proprietary commercial software. It does not provide legal advice and does not include SaaS, billing, account, authorization, or multi-tenant features.
+The project is proprietary commercial software. It does not provide legal
+advice and does not include SaaS, billing, account, authorization, or
+multi-tenant features.
 
 ## Architecture
 
-```text
-Official sources
-  | gesetze-im-internet.de XML ZIPs
-  | Publications Office / Cellar XML for DSGVO
-  v
-Raw snapshot manifest
-  | source URL, retrieval time, stand date, SHA-256
-  v
-Normalizer and validator
-  | laws.json, norms.json, readiness.json, search-index.json
-  v
-LegalTextRuntime
-  | registry, dataset, resolver, search, source metadata
-  +--> FastMCP tools
-  +--> FastAPI HTTP API + OpenAPI
+```mermaid
+flowchart TD
+    GII["GII gii-toc.xml and xml.zip sources"]
+    EUR["EUR-Lex / Cellar sources"]
+    STATE["Official state-law portals"]
+    SCOPE["Privacy scope seed metadata"]
+    DISC["Discovery and source-family manifests"]
+    NORM["Parsers and normalizers"]
+    PACKAGE["Generated package outside Git"]
+    VALIDATE["Validation gates and bundle"]
+    RUNTIME["LegalTextRuntime"]
+    MCP["FastMCP tools"]
+    HTTP["FastAPI HTTP API"]
+
+    GII --> DISC
+    EUR --> DISC
+    STATE --> DISC
+    SCOPE --> DISC
+    DISC --> NORM
+    NORM --> PACKAGE
+    PACKAGE --> VALIDATE
+    VALIDATE --> RUNTIME
+    RUNTIME --> MCP
+    RUNTIME --> HTTP
 ```
+
+Generated packages include `laws.json`, `norms.json`, `package.json`,
+`manifest.json`, `source-limitations.json`, `relationships.json`,
+`readiness.json`, and `search-index.json`. Full-corpus gates persist artifacts
+for GII terminal-state coverage, DSGVO count/version/hash evidence, EU neighbor
+outcomes, state-law outcomes, privacy-scope relationship metadata, runtime
+benchmarks, and the final validation bundle.
 
 ### Tech Stack
 
 - Python 3.12
-- uv with `pyproject.toml` and `uv.lock` for locked runtime and development dependencies
+- uv with `pyproject.toml` and `uv.lock` for locked dependencies
 - FastMCP via `mcp[cli]`
 - FastAPI and Uvicorn for the HTTP API
 - Pydantic settings for runtime configuration
-- Standard-library XML/ZIP/JSON/hash tooling for source import and normalization
-- Pytest for unit, parser, service, transport, and release-gate tests
+- Standard-library XML/ZIP/JSON/hash tooling for source import and validation
+- Pytest for unit, parser, service, transport, docs, and release-gate tests
 
 ## Modules
 
 | Module | Description | Documentation |
 | ------ | ----------- | ------------- |
-| mcp-server | MCP server, HTTP app, legal text services, importer, normalizer, resolver, search, and tests. | [Detail](modules/mcp-server.md) |
-| container-runtime | Docker packaging for the server with external normalized dataset mounting. | [Detail](modules/container-runtime.md) |
+| mcp-server | MCP server, HTTP app, legal text services, source adapters, generated package validation, operational gates, and tests. | [Detail](modules/mcp-server.md) |
+| container-runtime | Docker packaging for the server with external validated package mounting. | [Detail](modules/container-runtime.md) |
 | data-preparation | Legacy helper workflow for Markdown-era data preparation; not the production source path. | [Detail](modules/data-preparation.md) |
 | google-adk-agent | Optional legacy demo agent kept outside the reliable legal text runtime. | [Detail](modules/google-adk-agent.md) |
 
@@ -54,13 +75,29 @@ LegalTextRuntime
 
 | Feature | Description | Documentation |
 | ------- | ----------- | ------------- |
-| supported-laws | Supported law set and canonical IDs. | [Detail](features/supported-laws.md) |
-| source-provenance | Raw/normalized data separation and source metadata rules. | [Detail](features/source-provenance.md) |
-| law-loading-and-indexing | Normalized dataset loading, readiness, and search index behavior. | [Detail](features/law-loading-and-indexing.md) |
-| mcp-law-tools | Stable MCP tool surface. | [Detail](features/mcp-law-tools.md) |
+| supported-laws | Fixture law set plus generated full-corpus scope and critical-law rules. | [Detail](features/supported-laws.md) |
+| source-provenance | Official source provenance, source limitations, manifest terminal states, and relationship-source metadata. | [Detail](features/source-provenance.md) |
+| law-loading-and-indexing | Legacy and generated package loading, readiness, search indexing, and operational artifacts. | [Detail](features/law-loading-and-indexing.md) |
+| mcp-law-tools | Stable MCP tool surface including coverage, source limitation, and relationship lookups. | [Detail](features/mcp-law-tools.md) |
 | api-contracts | Shared JSON response and error contracts. | [Detail](features/api-contracts.md) |
 | http-api | FastAPI endpoints and OpenAPI contract. | [Detail](features/http-api.md) |
 | scope-and-invariants | Explicit product boundaries, source invariants, and compatibility metadata. | [Detail](features/known-issues.md) |
+
+## Generated Corpus Behavior
+
+- GII coverage starts from the official TOC and requires one terminal state per
+  discovered source.
+- DSGVO articles and recitals are generated from official EUR-Lex/Cellar
+  provenance and verified against count, version, expression/document, and hash
+  policy.
+- EU neighbor acts such as AI Act and Data Act are bounded by approved CELEX
+  seeds and must be imported or recorded as source limitations.
+- German state privacy laws require all 16 state outcomes as imported records or
+  accepted source limitations.
+- Relationship metadata links official records and source limitations without
+  copying third-party editorial text.
+- Runtime coverage and source-limitation APIs expose corpus completeness without
+  forcing full-corpus generation into default PR CI.
 
 ## Development
 
@@ -94,13 +131,9 @@ uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 ```
 
-This command includes the full test suite plus real local HTTP and MCP streamable-HTTP E2E checks.
-
-```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_e2e.py
-```
-
-This command runs only the local network E2E check. It starts temporary HTTP and MCP servers with the fixture dataset, verifies HTTP endpoints through network requests, and verifies MCP through the official streamable-HTTP client.
+This command includes docs verification, fixture-backed tests, and local HTTP
+and MCP streamable-HTTP E2E checks. Network-heavy corpus gates are explicit or
+scheduled, not default PR CI.
 
 ## References
 

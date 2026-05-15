@@ -9,7 +9,11 @@ from .models import canonical_norm_id, normalize_unit, normalize_value
 
 
 VALUE_RE = re.compile(r"^[0-9]+[a-z]?$", re.IGNORECASE)
-CANONICAL_NORM_RE = re.compile(r"^(par|art):([0-9]+[a-z]?)(?:/(par):([0-9]+[a-z]?))?$", re.IGNORECASE)
+STRUCTURAL_VALUE_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$", re.IGNORECASE)
+CANONICAL_NORM_RE = re.compile(
+    r"^(par|art|recital|chapter|section|annex|container):([a-z0-9][a-z0-9_-]*)(?:/(par):([0-9]+[a-z]?))?$",
+    re.IGNORECASE,
+)
 SECTION_SHORTHAND_RE = re.compile(r"^§\s*([0-9]+[a-z]?)$", re.IGNORECASE)
 ARTICLE_SHORTHAND_RE = re.compile(r"^Art\.?\s*([0-9]+[a-z]?)$", re.IGNORECASE)
 
@@ -30,7 +34,7 @@ def resolve_citation(
         normalized_unit = normalize_unit(unit)
     except ValueError as exc:
         raise invalid_citation(str(exc), {"unit": unit}) from exc
-    value = _validate_value(paragraph_or_article, "paragraph_or_article")
+    value = _validate_value(normalized_unit, paragraph_or_article, "paragraph_or_article")
 
     child_norm_id = None
     if child_unit or child_value:
@@ -44,7 +48,7 @@ def resolve_citation(
             raise invalid_citation(str(exc), {"child_unit": child_unit}) from exc
         if normalized_child_unit != "par":
             raise invalid_citation("Only paragraph child units are supported.", {"child_unit": child_unit})
-        child_norm_id = f"par:{_validate_value(child_value, 'child_value')}"
+        child_norm_id = f"par:{_validate_value('par', child_value, 'child_value')}"
 
     _validate_subdivision_hierarchy(absatz, satz, nummer, buchstabe)
 
@@ -121,8 +125,16 @@ def parse_norm_reference(norm: str) -> dict[str, str | None]:
     raise invalid_citation("Unsupported norm reference.", {"norm": norm})
 
 
-def _validate_value(value: str, field: str) -> str:
+def _validate_value(unit: str, value: str, field: str) -> str:
     normalized = normalize_value(value)
+    if unit in {"par", "art", "recital"}:
+        if not VALUE_RE.match(normalized):
+            raise invalid_citation("Citation value is invalid.", {field: value})
+        return normalized
+    if unit in {"chapter", "section", "annex", "container"} and STRUCTURAL_VALUE_RE.match(normalized):
+        return normalized
+    if unit in {"chapter", "section", "annex", "container"}:
+        raise invalid_citation("Structural citation value is invalid.", {field: value})
     if not VALUE_RE.match(normalized):
         raise invalid_citation("Citation value is invalid.", {field: value})
     return normalized
@@ -191,4 +203,13 @@ def _label(display_code: str, norm: dict[str, Any]) -> str:
         return f"{display_code} Art. {article.split(':', 1)[1]} § {section}"
     if norm["unit"] == "par":
         return f"{display_code} § {norm['value']}"
-    return f"{display_code} Art. {norm['value']}"
+    if norm["unit"] == "recital":
+        return f"{display_code} ErwG {norm['value']}"
+    labels = {
+        "art": "Art.",
+        "chapter": "Kapitel",
+        "section": "Abschnitt",
+        "annex": "Anhang",
+        "container": "Container",
+    }
+    return f"{display_code} {labels.get(norm['unit'], norm['unit'])} {norm['value']}"
