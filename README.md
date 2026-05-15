@@ -4,126 +4,73 @@
 
 <p align="center">
   <a href="https://github.com/klein-business/legal-text-mcp-de"><img alt="Repository" src="https://img.shields.io/badge/repo-klein--business%2Flegal--text--mcp--de-111827?style=for-the-badge&logo=github"></a>
-  <img alt="Python 3.12" src="https://img.shields.io/badge/python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="Python 3.12 / 3.13" src="https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img alt="MCP streamable HTTP" src="https://img.shields.io/badge/MCP-streamable%20HTTP-0EA5E9?style=for-the-badge">
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-HTTP%20API-009688?style=for-the-badge&logo=fastapi&logoColor=white">
-  <img alt="Release gate" src="https://img.shields.io/badge/release%20gate-fixture%20CI%20%2B%20E2E-16A34A?style=for-the-badge">
-  <img alt="License" src="https://img.shields.io/badge/license-proprietary%20commercial-B91C1C?style=for-the-badge">
+  <img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=for-the-badge">
 </p>
 
 # legal-text-mcp-de
 
-`legal-text-mcp-de` is a Python MCP server and HTTP API for loading,
-validating, searching, and resolving German legal texts with source provenance.
-It is local/server-side infrastructure: no SaaS, no billing, no accounts, no
-tenant model, and no legal advice.
+`legal-text-mcp-de` is a Python [Model Context Protocol](https://modelcontextprotocol.io)
+server and HTTP API for loading, validating, searching, and resolving
+**German legal texts** with source provenance.
 
-The runtime can load either the committed fixture packages used by fast CI or a
-generated production corpus package built outside Git. Official text comes from
-`gesetze-im-internet.de` for German federal laws and from EUR-Lex/Cellar for
-EU acts such as DSGVO. Third-party privacy-scope inputs are represented only as
-relationship metadata and source limitations; editorial text is not copied.
+It is **local or server-side infrastructure**: no SaaS, no billing, no
+accounts, no tenant model, and **no legal advice**. The runtime loads
+either the committed fixture packages used by fast CI or a generated
+production corpus package built outside Git. Official text comes from
+`gesetze-im-internet.de` for German federal laws and from EUR-Lex /
+Cellar for EU acts such as the GDPR.
 
-Older repository documentation was archived under [docs-legacy/summary.md](docs-legacy/summary.md).
+> **No legal advice.** This software returns text and structured
+> metadata. It does not interpret the law, advise on it, or produce
+> any legal conclusion. The maintainer assumes no liability for use
+> in legal decision-making contexts.
 
-## Data Modes
+Older internal documentation has been archived under
+[docs-legacy/summary.md](docs-legacy/summary.md).
 
-| Mode | Location | Purpose |
-| ---- | -------- | ------- |
-| Fixture packages | `mcp/tests/fixtures/` | Fast deterministic tests, parser samples, HTTP/MCP E2E, and reduced generated-package behavior. |
-| Generated corpus artifacts | `.artifacts/`, `data/normalized/`, `data/full-corpus/` | Explicit local or scheduled full-corpus evidence; ignored by Git. |
-| Mounted production package | Any validated generated package path | Runtime input for MCP/HTTP through `DATASET_PATH`. |
+## Status
 
-Generated packages use `package.json`, `manifest.json`, `source-limitations.json`,
-`relationships.json`, `readiness.json`, and `search-index.json` alongside
-`laws.json` and `norms.json`. The corpus manifest assigns every discovered
-source a terminal state: `imported`, `unsupported_format`,
-`source_unavailable`, `parse_failed`, or `excluded_by_policy`.
+| | |
+| --- | --- |
+| Lifecycle | Pre-`v1.0.0` public release in preparation |
+| Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
+| Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
+| Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
 
-## Corpus Scope
+## Features
 
-The committed fixture dataset covers the legal-audit law set documented in
-[supported laws](docs/features/supported-laws.md). Full-corpus generation is
-artifact-backed and expands that contract to:
+- **MCP tools** for listing laws, fetching norms, resolving citations,
+  full-text search, and source provenance.
+- **HTTP API** (FastAPI) over the same runtime, with structured
+  `/health`, `/ready`, `/laws`, `/search`, and OpenAPI endpoints.
+- **Provenance-first design**: every law and norm carries source URL,
+  fetch timestamp, content hash, and the parser path it traversed.
+- **Two corpus modes**: committed fixture packages for deterministic
+  tests and CI, or a generated production package built from official
+  sources at runtime.
+- **No editorial bundling**: this repository ships tooling, not legal
+  text. Texts are loaded from official sources at runtime.
 
-- all discoverable official GII TOC entries with terminal-state coverage;
-- BDSG and TDDDG as critical GII laws with import and runtime resolution
-  evidence, or release-blocking upstream `source_unavailable` limitations;
-- DSGVO articles 1-99 and recitals from official EUR-Lex/Cellar provenance;
-- AI Act, Data Act, and other approved EU neighbor seeds as imported or limited
-  official records;
-- all 16 German state privacy-law outcomes as imported records or source
-  limitations;
-- privacy-scope relationship metadata that resolves to official records or
-  source limitations.
+## Quickstart
 
-## MCP Tools
-
-| Tool | Purpose |
-| ---- | ------- |
-| `list_laws(query?: string)` | List loaded laws, optionally filtered by metadata. |
-| `get_law(code: string)` | Return law metadata and normalized norm summaries. |
-| `get_norm(code: string, norm: string)` | Return one structured norm by canonical path or shorthand. |
-| `resolve_citation(...)` | Resolve exact structured citations without legal interpretation. |
-| `search_laws(query: string, codes?: string[])` | Search normalized texts with optional law filters. |
-| `get_source_metadata(code?: string)` | Return provenance metadata for one law or all laws. |
-| `get_corpus_coverage()` | Return generated-package, manifest, terminal-state, limitation, relationship, and state-law coverage summaries. |
-| `get_source_limitations(...)` | Query source limitations by family, terminal state, state code, or law ID. |
-| `get_related_norms(code: string, norm: string)` | Return relationship metadata for a resolved norm. |
-
-MCP tools return JSON-compatible objects directly. They do not return
-double-serialized JSON strings.
-
-## HTTP API
-
-The HTTP API is a small FastAPI transport over the same runtime:
-
-- `GET /health`
-- `GET /ready`
-- `GET /laws`
-- `GET /laws/{code}`
-- `GET /laws/{code}/norms/{norm}`
-- `GET /laws/{code}/norms/{norm}/relationships`
-- `GET /corpus/coverage`
-- `GET /corpus/source-limitations`
-- `GET /search`
-- `GET /openapi.json`
-
-Article-plus-section norm paths must be URL encoded, for example:
-
-```text
-/laws/egbgb/norms/art%3A246a%2Fpar%3A1
-```
-
-## Installation
+### Run the MCP server with the committed fixture corpus
 
 ```bash
 uv sync --all-groups
-```
 
-## Run MCP
-
-Use a validated normalized or generated package:
-
-```bash
-DATASET_PATH=/path/to/legal-text-package \
-STRICT_STARTUP=true \
-PYTHONPATH=mcp \
-uv run python mcp/server.py
-```
-
-For local development, use the committed fixture dataset:
-
-```bash
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
 uv run python mcp/server.py
 ```
 
-The default MCP transport is streamable HTTP on `http://localhost:8001/mcp`.
+The default transport is streamable HTTP at
+`http://localhost:8001/mcp`.
 
-## Run HTTP API
+### Run the HTTP API
 
 ```bash
 DATASET_PATH=mcp/tests/fixtures/normalized \
@@ -132,77 +79,105 @@ PYTHONPATH=mcp \
 uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 ```
 
-## Docker
+### Docker
 
-The Docker image does not clone or generate legal text data. Mount a validated
+The Docker image does not bundle legal text data. Mount a validated
 package at `/data/legal-texts`:
 
 ```bash
 docker build -t legal-text-mcp-de .
-docker run --rm -p 8001:8001 -v /path/to/legal-text-package:/data/legal-texts:ro legal-text-mcp-de
+docker run --rm -p 8001:8001 \
+  -v /path/to/legal-text-package:/data/legal-texts:ro \
+  legal-text-mcp-de
 ```
 
-## Operational Gates
+## Data Sources
 
-Fast release verification is fixture-backed and does not download the full
-internet corpus. Full-corpus evidence is explicit or scheduled.
+| Source | Coverage | Reuse position |
+| --- | --- | --- |
+| `gesetze-im-internet.de` | German federal laws | Public-domain-equivalent under §5 (1) UrhG |
+| EUR-Lex / Cellar (`publications.europa.eu`) | EU acts (GDPR, AI Act, Data Act, …) | Reuse permitted under Commission Decision 2011/833/EU with attribution |
+
+No text from these sources is committed to this repository. The
+generated-corpus pipeline fetches them at build time and stores
+provenance in a manifest.
+
+## MCP Tools
+
+See the [MCP tools reference](docs/features/mcp-law-tools.md) for the
+full surface. Highlights:
+
+- `list_laws(query?)` — list loaded laws with optional metadata filter.
+- `get_law(code)` — law metadata + normalised norm summaries.
+- `get_norm(code, norm)` — return one structured norm.
+- `search_laws(query, codes?)` — search normalised texts.
+- `resolve_citation(...)` — resolve structured citations without legal
+  interpretation.
+- `get_source_metadata(code?)`, `get_source_limitations(...)`,
+  `get_corpus_coverage()`, `get_related_norms(code, norm)`.
+
+MCP tools return JSON-compatible objects. They do not return
+double-serialised JSON strings.
+
+## HTTP API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/health` | Liveness |
+| `GET` | `/ready` | Readiness |
+| `GET` | `/laws` | List laws |
+| `GET` | `/laws/{code}` | Law detail |
+| `GET` | `/laws/{code}/norms/{norm}` | Norm detail |
+| `GET` | `/laws/{code}/norms/{norm}/relationships` | Relationship metadata |
+| `GET` | `/corpus/coverage` | Corpus coverage summary |
+| `GET` | `/corpus/source-limitations` | Source limitations query |
+| `GET` | `/search` | Search |
+| `GET` | `/openapi.json` | OpenAPI document |
+
+Article-plus-section paths must be URL-encoded:
+
+```
+/laws/egbgb/norms/art%3A246a%2Fpar%3A1
+```
+
+## Documentation
+
+- [Project overview](docs/overview.md)
+- [MCP tools reference](docs/features/mcp-law-tools.md)
+- [Supported laws](docs/features/supported-laws.md)
+- [Source provenance](docs/features/source-provenance.md)
+- [Scope and invariants](docs/features/known-issues.md)
+
+## Development
 
 ```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_gii_discovery.py --output .artifacts/gii-discovery/latest.json
+uv sync --all-groups
+PYTHONPATH=mcp uv run --group dev pytest mcp/tests -v
 ```
 
-```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_gii_corpus_gate.py --discovery .artifacts/gii-discovery/latest.json --payload-dir <payload-dir> --package-dir .artifacts/gii-corpus/package --output .artifacts/gii-corpus/gate.json
-```
-
-```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_dsgvo_full_counts.py --package .artifacts/dsgvo/package --policy .artifacts/dsgvo/policy-fixture.json --output .artifacts/dsgvo/full-counts.json
-```
-
-```bash
-PYTHONPATH=mcp uv run --group dev python scripts/benchmark_corpus_runtime.py --package-dir mcp/tests/fixtures/generated_package --output .artifacts/benchmarks/generated-package-benchmark.json
-```
-
-```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_full_corpus_bundle.py --gii-artifact .artifacts/gii-corpus/gate.json --dsgvo-artifact .artifacts/dsgvo/full-counts.json --eu-neighbors-artifact .artifacts/eu-neighbors/evidence.json --state-law-artifact .artifacts/state-law/pdf-gate.json --relationships-artifact mcp/legal_texts/data/privacy_scope_seed.v1.json --benchmark-artifact .artifacts/benchmarks/generated-package-benchmark.json --output .artifacts/full-corpus/validation-bundle.json
-```
-
-## Tests
-
-Run the full fixture-backed release gate:
+The full fixture-backed release gate:
 
 ```bash
 PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
 ```
 
-The release gate covers docs link/image validation, stale workflow checks,
-fixture coverage, generated-package validation, operational gate tests, citation
-resolution, search, MCP tools, HTTP/OpenAPI, structured errors, source matrix
-fixtures, and local HTTP/MCP E2E. The E2E gate starts real localhost HTTP and
-MCP streamable-HTTP processes against both the legacy fixture dataset and the
-generated-package fixture. It verifies every MCP tool, all documented HTTP
-paths through OpenAPI, generated-package recitals/search, source metadata,
-coverage, source limitations, relationships, and representative error paths.
-Live source probes remain opt-in through `RUN_LIVE_SOURCE_MATRIX=true`.
-
-Run only local network E2E:
+The public-flip readiness gate:
 
 ```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_e2e.py
+PYTHONPATH=mcp uv run --group dev python scripts/verify_pre_flip.py
 ```
 
-## License
+## Contributing
 
-This project is proprietary commercial software. See [LICENSE](LICENSE).
+This is a pre-`v1.0.0` repository preparing for public release.
+Contribution guidelines, code of conduct, and security policy land in
+the next phases of the public-release programme.
 
-## Documentation
+## Licence and acknowledgements
 
-- [Project overview](docs/overview.md)
-- [MCP/server module](docs/modules/mcp-server.md)
-- [Container runtime](docs/modules/container-runtime.md)
-- [Supported laws](docs/features/supported-laws.md)
-- [Law loading and indexing](docs/features/law-loading-and-indexing.md)
-- [Source provenance](docs/features/source-provenance.md)
-- [MCP tools](docs/features/mcp-law-tools.md)
-- [HTTP API](docs/features/http-api.md)
-- [Scope and invariants](docs/features/known-issues.md)
+This project is licensed under the [Apache License 2.0](LICENSE).
+See [NOTICE](NOTICE) for required attribution.
+
+Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp)
+(Copyright (c) 2025 Florian Leuerer, MIT). Upstream licence terms are
+preserved in [licenses/MIT-floleuerer.txt](licenses/MIT-floleuerer.txt).
