@@ -253,3 +253,37 @@ def test_main_returns_nonzero_when_license_wrong(tmp_path: Path) -> None:
     (tmp_path / "LICENSE").write_text("not apache", encoding="utf-8")
     rc = vpf.main(["--root", str(tmp_path)])
     assert rc == 1
+
+
+def test_check_result_supports_skipped_status() -> None:
+    """SKIPPED is a valid third status value."""
+    skipped = vpf.CheckResult(name="x", status="SKIP", message="reason")
+    assert skipped.status == "SKIP"
+    assert skipped.passed is False  # backwards-compat property
+    assert skipped.skipped is True
+
+
+def test_secrets_scan_skips_when_tool_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """When detect-secrets-hook is not on PATH, return SKIPPED, not FAIL."""
+    (tmp_path / ".secrets.baseline").write_text(
+        '{"version": "1.5.0", "results": {}}', encoding="utf-8"
+    )
+    monkeypatch.setattr(vpf.shutil, "which", lambda name: None)
+    result = vpf.check_no_unaudited_secrets(tmp_path)
+    assert result.status == "SKIP", result.message
+    assert "detect-secrets-hook" in result.message
+
+
+def test_aggregate_exit_code_returns_zero_for_pass_and_skip() -> None:
+    skipped = vpf.CheckResult(name="x", status="SKIP", message="m")
+    passed = vpf.CheckResult(name="y", status="PASS", message="ok")
+    assert vpf._aggregate_exit_code([skipped, passed]) == 0
+
+
+def test_aggregate_exit_code_returns_nonzero_when_any_fail() -> None:
+    failed = vpf.CheckResult(name="x", status="FAIL", message="m")
+    passed = vpf.CheckResult(name="y", status="PASS", message="ok")
+    skipped = vpf.CheckResult(name="z", status="SKIP", message="m")
+    assert vpf._aggregate_exit_code([passed, skipped, failed]) == 1
