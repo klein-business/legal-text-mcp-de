@@ -182,3 +182,16 @@ def test_pyproject_metadata_fails_when_missing(tmp_path: Path) -> None:
     result = vpf.check_pyproject_metadata(tmp_path)
     assert result.passed is False
     assert "pyproject.toml" in result.message
+
+
+def test_secrets_scan_fails_when_baseline_missing(tmp_path: Path) -> None:
+    result = vpf.check_no_unaudited_secrets(tmp_path)
+    assert result.passed is False
+    assert ".secrets.baseline" in result.message
+
+
+def test_secrets_scan_passes_on_real_repo(tmp_path: Path) -> None:
+    """The real repo carries .secrets.baseline by Task 3 and current state is clean."""
+    real_root = Path(__file__).resolve().parents[2]
+    result = vpf.check_no_unaudited_secrets(real_root)
+    assert result.passed is True, result.message

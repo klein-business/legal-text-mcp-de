@@ -10,6 +10,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
+import subprocess
 import sys
 import tomllib
 from dataclasses import dataclass, asdict
@@ -136,11 +138,51 @@ def check_pyproject_metadata(root: Path) -> CheckResult:
     return CheckResult(name="pyproject.toml metadata", passed=True, message="ok")
 
 
+def check_no_unaudited_secrets(root: Path) -> CheckResult:
+    baseline = root / ".secrets.baseline"
+    if not baseline.is_file():
+        return CheckResult(
+            name="no unaudited secrets",
+            passed=False,
+            message=(
+                ".secrets.baseline missing; create via: "
+                "uv run --group dev detect-secrets scan > .secrets.baseline"
+            ),
+        )
+    detect_secrets = shutil.which("detect-secrets")
+    if detect_secrets is None:
+        return CheckResult(
+            name="no unaudited secrets",
+            passed=False,
+            message="detect-secrets not on PATH; run via 'uv run --group dev'",
+        )
+    proc = subprocess.run(
+        [
+            detect_secrets, "scan",
+            "--baseline", str(baseline),
+            "--exclude-files", r"\.git/",
+            "--exclude-files", r"uv\.lock",
+            "--exclude-files", r"mcp/tests/fixtures/",
+        ],
+        cwd=root,
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        return CheckResult(
+            name="no unaudited secrets",
+            passed=False,
+            message=f"detect-secrets exit {proc.returncode}: {proc.stderr.strip()}",
+        )
+    return CheckResult(name="no unaudited secrets", passed=True, message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
     check_no_proprietary_strings,
     check_pyproject_metadata,
+    check_no_unaudited_secrets,
 ]
 
 
