@@ -22,7 +22,7 @@ prepare-data = [
     "docopt~=0.6.2",
     "lxml",
     "cssselect~=1.1.0",
-    "requests~=2.32.0",
+    "requests~=2.33.0",
     "beautifulsoup4~=4.9.3",
     "roman-numbers~=1.0.2",
 ]
