@@ -55,6 +55,34 @@ The importer must preserve source failures in a manifest instead of silently
 dropping entries. A generated dataset can be incomplete only when the manifest
 records the exact failed source and error class.
 
+### Complete GII Coverage Definition
+
+Complete `gesetze-im-internet.de` coverage means the generated corpus discovers
+the official GII TOC at import time and creates one manifest entry for every
+`<item>` in that TOC:
+
+- source catalog: `https://www.gesetze-im-internet.de/gii-toc.xml`
+- source payloads: every `<link>` value in that catalog that points to an
+  official GII `xml.zip`
+- expected import set: all laws, ordinances, regulations, structural
+  containers, and text-bearing norms that can be parsed from those XML ZIPs
+- excluded from this definition: search pages, HTML presentation pages, images,
+  style assets, and other website chrome that is not part of the official XML
+  legal text catalog
+
+Completeness is measured by the manifest, not by a hand-maintained source list.
+For a given import run:
+
+- `manifest.discovered_gii_items` must equal the number of `<item>` entries in
+  the fetched TOC.
+- every discovered GII item must have exactly one terminal state:
+  `imported`, `unsupported_format`, `source_unavailable`, `parse_failed`, or
+  `excluded_by_policy`.
+- `excluded_by_policy` requires an explicit reason and must not be used for
+  ordinary parser failures.
+- the MCP/HTTP runtime must expose all `imported` GII laws and norms from the
+  generated package.
+
 ### EU Privacy And Digital Law
 
 Authoritative source:
