@@ -287,3 +287,46 @@ def test_aggregate_exit_code_returns_nonzero_when_any_fail() -> None:
     passed = vpf.CheckResult(name="y", status="PASS", message="ok")
     skipped = vpf.CheckResult(name="z", status="SKIP", message="m")
     assert vpf._aggregate_exit_code([passed, skipped, failed]) == 1
+
+
+EXPECTED_WORKFLOWS = {
+    "ci.yml",
+    "e2e.yml",
+    "codeql.yml",
+    "scorecard.yml",
+    "dependency-review.yml",
+    "commitlint.yml",
+    "dco.yml",
+    "megalinter.yml",
+}
+
+
+def test_workflow_set_passes_when_complete(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    for name in EXPECTED_WORKFLOWS:
+        (wf / name).write_text("name: x\non: push", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "PASS", result.message
+
+
+def test_workflow_set_fails_when_missing(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    (wf / "ci.yml").write_text("name: x", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "FAIL"
+    assert "missing" in result.message.lower()
+    assert "codeql.yml" in result.message
+
+
+def test_workflow_set_fails_when_extra(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    for name in EXPECTED_WORKFLOWS:
+        (wf / name).write_text("x", encoding="utf-8")
+    (wf / "rogue.yml").write_text("x", encoding="utf-8")
+    result = vpf.check_workflow_set(tmp_path)
+    assert result.status == "FAIL"
+    assert "unexpected" in result.message.lower()
+    assert "rogue.yml" in result.message

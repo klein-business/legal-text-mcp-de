@@ -215,12 +215,55 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
     return CheckResult(name="no unaudited secrets", status="PASS", message="ok")
 
 
+EXPECTED_WORKFLOWS = (
+    "ci.yml",
+    "e2e.yml",
+    "codeql.yml",
+    "scorecard.yml",
+    "dependency-review.yml",
+    "commitlint.yml",
+    "dco.yml",
+    "megalinter.yml",
+)
+
+
+def check_workflow_set(root: Path) -> CheckResult:
+    wf_dir = root / ".github" / "workflows"
+    if not wf_dir.is_dir():
+        return CheckResult(
+            name="workflow set",
+            status="FAIL",
+            message=f"{wf_dir} does not exist",
+        )
+    present = {
+        p.name
+        for p in wf_dir.iterdir()
+        if p.is_file() and p.suffix in {".yml", ".yaml"}
+    }
+    expected = set(EXPECTED_WORKFLOWS)
+    missing = sorted(expected - present)
+    extra = sorted(present - expected)
+    problems: list[str] = []
+    if missing:
+        problems.append(f"missing: {', '.join(missing)}")
+    if extra:
+        problems.append(f"unexpected: {', '.join(extra)}")
+    if problems:
+        return CheckResult(
+            name="workflow set",
+            status="FAIL",
+            message="; ".join(problems),
+        )
+    return CheckResult(name="workflow set", status="PASS", message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
     check_no_proprietary_strings,
     check_pyproject_metadata,
     check_no_unaudited_secrets,
+    check_workflow_set,
 ]
 
 
