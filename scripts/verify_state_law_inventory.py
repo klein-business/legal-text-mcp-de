@@ -11,8 +11,9 @@ from collections import Counter
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
-from legal_texts.state_law_inventory import (
+from legal_texts.state_law_inventory import (  # type: ignore[import-not-found]
     load_state_law_inventory,
     load_state_law_limitations,
     validate_state_law_inventory,
@@ -26,7 +27,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Verify German state-law inventory reachability.")
     parser.add_argument("--inventory", required=True, help="state_law_sources.v1.json path.")
     parser.add_argument("--limitations", required=True, help="state_law_limitations.v1.json path.")
-    parser.add_argument("--write-artifact", required=True, help="Path for state-law-inventory-reachability.v1 artifact.")
+    parser.add_argument(
+        "--write-artifact", required=True, help="Path for state-law-inventory-reachability.v1 artifact."
+    )
     parser.add_argument("--fixture-mode", action="store_true", help="Use deterministic fake fetches for tests.")
     return parser.parse_args(argv)
 
@@ -56,14 +59,14 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def build_artifact(
-    inventory: dict,
-    limitations: list[dict],
+    inventory: dict[str, Any],
+    limitations: list[dict[str, Any]],
     *,
     fetch: Fetch,
     checked_at: str,
     inventory_path: str | None = None,
     limitations_path: str | None = None,
-) -> dict:
+) -> dict[str, Any]:
     validation_errors = validate_state_law_inventory(inventory, limitations)
     limitation_by_id = {limitation["limitation_id"]: limitation for limitation in limitations}
     results = []
@@ -85,12 +88,16 @@ def build_artifact(
             state_result["terminal_state"] = "source_unavailable"
             state_result["source_limitation_id"] = record.get("source_limitation_id")
             state_result["limitation"] = limitation
-            state_result["sources"].append({
-                "url": record.get("official_sources", [{}])[0].get("url") if record.get("official_sources") else None,
-                "status": "limitation_only",
-                "checked_at": checked_at,
-                "content_type": "unknown",
-            })
+            state_result["sources"].append(
+                {
+                    "url": record.get("official_sources", [{}])[0].get("url")
+                    if record.get("official_sources")
+                    else None,
+                    "status": "limitation_only",
+                    "checked_at": checked_at,
+                    "content_type": "unknown",
+                }
+            )
             results.append(state_result)
             continue
         state_result["terminal_state"] = "inventory_checked"
@@ -125,7 +132,7 @@ def fixture_fetch(url: str) -> tuple[int, dict[str, str], bytes]:
     return 200, {"content-type": "text/html; charset=utf-8"}, b"<html>official state law</html>"
 
 
-def _fetch_source(source: dict, fetch: Fetch, checked_at: str) -> dict:
+def _fetch_source(source: dict[str, Any], fetch: Fetch, checked_at: str) -> dict[str, Any]:
     url = source.get("url")
     result = {
         "url": url,
@@ -136,26 +143,30 @@ def _fetch_source(source: dict, fetch: Fetch, checked_at: str) -> dict:
     try:
         status, headers, body = fetch(str(url))
     except Exception as exc:
-        result.update({
-            "status": 0,
-            "error_code": "fetch_exception",
-            "error": str(exc),
-            "content_type": "",
-        })
+        result.update(
+            {
+                "status": 0,
+                "error_code": "fetch_exception",
+                "error": str(exc),
+                "content_type": "",
+            }
+        )
         return result
     content_type = headers.get("content-type", headers.get("Content-Type", ""))
-    result.update({
-        "status": status,
-        "content_type": content_type,
-        "bytes": len(body),
-        "content_sha256": hashlib.sha256(body).hexdigest(),
-    })
+    result.update(
+        {
+            "status": status,
+            "content_type": content_type,
+            "bytes": len(body),
+            "content_sha256": hashlib.sha256(body).hexdigest(),
+        }
+    )
     if status >= 400:
         result["error_code"] = f"http_{status}"
     return result
 
 
-def _validate_reachability_result(record: dict, state_result: dict) -> list[str]:
+def _validate_reachability_result(record: dict[str, Any], state_result: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     state_code = record.get("state_code")
     source_format = record.get("source_format")

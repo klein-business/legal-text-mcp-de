@@ -12,16 +12,17 @@ import zipfile
 from collections.abc import Callable
 from io import BytesIO
 from pathlib import Path
+from typing import Any
 
-from legal_texts.eu_neighbors import (
+from legal_texts.eu_neighbors import (  # type: ignore[import-not-found]
     eu_neighbor_source_limitation,
     eu_neighbor_source_metadata,
     load_eu_neighbor_source_records,
     parse_eu_neighbor_fixture,
     validate_eu_neighbor_source_records,
 )
-from legal_texts.eurlex_xml import parse_eurlex_act_xml
-from legal_texts.relationships import load_privacy_scope_seed
+from legal_texts.eurlex_xml import parse_eurlex_act_xml  # type: ignore[import-not-found]
+from legal_texts.relationships import load_privacy_scope_seed  # type: ignore[import-not-found]
 
 Fetch = Callable[[str], tuple[int, dict[str, str], bytes]]
 
@@ -31,7 +32,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--seed", required=True, help="privacy_scope_seed.v1.json path.")
     parser.add_argument("--sources", required=True, help="eu_neighbor_sources.v1.json path.")
     parser.add_argument("--output", required=True, help="Path where eu-neighbor-sources.v1 evidence should be written.")
-    parser.add_argument("--fixture-dir", help="Optional fixture directory with <canonical_id>.xml or known sample XML files.")
+    parser.add_argument(
+        "--fixture-dir", help="Optional fixture directory with <canonical_id>.xml or known sample XML files."
+    )
     return parser.parse_args(argv)
 
 
@@ -50,7 +53,9 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-def build_artifact(records: list[dict], seed: dict, *, fixture_dir: Path | None, fetch: Fetch | None = None) -> dict:
+def build_artifact(
+    records: list[dict[str, Any]], seed: dict[str, Any], *, fixture_dir: Path | None, fetch: Fetch | None = None
+) -> dict[str, Any]:
     errors = validate_eu_neighbor_source_records(records, seed)
     source_results = []
     imported = 0
@@ -63,25 +68,29 @@ def build_artifact(records: list[dict], seed: dict, *, fixture_dir: Path | None,
                 norms = parse_eu_neighbor_fixture(fixture_path, record)
             except ValueError as exc:
                 limited += 1
-                source_results.append({
-                    "celex": record["celex"],
-                    "canonical_id": record["canonical_id"],
-                    "terminal_state": "parse_failed",
-                    "validation_error": str(exc),
-                })
+                source_results.append(
+                    {
+                        "celex": record["celex"],
+                        "canonical_id": record["canonical_id"],
+                        "terminal_state": "parse_failed",
+                        "validation_error": str(exc),
+                    }
+                )
                 errors.append(f"{record['celex']}: fixture parse failed: {exc}")
             else:
                 imported += 1
-                source_results.append({
-                    "celex": record["celex"],
-                    "canonical_id": record["canonical_id"],
-                    "language": record["language"],
-                    "terminal_state": "imported",
-                    "norm_count": len(norms),
-                    "generated_norm_ids": [norm["canonical_id"] for norm in norms],
-                    "source_url": record["source_url"],
-                    "version_policy": record["version_policy"],
-                })
+                source_results.append(
+                    {
+                        "celex": record["celex"],
+                        "canonical_id": record["canonical_id"],
+                        "language": record["language"],
+                        "terminal_state": "imported",
+                        "norm_count": len(norms),
+                        "generated_norm_ids": [norm["canonical_id"] for norm in norms],
+                        "source_url": record["source_url"],
+                        "version_policy": record["version_policy"],
+                    }
+                )
             continue
 
         try:
@@ -99,7 +108,9 @@ def build_artifact(records: list[dict], seed: dict, *, fixture_dir: Path | None,
                 details={"http_status": status, "content_type": content_type, "error_code": f"http_{status}"},
                 retrieved_at="2026-05-15T00:00:00Z",
             )
-            source_results.append(_limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256))
+            source_results.append(
+                _limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256)
+            )
             continue
         try:
             norms = _parse_official_payload(record, body, content_type, content_sha256)
@@ -112,7 +123,9 @@ def build_artifact(records: list[dict], seed: dict, *, fixture_dir: Path | None,
                 details={"content_type": content_type},
                 retrieved_at="2026-05-15T00:00:00Z",
             )
-            source_results.append(_limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256))
+            source_results.append(
+                _limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256)
+            )
         except ValueError as exc:
             limited += 1
             limitation = eu_neighbor_source_limitation(
@@ -122,21 +135,25 @@ def build_artifact(records: list[dict], seed: dict, *, fixture_dir: Path | None,
                 details={"content_type": content_type, "diagnostic_text": str(exc)},
                 retrieved_at="2026-05-15T00:00:00Z",
             )
-            source_results.append(_limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256))
+            source_results.append(
+                _limited_result(record, limitation, content_type=content_type, content_sha256=content_sha256)
+            )
         else:
             imported += 1
-            source_results.append({
-                "celex": record["celex"],
-                "canonical_id": record["canonical_id"],
-                "language": record["language"],
-                "terminal_state": "imported",
-                "norm_count": len(norms),
-                "generated_norm_ids": [norm["canonical_id"] for norm in norms],
-                "source_url": record["source_url"],
-                "version_policy": record["version_policy"],
-                "content_type": content_type,
-                "content_sha256": content_sha256,
-            })
+            source_results.append(
+                {
+                    "celex": record["celex"],
+                    "canonical_id": record["canonical_id"],
+                    "language": record["language"],
+                    "terminal_state": "imported",
+                    "norm_count": len(norms),
+                    "generated_norm_ids": [norm["canonical_id"] for norm in norms],
+                    "source_url": record["source_url"],
+                    "version_policy": record["version_policy"],
+                    "content_type": content_type,
+                    "content_sha256": content_sha256,
+                }
+            )
     return {
         "schema_version": "eu-neighbor-sources.v1",
         "seeded_celex": sorted(record["celex"] for record in records),
@@ -163,7 +180,9 @@ def default_fetch(url: str) -> tuple[int, dict[str, str], bytes]:
         return exc.code, {key.lower(): value for key, value in exc.headers.items()}, exc.read()
 
 
-def _parse_official_payload(record: dict, body: bytes, content_type: str, content_sha256: str) -> list[dict]:
+def _parse_official_payload(
+    record: dict[str, Any], body: bytes, content_type: str, content_sha256: str
+) -> list[dict[str, Any]]:
     lower_content_type = content_type.lower()
     if body.startswith(b"PK\x03\x04") or "zip" in lower_content_type:
         xml_bytes = _extract_act_xml_from_zip(body)
@@ -179,12 +198,13 @@ def _parse_official_payload(record: dict, body: bytes, content_type: str, conten
             content_hash=content_sha256,
             retrieved_at="2026-05-15T00:00:00Z",
         )
-        return parse_eurlex_act_xml(
+        result: list[dict[str, Any]] = parse_eurlex_act_xml(
             xml_path,
             {"canonical_id": record["canonical_id"]},
             source,
             error_label=f"EU neighbor CELEX {record['celex']}",
         )
+        return result
 
 
 def _extract_act_xml_from_zip(body: bytes) -> bytes:
@@ -201,7 +221,9 @@ def _extract_act_xml_from_zip(body: bytes) -> bytes:
     raise ValueError("No parseable German act XML found in official FMX4 ZIP")
 
 
-def _limited_result(record: dict, limitation: dict, *, content_type: str, content_sha256: str) -> dict:
+def _limited_result(
+    record: dict[str, Any], limitation: dict[str, Any], *, content_type: str, content_sha256: str
+) -> dict[str, Any]:
     return {
         "celex": record["celex"],
         "canonical_id": record["canonical_id"],
@@ -216,7 +238,7 @@ def _limited_result(record: dict, limitation: dict, *, content_type: str, conten
     }
 
 
-def _fixture_path(record: dict, fixture_dir: Path | None) -> Path | None:
+def _fixture_path(record: dict[str, Any], fixture_dir: Path | None) -> Path | None:
     if fixture_dir is None:
         return None
     candidates = [

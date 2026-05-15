@@ -110,7 +110,7 @@ def get_json(url: str, *, timeout: float = 5.0) -> dict[str, Any]:
         body = exc.read().decode("utf-8")
     if status != 200:
         raise AssertionError(f"{url} returned {status}: {body}")
-    return json.loads(body)
+    return json.loads(body)  # type: ignore[no-any-return]
 
 
 def wait_for_ready(url: str, timeout: float = 20.0) -> dict[str, Any]:
@@ -125,18 +125,14 @@ def wait_for_ready(url: str, timeout: float = 20.0) -> dict[str, Any]:
     raise RuntimeError(f"Timed out waiting for {url}: {last_error}")
 
 
-def import_external_mcp_client():
+def import_external_mcp_client() -> tuple[Any, Any]:
     original_path = list(sys.path)
     blocked = {ROOT.resolve(), (ROOT / "mcp").resolve()}
     sys.modules.pop("mcp", None)
     sys.modules.pop("mcp.client", None)
-    sys.path = [
-        path
-        for path in sys.path
-        if path and Path(path).resolve() not in blocked
-    ]
+    sys.path = [path for path in sys.path if path and Path(path).resolve() not in blocked]
     try:
-        from mcp import ClientSession
+        from mcp import ClientSession  # type: ignore[attr-defined]
         from mcp.client.streamable_http import streamablehttp_client
     finally:
         sys.path = original_path
@@ -188,7 +184,9 @@ def verify_static_files() -> None:
     assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "python", "mcp/server.py"]')
 
     print_step("Checking data-prep uv contract")
-    assert_contains(helper, 'uv run --project "$ROOT_DIR" --frozen --group prepare-data --no-dev python lawde.py loadall')
+    assert_contains(
+        helper, 'uv run --project "$ROOT_DIR" --frozen --group prepare-data --no-dev python lawde.py loadall'
+    )
     assert_contains(
         helper,
         'uv run --project "$ROOT_DIR" --frozen --group prepare-data --no-dev python lawdown.py convert laws laws_md',
