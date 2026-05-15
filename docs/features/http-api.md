@@ -40,7 +40,7 @@ GET /search?query=widerruf&codes=bgb&codes=egbgb
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uvicorn http_api:create_http_app --factory --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 ```
 
 ## E2E Verification

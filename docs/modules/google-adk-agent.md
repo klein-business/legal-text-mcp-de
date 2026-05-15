@@ -11,7 +11,7 @@ version: 1.2
 
 ## Overview
 
-The `google-adk-agent/` module is an optional legacy demonstration client for the MCP endpoint. It is not part of the reliable legal text data pipeline, but it can still connect to the server through `MCP_URL`.
+The `google-adk-agent/` module is an optional legacy demonstration client for the MCP endpoint. It is outside the core uv-managed runtime and outside the release gate, but it can still connect to the server through `MCP_URL`.
 
 ### Responsibility
 
@@ -25,6 +25,8 @@ This module demonstrates one LLM client integration path. It is not responsible 
 | `StreamableHTTPConnectionParams` | library | Configures the MCP HTTP endpoint. |
 | `google.adk.agents.llm_agent.LlmAgent` | library | Defines the Gemini-backed demo assistant. |
 | `MCP_URL` | environment | Points the demo agent at a running MCP server. |
+
+The Google ADK dependencies are intentionally not part of the repository's core uv dependency groups. A future task can add explicit ADK dependency management if this demo becomes a maintained runtime path.
 
 ## Structure
 

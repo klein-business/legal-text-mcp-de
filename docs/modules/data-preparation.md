@@ -22,8 +22,7 @@ This module can bootstrap an external helper checkout and convert law data to Ma
 | Dependency | Type | Purpose |
 | ---------- | ---- | ------- |
 | `git` | command-line tool | Clones the external `gesetze-tools` helper project. |
-| `python3 -m venv` | command-line tool | Creates the helper virtual environment. |
-| `pip` | command-line tool | Installs preparation dependencies. |
+| `uv` | command-line tool | Runs the helper with the locked `prepare-data` dependency group. |
 | `lawde.py`, `lawdown.py` | external scripts | Download and convert data in the legacy helper workflow. |
 
 ## Structure
@@ -31,7 +30,16 @@ This module can bootstrap an external helper checkout and convert law data to Ma
 | Path | Type | Purpose |
 | ---- | ---- | ------- |
 | `prepare_data/prepare_gesetze_im_internet.sh` | file | Legacy helper script for `gesetze-tools`. |
-| `prepare_data/requirements.txt` | file | Dependencies used by that helper workflow. |
+
+## Validation
+
+The helper supports a no-network dependency check:
+
+```bash
+prepare_data/prepare_gesetze_im_internet.sh --dry-run
+```
+
+That path uses `uv run --group prepare-data` against the repository project metadata and does not perform upstream checkout or import work.
 
 ## Production Boundary
 

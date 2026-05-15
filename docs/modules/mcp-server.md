@@ -97,7 +97,7 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 
 ## Test Coverage
 
-The release gate is `PYTHONPATH=mcp python scripts/verify_release.py` from an activated Python 3.12 environment. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through `scripts/verify_e2e.py`.
+The release gate is `PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py`. It runs fixture coverage, source matrix live probes, importer tests, parser/normalizer tests, resolver tests, search tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, active workflow documentation checks, scope checks, and local network E2E through `scripts/verify_e2e.py`.
 
 The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports, checks HTTP with real network requests, and checks MCP through `mcp.client.streamable_http.streamablehttp_client` plus `ClientSession`. It intentionally waits for MCP TCP readiness rather than probing `/mcp` with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.
 

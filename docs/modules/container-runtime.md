@@ -22,7 +22,7 @@ The image is responsible for running the MCP server in a reproducible Python env
 | Dependency | Type | Purpose |
 | ---------- | ---- | ------- |
 | `python:3.12-slim` | container base image | Provides the Python runtime. |
-| `mcp/requirements.txt` | dependency file | Installs MCP, FastAPI, and runtime dependencies. |
+| `uv.lock` and `pyproject.toml` | dependency metadata | Provide the locked uv-managed runtime dependencies. |
 | `/data/legal-texts` | mounted data path | Supplies the validated normalized dataset package. |
 
 ## Structure
@@ -36,10 +36,11 @@ The image is responsible for running the MCP server in a reproducible Python env
 | Symbol | Kind | Location | Purpose |
 | ------ | ---- | -------- | ------- |
 | `FROM python:3.12-slim` | Docker instruction | `Dockerfile:1` | Selects the Python base image. |
-| `COPY mcp/ .` | Docker instruction | `Dockerfile` | Copies server code into `/app`. |
-| `RUN pip install --no-cache-dir -r requirements.txt` | Docker instruction | `Dockerfile` | Installs runtime dependencies. |
+| `COPY --from=ghcr.io/astral-sh/uv:0.10.12` | Docker instruction | `Dockerfile` | Adds the pinned uv binary. |
+| `RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode` | Docker instruction | `Dockerfile` | Installs locked runtime dependencies. |
+| `COPY mcp/ ./mcp/` | Docker instruction | `Dockerfile` | Copies server code into `/app/mcp`. |
 | `ENV DATASET_PATH=/data/legal-texts` | Docker instruction | `Dockerfile` | Points strict startup at the mounted normalized dataset. |
-| `CMD ["python", "server.py"]` | Docker instruction | `Dockerfile` | Starts the MCP server. |
+| `CMD ["uv", "run", "--frozen", "--no-sync", "python", "mcp/server.py"]` | Docker instruction | `Dockerfile` | Starts the MCP server from the uv-managed environment. |
 
 ## Data Flow
 
@@ -50,7 +51,7 @@ At runtime, `server.py` loads `DATASET_PATH=/data/legal-texts`, validates readin
 Mount a normalized dataset package into the configured path:
 
 ```bash
-docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts legal-text-mcp-de
+docker run --rm -p 8001:8001 -v /path/to/normalized-dataset:/data/legal-texts:ro legal-text-mcp-de
 ```
 
 ## Inventory Notes
