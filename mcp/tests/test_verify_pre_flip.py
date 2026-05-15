@@ -45,6 +45,7 @@ def test_required_files_passes_when_all_present(tmp_path: Path) -> None:
     (tmp_path / "NOTICE").write_text("notice", encoding="utf-8")
     (tmp_path / "AUTHORS.md").write_text("authors", encoding="utf-8")
     (tmp_path / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (tmp_path / "SECURITY.md").write_text("security", encoding="utf-8")
     (tmp_path / "licenses").mkdir()
     (tmp_path / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
 
@@ -58,6 +59,7 @@ def test_required_files_fails_when_any_missing(tmp_path: Path) -> None:
     assert result.passed is False
     assert "AUTHORS.md" in result.message
     assert "CHANGELOG.md" in result.message
+    assert "SECURITY.md" in result.message
     assert "MIT-floleuerer.txt" in result.message
 
 
@@ -223,6 +225,7 @@ def _populate_passing_repo(root: Path) -> None:
     (root / "NOTICE").write_text("notice", encoding="utf-8")
     (root / "AUTHORS.md").write_text("authors", encoding="utf-8")
     (root / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (root / "SECURITY.md").write_text("security", encoding="utf-8")
     (root / "licenses").mkdir()
     (root / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
     (root / "pyproject.toml").write_text(PYPROJECT_VALID, encoding="utf-8")

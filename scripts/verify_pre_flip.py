@@ -74,6 +74,7 @@ REQUIRED_FILES = (
     "NOTICE",
     "AUTHORS.md",
     "CHANGELOG.md",
+    "SECURITY.md",
     "licenses/MIT-floleuerer.txt",
 )
 
