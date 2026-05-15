@@ -109,3 +109,76 @@ def test_no_proprietary_strings_skips_verify_pre_flip_sources(tmp_path: Path) ->
     )
     result = vpf.check_no_proprietary_strings(tmp_path)
     assert result.passed is True, result.message
+
+
+PYPROJECT_VALID = """\
+[project]
+name = "legal-text-mcp-de"
+version = "0.1.0"
+description = "x"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+
+[project.urls]
+Homepage = "https://example.test"
+Repository = "https://example.test/repo"
+Issues = "https://example.test/issues"
+Changelog = "https://example.test/changelog"
+"""
+
+PYPROJECT_INVALID_LICENSE = """\
+[project]
+name = "x"
+version = "0.1.0"
+description = "x"
+license = "MIT"
+requires-python = ">=3.12"
+
+[project.urls]
+Homepage = "https://example.test"
+Repository = "https://example.test/repo"
+Issues = "https://example.test/issues"
+Changelog = "https://example.test/changelog"
+"""
+
+PYPROJECT_MISSING_URL = """\
+[project]
+name = "x"
+version = "0.1.0"
+description = "x"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+
+[project.urls]
+Homepage = "https://example.test"
+"""
+
+
+def test_pyproject_metadata_passes_for_valid(tmp_path: Path) -> None:
+    (tmp_path / "pyproject.toml").write_text(PYPROJECT_VALID, encoding="utf-8")
+    result = vpf.check_pyproject_metadata(tmp_path)
+    assert result.passed is True, result.message
+
+
+def test_pyproject_metadata_fails_on_wrong_license(tmp_path: Path) -> None:
+    (tmp_path / "pyproject.toml").write_text(
+        PYPROJECT_INVALID_LICENSE, encoding="utf-8"
+    )
+    result = vpf.check_pyproject_metadata(tmp_path)
+    assert result.passed is False
+    assert "license" in result.message.lower()
+
+
+def test_pyproject_metadata_fails_on_missing_url(tmp_path: Path) -> None:
+    (tmp_path / "pyproject.toml").write_text(
+        PYPROJECT_MISSING_URL, encoding="utf-8"
+    )
+    result = vpf.check_pyproject_metadata(tmp_path)
+    assert result.passed is False
+    assert "Repository" in result.message
+
+
+def test_pyproject_metadata_fails_when_missing(tmp_path: Path) -> None:
+    result = vpf.check_pyproject_metadata(tmp_path)
+    assert result.passed is False
+    assert "pyproject.toml" in result.message

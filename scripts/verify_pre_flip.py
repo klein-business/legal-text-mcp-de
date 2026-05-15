@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import sys
+import tomllib
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
@@ -100,10 +101,46 @@ def check_no_proprietary_strings(root: Path) -> CheckResult:
     return CheckResult(name="no proprietary strings", passed=True, message="ok")
 
 
+REQUIRED_URLS = ("Homepage", "Repository", "Issues", "Changelog")
+
+
+def check_pyproject_metadata(root: Path) -> CheckResult:
+    path = root / "pyproject.toml"
+    if not path.is_file():
+        return CheckResult(
+            name="pyproject.toml metadata",
+            passed=False,
+            message="pyproject.toml missing",
+        )
+    data = tomllib.loads(path.read_text(encoding="utf-8"))
+    project = data.get("project") or {}
+    failures: list[str] = []
+    license_field = project.get("license")
+    if license_field != "Apache-2.0":
+        failures.append(f"license != 'Apache-2.0' (got {license_field!r})")
+    requires_python = project.get("requires-python")
+    if requires_python != ">=3.12":
+        failures.append(
+            f"requires-python != '>=3.12' (got {requires_python!r})"
+        )
+    urls = project.get("urls") or {}
+    for required_url in REQUIRED_URLS:
+        if required_url not in urls:
+            failures.append(f"urls.{required_url} missing")
+    if failures:
+        return CheckResult(
+            name="pyproject.toml metadata",
+            passed=False,
+            message="; ".join(failures),
+        )
+    return CheckResult(name="pyproject.toml metadata", passed=True, message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
     check_no_proprietary_strings,
+    check_pyproject_metadata,
 ]
 
 
