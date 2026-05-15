@@ -2,19 +2,14 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
+from scripts import verify_pre_flip as vpf
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS_DIR = REPO_ROOT / "scripts"
 APACHE_2_0_FIXTURE = (
     REPO_ROOT / "mcp" / "tests" / "fixtures" / "legal" / "apache-2.0-canonical.txt"
 )
-
-if str(SCRIPTS_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS_DIR))
-
-import verify_pre_flip as vpf  # noqa: E402
 
 
 def _materialise_apache_license(target_dir: Path) -> Path:
