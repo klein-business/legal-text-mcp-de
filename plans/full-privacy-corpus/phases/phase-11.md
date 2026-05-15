@@ -8,60 +8,72 @@ created: "2026-05-15"
 updated: "2026-05-15"
 ---
 
-# Phase 11: Scaling, search, and operational corpus gates
+# Phase 11: Runtime coverage and relationship APIs
 
 > Part of [full-privacy-corpus](../plan.md)
 
 ## Objective
 
-Validate that generated corpus packages can be built, loaded, searched, and
-served at production-corpus scale without making PR CI slow or flaky.
+Expose full-corpus coverage, source limitations, and relationship metadata
+through stable MCP and HTTP runtime surfaces while preserving existing tool
+behavior.
 
 ## Scope
 
 ### Includes
 
-- Runtime package loading benchmarks for larger generated datasets.
-- Search index behavior over larger fixture or generated packages.
-- Network-heavy corpus gate definitions.
-- Scheduled or explicit full-corpus smoke-check workflow.
-- Dataset exclusion and artifact handling rules.
+- Runtime access to corpus manifest status and source limitations.
+- Runtime access to relationship records from the validated Phase 2 package
+  schema.
+- Additive MCP/HTTP surfaces for corpus coverage and related norms if needed.
+- Positive and negative resolver/API tests for new citation units.
+- Backwards compatibility tests for existing tools.
+- E2E tests against generated fixture package.
 
 ### Excludes (deferred to later phases)
 
-- Adding new source families.
-- Changing legal-text semantics.
-- Hosted production deployment.
+- Search ranking changes.
+- Full production corpus performance tuning.
+- Additional source-family imports.
 
 ## Prerequisites
 
-- [ ] Phase 4 GII bulk normalization is complete.
-- [ ] Phase 10 runtime coverage APIs are complete.
+- [ ] Phase 2 generated package format is complete.
+- [ ] Phase 4 GII normalization status is available.
+- [ ] Phase 7 EU neighbor records and relationship targets are available.
+- [ ] Phase 9 and Phase 10 state-law outcomes are available.
 
 ## Deliverables
 
-- [ ] Corpus-scale benchmark criteria.
-- [ ] Fast CI remains fixture-backed.
-- [ ] Network-heavy corpus checks are runnable outside ordinary PR CI.
-- [ ] Search and runtime behavior are validated against a larger package.
+- [ ] Runtime coverage and source limitation access.
+- [ ] Related-norm lookup behavior over validated package relationship records
+      if approved by implementation planning.
+- [ ] MCP and HTTP tests for coverage and relationship surfaces.
+- [ ] Backwards compatibility checks for existing MCP/HTTP tools.
+- [ ] Negative tests for malformed units, missing relationships, unavailable
+      corpus entries, and source limitations.
 
 ## Acceptance Criteria
 
-- [ ] PR CI does not require full corpus download/import.
-- [ ] Full-corpus smoke checks can run explicitly or on schedule.
-- [ ] Runtime load/search behavior meets documented thresholds or triggers a
-      package-format decision.
-- [ ] Generated production data remains excluded from Git.
+- [ ] Existing tools continue to return compatible responses.
+- [ ] Clients can inspect corpus coverage and source failures.
+- [ ] Relationship metadata is returned separately from legal text.
+- [ ] New citation units are accepted or rejected deterministically.
+- [ ] Local HTTP/MCP E2E passes against representative generated fixture package.
 
 ## Dependencies on Other Phases
 
 | Phase | Relationship | Notes |
 |-------|-------------|-------|
-| Phase 4 | blocked-by | Needs bulk-generated GII data path. |
-| Phase 10 | blocked-by | Needs runtime surfaces for coverage and readiness. |
-| Phase 12 | blocks | Release docs should reflect operational gate behavior. |
+| Phase 2 | blocked-by | Requires package metadata and loader support. |
+| Phase 6 | blocked-by | Requires approved relationship seed/fallback graph conversion rules. |
+| Phase 4 | blocked-by | Requires GII import status and limitations. |
+| Phase 7 | blocked-by | Requires EU neighbor and relationship targets. |
+| Phase 9 | blocked-by | Requires state-law imported records for preferred source formats. |
+| Phase 10 | blocked-by | Requires remaining state-law limitations. |
+| Phase 12 | blocks | Scaling phase validates runtime behavior under larger data. |
 
 ## Notes
 
-This phase decides whether JSON remains sufficient or whether sharded JSONL or
-SQLite-backed lookup is required.
+This phase should remain additive unless a versioned API change is explicitly
+planned.

@@ -8,62 +8,75 @@ created: "2026-05-15"
 updated: "2026-05-15"
 ---
 
-# Phase 6: EU neighbor acts source family
+# Phase 6: DSGVO scope policy and seed graph inventory
 
 > Part of [full-privacy-corpus](../plan.md)
 
 ## Objective
 
-Add official EUR-Lex/Cellar source support for EU privacy and digital neighbor
-acts discovered from the target privacy corpus, including AI Act and Data Act
-where German official text is available.
+Make the `dsgvo-gesetz.de`-style scope graph executable by deciding the terms,
+robots, licensing, and fallback policy before any source-family implementation
+depends on it.
 
 ## Scope
 
 ### Includes
 
-- Source-family contract for additional EU acts.
-- CELEX/Cellar metadata requirements for every imported EU act.
-- Representative fixtures for at least AI Act and Data Act if official German
-  sources are reachable.
-- Manifest source limitations for discovered EU acts without usable official
-  German text.
+- Policy decision record for using `dsgvo-gesetz.de` as a scope and relationship
+  reference.
+- Fallback manually maintained seed graph if automated crawling or reuse is not
+  permitted.
+- Seed relationship inventory for DSGVO articles, recitals, topics, BDSG, TDDDG,
+  LDSG, AI Act, Data Act, and other discovered neighbor resources.
+- Transformation rules from approved seed/fallback graph entries into validated
+  package relationship records.
+- Minimum EU neighbor seed list with CELEX targets:
+  `32024R1689` for AI Act and `32023R2854` for Data Act.
+- Rules for adding additional EU or German neighbor sources discovered from the
+  approved scope graph.
 
 ### Excludes (deferred to later phases)
 
-- Relationship graph between EU acts and DSGVO topics.
-- State-law adapters.
-- Full text import for every possible EU digital regulation outside the
-  discovered target scope.
+- Importing EU neighbor act full text.
+- Importing state-law full text.
+- Runtime relationship lookup APIs.
+- Copying third-party editorial text.
 
 ## Prerequisites
 
 - [ ] Phase 1 manifest contract is complete.
-- [ ] Phase 2 generated package format is complete.
-- [ ] Phase 5 DSGVO EUR-Lex parser path is complete or reusable.
+- [ ] Phase 5 full DSGVO articles and recitals are complete.
 
 ## Deliverables
 
-- [ ] EU neighbor source records and fixtures.
-- [ ] Parser and validation tests for representative EU acts.
-- [ ] Source limitation records for unreachable or unsupported official sources.
+- [ ] Scope graph policy decision record.
+- [ ] Seed graph manifest or manually maintained fallback graph.
+- [ ] Relationship record generation rules that target the Phase 2 package
+      schema.
+- [ ] Minimum EU neighbor seed list including AI Act and Data Act CELEX IDs.
+- [ ] Relationship-source limitation records when automated discovery is not
+      permitted.
 
 ## Acceptance Criteria
 
-- [ ] AI Act and Data Act resolve from official EUR-Lex/Cellar provenance when
-      source text is available.
-- [ ] Missing or unsupported official sources are represented as manifest
-      limitations, not silent omissions.
-- [ ] Existing DSGVO behavior remains unchanged.
+- [ ] Implementation has a permitted discovery path or an explicit fallback seed
+      graph before relationship work proceeds.
+- [ ] AI Act and Data Act have concrete CELEX identifiers or source limitations.
+- [ ] No phase depends on unapproved third-party crawling or copied editorial
+      text.
+- [ ] Approved seed/fallback graph entries can be converted into package
+      relationship records whose targets are official records or source
+      limitations.
 
 ## Dependencies on Other Phases
 
 | Phase | Relationship | Notes |
 |-------|-------------|-------|
-| Phase 5 | blocked-by | Reuses DSGVO EUR-Lex parsing and metadata patterns. |
-| Phase 7 | blocks | Relationship graph can link EU acts after records exist. |
+| Phase 1 | blocked-by | Uses shared policy-exclusion and provenance fields. |
+| Phase 5 | blocked-by | Needs DSGVO article and recital targets. |
+| Phase 7 | blocks | EU neighbor acts consume the seed list. |
 
 ## Notes
 
-This phase should stay bounded to acts discovered from the approved privacy
-corpus scope.
+This phase converts the external website dependency into a governed scope input
+instead of a late implementation surprise.

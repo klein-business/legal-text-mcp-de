@@ -52,16 +52,25 @@ committing large generated data into the repository.
 - [ ] Import DSGVO recitals as first-class citation units.
 - [ ] Include BDSG, TDDDG, and other German federal privacy neighbor laws through
       GII when available.
+- [ ] Treat BDSG and TDDDG as critical named GII laws that must import and
+      resolve from GII provenance unless an upstream source outage makes that
+      impossible and is recorded as a release-blocking source limitation.
 - [ ] Model German state privacy laws as a separate source family with one
       official source adapter or recorded source limitation per state.
 - [ ] Import linked EU neighbor acts, including AI Act and Data Act, from
       official EUR-Lex/Cellar sources where available.
 - [ ] Discover the `dsgvo-gesetz.de`-style scope graph and store only
       provenance-backed relationship metadata, not unlicensed editorial text.
+- [ ] Store relationship metadata in a validated package section with stable
+      relationship IDs, relationship types, provenance, and targets that resolve
+      to official records or source limitations.
 - [ ] Preserve existing MCP and HTTP tools for current `par` and `art` citation
       behavior.
 - [ ] Add support for new citation units such as `recital`, `chapter`, `section`,
       `annex`, and structural containers.
+- [ ] Define deterministic canonical ID, alias, collision, and migration rules
+      for generated GII, EUR-Lex, state-law, relationship, and new citation-unit
+      records before bulk import phases start.
 - [ ] Expose corpus coverage, source limitations, and relationship metadata
       through stable runtime surfaces.
 
@@ -74,6 +83,9 @@ committing large generated data into the repository.
 - [ ] Every text-bearing record includes source provenance, source URL,
       retrieval timestamp, stand date status where available, and content hash.
 - [ ] Source failures are explicit, queryable, and reproducible from manifests.
+- [ ] Live corpus validation gates are required explicit or scheduled checks with
+      persisted manifest artifacts; they are not optional evidence for full-scope
+      claims.
 - [ ] Runtime startup and search remain practical for the generated production
       package.
 - [ ] Public API changes are backwards compatible unless explicitly versioned.
@@ -85,6 +97,8 @@ committing large generated data into the repository.
 ### In Scope
 
 - Source manifest schema and terminal-state model.
+- Source-family-specific provenance matrix and failure taxonomy.
+- Deterministic canonical ID, registry alias, and collision policy.
 - Generated corpus package format and validation.
 - GII TOC discovery and full GII XML ZIP import coverage.
 - EUR-Lex/Cellar source support for full DSGVO and linked EU acts.
@@ -116,6 +130,9 @@ committing large generated data into the repository.
 - [ ] DSGVO articles 1-99 resolve through MCP and HTTP.
 - [ ] DSGVO recitals resolve through MCP and HTTP as citation units.
 - [ ] BDSG and TDDDG remain available through GII provenance.
+- [ ] BDSG and TDDDG have persisted generated-corpus evidence showing successful
+      import and MCP/HTTP resolution from GII provenance, or an explicit
+      release-blocking upstream source limitation.
 - [ ] AI Act, Data Act, and other discovered EU neighbor acts resolve through
       official EUR-Lex/Cellar provenance where available.
 - [ ] Every German state privacy law has either an official source adapter or a
@@ -125,8 +142,49 @@ committing large generated data into the repository.
 - [ ] The generated production corpus is excluded from Git.
 - [ ] Fast CI passes using representative fixtures.
 - [ ] Network-heavy corpus gates can validate live discovery/import behavior.
+- [ ] Live corpus gate artifacts prove terminal-state coverage for every
+      discovered GII TOC entry.
 - [ ] Documentation explains official text provenance, relationship metadata,
       dataset generation, fixture-vs-production differences, and operations.
+
+## Corpus Contracts
+
+### Canonical IDs and Citation Units
+
+Generated IDs must be deterministic and source-family aware:
+
+| Source Family | Law ID Rule | Citation Units | Collision Rule |
+| ------------- | ----------- | -------------- | -------------- |
+| GII | normalized GII source path, preserving current hand-authored aliases where present | `par`, `art`, `chapter`, `section`, `annex`, structural `container` | collision fails validation unless an explicit alias/migration entry resolves it |
+| EUR-Lex/Cellar | stable slug plus CELEX, for example `dsgvo_eu_2016_679` or `ai_act_eu_2024_1689` | `art`, `recital`, `chapter`, `section`, `annex`, structural `container` | CELEX mismatch or duplicate canonical ID fails validation |
+| State law | `state:<state-code>/<stable-law-slug>` | source-dependent `par`, `art`, `chapter`, `section`, `annex`, structural `container` | jurisdiction must be encoded; cross-state aliases cannot collapse into one ID |
+| Third-party scope graph | no legal-text law ID; relationship-source records only | relationship IDs, not legal text citations | cannot override official text IDs |
+
+Existing `par` and `art` citation behavior must remain backwards compatible.
+New units are additive and must have positive and negative resolver/API tests.
+
+### Source-Family Provenance Matrix
+
+| Source Family | Required Provenance |
+| ------------- | ------------------- |
+| GII | TOC URL, XML ZIP URL, source path, retrieval timestamp, stand date status, content hash, parser version, terminal state |
+| EUR-Lex/Cellar | CELEX, Cellar work/expression/document, language, selected version or consolidation policy, source URL, retrieval timestamp, content hash, parser version, terminal state |
+| State law | jurisdiction, official source URL, source format, retrieval timestamp, content hash when fetchable, parser/adapter version, terminal state |
+| Third-party scope graph | relationship source URL, crawl timestamp, robots/terms decision, relationship type, target official record or source limitation |
+
+### Failure Taxonomy
+
+Every discovered source record must end in exactly one terminal state:
+
+| State | Meaning | Required Fields |
+| ----- | ------- | --------------- |
+| `imported` | Source produced validated normalized records. | source ID, source URL, content hash, parser version, generated record IDs |
+| `unsupported_format` | Source is reachable but cannot be parsed by an approved adapter. | source ID, source URL, content type/format, reason |
+| `source_unavailable` | Source is missing, unreachable, or returns an unusable HTTP status. | source ID, source URL, HTTP/status detail, timestamp |
+| `parse_failed` | Source format is expected but parser failed. | source ID, source URL, parser version, error class, excerpt-safe diagnostic |
+| `excluded_by_policy` | Source is intentionally excluded for legal, robots, or scope reasons. | source ID, source URL, policy reason, decision timestamp |
+
+`excluded_by_policy` must not be used for ordinary parser failures.
 
 ## Testing Strategy
 
@@ -141,9 +199,13 @@ committing large generated data into the repository.
 - [ ] Runtime tests for corpus coverage, source limitation reporting, and
       relationship lookup.
 - [ ] Local HTTP/MCP E2E tests against a small generated fixture package.
-- [ ] Optional network-heavy checks for GII TOC discovery, sampled GII XML ZIP
-      parsing, full DSGVO import, scope graph discovery, state-law reachability,
-      and full production corpus smoke builds.
+- [ ] Required explicit or scheduled network-heavy checks for GII TOC discovery,
+      terminal-state coverage for all discovered GII items, sampled parser
+      variant regression, full DSGVO article/recital import, scope graph
+      discovery, state-law reachability, and full production corpus smoke builds.
+- [ ] Persisted full-corpus validation bundle covering GII terminal states, DSGVO
+      counts/version/hash, EU neighbor imported-or-limited states, all 16
+      state-law outcomes, and relationship graph discovered-or-limited records.
 - [ ] Documentation link and image checks for `README.md`, `docs/`,
       `docs-legacy/`, and plan artifacts.
 
@@ -156,13 +218,14 @@ committing large generated data into the repository.
 | 3 | Complete GII discovery coverage | [Detail](phases/phase-3.md) | pending |
 | 4 | GII bulk normalization and coverage gates | [Detail](phases/phase-4.md) | pending |
 | 5 | Full DSGVO articles and recitals | [Detail](phases/phase-5.md) | pending |
-| 6 | EU neighbor acts source family | [Detail](phases/phase-6.md) | pending |
-| 7 | DSGVO scope graph and relationships | [Detail](phases/phase-7.md) | pending |
+| 6 | DSGVO scope policy and seed graph inventory | [Detail](phases/phase-6.md) | pending |
+| 7 | EU neighbor acts source family | [Detail](phases/phase-7.md) | pending |
 | 8 | German state-law source family inventory | [Detail](phases/phase-8.md) | pending |
-| 9 | German state-law adapters and limitations | [Detail](phases/phase-9.md) | pending |
-| 10 | Runtime coverage and relationship APIs | [Detail](phases/phase-10.md) | pending |
-| 11 | Scaling, search, and operational corpus gates | [Detail](phases/phase-11.md) | pending |
-| 12 | Documentation, diagrams, and release readiness | [Detail](phases/phase-12.md) | pending |
+| 9 | German state-law machine-readable and HTML adapters | [Detail](phases/phase-9.md) | pending |
+| 10 | German state-law PDF adapters and source limitations | [Detail](phases/phase-10.md) | pending |
+| 11 | Runtime coverage and relationship APIs | [Detail](phases/phase-11.md) | pending |
+| 12 | Scaling, search, and operational corpus gates | [Detail](phases/phase-12.md) | pending |
+| 13 | Documentation, diagrams, and release readiness | [Detail](phases/phase-13.md) | pending |
 
 ## Risks & Open Questions
 
@@ -175,9 +238,18 @@ committing large generated data into the repository.
 | EU acts may have multiple versions/languages. | Wrong text version could be served. | Require CELEX, Cellar expression/document metadata, language, retrieval timestamp, and content hash. |
 | New citation units may break existing clients if modeled carelessly. | API compatibility risk. | Add units compatibly and preserve existing `par` and `art` behavior. |
 | Network-heavy validation is slow or flaky. | PR checks could become unreliable. | Keep PR CI fixture-backed and run network corpus gates separately or on schedule. |
+| Full-corpus gates may fail due to upstream source changes. | Releases could block on external instability. | Persist manifests and classify failures by terminal state so source failures are visible without pretending the corpus is complete. |
 
 ## Changelog
 
 ### 2026-05-15
 
 - Plan created from `docs/superpowers/specs/2026-05-15-full-privacy-corpus-design.md`.
+- Review findings addressed: added explicit ID, provenance, failure taxonomy,
+  required live corpus gates, bounded EU seed policy, and split state-law
+  implementation phases.
+- Second review findings addressed: added relationship package contract,
+  EUR-Lex/Cellar version policy requirements, and full-corpus validation bundle
+  evidence.
+- Third review finding addressed: added named critical-GII-law gates for BDSG
+  and TDDDG.

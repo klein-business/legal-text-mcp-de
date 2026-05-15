@@ -26,7 +26,8 @@ the corpus manifest.
 - Manifest records for every discovered `<item>` and official `xml.zip` link.
 - Discovery count reporting through generated metadata.
 - Failure handling for unreachable TOC or malformed TOC payloads.
-- Tests with representative TOC fixtures and an optional live discovery check.
+- Tests with representative TOC fixtures and a required explicit or scheduled
+  live discovery gate that records the current TOC count.
 
 ### Excludes (deferred to later phases)
 
@@ -43,7 +44,8 @@ the corpus manifest.
 
 - [ ] GII TOC discovery manifest records.
 - [ ] Tests proving `discovered_gii_items` equals fixture TOC item count.
-- [ ] Optional network-heavy check for live GII TOC schema and count.
+- [ ] Explicit or scheduled network-heavy check for live GII TOC schema and
+      count, with persisted output.
 - [ ] Documentation of complete GII coverage measurement.
 
 ## Acceptance Criteria
@@ -52,6 +54,8 @@ the corpus manifest.
 - [ ] Discovery does not rely on the old hand-maintained `GERMAN_SOURCES` list.
 - [ ] Live discovery can report the current TOC item count without importing all
       payloads.
+- [ ] A live or recorded live-gate artifact proves the fetched TOC count used by
+      the import run.
 
 ## Dependencies on Other Phases
 

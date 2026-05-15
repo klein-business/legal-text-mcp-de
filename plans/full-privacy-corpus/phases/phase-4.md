@@ -25,7 +25,9 @@ bulk scale, while preserving explicit source failures.
 - Parser coverage for representative GII structural patterns.
 - Source failure records for unavailable, unsupported, and parse-failed payloads.
 - Generated fixture subset for fast tests.
-- Network-heavy sampled bulk import gate.
+- Parser-variant fixture matrix for known GII XML structural variants.
+- Required explicit or scheduled full-discovery terminal-state coverage gate.
+- Critical named GII privacy-law import checks for BDSG and TDDDG.
 
 ### Excludes (deferred to later phases)
 
@@ -42,15 +44,24 @@ bulk scale, while preserving explicit source failures.
 
 - [ ] GII bulk normalization path.
 - [ ] Representative GII fixture corpus with multiple legal structure patterns.
+- [ ] Parser-variant matrix documenting covered GII XML structures and examples.
 - [ ] Tests proving imported GII records have stable canonical IDs and
       provenance.
-- [ ] Coverage gate that reports imported vs failed GII sources.
+- [ ] Coverage gate that reports terminal state for every discovered GII source.
+- [ ] Critical-law gate proving BDSG and TDDDG import successfully from GII
+      provenance or emit explicit release-blocking upstream source limitations.
 
 ## Acceptance Criteria
 
 - [ ] All parseable fixture GII ZIPs produce validated law and norm records.
 - [ ] Parse failures are recorded in the manifest instead of being silently
       omitted.
+- [ ] Full-discovery coverage gate proves every discovered GII source has exactly
+      one terminal state.
+- [ ] BDSG and TDDDG generated records resolve from the normalized package with
+      GII provenance, unless a release-blocking source limitation is recorded.
+- [ ] Sampled parser checks are used only for parser regression coverage, not as
+      proof of full corpus completeness.
 - [ ] Generated full corpus data remains excluded from Git.
 
 ## Dependencies on Other Phases

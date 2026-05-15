@@ -24,8 +24,12 @@ behavior.
 
 - Dataset package layout for laws, norms, search index, readiness, manifest, and
   source-failure records.
+- Package layout for relationship records with stable IDs, relationship types,
+  provenance, and source-target validation.
 - Compatibility rules for existing `laws.json`, `norms.json`, `readiness.json`,
   and `search-index.json`.
+- Additive schema support for citation units `par`, `art`, `recital`, `chapter`,
+  `section`, `annex`, and structural `container`.
 - Loader validation for package metadata and manifest references.
 - Fixture package updates that remain small and committable.
 - Runtime readiness semantics for generated packages.
@@ -44,6 +48,8 @@ behavior.
 ## Deliverables
 
 - [ ] Documented generated package format.
+- [ ] Documented citation-unit schema and backwards compatibility rules.
+- [ ] Documented relationship record package schema.
 - [ ] Runtime-compatible fixture package.
 - [ ] Validation tests for package metadata and manifest references.
 - [ ] Backwards compatibility tests for existing MCP and HTTP tools.
@@ -52,6 +58,11 @@ behavior.
 
 - [ ] Existing MCP and HTTP E2E checks pass against the fixture package.
 - [ ] Package validation fails when manifest and normalized records disagree.
+- [ ] Package validation rejects unsupported or malformed citation units.
+- [ ] Package validation rejects relationship records with missing provenance,
+      unsupported relationship types, duplicate relationship IDs, or targets that
+      resolve to neither official records nor source limitations.
+- [ ] Existing `par` and `art` fixture behavior remains unchanged.
 - [ ] The package format can represent source failures without adding fake law or
       norm records.
 

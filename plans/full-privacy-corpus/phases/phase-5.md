@@ -23,7 +23,11 @@ Cellar coverage of articles 1-99 and all recitals.
 
 - Full DSGVO article coverage from official German-language EUR-Lex/Cellar
   source records.
-- DSGVO recitals as first-class citation units.
+- All 173 DSGVO recitals as first-class citation units from the same official
+  source family.
+- EUR-Lex/Cellar version and consolidation policy for DSGVO, including how
+  selected expression/document metadata, corrigenda, amendments, stand/version
+  information, and content hashes are recorded.
 - Citation resolution and search fixtures for articles and recitals.
 - Source metadata for CELEX, Cellar work/expression/document, language,
   retrieval timestamp, and content hash.
@@ -43,6 +47,10 @@ Cellar coverage of articles 1-99 and all recitals.
 
 - [ ] DSGVO full article fixtures and parser coverage.
 - [ ] DSGVO recital fixtures and parser coverage.
+- [ ] Official-source check documenting the selected CELEX/Cellar source,
+      German language expression, article count, and recital count.
+- [ ] DSGVO version/consolidation policy record with tests or source checks that
+      fail if an unintended German expression/document is selected.
 - [ ] Resolver tests for `dsgvo_eu_2016_679/art:*` and
       `dsgvo_eu_2016_679/recital:*`.
 - [ ] Documentation update describing article and recital citation units.
@@ -50,7 +58,9 @@ Cellar coverage of articles 1-99 and all recitals.
 ## Acceptance Criteria
 
 - [ ] DSGVO articles 1-99 resolve in generated corpus checks.
-- [ ] DSGVO recitals resolve as citation units.
+- [ ] DSGVO recitals 1-173 resolve as citation units.
+- [ ] DSGVO source metadata records the selected CELEX/Cellar expression,
+      document, language, version/consolidation policy, and content hash.
 - [ ] Existing selected DSGVO article behavior remains backwards compatible.
 
 ## Dependencies on Other Phases

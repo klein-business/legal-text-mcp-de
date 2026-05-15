@@ -29,6 +29,11 @@ updated: "2026-05-15"
 - [ ] Author and verify Phase 1 implementation plan. <!-- added: 2026-05-15 -->
 - [ ] Define manifest record fields and terminal states. <!-- added: 2026-05-15 -->
 - [ ] Define source-family identifiers and provenance requirements. <!-- added: 2026-05-15 -->
+- [ ] Define canonical ID, alias, collision, and migration rules. <!-- added: 2026-05-15 -->
+- [ ] Define terminal-state required fields and examples. <!-- added: 2026-05-15 -->
+- [ ] Define relationship package validation rules. <!-- added: 2026-05-15 -->
+- [ ] Define EUR-Lex/Cellar version and consolidation metadata policy. <!-- added: 2026-05-15 -->
+- [ ] Define critical named GII law gate semantics for BDSG and TDDDG. <!-- added: 2026-05-15 -->
 - [ ] Add representative manifest fixtures. <!-- added: 2026-05-15 -->
 - [ ] Add manifest validation tests. <!-- added: 2026-05-15 -->
 - [ ] Update docs touched by the Phase 1 contract. <!-- added: 2026-05-15 -->
@@ -50,3 +55,10 @@ No tasks blocked.
 ### 2026-05-15
 
 - Plan created from `docs/superpowers/specs/2026-05-15-full-privacy-corpus-design.md`.
+- Plan review findings addressed: tightened full-corpus gates, canonical ID
+  policy, provenance matrix, terminal-state taxonomy, EU seed policy, state-law
+  phase split, negative tests, and docs-check ownership.
+- Second plan review findings addressed: relationship package ownership,
+  DSGVO/EUR-Lex version policy, and full-corpus validation evidence bundle.
+- Third plan review finding addressed: BDSG/TDDDG named-law import and runtime
+  evidence gate.

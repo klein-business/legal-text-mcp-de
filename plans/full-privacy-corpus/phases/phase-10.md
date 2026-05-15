@@ -8,62 +8,60 @@ created: "2026-05-15"
 updated: "2026-05-15"
 ---
 
-# Phase 10: Runtime coverage and relationship APIs
+# Phase 10: German state-law PDF adapters and source limitations
 
 > Part of [full-privacy-corpus](../plan.md)
 
 ## Objective
 
-Expose full-corpus coverage, source limitations, and relationship metadata
-through stable MCP and HTTP runtime surfaces while preserving existing tool
-behavior.
+Handle state-law privacy sources that Phase 8 classifies as PDF-only,
+unstructured, unstable, or limitation-only.
 
 ## Scope
 
 ### Includes
 
-- Runtime access to corpus manifest status and source limitations.
-- Runtime access to relationship records.
-- Additive MCP/HTTP surfaces for corpus coverage and related norms if needed.
-- Backwards compatibility tests for existing tools.
-- E2E tests against generated fixture package.
+- PDF source adapter only where official source stability and extraction quality
+  meet the manifest/provenance contract.
+- Source limitation records for states without usable official sources.
+- Fixtures for one supported PDF extraction class if implemented.
+- Negative tests for unsupported or unstable source formats.
 
 ### Excludes (deferred to later phases)
 
-- Search ranking changes.
-- Full production corpus performance tuning.
-- Additional source-family imports.
+- Machine-readable and stable HTML state sources already handled by Phase 9.
+- Runtime related-norm API exposure.
+- Manual transcription of legal text.
 
 ## Prerequisites
 
-- [ ] Phase 2 generated package format is complete.
-- [ ] Phase 4 GII normalization status is available.
-- [ ] Phase 7 relationship records are available.
-- [ ] Phase 9 state-law adapter outcomes are available or explicitly deferred.
+- [ ] Phase 8 state-law inventory is complete.
+- [ ] Phase 9 machine-readable and stable HTML adapter outcomes are known.
 
 ## Deliverables
 
-- [ ] Runtime coverage and source limitation access.
-- [ ] Related-norm lookup behavior if approved by implementation planning.
-- [ ] MCP and HTTP tests for coverage and relationship surfaces.
-- [ ] Backwards compatibility checks for existing MCP/HTTP tools.
+- [ ] PDF adapter or explicit limitation for every remaining state.
+- [ ] Source limitation records for unsupported states.
+- [ ] Tests proving unsupported sources are visible as limitations.
+- [ ] Updated state-law coverage summary.
 
 ## Acceptance Criteria
 
-- [ ] Existing tools continue to return compatible responses.
-- [ ] Clients can inspect corpus coverage and source failures.
-- [ ] Relationship metadata is returned separately from legal text.
-- [ ] Local HTTP/MCP E2E passes against representative generated fixture package.
+- [ ] Every one of 16 states has either imported records or an explicit source
+      limitation after Phases 9 and 10.
+- [ ] No state-law text is manually transcribed or invented.
+- [ ] PDF extraction, if implemented, records official source URL, content hash,
+      extraction method, and parser version.
 
 ## Dependencies on Other Phases
 
 | Phase | Relationship | Notes |
 |-------|-------------|-------|
-| Phase 2 | blocked-by | Requires package metadata and loader support. |
-| Phase 7 | blocked-by | Requires relationship records. |
-| Phase 11 | blocks | Scaling phase validates runtime behavior under larger data. |
+| Phase 8 | blocked-by | Requires source classification. |
+| Phase 9 | blocked-by | Handles preferred adapter classes first. |
+| Phase 11 | blocks | Runtime APIs should expose final state-law coverage. |
 
 ## Notes
 
-This phase should remain additive unless a versioned API change is explicitly
-planned.
+This phase closes state-law coverage without pretending every state necessarily
+has an equally parseable source.

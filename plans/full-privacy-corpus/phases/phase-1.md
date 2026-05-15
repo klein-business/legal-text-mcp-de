@@ -28,6 +28,9 @@ contract that every later source adapter and runtime feature will use.
   scope references.
 - Terminal-state definitions for imported, unavailable, unsupported, failed, and
   policy-excluded sources.
+- Source-family-specific provenance completeness matrix.
+- Deterministic canonical ID, alias, collision, and migration policy.
+- Required fields and examples for each terminal-state class.
 - Representative fixture data that exercises the contract without importing the
   full corpus.
 - Validation and test coverage for the manifest contract.
@@ -50,6 +53,9 @@ contract that every later source adapter and runtime feature will use.
 
 - [ ] Versioned manifest contract and validation rules.
 - [ ] Source-family and terminal-state definitions.
+- [ ] Canonical ID, alias, collision, and migration policy.
+- [ ] Source-family-specific provenance matrix.
+- [ ] Failure taxonomy examples for every terminal state.
 - [ ] Representative manifest fixtures.
 - [ ] Tests proving invalid or incomplete manifest records fail validation.
 - [ ] Documentation note describing the manifest as the basis of corpus
@@ -60,6 +66,10 @@ contract that every later source adapter and runtime feature will use.
 - [ ] Existing fixture dataset still loads and passes release gates.
 - [ ] Manifest validation rejects missing source IDs, missing terminal states,
       duplicate discovered-source records, and unprovenanced exclusions.
+- [ ] Manifest validation rejects source records missing required provenance for
+      their source family.
+- [ ] Canonical ID rules cover generated GII laws, EUR-Lex acts, state-law
+      records, third-party relationship records, and new citation units.
 - [ ] Every later source family can reference this phase's contract without
       defining its own incompatible manifest shape.
 
