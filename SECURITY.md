@@ -42,11 +42,11 @@ surface and HTTP API begins at `v1.0.0`. Security patches before
 
 | Version | Status |
 | --- | --- |
-| `v1.x` | Supported (current development; pre-release) |
-| `< v1.0.0` | Not supported; upgrade to the latest tagged release |
+| `v0.x` | Supported (current pre-release development line) |
+| Tagged releases before the latest | Not supported; upgrade to the latest release |
 
-After `v1.0.0`, the prior `v(N-1).x` line receives security patches for
-six months following a new major release.
+Once `v1.0.0` is released, the prior `v(N-1).x` line will receive
+security patches for six months following any new major release.
 
 ## CVE Assignment
 

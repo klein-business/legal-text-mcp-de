@@ -19,7 +19,6 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-EXEMPT_FILE = REPO_ROOT / ".github" / "spdx-header-exempt.txt"
 
 SPDX_LINE = "# SPDX-License-Identifier: Apache-2.0"
 COPYRIGHT_LINE = "# Copyright 2026 klein-business"
