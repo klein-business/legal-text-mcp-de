@@ -30,6 +30,19 @@ def test_egbgb_container_and_child(dataset):
     assert child["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
 
 
+def test_egbgb_container_records_precise_upstream_url_anomaly(dataset):
+    container = resolve_citation(dataset, "EGBGB", "art", "246a")
+
+    assert container["norm"]["known_issues"] == [
+        {
+            "code": "UPSTREAM_CONTAINER_URL_UNAVAILABLE",
+            "url": "https://www.gesetze-im-internet.de/bgbeg/art_246a.html",
+            "http_status": 404,
+            "note": "Upstream GII container URL returns 404; child URL is verified separately.",
+        }
+    ]
+
+
 def test_get_norm_parses_encoded_canonical_child(dataset):
     result = get_norm(dataset, "egbgb", "art:246a/par:1")
     assert result["citation"]["label"] == "EGBGB Art. 246a § 1"

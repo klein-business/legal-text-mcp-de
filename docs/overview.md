@@ -60,7 +60,7 @@ LegalTextRuntime
 | mcp-law-tools | Stable MCP tool surface. | [Detail](features/mcp-law-tools.md) |
 | api-contracts | Shared JSON response and error contracts. | [Detail](features/api-contracts.md) |
 | http-api | FastAPI endpoints and OpenAPI contract. | [Detail](features/http-api.md) |
-| known-issues | Explicit limitations and non-goals. | [Detail](features/known-issues.md) |
+| scope-and-invariants | Explicit product boundaries, source invariants, and compatibility metadata. | [Detail](features/known-issues.md) |
 
 ## Development
 
