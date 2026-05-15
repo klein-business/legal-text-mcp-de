@@ -94,3 +94,22 @@ strict = true
 module = "mcp.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
+
+[tool.coverage.run]
+source = ["mcp"]
+branch = false
+omit = [
+    "mcp/tests/*",
+    "mcp/__pycache__/*",
+]
+
+[tool.coverage.report]
+fail_under = 86
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
