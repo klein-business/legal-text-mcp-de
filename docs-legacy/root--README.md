@@ -1,3 +1,5 @@
+> This is an archived historical document, see [README.md](../README.md) for current state.
+
 # Deutsche Gesetze MCP Server
 
 Dieser Server implementiert das [Model Context Protocol (MCP)](https://modelcontextprotocol.io), um deutschen Gesetzestexte für LLMs (Large Language Models) bereitzustellen. Er ermöglicht es KI-Assistenten, gezielt nach Gesetzen zu suchen und spezifische Paragraphen abzurufen.

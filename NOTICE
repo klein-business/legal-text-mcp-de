@@ -1,0 +1,40 @@
+legal-text-mcp-de
+Copyright 2026 klein-business
+
+Maintainer: Martin Klein <martin@klein.business>
+
+This product includes software developed for the Model Context Protocol
+(https://modelcontextprotocol.io) ecosystem.
+
+Derivative work attribution
+---------------------------
+
+Portions of this software are derived from:
+
+  deutsche-gesetze-mcp
+  Copyright (c) 2025 Florian Leuerer
+  Licensed under the MIT License
+  https://github.com/floleuerer/deutsche-gesetze-mcp
+
+The full MIT licence text covering those portions is preserved in
+licenses/MIT-floleuerer.txt.
+
+Data sources accessed at runtime
+--------------------------------
+
+This software accesses official legal text from external sources at runtime.
+No editorial legal text is bundled with this source distribution.
+
+  gesetze-im-internet.de
+    German federal laws. Official texts of acts are not protected by
+    copyright under §5 (1) UrhG.
+
+  EUR-Lex / Cellar (publications.europa.eu)
+    European Union acts. Reuse permitted under Commission Decision
+    2011/833/EU, with attribution.
+
+Disclaimer
+----------
+
+This software is local infrastructure. It does not constitute legal advice.
+Provenance metadata is best-effort and not guaranteed to be complete.

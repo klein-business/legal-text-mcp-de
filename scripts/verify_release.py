@@ -48,6 +48,9 @@ DOC_CHECK_ROOTS = [
     Path("docs-legacy"),
     Path("plans"),
 ]
+# Internal design/plan documents that reference spec-forward file paths that may not
+# exist yet or resolve relative to the repo root rather than the document's directory.
+DOC_CHECK_EXCLUDED_DIRS: frozenset[str] = frozenset({"superpowers"})
 STALE_WORKFLOW_CHECK_ROOTS = [
     Path("README.md"),
     Path("docs"),
@@ -96,7 +99,12 @@ def _iter_markdown_files(roots: list[Path]):
             yield root
             continue
         if root.is_dir():
-            yield from sorted(path for path in root.rglob("*.md") if path.is_file())
+            yield from sorted(
+                path
+                for path in root.rglob("*.md")
+                if path.is_file()
+                and not DOC_CHECK_EXCLUDED_DIRS.intersection(path.parts)
+            )
 
 
 def _markdown_targets(text: str):
