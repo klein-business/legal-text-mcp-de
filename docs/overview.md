@@ -13,7 +13,7 @@ through MCP and a small HTTP API. The runtime serves validated local packages:
 small committed fixtures for fast CI, or generated production corpus packages
 kept outside Git.
 
-The project is proprietary commercial software. It does not provide legal
+The project is open source under the Apache License 2.0. It does not provide legal
 advice and does not include SaaS, billing, account, authorization, or
 multi-tenant features.
 

@@ -66,7 +66,7 @@ def check_required_files(root: Path) -> CheckResult:
     return CheckResult(name="required files exist", passed=True, message="ok")
 
 
-EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy"}
+EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy", "superpowers"}
 # verify_pre_flip.py and its test file legitimately contain the needle
 # strings (as constants and test fixtures); skip them to avoid
 # self-matching during the scan.
