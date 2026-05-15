@@ -47,7 +47,29 @@ def check_license_apache_2_0(root: Path) -> CheckResult:
     return CheckResult(name="LICENSE is Apache-2.0", passed=True, message="ok")
 
 
-CHECKS = [check_license_apache_2_0]
+REQUIRED_FILES = (
+    "NOTICE",
+    "AUTHORS.md",
+    "CHANGELOG.md",
+    "licenses/MIT-floleuerer.txt",
+)
+
+
+def check_required_files(root: Path) -> CheckResult:
+    missing = [p for p in REQUIRED_FILES if not (root / p).is_file()]
+    if missing:
+        return CheckResult(
+            name="required files exist",
+            passed=False,
+            message=f"missing: {missing}",
+        )
+    return CheckResult(name="required files exist", passed=True, message="ok")
+
+
+CHECKS = [
+    check_license_apache_2_0,
+    check_required_files,
+]
 
 
 def main(argv: list[str] | None = None) -> int:

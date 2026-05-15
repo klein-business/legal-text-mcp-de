@@ -35,3 +35,23 @@ def test_check_license_apache_2_0_fails_when_missing(tmp_path: Path) -> None:
     result = vpf.check_license_apache_2_0(tmp_path)
     assert result.passed is False
     assert "LICENSE" in result.message
+
+
+def test_required_files_passes_when_all_present(tmp_path: Path) -> None:
+    (tmp_path / "NOTICE").write_text("notice", encoding="utf-8")
+    (tmp_path / "AUTHORS.md").write_text("authors", encoding="utf-8")
+    (tmp_path / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (tmp_path / "licenses").mkdir()
+    (tmp_path / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
+
+    result = vpf.check_required_files(tmp_path)
+    assert result.passed is True, result.message
+
+
+def test_required_files_fails_when_any_missing(tmp_path: Path) -> None:
+    (tmp_path / "NOTICE").write_text("notice", encoding="utf-8")
+    result = vpf.check_required_files(tmp_path)
+    assert result.passed is False
+    assert "AUTHORS.md" in result.message
+    assert "CHANGELOG.md" in result.message
+    assert "MIT-floleuerer.txt" in result.message
