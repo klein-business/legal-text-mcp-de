@@ -1,8 +1,39 @@
 [project]
 name = "legal-text-mcp-de"
 version = "0.1.0"
-description = "German legal text MCP server and HTTP API"
-requires-python = ">=3.12,<3.13"
+description = "Python MCP server and HTTP API for loading, validating, searching, and resolving German legal texts with source provenance."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+authors = [
+    { name = "Martin Klein", email = "martin@klein.business" },
+]
+maintainers = [
+    { name = "Martin Klein", email = "martin@klein.business" },
+]
+keywords = [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "legal-tech",
+    "german-law",
+    "dsgvo",
+    "gdpr",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Legal Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Typing :: Typed",
+]
 dependencies = [
     "mcp[cli]==1.23.0",
     "rapidfuzz",
@@ -10,6 +41,13 @@ dependencies = [
     "fastapi",
     "uvicorn",
 ]
+
+[project.urls]
+Homepage = "https://github.com/klein-business/legal-text-mcp-de"
+Repository = "https://github.com/klein-business/legal-text-mcp-de"
+Issues = "https://github.com/klein-business/legal-text-mcp-de/issues"
+Changelog = "https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANGELOG.md"
+Security = "https://github.com/klein-business/legal-text-mcp-de/security/policy"
 
 [dependency-groups]
 dev = [
