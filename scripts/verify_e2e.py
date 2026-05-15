@@ -28,6 +28,17 @@ EXPECTED_TOOLS = {
     "get_source_limitations",
     "get_related_norms",
 }
+EXPECTED_HTTP_PATHS = {
+    "/health",
+    "/ready",
+    "/laws",
+    "/laws/{code}",
+    "/laws/{code}/norms/{norm}",
+    "/laws/{code}/norms/{norm}/relationships",
+    "/corpus/coverage",
+    "/corpus/source-limitations",
+    "/search",
+}
 
 
 def free_port() -> int:
@@ -104,6 +115,13 @@ def get_json(url: str, *, expected_status: int = 200) -> dict[str, Any]:
     return json.loads(body)
 
 
+def assert_openapi_paths(base: str) -> None:
+    schema = get_json(f"{base}/openapi.json")
+    missing = EXPECTED_HTTP_PATHS - set(schema["paths"])
+    if missing:
+        raise AssertionError(f"OpenAPI schema missing paths: {sorted(missing)}")
+
+
 def run_http_legacy_e2e(port: int) -> None:
     base = f"http://127.0.0.1:{port}"
     health = get_json(f"{base}/health")
@@ -116,7 +134,9 @@ def run_http_legacy_e2e(port: int) -> None:
     limitations = get_json(f"{base}/corpus/source-limitations")
     relationships = get_json(f"{base}/laws/BGB/norms/par%3A355/relationships")
     search = get_json(f"{base}/search?query=Werbung&codes=UWG")
+    missing_law = get_json(f"{base}/laws/NOPE", expected_status=404)
     invalid = get_json(f"{base}/search?query=!!!", expected_status=422)
+    assert_openapi_paths(base)
 
     assert health == {"status": "ok"}
     assert ready["stage"] == "serving_dataset"
@@ -132,6 +152,7 @@ def run_http_legacy_e2e(port: int) -> None:
     assert relationships["count"] == 0
     assert search["codes"] == ["uwg_2004"]
     assert search["results"]
+    assert missing_law["error"]["code"] == "LAW_NOT_FOUND"
     assert invalid["error"]["code"] == "INVALID_QUERY"
 
 
@@ -142,9 +163,12 @@ def run_http_generated_package_e2e(port: int) -> None:
     laws = get_json(f"{base}/laws?query=DSGVO")
     law = get_json(f"{base}/laws/DSGVO")
     norm = get_json(f"{base}/laws/DSGVO/norms/art%3A5")
+    recital = get_json(f"{base}/laws/DSGVO/norms/recital%3A1")
     coverage = get_json(f"{base}/corpus/coverage")
     limitations = get_json(f"{base}/corpus/source-limitations?source_family=state-law")
     relationships = get_json(f"{base}/laws/DSGVO/norms/art%3A5/relationships")
+    search = get_json(f"{base}/search?query=Personenbezogene")
+    assert_openapi_paths(base)
 
     assert health == {"status": "ok"}
     assert ready["stage"] == "serving_dataset"
@@ -152,11 +176,15 @@ def run_http_generated_package_e2e(port: int) -> None:
     assert laws["count"] == 1
     assert law["law"]["canonical_id"] == "dsgvo_eu_2016_679"
     assert norm["norm"]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
+    assert recital["norm"]["canonical_id"] == "dsgvo_eu_2016_679/recital:1"
     assert coverage["generated_package_present"] is True
     assert coverage["counts"]["source_limitations"] == 1
     assert limitations["count"] == 1
     assert relationships["count"] == 1
     assert relationships["relationships"][0]["relationship_id"] == "rel-dsgvo-art5-limitation"
+    assert search["query"] == "personenbezogene"
+    assert search["count"] == 1
+    assert search["results"][0]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
 
 
 def import_external_mcp_client():
@@ -186,6 +214,8 @@ async def run_mcp_legacy_e2e(port: int) -> None:
             names = {tool.name for tool in tools.tools}
             assert names == EXPECTED_TOOLS
 
+            laws = await session.call_tool("list_laws", {"query": "DSGVO"})
+            law = await session.call_tool("get_law", {"code": "BGB"})
             norm = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 355"})
             citation = await session.call_tool(
                 "resolve_citation",
@@ -201,8 +231,11 @@ async def run_mcp_legacy_e2e(port: int) -> None:
             coverage = await session.call_tool("get_corpus_coverage", {})
             limitations = await session.call_tool("get_source_limitations", {})
             relationships = await session.call_tool("get_related_norms", {"code": "BGB", "norm": "§ 355"})
+            source_metadata = await session.call_tool("get_source_metadata", {"code": "DSGVO"})
             missing = await session.call_tool("get_norm", {"code": "BGB", "norm": "§ 999"})
 
+            assert structured_content(laws)["laws"][0]["canonical_id"] == "dsgvo_eu_2016_679"
+            assert structured_content(law)["law"]["canonical_id"] == "bgb"
             assert structured_content(norm)["norm"]["canonical_id"] == "bgb/par:355"
             assert structured_content(citation)["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
             search_data = structured_content(search)
@@ -211,6 +244,7 @@ async def run_mcp_legacy_e2e(port: int) -> None:
             assert structured_content(coverage)["generated_package_present"] is False
             assert structured_content(limitations)["count"] == 0
             assert structured_content(relationships)["count"] == 0
+            assert structured_content(source_metadata)["sources"][0]["source"]["source_kind"] == "eur-lex-cellar"
             assert structured_content(missing)["error"]["code"] == "NORM_NOT_FOUND"
 
 
@@ -222,12 +256,25 @@ async def run_mcp_generated_package_e2e(port: int) -> None:
             tools = await session.list_tools()
             assert {tool.name for tool in tools.tools} == EXPECTED_TOOLS
 
+            laws = await session.call_tool("list_laws", {})
+            law = await session.call_tool("get_law", {"code": "DSGVO"})
             norm = await session.call_tool("get_norm", {"code": "DSGVO", "norm": "art:5"})
+            recital = await session.call_tool("get_norm", {"code": "DSGVO", "norm": "recital:1"})
+            search = await session.call_tool("search_laws", {"query": "Personenbezogene"})
+            source_metadata = await session.call_tool("get_source_metadata", {"code": "DSGVO"})
             coverage = await session.call_tool("get_corpus_coverage", {})
             limitations = await session.call_tool("get_source_limitations", {"source_family": "state-law"})
             relationships = await session.call_tool("get_related_norms", {"code": "DSGVO", "norm": "art:5"})
 
+            assert structured_content(laws)["count"] == 1
+            assert structured_content(law)["law"]["canonical_id"] == "dsgvo_eu_2016_679"
             assert structured_content(norm)["norm"]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
+            assert structured_content(recital)["norm"]["canonical_id"] == "dsgvo_eu_2016_679/recital:1"
+            generated_search = structured_content(search)
+            assert generated_search["query"] == "personenbezogene"
+            assert generated_search["count"] == 1
+            assert generated_search["results"][0]["canonical_id"] == "dsgvo_eu_2016_679/art:5"
+            assert structured_content(source_metadata)["sources"][0]["source"]["source_kind"] == "eur-lex-cellar"
             assert structured_content(coverage)["generated_package_present"] is True
             assert structured_content(coverage)["counts"]["relationships"] == 1
             assert structured_content(limitations)["count"] == 1
