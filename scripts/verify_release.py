@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import re
@@ -25,6 +26,14 @@ TESTS = [
     "mcp/tests/test_parser.py",
     "mcp/tests/test_library.py",
 ]
+
+
+def selected_tests() -> list[str]:
+    if os.environ.get("SKIP_LIVE_SOURCE_MATRIX") != "true":
+        return TESTS
+    skipped = "mcp/tests/test_source_matrix_live.py"
+    print(f"Skipping external live source probes in CI: {skipped}", flush=True)
+    return [test for test in TESTS if test != skipped]
 
 
 def check_docs_links() -> None:
@@ -101,7 +110,7 @@ def check_no_stale_workflow_refs() -> None:
 def main() -> int:
     check_docs_links()
     check_no_stale_workflow_refs()
-    cmd = [sys.executable, "-m", "pytest", *TESTS]
+    cmd = [sys.executable, "-m", "pytest", *selected_tests()]
     print("Running:", " ".join(cmd), flush=True)
     test_result = subprocess.call(cmd)
     if test_result != 0:

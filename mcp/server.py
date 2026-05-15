@@ -26,7 +26,7 @@ except ModuleNotFoundError:
     sys.path = original_path
 
 from config import settings
-from legal_texts.errors import LegalTextError, as_error_dict
+from legal_texts.errors import LegalTextError
 from legal_texts.runtime import LegalTextRuntime
 
 

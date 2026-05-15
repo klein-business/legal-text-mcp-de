@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from legal_texts.dataset import NormalizedDataset
-from legal_texts.errors import LegalTextError
 from legal_texts.validation import validate_dataset_package, validate_norms
 
 
