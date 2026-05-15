@@ -90,3 +90,22 @@ def test_no_proprietary_strings_ignores_license_file(tmp_path: Path) -> None:
     )
     result = vpf.check_no_proprietary_strings(tmp_path)
     assert result.passed is True, result.message
+
+
+def test_no_proprietary_strings_skips_verify_pre_flip_sources(tmp_path: Path) -> None:
+    """The script and its test file may legitimately contain the needles.
+
+    They MUST be skipped, otherwise the gate flags its own sources.
+    """
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "scripts" / "verify_pre_flip.py").write_text(
+        "PROPRIETARY_STRINGS = ('proprietary commercial',)\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "mcp" / "tests").mkdir(parents=True)
+    (tmp_path / "mcp" / "tests" / "test_verify_pre_flip.py").write_text(
+        "x = 'proprietary commercial'\n",
+        encoding="utf-8",
+    )
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is True, result.message

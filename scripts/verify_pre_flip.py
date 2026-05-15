@@ -67,7 +67,10 @@ def check_required_files(root: Path) -> CheckResult:
 
 
 EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy"}
-EXCLUDED_FILES = {"LICENSE"}
+# verify_pre_flip.py and its test file legitimately contain the needle
+# strings (as constants and test fixtures); skip them to avoid
+# self-matching during the scan.
+EXCLUDED_FILES = {"LICENSE", "verify_pre_flip.py", "test_verify_pre_flip.py"}
 PROPRIETARY_STRINGS = ("proprietary commercial", "All rights reserved.")
 
 
