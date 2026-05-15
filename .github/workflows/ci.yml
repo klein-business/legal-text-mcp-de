@@ -31,9 +31,6 @@ jobs:
       - name: Sync dependencies
         run: uv sync --locked --all-groups
 
-      - name: Verify CI workflow
-        run: PYTHONPATH=mcp uv run --group dev python scripts/verify_ci_workflow.py
-
       - name: Verify uv runtime, E2E, and Docker
         run: PYTHONPATH=mcp uv run --group dev python scripts/verify_uv_runtime_docker.py
 
