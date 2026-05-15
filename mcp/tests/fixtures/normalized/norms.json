@@ -199,9 +199,10 @@
     ],
     "known_issues": [
       {
-        "code": "URL_NOT_VERIFIED",
+        "code": "UPSTREAM_CONTAINER_URL_UNAVAILABLE",
         "url": "https://www.gesetze-im-internet.de/bgbeg/art_246a.html",
-        "note": "Official container URL may not resolve; child URL is verified separately."
+        "http_status": 404,
+        "note": "Upstream GII container URL returns 404; child URL is verified separately."
       }
     ]
   },

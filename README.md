@@ -143,4 +143,4 @@ This project is proprietary commercial software. See [LICENSE](LICENSE).
 - [Source provenance](docs/features/source-provenance.md)
 - [API contracts](docs/features/api-contracts.md)
 - [HTTP API](docs/features/http-api.md)
-- [Known issues](docs/features/known-issues.md)
+- [Scope and invariants](docs/features/known-issues.md)

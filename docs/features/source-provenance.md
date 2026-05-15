@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "source-provenance"
-version: 1.2
+version: 1.3
 ---
 
 # Feature: source-provenance
@@ -22,10 +22,10 @@ Every law and norm response carries provenance. Clients can distinguish German G
 | `source_url` | Canonical import/source URL. |
 | `retrieved_at` | Snapshot retrieval timestamp. |
 | `stand_date` | Source stand date when available. |
-| `stand_date_status` | Whether stand date is available, missing, or a known issue. |
+| `stand_date_status` | Whether stand date is available, missing, or not exposed by the source. |
 | `content_hash` | SHA-256 over the source or normalized content. |
 | `source_metadata` | Source-kind-specific fields such as Cellar work/expression/document. |
-| `known_issues` | Explicit limitations or source anomalies. |
+| `known_issues` | Backwards-compatible field for structured source anomalies and non-fatal provenance caveats. |
 
 ## Data Separation
 
@@ -39,5 +39,5 @@ Raw snapshots and normalized data are separate:
 
 - Supported German laws use `gesetze-im-internet.de` source paths from the source matrix.
 - DSGVO uses the official Publications Office / Cellar XML source for CELEX `32016R0679`, German expression `0004.02`, document `DOC_2`.
-- Known invalid GII paths, including `tddsg` and `pangv`, are regression checks and are not production source paths.
+- Intentionally invalid GII paths, including `tddsg` and `pangv`, are regression checks and are not production source paths.
 - Missing or invalid source metadata fails validation instead of producing partial silent data.
