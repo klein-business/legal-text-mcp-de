@@ -27,4 +27,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.secrets.baseline` and `detect-secrets` dev dependency for the
   secrets-scan gate.
 
-[Unreleased]: https://github.com/klein-business/legal-text-mcp-de/compare/HEAD
+[Unreleased]: https://github.com/klein-business/legal-text-mcp-de/compare/e510e4b...HEAD
