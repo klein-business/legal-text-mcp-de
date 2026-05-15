@@ -55,3 +55,38 @@ def test_required_files_fails_when_any_missing(tmp_path: Path) -> None:
     assert "AUTHORS.md" in result.message
     assert "CHANGELOG.md" in result.message
     assert "MIT-floleuerer.txt" in result.message
+
+
+def test_no_proprietary_strings_passes_when_absent(tmp_path: Path) -> None:
+    (tmp_path / "README.md").write_text("Apache 2.0 project", encoding="utf-8")
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is True, result.message
+
+
+def test_no_proprietary_strings_fails_on_proprietary_commercial(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "README.md").write_text(
+        "This is proprietary commercial software.", encoding="utf-8"
+    )
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is False
+    assert "README.md" in result.message
+    assert "proprietary" in result.message.lower()
+
+
+def test_no_proprietary_strings_ignores_docs_legacy(tmp_path: Path) -> None:
+    (tmp_path / "docs-legacy").mkdir()
+    (tmp_path / "docs-legacy" / "old.md").write_text(
+        "This was proprietary commercial.", encoding="utf-8"
+    )
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is True, result.message
+
+
+def test_no_proprietary_strings_ignores_license_file(tmp_path: Path) -> None:
+    (tmp_path / "LICENSE").write_text(
+        "Copyright (c) 2025 X. All rights reserved.", encoding="utf-8"
+    )
+    result = vpf.check_no_proprietary_strings(tmp_path)
+    assert result.passed is True, result.message

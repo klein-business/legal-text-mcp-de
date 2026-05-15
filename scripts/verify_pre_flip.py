@@ -66,9 +66,41 @@ def check_required_files(root: Path) -> CheckResult:
     return CheckResult(name="required files exist", passed=True, message="ok")
 
 
+EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy"}
+EXCLUDED_FILES = {"LICENSE"}
+PROPRIETARY_STRINGS = ("proprietary commercial", "All rights reserved.")
+
+
+def check_no_proprietary_strings(root: Path) -> CheckResult:
+    hits: list[tuple[str, str]] = []
+    for path in root.rglob("*"):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(root)
+        if any(part in EXCLUDED_DIRS for part in rel.parts):
+            continue
+        if rel.name in EXCLUDED_FILES:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        for needle in PROPRIETARY_STRINGS:
+            if needle in text:
+                hits.append((str(rel), needle))
+    if hits:
+        return CheckResult(
+            name="no proprietary strings",
+            passed=False,
+            message=f"hits: {hits}",
+        )
+    return CheckResult(name="no proprietary strings", passed=True, message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
+    check_no_proprietary_strings,
 ]
 
 
