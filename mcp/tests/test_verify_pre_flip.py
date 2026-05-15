@@ -330,3 +330,55 @@ def test_workflow_set_fails_when_extra(tmp_path: Path) -> None:
     assert result.status == "FAIL"
     assert "unexpected" in result.message.lower()
     assert "rogue.yml" in result.message
+
+
+from unittest.mock import patch
+
+
+EXPECTED_REQUIRED_CHECKS = {
+    "Lint (ruff)",
+    "Mypy strict (scripts)",
+    "Test (py3.12)",
+    "Test (py3.13)",
+    "Lockfile integrity",
+    "Build (sdist + wheel)",
+    "MegaLinter",
+    "Release gate (fixture-backed)",
+    "uv runtime and Docker",
+    "CodeQL analysis (python)",
+    "Dependency review",
+    "PR title (Conventional Commits)",
+    "DCO sign-off check",
+}
+
+
+def test_required_status_checks_skips_without_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("VERIFY_GITHUB_TOKEN", raising=False)
+    result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "SKIP"
+    assert "VERIFY_GITHUB_TOKEN" in result.message
+
+
+def test_required_status_checks_passes_when_all_present(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake-token")
+    payload = {
+        "required_status_checks": {
+            "contexts": list(EXPECTED_REQUIRED_CHECKS),
+        }
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_required_status_checks_fails_when_any_missing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake-token")
+    payload = {
+        "required_status_checks": {
+            "contexts": ["Lint (ruff)"],
+        }
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_required_status_checks(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "missing" in result.message.lower()

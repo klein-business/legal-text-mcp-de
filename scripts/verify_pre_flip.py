@@ -10,10 +10,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
 import tomllib
+import urllib.error
+import urllib.request
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Literal
@@ -215,6 +218,74 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
     return CheckResult(name="no unaudited secrets", status="PASS", message="ok")
 
 
+GITHUB_API_BASE = "https://api.github.com"
+GITHUB_REPO_SLUG = "klein-business/legal-text-mcp-de"
+GITHUB_DEFAULT_BRANCH = "main"
+
+EXPECTED_REQUIRED_CHECKS = {
+    "Lint (ruff)",
+    "Mypy strict (scripts)",
+    "Test (py3.12)",
+    "Test (py3.13)",
+    "Lockfile integrity",
+    "Build (sdist + wheel)",
+    "MegaLinter",
+    "Release gate (fixture-backed)",
+    "uv runtime and Docker",
+    "CodeQL analysis (python)",
+    "Dependency review",
+    "PR title (Conventional Commits)",
+    "DCO sign-off check",
+}
+
+
+def _fetch_github_json(path: str, token: str) -> dict[str, object]:
+    url = f"{GITHUB_API_BASE}/{path.lstrip('/')}"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        return json.loads(resp.read().decode("utf-8"))  # type: ignore[no-any-return]
+
+
+def check_required_status_checks(root: Path) -> CheckResult:
+    token = os.environ.get("VERIFY_GITHUB_TOKEN")
+    if not token:
+        return CheckResult(
+            name="required status checks",
+            status="SKIP",
+            message="VERIFY_GITHUB_TOKEN not set; cannot query branch protection",
+        )
+    try:
+        payload = _fetch_github_json(
+            f"/repos/{GITHUB_REPO_SLUG}/branches/{GITHUB_DEFAULT_BRANCH}/protection",
+            token,
+        )
+    except urllib.error.HTTPError as exc:
+        return CheckResult(
+            name="required status checks",
+            status="FAIL",
+            message=f"GitHub API {exc.code}: {exc.reason}",
+        )
+    rsc = payload.get("required_status_checks")
+    rsc_dict = rsc if isinstance(rsc, dict) else {}
+    contexts_raw = rsc_dict.get("contexts")
+    contexts = set(contexts_raw if isinstance(contexts_raw, list) else [])
+    missing = sorted(EXPECTED_REQUIRED_CHECKS - contexts)
+    if missing:
+        return CheckResult(
+            name="required status checks",
+            status="FAIL",
+            message=f"missing required contexts: {', '.join(missing)}",
+        )
+    return CheckResult(name="required status checks", status="PASS", message="ok")
+
+
 EXPECTED_WORKFLOWS = (
     "ci.yml",
     "e2e.yml",
@@ -264,6 +335,7 @@ CHECKS = [
     check_pyproject_metadata,
     check_no_unaudited_secrets,
     check_workflow_set,
+    check_required_status_checks,
 ]
 
 
