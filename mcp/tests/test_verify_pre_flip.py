@@ -201,3 +201,42 @@ def test_secrets_scan_passes_on_real_repo() -> None:
     real_root = Path(__file__).resolve().parents[2]
     result = vpf.check_no_unaudited_secrets(real_root)
     assert result.passed is True, result.message
+
+
+def _populate_passing_repo(root: Path) -> None:
+    """Populate `root` with the artefacts needed for all checks to pass."""
+    _materialise_apache_license(root)
+    (root / "NOTICE").write_text("notice", encoding="utf-8")
+    (root / "AUTHORS.md").write_text("authors", encoding="utf-8")
+    (root / "CHANGELOG.md").write_text("changelog", encoding="utf-8")
+    (root / "licenses").mkdir()
+    (root / "licenses" / "MIT-floleuerer.txt").write_text("mit", encoding="utf-8")
+    (root / "pyproject.toml").write_text(PYPROJECT_VALID, encoding="utf-8")
+    (root / ".secrets.baseline").write_text(
+        '{"version": "1.5.0", "results": {}}',
+        encoding="utf-8",
+    )
+
+
+def test_main_writes_json_report(tmp_path: Path) -> None:
+    _populate_passing_repo(tmp_path)
+    output = tmp_path / "report.json"
+    vpf.main(["--root", str(tmp_path), "--output", str(output)])
+    assert output.is_file()
+    import json as _json
+    payload = _json.loads(output.read_text())
+    assert isinstance(payload, list)
+    assert {r["name"] for r in payload} >= {
+        "LICENSE is Apache-2.0",
+        "required files exist",
+        "no proprietary strings",
+        "pyproject.toml metadata",
+        "no unaudited secrets",
+    }
+
+
+def test_main_returns_nonzero_when_license_wrong(tmp_path: Path) -> None:
+    _populate_passing_repo(tmp_path)
+    (tmp_path / "LICENSE").write_text("not apache", encoding="utf-8")
+    rc = vpf.main(["--root", str(tmp_path)])
+    assert rc == 1
