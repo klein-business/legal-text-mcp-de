@@ -96,6 +96,10 @@ module = "mcp.config"
 strict = true
 
 [[tool.mypy.overrides]]
+module = "mcp.http_models"
+strict = true
+
+[[tool.mypy.overrides]]
 module = "mcp.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
