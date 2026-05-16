@@ -77,6 +77,14 @@ REQUIRED_FILES = (
     "AUTHORS.md",
     "CHANGELOG.md",
     "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SUPPORT.md",
+    "GOVERNANCE.md",
+    "ROADMAP.md",
+    ".github/CODEOWNERS",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
     "licenses/MIT-floleuerer.txt",
 )
 
