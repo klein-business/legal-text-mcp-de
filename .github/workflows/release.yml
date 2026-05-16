@@ -50,7 +50,7 @@ jobs:
           echo "hashes=$(sha256sum -- *.whl *.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
 
       - name: Upload dist artifacts
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.4.4
         with:
           name: python-dist
           path: dist/*
@@ -199,7 +199,7 @@ jobs:
         run: cosign attest --yes --type cyclonedx --predicate sbom-oci.cdx.json "$IMAGE"
 
       - name: Upload OCI SBOM artifact
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.4.4
         with:
           name: sbom-oci
           path: sbom-oci.cdx.json
