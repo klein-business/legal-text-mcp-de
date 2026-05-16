@@ -183,6 +183,22 @@ This is a pre-`v1.0.0` repository preparing for public release.
 Contribution guidelines, code of conduct, and security policy land in
 the next phases of the public-release programme.
 
+## Verification (post-v1.0.0)
+
+Each release is signed and accompanied by an SBOM and SLSA-3
+provenance.
+
+### Cosign image signature
+
+```bash
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:v1.0.0 \
+  --certificate-identity-regexp 'https://github.com/klein-business/.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
+
+See [Verify with cosign](https://klein-business.github.io/legal-text-mcp-de/operations/verify-with-cosign/)
+for SBOM and SLSA attestation verification.
+
 ## Licence and acknowledgements
 
 This project is licensed under the [Apache License 2.0](LICENSE).
