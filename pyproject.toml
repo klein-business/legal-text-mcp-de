@@ -136,14 +136,17 @@ strict = false
 
 [tool.coverage.run]
 source = ["src/legal_text_mcp_de"]
-branch = false
+branch = true
 omit = [
     "tests/*",
     "src/legal_text_mcp_de/__pycache__/*",
 ]
 
 [tool.coverage.report]
-fail_under = 88
+# Combined (statement + branch) floor. Statement-only is currently 90.1%
+# and branch-only is currently 80.0%, both above the OpenSSF Best Practices
+# Gold thresholds (90% statement, 80% branch).
+fail_under = 86
 show_missing = true
 skip_covered = false
 exclude_lines = [
