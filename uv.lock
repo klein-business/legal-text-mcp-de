@@ -598,7 +598,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov", specifier = "~=6.0.0" },
     { name = "pyyaml", specifier = "~=6.0.1" },
-    { name = "ruff" },
+    { name = "ruff", specifier = "~=0.15.0" },
 ]
 prepare-data = [
     { name = "beautifulsoup4", specifier = "~=4.9.3" },

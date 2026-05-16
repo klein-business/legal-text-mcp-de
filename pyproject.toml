@@ -54,7 +54,7 @@ dev = [
     "pytest",
     "httpx",
     "PyYAML~=6.0.1",
-    "ruff",
+    "ruff~=0.15.0",
     "detect-secrets~=1.5.0",
     "mypy~=1.13.0",
     "pytest-cov~=6.0.0",
