@@ -327,6 +327,7 @@ EXPECTED_WORKFLOWS = {
     "docs.yml",
     "gitleaks.yml",
     "release.yml",
+    "release-please.yml",
 }
 
 
