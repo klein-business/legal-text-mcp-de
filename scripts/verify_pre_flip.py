@@ -437,6 +437,42 @@ def check_release_workflow_present(root: Path) -> CheckResult:
     return CheckResult(name="release workflow present", status="PASS", message="ok")
 
 
+def check_pypi_name_reserved(root: Path) -> CheckResult:
+    url = "https://pypi.org/pypi/legal-text-mcp-de/json"
+    req = urllib.request.Request(url, method="GET")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status == 200:
+                return CheckResult(
+                    name="PyPI name reserved",
+                    status="PASS",
+                    message="ok (200 from pypi.org)",
+                )
+            return CheckResult(
+                name="PyPI name reserved",
+                status="FAIL",
+                message=f"PyPI returned {resp.status}; expected 200",
+            )
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return CheckResult(
+                name="PyPI name reserved",
+                status="FAIL",
+                message="404 from pypi.org — package name not reserved",
+            )
+        return CheckResult(
+            name="PyPI name reserved",
+            status="FAIL",
+            message=f"HTTP {exc.code}: {exc.reason}",
+        )
+    except OSError as exc:
+        return CheckResult(
+            name="PyPI name reserved",
+            status="SKIP",
+            message=f"cannot reach pypi.org: {exc}",
+        )
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
@@ -447,6 +483,7 @@ CHECKS = [
     check_required_status_checks,
     check_branch_protection,
     check_release_workflow_present,
+    check_pypi_name_reserved,
 ]
 
 

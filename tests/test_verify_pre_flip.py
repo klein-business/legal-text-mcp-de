@@ -485,3 +485,39 @@ def test_release_workflow_fails_when_jobs_missing(tmp_path: Path) -> None:
     result = vpf.check_release_workflow_present(tmp_path)
     assert result.status == "FAIL"
     assert "missing" in result.message.lower()
+
+
+def test_pypi_name_reserved_passes_on_200(monkeypatch: pytest.MonkeyPatch) -> None:
+    class FakeResponse:
+        def __init__(self, code: int) -> None:
+            self.status = code
+            self.code = code
+        def __enter__(self) -> "FakeResponse":
+            return self
+        def __exit__(self, *a: object) -> bool:
+            return False
+    def fake_urlopen(req: object, timeout: int = 10) -> FakeResponse:
+        return FakeResponse(200)
+    monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
+    result = vpf.check_pypi_name_reserved(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_pypi_name_reserved_fails_on_404(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_urlopen(req: object, timeout: int = 10) -> None:
+        import urllib.error
+        raise urllib.error.HTTPError(
+            "https://pypi.org/pypi/legal-text-mcp-de/json", 404, "Not Found", {}, None  # type: ignore[arg-type]
+        )
+    monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
+    result = vpf.check_pypi_name_reserved(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "404" in result.message or "not reserved" in result.message.lower()
+
+
+def test_pypi_name_reserved_skips_on_other_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_urlopen(req: object, timeout: int = 10) -> None:
+        raise OSError("network unreachable")
+    monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
+    result = vpf.check_pypi_name_reserved(Path("/tmp"))
+    assert result.status == "SKIP"
