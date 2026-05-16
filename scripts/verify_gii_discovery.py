@@ -7,7 +7,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from legal_texts.gii_toc import (  # type: ignore[import-not-found]
+from legal_texts.gii_toc import (  # type: ignore[import-untyped]
     DEFAULT_GII_TOC_URL,
     artifact_has_failures,
     fetch_gii_discovery_artifact,

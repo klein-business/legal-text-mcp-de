@@ -20,9 +20,9 @@ MCP_ROOT = ROOT / "mcp"
 if str(MCP_ROOT) not in sys.path:
     sys.path.insert(0, str(MCP_ROOT))
 
-from legal_texts.dataset import NormalizedDataset  # type: ignore[import-not-found]  # noqa: E402
-from legal_texts.errors import LegalTextError  # type: ignore[import-not-found]  # noqa: E402
-from legal_texts.search import SearchService  # type: ignore[import-not-found]  # noqa: E402
+from legal_texts.dataset import NormalizedDataset  # type: ignore[import-untyped]  # noqa: E402
+from legal_texts.errors import LegalTextError  # type: ignore[import-untyped]  # noqa: E402
+from legal_texts.search import SearchService  # type: ignore[import-untyped]  # noqa: E402
 
 
 SCHEMA_VERSION = "corpus-runtime-benchmark.v1"

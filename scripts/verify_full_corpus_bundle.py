@@ -13,12 +13,12 @@ from typing import Any
 from urllib.parse import quote
 
 from fastapi.testclient import TestClient
-from http_api import create_http_app  # type: ignore[import-not-found]
-from legal_texts.dataset import NormalizedDataset  # type: ignore[import-not-found]
-from legal_texts.relationships import validate_privacy_scope_seed  # type: ignore[import-not-found]
-from legal_texts.runtime import LegalTextRuntime  # type: ignore[import-not-found]
-from legal_texts.state_law_inventory import FIXED_STATE_CODES  # type: ignore[import-not-found]
-from server import create_mcp_app  # type: ignore[import-not-found]
+from http_api import create_http_app  # type: ignore[import-untyped]
+from legal_texts.dataset import NormalizedDataset  # type: ignore[import-untyped]
+from legal_texts.relationships import validate_privacy_scope_seed  # type: ignore[import-untyped]
+from legal_texts.runtime import LegalTextRuntime  # type: ignore[import-untyped]
+from legal_texts.state_law_inventory import FIXED_STATE_CODES  # type: ignore[import-untyped]
+from server import create_mcp_app  # type: ignore[import-untyped]
 
 
 SCHEMA_VERSION = "full-corpus-validation-bundle.v1"

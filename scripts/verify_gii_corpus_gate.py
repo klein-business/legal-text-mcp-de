@@ -8,7 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-from legal_texts.gii_bulk import build_gii_corpus_gate_artifact, write_gii_corpus_gate_artifact  # type: ignore[import-not-found]
+from legal_texts.gii_bulk import build_gii_corpus_gate_artifact, write_gii_corpus_gate_artifact  # type: ignore[import-untyped]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
