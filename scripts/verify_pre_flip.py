@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Literal
 
 try:
-    import yaml as _yaml_module
+    import yaml as _yaml_module  # type: ignore[import-untyped]
     _YAML_AVAILABLE = True
 except ImportError:
     _YAML_AVAILABLE = False
@@ -473,6 +473,46 @@ def check_pypi_name_reserved(root: Path) -> CheckResult:
         )
 
 
+def check_security_settings(root: Path) -> CheckResult:
+    token = os.environ.get("VERIFY_GITHUB_TOKEN")
+    if not token:
+        return CheckResult(
+            name="security settings",
+            status="SKIP",
+            message="VERIFY_GITHUB_TOKEN not set; cannot query repo settings",
+        )
+    try:
+        payload = _fetch_github_json(f"/repos/{GITHUB_REPO_SLUG}", token)
+    except urllib.error.HTTPError as exc:
+        return CheckResult(
+            name="security settings",
+            status="FAIL",
+            message=f"GitHub API {exc.code}: {exc.reason}",
+        )
+    failures: list[str] = []
+    sa_raw = payload.get("security_and_analysis")
+    sa: dict[str, object] = sa_raw if isinstance(sa_raw, dict) else {}
+    ss_raw = sa.get("secret_scanning")
+    secret_scanning_status = (ss_raw if isinstance(ss_raw, dict) else {}).get("status")  # pragma: allowlist secret
+    pp_raw = sa.get("secret_scanning_push_protection")
+    push_protection_status = (pp_raw if isinstance(pp_raw, dict) else {}).get("status")  # pragma: allowlist secret
+    pvr_raw = payload.get("private_vulnerability_reporting")
+    pvr = (pvr_raw if isinstance(pvr_raw, dict) else {}).get("status")
+    if secret_scanning_status != "enabled":  # pragma: allowlist secret
+        failures.append(f"secret_scanning != enabled (got {secret_scanning_status!r})")  # pragma: allowlist secret
+    if push_protection_status != "enabled":  # pragma: allowlist secret
+        failures.append(f"secret_scanning_push_protection != enabled (got {push_protection_status!r})")  # pragma: allowlist secret
+    if pvr != "enabled":
+        failures.append(f"private_vulnerability_reporting != enabled (got {pvr!r})")
+    if failures:
+        return CheckResult(
+            name="security settings",
+            status="FAIL",
+            message="; ".join(failures),
+        )
+    return CheckResult(name="security settings", status="PASS", message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
@@ -484,6 +524,7 @@ CHECKS = [
     check_branch_protection,
     check_release_workflow_present,
     check_pypi_name_reserved,
+    check_security_settings,
 ]
 
 

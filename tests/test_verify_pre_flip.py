@@ -521,3 +521,38 @@ def test_pypi_name_reserved_skips_on_other_error(monkeypatch: pytest.MonkeyPatch
     monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
     result = vpf.check_pypi_name_reserved(Path("/tmp"))
     assert result.status == "SKIP"
+
+
+def test_security_settings_skips_without_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("VERIFY_GITHUB_TOKEN", raising=False)
+    result = vpf.check_security_settings(Path("/tmp"))
+    assert result.status == "SKIP"
+
+
+def test_security_settings_passes_when_all_enabled(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "security_and_analysis": {
+            "secret_scanning": {"status": "enabled"},
+            "secret_scanning_push_protection": {"status": "enabled"},
+        },
+        "private_vulnerability_reporting": {"status": "enabled"},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_security_settings(Path("/tmp"))
+    assert result.status == "PASS", result.message
+
+
+def test_security_settings_fails_when_any_disabled(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("VERIFY_GITHUB_TOKEN", "fake")
+    payload = {
+        "security_and_analysis": {
+            "secret_scanning": {"status": "disabled"},
+            "secret_scanning_push_protection": {"status": "enabled"},
+        },
+        "private_vulnerability_reporting": {"status": "enabled"},
+    }
+    with patch.object(vpf, "_fetch_github_json", return_value=payload):
+        result = vpf.check_security_settings(Path("/tmp"))
+    assert result.status == "FAIL"
+    assert "secret_scanning" in result.message
