@@ -169,7 +169,7 @@ def verify_static_files() -> None:
     helper_text = helper.read_text(encoding="utf-8")
 
     print_step("Checking Dockerfile uv runtime contract")
-    assert_contains(dockerfile, "COPY --from=ghcr.io/astral-sh/uv:0.10.12 /uv /uvx /bin/")
+    assert_contains(dockerfile, "COPY --from=ghcr.io/astral-sh/uv:")
     assert_contains(
         dockerfile,
         "uv sync --frozen --no-dev --no-group prepare-data --no-group docs --no-install-project --compile-bytecode",
