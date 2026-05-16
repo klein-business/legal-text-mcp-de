@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
 [project]
 name = "legal-text-mcp-de"
 version = "0.1.0"
@@ -49,6 +53,9 @@ Issues = "https://github.com/klein-business/legal-text-mcp-de/issues"
 Changelog = "https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANGELOG.md"
 Security = "https://github.com/klein-business/legal-text-mcp-de/security/policy"
 
+[tool.hatch.build.targets.wheel]
+packages = ["mcp"]
+
 [dependency-groups]
 dev = [
     "pytest",
@@ -80,9 +87,6 @@ prepare-data = [
     "beautifulsoup4~=4.9.3",
     "roman-numbers~=1.0.2",
 ]
-
-[tool.uv]
-package = false
 
 [tool.ruff]
 line-length = 120
