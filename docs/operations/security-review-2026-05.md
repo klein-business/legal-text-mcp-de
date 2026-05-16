@@ -39,7 +39,7 @@ Out of scope (no implementation in v1.0.0):
 
 ## Threat model summary
 
-See [`SECURITY.md`](../SECURITY.md) for the canonical threat model.
+See [the project `SECURITY.md`](https://github.com/klein-business/legal-text-mcp-de/blob/main/SECURITY.md) for the canonical threat model.
 Key points carried forward into this review:
 
 - The runtime is **local or server-side infrastructure** with no SaaS,
