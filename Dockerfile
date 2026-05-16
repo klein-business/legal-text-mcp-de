@@ -15,6 +15,7 @@ RUN groupadd --system --gid 10001 app && \
     chown -R 10001:10001 /app
 USER 10001:10001
 
+ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV DATASET_PATH=/data/legal-texts
 ENV STRICT_STARTUP=true
 ENV HOST=0.0.0.0
