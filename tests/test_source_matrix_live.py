@@ -5,12 +5,12 @@ import urllib.request
 
 import pytest
 
+from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
+
 pytestmark = pytest.mark.skipif(
     os.environ.get("RUN_LIVE_SOURCE_MATRIX") != "true",
     reason="Live source matrix probes require RUN_LIVE_SOURCE_MATRIX=true",
 )
-
-from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
 
 
 def fetch_status(url):
