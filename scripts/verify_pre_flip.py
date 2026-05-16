@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 """Public-flip readiness gate for legal-text-mcp-de.
 
 Verifies that the repository is in a state suitable for transitioning to

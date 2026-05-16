@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 

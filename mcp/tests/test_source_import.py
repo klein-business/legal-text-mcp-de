@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from legal_texts.importer import diff_manifests, probe_known_invalid, probe_source, validate_dsgvo_doc2
 from legal_texts.sources import SOURCE_SPECS
 

@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 import urllib.request
 
 from legal_texts.sources import SOURCE_SPECS

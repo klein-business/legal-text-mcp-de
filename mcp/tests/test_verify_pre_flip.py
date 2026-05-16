@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 """Unit tests for scripts/verify_pre_flip.py."""
 
 from __future__ import annotations
@@ -5,6 +7,7 @@ from __future__ import annotations
 import json
 import shutil
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -333,9 +336,6 @@ def test_workflow_set_fails_when_extra(tmp_path: Path) -> None:
     assert result.status == "FAIL"
     assert "unexpected" in result.message.lower()
     assert "rogue.yml" in result.message
-
-
-from unittest.mock import patch
 
 
 EXPECTED_REQUIRED_CHECKS = {

@@ -52,13 +52,13 @@ def test_python_file_with_docstring_before_header_passes(tmp_path: Path) -> None
     assert csh.file_has_spdx_header(p) is True
 
 
-def test_existing_repo_file_is_exempt(tmp_path: Path, monkeypatch) -> None:
-    """Files tracked in the repo's exempt-list are not required to have the header."""
-    exempt_path = REPO_ROOT / "mcp" / "server.py"
-    # The existing repo file does not have an SPDX header (Phase 1 didn't retrofit).
-    assert csh.file_has_spdx_header(exempt_path) is False
-    # But it is in the exempt list, so check_files returns OK for it.
-    assert csh.check_files([exempt_path], REPO_ROOT) == 0
+def test_retrofitted_repo_file_has_header(tmp_path: Path, monkeypatch) -> None:
+    """After Phase-1 retrofit all tracked files carry the SPDX header."""
+    retrofitted_path = REPO_ROOT / "mcp" / "server.py"
+    # The Phase-1-era file was retrofitted in C-1; it now has the header.
+    assert csh.file_has_spdx_header(retrofitted_path) is True
+    # And check_files also passes (header present, no exemption needed).
+    assert csh.check_files([retrofitted_path], REPO_ROOT) == 0
 
 
 def test_main_rejects_new_file_without_header(tmp_path: Path) -> None:

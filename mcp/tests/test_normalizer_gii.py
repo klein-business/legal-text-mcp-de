@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 import zipfile
 
 from legal_texts.gii_xml import parse_gii_zip

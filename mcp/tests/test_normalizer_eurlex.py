@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from legal_texts.eurlex_xml import parse_dsgvo_xml, parse_eurlex_act_xml
 
 

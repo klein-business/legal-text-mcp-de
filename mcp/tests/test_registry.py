@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 import pytest
 
 from legal_texts.errors import AMBIGUOUS_LAW_ALIAS, LAW_NOT_FOUND, LegalTextError
