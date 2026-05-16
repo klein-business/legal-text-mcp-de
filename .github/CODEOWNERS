@@ -1,0 +1,6 @@
+# Code owners for legal-text-mcp-de.
+# See https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Solo-maintainer model: all paths owned by the maintainer.
+
+*  @klein-business
