@@ -3,11 +3,19 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/klein-business/legal-text-mcp-de"><img alt="Repository" src="https://img.shields.io/badge/repo-klein--business%2Flegal--text--mcp--de-111827?style=for-the-badge&logo=github"></a>
-  <img alt="Python 3.12 / 3.13" src="https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB?style=for-the-badge&logo=python&logoColor=white">
-  <img alt="MCP streamable HTTP" src="https://img.shields.io/badge/MCP-streamable%20HTTP-0EA5E9?style=for-the-badge">
-  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-HTTP%20API-009688?style=for-the-badge&logo=fastapi&logoColor=white">
-  <img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=for-the-badge">
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/legal-text-mcp-de.svg?style=for-the-badge&logo=pypi&logoColor=white&color=3775A9"></a>
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="Python 3.12 / 3.13" src="https://img.shields.io/pypi/pyversions/legal-text-mcp-de.svg?style=for-the-badge&logo=python&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/blob/main/LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=for-the-badge"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/klein-business/legal-text-mcp-de?style=for-the-badge&logo=github&color=111827"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/ci.yml?branch=main&style=flat-square&label=CI&logo=github"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/codeql.yml?branch=main&style=flat-square&label=CodeQL&logo=github"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/scorecard.yml"><img alt="OpenSSF Scorecard" src="https://api.securityscorecards.dev/projects/github.com/klein-business/legal-text-mcp-de/badge?style=flat-square"></a>
+  <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://www.bestpractices.dev/projects/12860/badge?style=flat-square"></a>
+  <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://slsa.dev/images/gh-badge-level3.svg"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/pkgs/container/legal-text-mcp-de"><img alt="Container image" src="https://img.shields.io/badge/ghcr.io-klein--business%2Flegal--text--mcp--de-2496ED?style=flat-square&logo=docker&logoColor=white"></a>
+  <a href="https://klein-business.github.io/legal-text-mcp-de/"><img alt="Docs" src="https://img.shields.io/badge/docs-mkdocs--material-526CFE?style=flat-square&logo=materialformkdocs&logoColor=white"></a>
 </p>
 
 # legal-text-mcp-de
@@ -54,6 +62,24 @@ Older internal documentation has been archived under
 - **No editorial bundling**: this repository ships tooling, not legal
   text. Texts are loaded from official sources at runtime.
 
+## Installation
+
+```bash
+# from PyPI (recommended)
+pip install legal-text-mcp-de
+# or
+uv pip install legal-text-mcp-de
+# or run without installing
+uvx legal-text-mcp-de
+```
+
+Pre-built multi-arch container image (linux/amd64 + linux/arm64,
+cosign-signed, SLSA-3 provenance):
+
+```bash
+docker pull ghcr.io/klein-business/legal-text-mcp-de:1.0.0
+```
+
 ## Quickstart
 
 ### Run the MCP server with the committed fixture corpus
@@ -61,10 +87,9 @@ Older internal documentation has been archived under
 ```bash
 uv sync --all-groups
 
-DATASET_PATH=mcp/tests/fixtures/normalized \
+DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-PYTHONPATH=mcp \
-uv run python mcp/server.py
+uv run legal-text-mcp-de
 ```
 
 The default transport is streamable HTTP at
@@ -73,10 +98,9 @@ The default transport is streamable HTTP at
 ### Run the HTTP API
 
 ```bash
-DATASET_PATH=mcp/tests/fixtures/normalized \
+DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-PYTHONPATH=mcp \
-uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
 ```
 
 ### Docker
@@ -85,10 +109,9 @@ The Docker image does not bundle legal text data. Mount a validated
 package at `/data/legal-texts`:
 
 ```bash
-docker build -t legal-text-mcp-de .
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  legal-text-mcp-de
+  ghcr.io/klein-business/legal-text-mcp-de:1.0.0
 ```
 
 ## Data Sources
