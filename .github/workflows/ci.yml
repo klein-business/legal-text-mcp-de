@@ -80,7 +80,7 @@ jobs:
           uv run --group dev mypy mcp 2>&1 | head -60 | tee mypy-mcp-summary.txt || true
 
       - name: Upload mypy summary
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.4.4
         with:
           name: mypy-mcp-summary
           path: mypy-mcp-summary.txt
@@ -113,7 +113,7 @@ jobs:
 
       - name: Upload coverage XML
         if: matrix.python-version == '3.12'
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.4.4
         with:
           name: coverage-xml
           path: coverage.xml
