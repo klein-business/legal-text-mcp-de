@@ -1,6 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
+import os
 import urllib.request
+
+import pytest
+
+pytestmark = pytest.mark.skipif(
+    os.environ.get("RUN_LIVE_SOURCE_MATRIX") != "true",
+    reason="Live source matrix probes require RUN_LIVE_SOURCE_MATRIX=true",
+)
 
 from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
 
