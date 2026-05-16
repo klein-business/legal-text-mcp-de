@@ -38,10 +38,9 @@ from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
 
 
 def test_sha256_bytes_known_value() -> None:
-    # "abc" -> sha256 = ba7816bf...
-    assert sha256_bytes(b"abc") == (
-        "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-    )
+    # NIST FIPS 180-4 test vector for SHA-256("abc"); not a secret.
+    expected = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"  # pragma: allowlist secret
+    assert sha256_bytes(b"abc") == expected
 
 
 def test_utc_now_returns_iso_z_format() -> None:
@@ -70,10 +69,7 @@ def test_source_metadata_includes_hash_and_known_issues_list() -> None:
 
 
 def test_validate_eurlex_german_act_xml_accepts_well_formed() -> None:
-    payload = (
-        b'<LG.DOC>DE</LG.DOC>'
-        b'<ACT><ARTICLE IDENTIFIER="001">Artikel 1</ARTICLE></ACT>'
-    )
+    payload = b'<LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER="001">Artikel 1</ARTICLE></ACT>'
     # Should not raise.
     validate_eurlex_german_act_xml(payload, celex="32016R0679", content_type="application/xml")
 
@@ -81,9 +77,7 @@ def test_validate_eurlex_german_act_xml_accepts_well_formed() -> None:
 def test_validate_eurlex_german_act_xml_rejects_missing_article() -> None:
     payload = b"<LG.DOC>DE</LG.DOC><ACT>no articles</ACT>"
     with pytest.raises(Exception) as exc_info:
-        validate_eurlex_german_act_xml(
-            payload, celex="32016R0679", label="DSGVO Cellar DOC_2"
-        )
+        validate_eurlex_german_act_xml(payload, celex="32016R0679", label="DSGVO Cellar DOC_2")
     # Either the label or the missing-marker name appears in the error.
     assert "ARTICLE" in str(exc_info.value) or "DOC_2" in str(exc_info.value)
 
@@ -169,10 +163,7 @@ def _stub_fetch_for_snapshot(url: str) -> tuple[int, dict[str, str], bytes]:
     """Return well-formed bodies so import_snapshot succeeds for every SOURCE_SPEC."""
 
     if "DOC_2" in url or "celex/32016R0679" in url:
-        body = (
-            b'<LG.DOC>DE</LG.DOC>'
-            b'<ACT><ARTICLE IDENTIFIER="005">Artikel 5</ARTICLE></ACT>'
-        )
+        body = b'<LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER="005">Artikel 5</ARTICLE></ACT>'
         return 200, {"content-type": "application/xml"}, body
     # Non-cellar sources return arbitrary bytes (treated as a zip)
     return 200, {"content-type": "application/zip"}, b"zip-payload"
