@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   dco:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     name: DCO sign-off check
     runs-on: ubuntu-latest
     timeout-minutes: 3
