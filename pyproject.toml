@@ -94,6 +94,7 @@ prepare-data = [
 [tool.ruff]
 line-length = 120
 target-version = "py312"
+exclude = ["google-adk-agent/"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
