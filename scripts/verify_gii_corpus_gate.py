@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import argparse
@@ -6,7 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-from legal_texts.gii_bulk import build_gii_corpus_gate_artifact, write_gii_corpus_gate_artifact  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.gii_bulk import build_gii_corpus_gate_artifact, write_gii_corpus_gate_artifact  # type: ignore[import-untyped]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

@@ -1,0 +1,4 @@
+# Trivy ignore list — document each entry with rationale and review date.
+# Format: CVE-YYYY-NNNNN
+# (Currently empty; add entries with a comment line above each
+# explaining why the CVE is accepted as a risk.)

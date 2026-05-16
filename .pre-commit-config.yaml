@@ -4,12 +4,20 @@
 # Run locally:  uv run --group dev pre-commit run --all-files
 
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.6  # latest stable at time of authoring; check at install time
+  - repo: local
     hooks:
       - id: ruff
-        args: [--fix]
+        name: ruff (via uv)
+        entry: uv run --group dev ruff check --fix
+        language: system
+        types: [python]
+        require_serial: true
       - id: ruff-format
+        name: ruff-format (via uv)
+        entry: uv run --group dev ruff format
+        language: system
+        types: [python]
+        require_serial: true
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.13.0

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import argparse
@@ -13,7 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from legal_texts.state_law_inventory import (  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.state_law_inventory import (  # type: ignore[import-untyped]
     load_state_law_inventory,
     load_state_law_limitations,
     validate_state_law_inventory,

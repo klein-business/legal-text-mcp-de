@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 """Public-flip readiness gate for legal-text-mcp-de.
 
 Verifies that the repository is in a state suitable for transitioning to
@@ -20,6 +22,13 @@ import urllib.request
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Literal
+
+try:
+    import yaml as _yaml_module  # type: ignore[import-untyped]
+
+    _YAML_AVAILABLE = True
+except ImportError:
+    _YAML_AVAILABLE = False
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -62,10 +71,7 @@ def check_license_apache_2_0(root: Path) -> CheckResult:
         return CheckResult(
             name="LICENSE is Apache-2.0",
             status="FAIL",
-            message=(
-                f"LICENSE sha256 mismatch: got {digest}, "
-                f"expected {APACHE_2_0_SHA256}"
-            ),
+            message=(f"LICENSE sha256 mismatch: got {digest}, expected {APACHE_2_0_SHA256}"),
         )
     return CheckResult(name="LICENSE is Apache-2.0", status="PASS", message="ok")
 
@@ -75,6 +81,14 @@ REQUIRED_FILES = (
     "AUTHORS.md",
     "CHANGELOG.md",
     "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SUPPORT.md",
+    "GOVERNANCE.md",
+    "ROADMAP.md",
+    ".github/CODEOWNERS",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
     "licenses/MIT-floleuerer.txt",
 )
 
@@ -90,7 +104,7 @@ def check_required_files(root: Path) -> CheckResult:
     return CheckResult(name="required files exist", status="PASS", message="ok")
 
 
-EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy", "superpowers"}
+EXCLUDED_DIRS = {".git", ".venv", "__pycache__", "node_modules", "docs-legacy", "superpowers", "site"}
 # verify_pre_flip.py and its test file legitimately contain the needle
 # strings (as constants and test fixtures); skip them to avoid
 # self-matching during the scan.
@@ -143,9 +157,7 @@ def check_pyproject_metadata(root: Path) -> CheckResult:
         failures.append(f"license != 'Apache-2.0' (got {license_field!r})")
     requires_python = project.get("requires-python")
     if requires_python != ">=3.12":
-        failures.append(
-            f"requires-python != '>=3.12' (got {requires_python!r})"
-        )
+        failures.append(f"requires-python != '>=3.12' (got {requires_python!r})")
     urls = project.get("urls") or {}
     for required_url in REQUIRED_URLS:
         if required_url not in urls:
@@ -166,8 +178,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             name="no unaudited secrets",
             status="FAIL",
             message=(
-                ".secrets.baseline missing; create via: "
-                "uv run --group dev detect-secrets scan > .secrets.baseline"
+                ".secrets.baseline missing; create via: uv run --group dev detect-secrets scan > .secrets.baseline"
             ),
         )
     detect_secrets_hook = shutil.which("detect-secrets-hook")
@@ -178,9 +189,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             message="detect-secrets-hook not on PATH; run via 'uv run --group dev'",
         )
     try:
-        tracked = subprocess.check_output(
-            ["git", "ls-files"], cwd=root, text=True
-        ).splitlines()
+        tracked = subprocess.check_output(["git", "ls-files"], cwd=root, text=True).splitlines()
     except (FileNotFoundError, subprocess.CalledProcessError) as exc:
         return CheckResult(
             name="no unaudited secrets",
@@ -188,13 +197,9 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             message=f"git ls-files failed: {exc}",
         )
     # Drop noise files that are tracked but should not be scanned.
-    excluded_prefixes = ("mcp/tests/fixtures/",)
+    excluded_prefixes = ("tests/fixtures/",)
     excluded_exact = {"uv.lock", ".secrets.baseline"}
-    files = [
-        f for f in tracked
-        if f not in excluded_exact
-        and not any(f.startswith(p) for p in excluded_prefixes)
-    ]
+    files = [f for f in tracked if f not in excluded_exact and not any(f.startswith(p) for p in excluded_prefixes)]
     if not files:
         return CheckResult(
             name="no unaudited secrets",
@@ -211,10 +216,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
         return CheckResult(
             name="no unaudited secrets",
             status="FAIL",
-            message=(
-                f"detect-secrets-hook exit {proc.returncode}: "
-                f"{proc.stdout.strip() or proc.stderr.strip()}"
-            ),
+            message=(f"detect-secrets-hook exit {proc.returncode}: {proc.stdout.strip() or proc.stderr.strip()}"),
         )
     return CheckResult(name="no unaudited secrets", status="PASS", message="ok")
 
@@ -339,6 +341,11 @@ EXPECTED_WORKFLOWS = (
     "commitlint.yml",
     "dco.yml",
     "megalinter.yml",
+    "docs.yml",
+    "gitleaks.yml",
+    "release.yml",
+    "release-please.yml",
+    "trivy.yml",
 )
 
 
@@ -350,11 +357,7 @@ def check_workflow_set(root: Path) -> CheckResult:
             status="FAIL",
             message=f"{wf_dir} does not exist",
         )
-    present = {
-        p.name
-        for p in wf_dir.iterdir()
-        if p.is_file() and p.suffix in {".yml", ".yaml"}
-    }
+    present = {p.name for p in wf_dir.iterdir() if p.is_file() and p.suffix in {".yml", ".yaml"}}
     expected = set(EXPECTED_WORKFLOWS)
     missing = sorted(expected - present)
     extra = sorted(present - expected)
@@ -372,6 +375,128 @@ def check_workflow_set(root: Path) -> CheckResult:
     return CheckResult(name="workflow set", status="PASS", message="ok")
 
 
+EXPECTED_RELEASE_JOBS = {
+    "build-python",
+    "slsa-python",
+    "publish-pypi",
+    "build-image",
+    "slsa-oci",
+    "cosign-sign-image",
+    "github-release",
+}
+
+
+def check_release_workflow_present(root: Path) -> CheckResult:
+    path = root / ".github" / "workflows" / "release.yml"
+    if not path.is_file():
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"release.yml missing at {path}",
+        )
+    if not _YAML_AVAILABLE:
+        return CheckResult(
+            name="release workflow present",
+            status="SKIP",
+            message="pyyaml not available; cannot parse release.yml",
+        )
+    try:
+        data = _yaml_module.safe_load(path.read_text(encoding="utf-8"))
+    except _yaml_module.YAMLError as exc:
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"release.yml YAML parse error: {exc}",
+        )
+    jobs = (data or {}).get("jobs") or {}
+    missing = sorted(EXPECTED_RELEASE_JOBS - set(jobs.keys()))
+    if missing:
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"missing required jobs: {', '.join(missing)}",
+        )
+    return CheckResult(name="release workflow present", status="PASS", message="ok")
+
+
+def check_pypi_name_reserved(root: Path) -> CheckResult:
+    url = "https://pypi.org/pypi/legal-text-mcp-de/json"
+    req = urllib.request.Request(url, method="GET")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status == 200:
+                return CheckResult(
+                    name="PyPI name reserved",
+                    status="PASS",
+                    message="ok (200 from pypi.org)",
+                )
+            return CheckResult(
+                name="PyPI name reserved",
+                status="FAIL",
+                message=f"PyPI returned {resp.status}; expected 200",
+            )
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return CheckResult(
+                name="PyPI name reserved",
+                status="FAIL",
+                message="404 from pypi.org — package name not reserved",
+            )
+        return CheckResult(
+            name="PyPI name reserved",
+            status="FAIL",
+            message=f"HTTP {exc.code}: {exc.reason}",
+        )
+    except OSError as exc:
+        return CheckResult(
+            name="PyPI name reserved",
+            status="SKIP",
+            message=f"cannot reach pypi.org: {exc}",
+        )
+
+
+def check_security_settings(root: Path) -> CheckResult:
+    token = os.environ.get("VERIFY_GITHUB_TOKEN")
+    if not token:
+        return CheckResult(
+            name="security settings",
+            status="SKIP",
+            message="VERIFY_GITHUB_TOKEN not set; cannot query repo settings",
+        )
+    try:
+        payload = _fetch_github_json(f"/repos/{GITHUB_REPO_SLUG}", token)
+    except urllib.error.HTTPError as exc:
+        return CheckResult(
+            name="security settings",
+            status="FAIL",
+            message=f"GitHub API {exc.code}: {exc.reason}",
+        )
+    failures: list[str] = []
+    sa_raw = payload.get("security_and_analysis")
+    sa: dict[str, object] = sa_raw if isinstance(sa_raw, dict) else {}
+    ss_raw = sa.get("secret_scanning")
+    secret_scanning_status = (ss_raw if isinstance(ss_raw, dict) else {}).get("status")  # pragma: allowlist secret
+    pp_raw = sa.get("secret_scanning_push_protection")
+    push_protection_status = (pp_raw if isinstance(pp_raw, dict) else {}).get("status")  # pragma: allowlist secret
+    pvr_raw = payload.get("private_vulnerability_reporting")
+    pvr = (pvr_raw if isinstance(pvr_raw, dict) else {}).get("status")
+    if secret_scanning_status != "enabled":  # pragma: allowlist secret
+        failures.append(f"secret_scanning != enabled (got {secret_scanning_status!r})")  # pragma: allowlist secret
+    if push_protection_status != "enabled":  # pragma: allowlist secret
+        failures.append(
+            f"secret_scanning_push_protection != enabled (got {push_protection_status!r})"
+        )  # pragma: allowlist secret
+    if pvr != "enabled":
+        failures.append(f"private_vulnerability_reporting != enabled (got {pvr!r})")
+    if failures:
+        return CheckResult(
+            name="security settings",
+            status="FAIL",
+            message="; ".join(failures),
+        )
+    return CheckResult(name="security settings", status="PASS", message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
@@ -381,6 +506,9 @@ CHECKS = [
     check_workflow_set,
     check_required_status_checks,
     check_branch_protection,
+    check_release_workflow_present,
+    check_pypi_name_reserved,
+    check_security_settings,
 ]
 
 

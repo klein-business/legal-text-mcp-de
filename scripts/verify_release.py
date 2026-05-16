@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import os
@@ -11,38 +13,38 @@ from urllib.parse import unquote, urlsplit
 
 
 TESTS = [
-    "mcp/tests/test_fixture_coverage.py",
-    "mcp/tests/test_error_contracts.py",
-    "mcp/tests/test_release_gate.py",
-    "mcp/tests/test_http_api.py",
-    "mcp/tests/test_mcp_tools.py",
-    "mcp/tests/test_runtime_coverage_relationships.py",
-    "mcp/tests/test_operational_corpus_gates.py",
-    "mcp/tests/test_search_scaling.py",
-    "mcp/tests/test_search.py",
-    "mcp/tests/test_resolver.py",
-    "mcp/tests/test_normalizer_gii.py",
-    "mcp/tests/test_normalizer_eurlex.py",
-    "mcp/tests/test_corpus_manifest.py",
-    "mcp/tests/test_generated_package.py",
-    "mcp/tests/test_gii_toc_discovery.py",
-    "mcp/tests/test_gii_bulk_normalization.py",
-    "mcp/tests/test_dsgvo_full_counts.py",
-    "mcp/tests/test_scope_graph_policy.py",
-    "mcp/tests/test_relationship_records.py",
-    "mcp/tests/test_eu_neighbor_acts.py",
-    "mcp/tests/test_state_law_inventory.py",
-    "mcp/tests/test_state_law_adapters.py",
-    "mcp/tests/test_state_law_coverage.py",
-    "mcp/tests/test_state_law_pdf_and_limitations.py",
-    "mcp/tests/test_dataset_validation.py",
-    "mcp/tests/test_registry.py",
-    "mcp/tests/test_source_import.py",
-    "mcp/tests/test_source_matrix.py",
-    "mcp/tests/test_parser.py",
-    "mcp/tests/test_library.py",
+    "tests/test_fixture_coverage.py",
+    "tests/test_error_contracts.py",
+    "tests/test_release_gate.py",
+    "tests/test_http_api.py",
+    "tests/test_mcp_tools.py",
+    "tests/test_runtime_coverage_relationships.py",
+    "tests/test_operational_corpus_gates.py",
+    "tests/test_search_scaling.py",
+    "tests/test_search.py",
+    "tests/test_resolver.py",
+    "tests/test_normalizer_gii.py",
+    "tests/test_normalizer_eurlex.py",
+    "tests/test_corpus_manifest.py",
+    "tests/test_generated_package.py",
+    "tests/test_gii_toc_discovery.py",
+    "tests/test_gii_bulk_normalization.py",
+    "tests/test_dsgvo_full_counts.py",
+    "tests/test_scope_graph_policy.py",
+    "tests/test_relationship_records.py",
+    "tests/test_eu_neighbor_acts.py",
+    "tests/test_state_law_inventory.py",
+    "tests/test_state_law_adapters.py",
+    "tests/test_state_law_coverage.py",
+    "tests/test_state_law_pdf_and_limitations.py",
+    "tests/test_dataset_validation.py",
+    "tests/test_registry.py",
+    "tests/test_source_import.py",
+    "tests/test_source_matrix.py",
+    "tests/test_parser.py",
+    "tests/test_library.py",
 ]
-LIVE_TESTS = ["mcp/tests/test_source_matrix_live.py"]
+LIVE_TESTS = ["tests/test_source_matrix_live.py"]
 DOC_CHECK_ROOTS = [
     Path("README.md"),
     Path("docs"),
@@ -58,7 +60,8 @@ STALE_WORKFLOW_CHECK_ROOTS = [
     Path("docs-legacy"),
     Path("plans"),
     Path("scripts"),
-    Path("mcp"),
+    Path("src"),
+    Path("tests"),
     Path("prepare_data"),
     Path("Dockerfile"),
 ]
@@ -208,6 +211,9 @@ def check_no_stale_workflow_refs(roots: list[Path] | None = None) -> None:
                 continue
             if "plans" in path.parts and "reviews" in path.parts:
                 # Review artifacts can quote previous failing commands as evidence.
+                continue
+            if "superpowers" in path.parts:
+                # Internal agent-authored planning docs are not operational guides.
                 continue
             try:
                 text = path.read_text(encoding="utf-8")

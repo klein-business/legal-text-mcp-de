@@ -26,6 +26,21 @@ later may raise it but never lower it.
 | `mcp/legal_texts/runtime.py` | 79% | 15 missed statements |
 | Other modules | 83–100% | Healthy |
 
+## Update — Phase 3+4 close
+
+Measured: 2026-05-16 (after Section C Tasks 21)
+
+| Metric | Value |
+| --- | --- |
+| Test set | `mcp/tests/` (310 tests, 0 failures, +24 new) |
+| Statement coverage | **88.52%** (3633 statements, 417 missed) |
+| Floor raised to | **88%** (`fail_under = 88` in `pyproject.toml`, rounded down per policy) |
+
+Notable improvements:
+- `mcp/legal_texts/normalizer.py`: 0% → **100%** (6 new integration tests via `test_normalizer.py`)
+- `mcp/parser.py`: 61% → **90%** (18 new branch-coverage tests via `test_parser_branches.py`)
+- Remaining uncovered in `parser.py`: fallback classes for missing `rapidfuzz` (lines 12–33, only reachable if rapidfuzz not installed)
+
 ## Raw output (tail)
 
 ```text

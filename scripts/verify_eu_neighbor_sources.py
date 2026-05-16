@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import argparse
@@ -14,15 +16,15 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any
 
-from legal_texts.eu_neighbors import (  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.eu_neighbors import (  # type: ignore[import-untyped]
     eu_neighbor_source_limitation,
     eu_neighbor_source_metadata,
     load_eu_neighbor_source_records,
     parse_eu_neighbor_fixture,
     validate_eu_neighbor_source_records,
 )
-from legal_texts.eurlex_xml import parse_eurlex_act_xml  # type: ignore[import-not-found]
-from legal_texts.relationships import load_privacy_scope_seed  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.eurlex_xml import parse_eurlex_act_xml  # type: ignore[import-untyped]
+from legal_text_mcp_de.legal_texts.relationships import load_privacy_scope_seed  # type: ignore[import-untyped]
 
 Fetch = Callable[[str], tuple[int, dict[str, str], bytes]]
 

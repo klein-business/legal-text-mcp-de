@@ -34,7 +34,7 @@ jobs:
         run: uv sync --locked --all-groups
 
       - name: Verify release gate
-        run: PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
+        run: uv run --group dev python scripts/verify_release.py
 
   uv-runtime-and-docker:
     name: uv runtime and Docker
@@ -54,4 +54,4 @@ jobs:
         run: uv sync --locked --all-groups
 
       - name: Verify uv runtime and Docker
-        run: PYTHONPATH=mcp uv run --group dev python scripts/verify_uv_runtime_docker.py
+        run: uv run --group dev python scripts/verify_uv_runtime_docker.py
