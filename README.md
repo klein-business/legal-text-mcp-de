@@ -142,11 +142,21 @@ Article-plus-section paths must be URL-encoded:
 
 ## Documentation
 
-- [Project overview](docs/overview.md)
-- [MCP tools reference](docs/features/mcp-law-tools.md)
-- [Supported laws](docs/features/supported-laws.md)
-- [Source provenance](docs/features/source-provenance.md)
-- [Scope and invariants](docs/features/known-issues.md)
+Full documentation is published at
+[klein-business.github.io/legal-text-mcp-de](https://klein-business.github.io/legal-text-mcp-de).
+
+Quick links:
+
+- [Quickstart](https://klein-business.github.io/legal-text-mcp-de/quickstart/uvx/)
+- [MCP tools](https://klein-business.github.io/legal-text-mcp-de/tools/list_laws/)
+- [HTTP API](https://klein-business.github.io/legal-text-mcp-de/api/)
+- [Operations: security, SBOM, cosign-verify, versioning, threat model](https://klein-business.github.io/legal-text-mcp-de/operations/security/)
+- [Roadmap](https://klein-business.github.io/legal-text-mcp-de/roadmap/)
+
+Source-of-truth documents live in the repo: [README.md](README.md),
+[CHANGELOG.md](CHANGELOG.md), [SECURITY.md](SECURITY.md),
+[CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
+[NOTICE](NOTICE), [LICENSE](LICENSE).
 
 ## Development
 
