@@ -326,6 +326,7 @@ EXPECTED_WORKFLOWS = {
     "megalinter.yml",
     "docs.yml",
     "gitleaks.yml",
+    "release.yml",
 }
 
 
