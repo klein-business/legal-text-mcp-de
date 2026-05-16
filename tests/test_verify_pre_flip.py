@@ -443,3 +443,45 @@ def test_branch_protection_fails_when_admins_not_enforced(monkeypatch: pytest.Mo
         result = vpf.check_branch_protection(Path("/tmp"))
     assert result.status == "FAIL"
     assert "enforce_admins" in result.message
+
+
+EXPECTED_RELEASE_JOBS = {
+    "build-python",
+    "slsa-python",
+    "publish-pypi",
+    "build-image",
+    "slsa-oci",
+    "cosign-sign-image",
+    "github-release",
+}
+
+
+def test_release_workflow_passes_when_jobs_present(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    job_block = "\n".join(f"  {j}:\n    runs-on: ubuntu-latest" for j in EXPECTED_RELEASE_JOBS)
+    (wf / "release.yml").write_text(
+        f"name: Release\non:\n  push:\n    tags: ['v*.*.*']\njobs:\n{job_block}\n",
+        encoding="utf-8",
+    )
+    result = vpf.check_release_workflow_present(tmp_path)
+    assert result.status == "PASS", result.message
+
+
+def test_release_workflow_fails_when_missing(tmp_path: Path) -> None:
+    (tmp_path / ".github" / "workflows").mkdir(parents=True)
+    result = vpf.check_release_workflow_present(tmp_path)
+    assert result.status == "FAIL"
+    assert "release.yml" in result.message
+
+
+def test_release_workflow_fails_when_jobs_missing(tmp_path: Path) -> None:
+    wf = tmp_path / ".github" / "workflows"
+    wf.mkdir(parents=True)
+    (wf / "release.yml").write_text(
+        "name: Release\non:\n  push:\n    tags: ['v*.*.*']\njobs:\n  build-python:\n    runs-on: ubuntu-latest\n",
+        encoding="utf-8",
+    )
+    result = vpf.check_release_workflow_present(tmp_path)
+    assert result.status == "FAIL"
+    assert "missing" in result.message.lower()

@@ -23,6 +23,12 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Literal
 
+try:
+    import yaml as _yaml_module
+    _YAML_AVAILABLE = True
+except ImportError:
+    _YAML_AVAILABLE = False
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 APACHE_2_0_SHA256 = "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
@@ -387,6 +393,50 @@ def check_workflow_set(root: Path) -> CheckResult:
     return CheckResult(name="workflow set", status="PASS", message="ok")
 
 
+EXPECTED_RELEASE_JOBS = {
+    "build-python",
+    "slsa-python",
+    "publish-pypi",
+    "build-image",
+    "slsa-oci",
+    "cosign-sign-image",
+    "github-release",
+}
+
+
+def check_release_workflow_present(root: Path) -> CheckResult:
+    path = root / ".github" / "workflows" / "release.yml"
+    if not path.is_file():
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"release.yml missing at {path}",
+        )
+    if not _YAML_AVAILABLE:
+        return CheckResult(
+            name="release workflow present",
+            status="SKIP",
+            message="pyyaml not available; cannot parse release.yml",
+        )
+    try:
+        data = _yaml_module.safe_load(path.read_text(encoding="utf-8"))
+    except _yaml_module.YAMLError as exc:
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"release.yml YAML parse error: {exc}",
+        )
+    jobs = (data or {}).get("jobs") or {}
+    missing = sorted(EXPECTED_RELEASE_JOBS - set(jobs.keys()))
+    if missing:
+        return CheckResult(
+            name="release workflow present",
+            status="FAIL",
+            message=f"missing required jobs: {', '.join(missing)}",
+        )
+    return CheckResult(name="release workflow present", status="PASS", message="ok")
+
+
 CHECKS = [
     check_license_apache_2_0,
     check_required_files,
@@ -396,6 +446,7 @@ CHECKS = [
     check_workflow_set,
     check_required_status_checks,
     check_branch_protection,
+    check_release_workflow_present,
 ]
 
 
