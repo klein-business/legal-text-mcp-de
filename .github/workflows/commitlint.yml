@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   pr-title:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     name: PR title (Conventional Commits)
     runs-on: ubuntu-latest
     timeout-minutes: 3
