@@ -18,8 +18,8 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-LEGACY_DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
-GENERATED_PACKAGE = ROOT / "mcp" / "tests" / "fixtures" / "generated_package"
+LEGACY_DATASET = ROOT / "tests" / "fixtures" / "normalized"
+GENERATED_PACKAGE = ROOT / "tests" / "fixtures" / "generated_package"
 EXPECTED_TOOLS = {
     "list_laws",
     "get_law",
@@ -52,12 +52,8 @@ def free_port() -> int:
 
 def env_for_server(dataset_path: Path, port: int | None = None) -> dict[str, str]:
     env = os.environ.copy()
-    pythonpath = str(ROOT / "mcp")
-    if env.get("PYTHONPATH"):
-        pythonpath = pythonpath + os.pathsep + env["PYTHONPATH"]
     env.update(
         {
-            "PYTHONPATH": pythonpath,
             "DATASET_PATH": str(dataset_path),
             "STRICT_STARTUP": "true",
         }
@@ -191,16 +187,8 @@ def run_http_generated_package_e2e(port: int) -> None:
 
 
 def import_external_mcp_client() -> tuple[Any, Any]:
-    original_path = list(sys.path)
-    blocked = {ROOT.resolve(), (ROOT / "mcp").resolve()}
-    sys.modules.pop("mcp", None)
-    sys.modules.pop("mcp.client", None)
-    sys.path = [path for path in sys.path if path and Path(path).resolve() not in blocked]
-    try:
-        from mcp import ClientSession  # type: ignore[attr-defined]
-        from mcp.client.streamable_http import streamablehttp_client
-    finally:
-        sys.path = original_path
+    from mcp import ClientSession
+    from mcp.client.streamable_http import streamablehttp_client
     return ClientSession, streamablehttp_client
 
 
@@ -315,7 +303,7 @@ def run_case(
             sys.executable,
             "-m",
             "uvicorn",
-            "http_api:app",
+            "legal_text_mcp_de.http_api:app",
             "--host",
             "127.0.0.1",
             "--port",
@@ -324,7 +312,7 @@ def run_case(
         env_for_server(dataset_path),
     )
     mcp_process = start_process(
-        [sys.executable, "mcp/server.py"],
+        [sys.executable, "-m", "legal_text_mcp_de.server"],
         env_for_server(dataset_path, mcp_port),
     )
     outputs: list[tuple[str, str]] = []

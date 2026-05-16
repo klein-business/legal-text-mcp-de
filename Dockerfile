@@ -4,16 +4,14 @@ COPY --from=ghcr.io/astral-sh/uv:0.10.12 /uv /uvx /bin/
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock README.md ./
+COPY src/legal_text_mcp_de ./src/legal_text_mcp_de
 
-RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode
-
-COPY mcp/ ./mcp/
+RUN uv sync --frozen --no-dev --no-group prepare-data --no-group docs --no-install-project --compile-bytecode
 
 ENV DATASET_PATH=/data/legal-texts
 ENV STRICT_STARTUP=true
-ENV PYTHONPATH=/app/mcp
 ENV HOST=0.0.0.0
 ENV PORT=8001
 
-CMD ["uv", "run", "--frozen", "--no-sync", "python", "mcp/server.py"]
+CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]

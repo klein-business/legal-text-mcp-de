@@ -13,12 +13,12 @@ from typing import Any
 from urllib.parse import quote
 
 from fastapi.testclient import TestClient
-from http_api import create_http_app  # type: ignore[import-untyped]
-from legal_texts.dataset import NormalizedDataset  # type: ignore[import-untyped]
-from legal_texts.relationships import validate_privacy_scope_seed  # type: ignore[import-untyped]
-from legal_texts.runtime import LegalTextRuntime  # type: ignore[import-untyped]
-from legal_texts.state_law_inventory import FIXED_STATE_CODES  # type: ignore[import-untyped]
-from server import create_mcp_app  # type: ignore[import-untyped]
+from legal_text_mcp_de.http_api import create_http_app  # type: ignore[import-untyped]
+from legal_text_mcp_de.legal_texts.dataset import NormalizedDataset  # type: ignore[import-untyped]
+from legal_text_mcp_de.legal_texts.relationships import validate_privacy_scope_seed  # type: ignore[import-untyped]
+from legal_text_mcp_de.legal_texts.runtime import LegalTextRuntime  # type: ignore[import-untyped]
+from legal_text_mcp_de.legal_texts.state_law_inventory import FIXED_STATE_CODES  # type: ignore[import-untyped]
+from legal_text_mcp_de.server import create_mcp_app  # type: ignore[import-untyped]
 
 
 def _as_dict(value: object) -> dict[str, object]:

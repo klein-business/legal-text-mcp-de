@@ -17,7 +17,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATASET = ROOT / "mcp" / "tests" / "fixtures" / "normalized"
+DATASET = ROOT / "tests" / "fixtures" / "normalized"
 IMAGE_TAG = "legal-text-mcp-de:uv-migration"
 EXPECTED_TOOLS = {
     "get_corpus_coverage",
@@ -53,7 +53,6 @@ def env_for_server(port: int | None = None) -> dict[str, str]:
         {
             "DATASET_PATH": str(DATASET),
             "STRICT_STARTUP": "true",
-            "PYTHONPATH": "mcp",
         }
     )
     if port is not None:
@@ -128,16 +127,8 @@ def wait_for_ready(url: str, timeout: float = 20.0) -> dict[str, Any]:
 
 
 def import_external_mcp_client() -> tuple[Any, Any]:
-    original_path = list(sys.path)
-    blocked = {ROOT.resolve(), (ROOT / "mcp").resolve()}
-    sys.modules.pop("mcp", None)
-    sys.modules.pop("mcp.client", None)
-    sys.path = [path for path in sys.path if path and Path(path).resolve() not in blocked]
-    try:
-        from mcp import ClientSession  # type: ignore[attr-defined]
-        from mcp.client.streamable_http import streamablehttp_client
-    finally:
-        sys.path = original_path
+    from mcp import ClientSession
+    from mcp.client.streamable_http import streamablehttp_client
     return ClientSession, streamablehttp_client
 
 
@@ -182,8 +173,7 @@ def verify_static_files() -> None:
         dockerfile,
         "uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode",
     )
-    assert_contains(dockerfile, "ENV PYTHONPATH=/app/mcp")
-    assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "python", "mcp/server.py"]')
+    assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]')
 
     print_step("Checking data-prep uv contract")
     assert_contains(
@@ -211,7 +201,6 @@ def verify_prepare_data_script() -> None:
 
 def verify_release_and_e2e() -> None:
     env = os.environ.copy()
-    env["PYTHONPATH"] = "mcp"
     run_checked(["uv", "run", "--group", "dev", "python", "scripts/verify_release.py"], env=env)
     run_checked(["uv", "run", "--group", "dev", "python", "scripts/verify_e2e.py"], env=env)
 
@@ -219,7 +208,7 @@ def verify_release_and_e2e() -> None:
 def verify_direct_mcp_startup() -> None:
     port = free_port()
     process = start_process(
-        ["uv", "run", "python", "mcp/server.py"],
+        ["uv", "run", "legal-text-mcp-de"],
         env=env_for_server(port),
     )
     try:
@@ -238,7 +227,7 @@ def verify_direct_mcp_startup() -> None:
 def verify_direct_http_startup() -> None:
     port = free_port()
     process = start_process(
-        ["uv", "run", "uvicorn", "http_api:app", "--host", "127.0.0.1", "--port", str(port)],
+        ["uv", "run", "uvicorn", "legal_text_mcp_de.http_api:app", "--host", "127.0.0.1", "--port", str(port)],
         env=env_for_server(),
     )
     try:

@@ -770,7 +770,7 @@ wheels = [
 [[package]]
 name = "legal-text-mcp-de"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "mcp", extra = ["cli"] },

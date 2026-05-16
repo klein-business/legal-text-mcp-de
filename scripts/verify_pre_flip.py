@@ -198,7 +198,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             message=f"git ls-files failed: {exc}",
         )
     # Drop noise files that are tracked but should not be scanned.
-    excluded_prefixes = ("mcp/tests/fixtures/",)
+    excluded_prefixes = ("tests/fixtures/",)
     excluded_exact = {"uv.lock", ".secrets.baseline"}
     files = [
         f for f in tracked
