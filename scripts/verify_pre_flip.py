@@ -353,6 +353,7 @@ EXPECTED_WORKFLOWS = (
     "gitleaks.yml",
     "release.yml",
     "release-please.yml",
+    "trivy.yml",
 )
 
 
