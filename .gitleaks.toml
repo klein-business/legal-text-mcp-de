@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
+#
+# Gitleaks allowlist for known false positives.
+# .secrets.baseline is a detect-secrets audit file that stores hashed (not
+# plaintext) representations of already-reviewed secret-like strings. Gitleaks'
+# generic-api-key rule flags these SHA-256 hashes, which are safe by design.
+
+[allowlist]
+description = "False positives in detect-secrets baseline file"
+paths = [
+    '''^\.secrets\.baseline$''',
+]
