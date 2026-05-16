@@ -94,6 +94,7 @@ jobs:
         with:
           packages-dir: dist-publish
           attestations: true
+          skip-existing: true
 
   build-image:
     name: Build multi-arch OCI image
@@ -171,10 +172,10 @@ jobs:
       id-token: write
     steps:
       - name: Install cosign
-        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5a8c9d3 # v3.7.0
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
       - name: Install syft
-        uses: anchore/sbom-action/download-syft@2c0f4ea2bcd71a3cb8bdaf3a7b7b6ea3f30538a5 # v0.17.7
+        uses: anchore/sbom-action/download-syft@d8a2c0130026bf585de5c176ab8f7ce62d75bf04 # v0.24.0
 
       - name: Log in to GHCR
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
