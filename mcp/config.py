@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
-from pydantic import ConfigDict
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
-    model_config = ConfigDict(env_file='.env')
+    model_config = SettingsConfigDict(env_file=".env")
 
     min_paragraphs: int = 5
     dataset_path: str | None = None
