@@ -24,12 +24,12 @@ jobs:
       - name: Get PR commits
         id: pr-commits
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-        uses: tim-actions/get-pr-commits@55a16eb88c0c5e7f86c2b2fd6a0fc1e6b3e89f5b # v1.3.1
+        uses: tim-actions/get-pr-commits@198af03565609bb4ed924d1260247b4881f09e7d # v1.3.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: DCO check on every commit
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
-        uses: tim-actions/dco@2fd24ae9f0e84576b48bbb1d09ba0caa31cb6a5b # v1.1.0
+        uses: tim-actions/dco@f2279e6e62d5a7d9115b0cb8e837b777b1b02e21 # v1.1.0
         with:
           commits: ${{ steps.pr-commits.outputs.commits }}
