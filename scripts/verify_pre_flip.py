@@ -350,6 +350,7 @@ EXPECTED_WORKFLOWS = (
     "dco.yml",
     "megalinter.yml",
     "docs.yml",
+    "gitleaks.yml",
 )
 
 
