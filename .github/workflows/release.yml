@@ -94,6 +94,7 @@ jobs:
         with:
           packages-dir: dist-publish
           attestations: true
+          skip-existing: true
 
   build-image:
     name: Build multi-arch OCI image
