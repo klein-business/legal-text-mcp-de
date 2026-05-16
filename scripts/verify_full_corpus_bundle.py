@@ -21,6 +21,13 @@ from legal_texts.state_law_inventory import FIXED_STATE_CODES  # type: ignore[im
 from server import create_mcp_app  # type: ignore[import-untyped]
 
 
+def _as_dict(value: object) -> dict[str, object]:
+    """Return value as dict[str, object] if it is one, else empty dict."""
+    if isinstance(value, dict):
+        return value
+    return {}
+
+
 SCHEMA_VERSION = "full-corpus-validation-bundle.v1"
 ACCEPTED_LIMITATION_STATES = {"source_unavailable", "unsupported_format", "parse_failed", "excluded_by_policy"}
 REQUIRED_EU_CELEXS = {"32024R1689", "32023R2854"}
@@ -141,9 +148,9 @@ def validate_gii_artifact(raw: dict[str, Any] | None, section: dict[str, Any]) -
     errors = _validate_schema("gii", raw, section, "gii-corpus-gate.v1")
     if raw.get("validation_errors"):
         errors.extend(f"gii: {error}" for error in raw["validation_errors"])
-    counts = raw.get("counts") if isinstance(raw.get("counts"), dict) else {}
-    discovered = counts.get("discovered_sources")  # type: ignore[union-attr]
-    imported = counts.get("imported_sources")  # type: ignore[union-attr]
+    counts = _as_dict(raw.get("counts"))
+    discovered = counts.get("discovered_sources")
+    imported = counts.get("imported_sources")
     if not isinstance(discovered, int) or discovered <= 0:
         errors.append("gii: counts.discovered_sources must be positive")
     coverage = raw.get("terminal_state_coverage")
@@ -259,27 +266,27 @@ def _validate_imported_critical_law(
     evidence: dict[str, Any],
 ) -> list[str]:
     errors: list[str] = []
-    manifest_record = outcome.get("manifest_record") if isinstance(outcome.get("manifest_record"), dict) else {}
-    law = outcome.get("law") if isinstance(outcome.get("law"), dict) else {}
+    manifest_record = _as_dict(outcome.get("manifest_record"))
+    law = _as_dict(outcome.get("law"))
     if law and law.get("canonical_id") != canonical:
         errors.append(f"critical_laws: {canonical} law canonical_id must match required canonical ID")
-    if manifest_record.get("source_family") != "gii":  # type: ignore[union-attr]
+    if manifest_record.get("source_family") != "gii":
         errors.append(f"critical_laws: {canonical} imported evidence must have source_family gii")
     for field in ("source_id", "source_path", "source_url", "generated_law_ids", "generated_norm_ids"):
-        if not manifest_record.get(field):  # type: ignore[union-attr]
+        if not manifest_record.get(field):
             errors.append(f"critical_laws: {canonical} imported evidence missing {field}")
-    source_url = manifest_record.get("source_url")  # type: ignore[union-attr]
+    source_url = manifest_record.get("source_url")
     if isinstance(source_url, str) and not source_url.startswith("https://www.gesetze-im-internet.de/"):
         errors.append(f"critical_laws: {canonical} source_url must be official GII")
-    source_path = manifest_record.get("source_path")  # type: ignore[union-attr]
-    source_id = manifest_record.get("source_id")  # type: ignore[union-attr]
-    generated_law_ids = manifest_record.get("generated_law_ids")  # type: ignore[union-attr]
+    source_path = manifest_record.get("source_path")
+    source_id = manifest_record.get("source_id")
+    generated_law_ids = manifest_record.get("generated_law_ids")
     if isinstance(generated_law_ids, list):
         if canonical not in generated_law_ids:
             errors.append(f"critical_laws: {canonical} generated_law_ids must include {canonical}")
     elif generated_law_ids:
         errors.append(f"critical_laws: {canonical} generated_law_ids must be a list")
-    generated_norm_ids = manifest_record.get("generated_norm_ids")  # type: ignore[union-attr]
+    generated_norm_ids = manifest_record.get("generated_norm_ids")
     if isinstance(generated_norm_ids, list):
         wrong_norm_ids = [
             norm_id
@@ -309,7 +316,7 @@ def _validate_imported_critical_law(
     elif dataset is not None:
         errors.append(f"critical_laws: {canonical} generated_norm_ids must contain canonical norm IDs")
     evidence["imported"] = not errors
-    evidence["source_id"] = manifest_record.get("source_id")  # type: ignore[union-attr]
+    evidence["source_id"] = manifest_record.get("source_id")
     return errors
 
 
@@ -327,13 +334,13 @@ def _validate_dataset_critical_source(
     if not isinstance(law_record, dict):
         errors.append(f"critical_laws: {canonical} generated package missing law")
         return
-    law_source = law_record.get("source") if isinstance(law_record.get("source"), dict) else {}
-    law_metadata = law_source.get("source_metadata") if isinstance(law_source.get("source_metadata"), dict) else {}  # type: ignore[union-attr]
-    if law_metadata.get("source_path") != source_path:  # type: ignore[union-attr]
+    law_source = _as_dict(law_record.get("source"))
+    law_metadata = _as_dict(law_source.get("source_metadata"))
+    if law_metadata.get("source_path") != source_path:
         errors.append(f"critical_laws: {canonical} package law source_path does not match outcome")
-    if law_source.get("source_url") != source_url:  # type: ignore[union-attr]
+    if law_source.get("source_url") != source_url:
         errors.append(f"critical_laws: {canonical} package law source_url does not match outcome")
-    if law_source.get("source_identifier") and source_path and law_source.get("source_identifier") != source_path:  # type: ignore[union-attr]
+    if law_source.get("source_identifier") and source_path and law_source.get("source_identifier") != source_path:
         errors.append(f"critical_laws: {canonical} package law source_identifier does not match outcome")
     if isinstance(source_id, str) and source_path and source_id != f"gii:{source_path}":
         errors.append(f"critical_laws: {canonical} source_id must match source_path")
@@ -345,11 +352,11 @@ def _validate_dataset_critical_source(
         return
     if norm_record.get("law_id") != canonical:
         errors.append(f"critical_laws: {canonical} resolved norm must belong to {canonical}")
-    norm_source = norm_record.get("source") if isinstance(norm_record.get("source"), dict) else {}
-    norm_metadata = norm_source.get("source_metadata") if isinstance(norm_source.get("source_metadata"), dict) else {}  # type: ignore[union-attr]
-    if norm_metadata.get("source_path") != source_path:  # type: ignore[union-attr]
+    norm_source = _as_dict(norm_record.get("source"))
+    norm_metadata = _as_dict(norm_source.get("source_metadata"))
+    if norm_metadata.get("source_path") != source_path:
         errors.append(f"critical_laws: {canonical} package norm source_path does not match outcome")
-    if norm_source.get("source_url") != source_url:  # type: ignore[union-attr]
+    if norm_source.get("source_url") != source_url:
         errors.append(f"critical_laws: {canonical} package norm source_url does not match outcome")
 
 
@@ -386,25 +393,26 @@ def _resolution_evidence(dataset: NormalizedDataset, norm_canonical: str) -> dic
 
 def _validate_limited_critical_law(canonical: str, outcome: dict[str, Any], evidence: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    limitation = outcome.get("limitation") if isinstance(outcome.get("limitation"), dict) else {}
-    details = limitation.get("details") if isinstance(limitation.get("details"), dict) else {}  # type: ignore[union-attr]
-    terminal_state = limitation.get("terminal_state") or outcome.get("terminal_state")  # type: ignore[union-attr]
+    limitation = _as_dict(outcome.get("limitation"))
+    details = _as_dict(limitation.get("details"))
+    terminal_state = limitation.get("terminal_state") or outcome.get("terminal_state")
     if terminal_state != "source_unavailable":
         errors.append(f"critical_laws: {canonical} limitation must use terminal_state source_unavailable")
-    source_url = limitation.get("source_url") or outcome.get("source_url")  # type: ignore[union-attr]
+    source_url = limitation.get("source_url") or outcome.get("source_url")
     if not isinstance(source_url, str) or not source_url.startswith("https://www.gesetze-im-internet.de/"):
         errors.append(f"critical_laws: {canonical} limitation requires official GII source_url")
+    manifest_record = _as_dict(outcome.get("manifest_record"))
     source_id = (
-        limitation.get("source_id")  # type: ignore[union-attr]
+        limitation.get("source_id")
         or outcome.get("source_id")
-        or (outcome.get("manifest_record") or {}).get("source_id")
+        or manifest_record.get("source_id")
     )
     source_path = (
-        limitation.get("source_path")  # type: ignore[union-attr]
-        or details.get("source_path")  # type: ignore[union-attr]
-        or (outcome.get("manifest_record") or {}).get("source_path")
+        limitation.get("source_path")
+        or details.get("source_path")
+        or manifest_record.get("source_path")
     )
-    if not limitation.get("limitation_id"):  # type: ignore[union-attr]
+    if not limitation.get("limitation_id"):
         errors.append(f"critical_laws: {canonical} limitation missing limitation_id")
     if not source_id:
         errors.append(f"critical_laws: {canonical} limitation missing source_id")
@@ -412,18 +420,18 @@ def _validate_limited_critical_law(canonical: str, outcome: dict[str, Any], evid
         errors.append(f"critical_laws: {canonical} limitation missing source_path")
     if isinstance(source_id, str) and source_path and source_id != f"gii:{source_path}":
         errors.append(f"critical_laws: {canonical} limitation source_id must match source_path")
-    if not limitation.get("reason"):  # type: ignore[union-attr]
+    if not limitation.get("reason"):
         errors.append(f"critical_laws: {canonical} limitation missing reason")
-    if not limitation.get("retrieved_at") and not limitation.get("decided_at"):  # type: ignore[union-attr]
+    if not limitation.get("retrieved_at") and not limitation.get("decided_at"):
         errors.append(f"critical_laws: {canonical} limitation missing retrieved_at or decided_at")
-    if not _has_substantive_upstream_evidence(details):  # type: ignore[arg-type]
+    if not _has_substantive_upstream_evidence(dict(details)):
         errors.append(f"critical_laws: {canonical} limitation missing substantive upstream evidence details")
-    release_blocking = limitation.get("release_blocking") is True or details.get("release_blocking") is True  # type: ignore[union-attr]
+    release_blocking = limitation.get("release_blocking") is True or details.get("release_blocking") is True
     if not release_blocking:
         errors.append(f"critical_laws: {canonical} limitation must be release_blocking")
     evidence["release_blocking_limitation"] = release_blocking and not errors
     evidence["source_id"] = source_id
-    evidence["limitation_id"] = limitation.get("limitation_id")  # type: ignore[union-attr]
+    evidence["limitation_id"] = limitation.get("limitation_id")
     return errors
 
 
@@ -444,8 +452,8 @@ def validate_dsgvo_artifact(raw: dict[str, Any] | None, section: dict[str, Any])
     errors = _validate_schema("dsgvo", raw, section, "dsgvo-full-counts.v1")
     if raw.get("validation_errors"):
         errors.extend(f"dsgvo: {error}" for error in raw["validation_errors"])
-    policy = raw.get("policy") if isinstance(raw.get("policy"), dict) else {}
-    selected = raw.get("selected_source") if isinstance(raw.get("selected_source"), dict) else {}
+    policy = _as_dict(raw.get("policy"))
+    selected = _as_dict(raw.get("selected_source"))
     for field in (
         "celex",
         "cellar_work",
@@ -456,23 +464,24 @@ def validate_dsgvo_artifact(raw: dict[str, Any] | None, section: dict[str, Any])
         "consolidation_policy",
         "content_hash",
     ):
-        if not policy.get(field):  # type: ignore[union-attr]
+        if not policy.get(field):
             errors.append(f"dsgvo: missing policy {field}")
-        if not selected.get(field):  # type: ignore[union-attr]
+        if not selected.get(field):
             errors.append(f"dsgvo: missing selected_source {field}")
-    expected = raw.get("expected_counts") if isinstance(raw.get("expected_counts"), dict) else {}
-    actual = raw.get("actual_counts") if isinstance(raw.get("actual_counts"), dict) else raw.get("counts", {})
-    if not isinstance(expected.get("articles"), int) or not isinstance(expected.get("recitals"), int):  # type: ignore[union-attr]
+    expected = _as_dict(raw.get("expected_counts"))
+    actual_raw = raw.get("actual_counts")
+    actual: dict[str, object] = _as_dict(actual_raw) if actual_raw is not None else _as_dict(raw.get("counts"))
+    if not isinstance(expected.get("articles"), int) or not isinstance(expected.get("recitals"), int):
         errors.append("dsgvo: expected_counts must include articles and recitals")
-    elif actual.get("articles") != expected["articles"] or actual.get("recitals") != expected["recitals"]:  # type: ignore[union-attr,index]
+    elif actual.get("articles") != expected["articles"] or actual.get("recitals") != expected["recitals"]:
         errors.append("dsgvo: actual counts must equal expected_counts")
-    boundary = raw.get("boundary_samples") if isinstance(raw.get("boundary_samples"), dict) else {}
+    boundary = _as_dict(raw.get("boundary_samples"))
     if not boundary:
         errors.append("dsgvo: missing boundary_samples")
     else:
         for key in ("articles", "recitals"):
-            sample = boundary.get(key) if isinstance(boundary.get(key), dict) else {}
-            if not sample.get("expected") or sample.get("missing"):  # type: ignore[union-attr]
+            sample = _as_dict(boundary.get(key))
+            if not sample.get("expected") or sample.get("missing"):
                 errors.append(f"dsgvo: boundary_samples.{key} must retain expected samples with no missing entries")
     return _add_section_errors(section, errors)
 
@@ -510,10 +519,12 @@ def validate_state_law_artifact(raw: dict[str, Any] | None, section: dict[str, A
     errors = _validate_schema("state_law", raw, section, "state-law-pdf-source-gate.v1")
     if raw.get("validation_errors"):
         errors.extend(f"state_law: {error}" for error in raw["validation_errors"])
-    counts = raw.get("counts") if isinstance(raw.get("counts"), dict) else {}
-    if counts.get("total_states") != 16:  # type: ignore[union-attr]
+    counts = _as_dict(raw.get("counts"))
+    if counts.get("total_states") != 16:
         errors.append("state_law: total_states must be 16")
-    if counts.get("imported", 0) + counts.get("limited", 0) != 16:  # type: ignore[union-attr]
+    imported_count = counts.get("imported", 0)
+    limited_count = counts.get("limited", 0)
+    if (isinstance(imported_count, int) and isinstance(limited_count, int) and imported_count + limited_count != 16):
         errors.append("state_law: imported + limited must equal 16")
     coverage_path_value = raw.get("coverage_path")
     coverage_path = Path(coverage_path_value) if isinstance(coverage_path_value, str) else None
@@ -575,18 +586,18 @@ def validate_relationships_artifact(raw: dict[str, Any] | None, section: dict[st
 
 
 def _policy_from_seed(seed: dict[str, Any]) -> dict[str, Any]:
-    relationship_source = seed.get("relationship_source") if isinstance(seed.get("relationship_source"), dict) else {}
+    relationship_source = _as_dict(seed.get("relationship_source"))
     return {
         "schema_version": "dsgvo-scope-policy.v1",
         "policy_id": seed.get("policy_id"),
-        "source_url": relationship_source.get("source_url", "https://dsgvo-gesetz.de/"),  # type: ignore[union-attr]
+        "source_url": relationship_source.get("source_url", "https://dsgvo-gesetz.de/"),
         "reviewed_at": seed.get("maintained_at"),
-        "robots_reviewed_at": relationship_source.get("robots_reviewed_at"),  # type: ignore[union-attr]
+        "robots_reviewed_at": relationship_source.get("robots_reviewed_at"),
         "robots_result": "reviewed",
-        "terms_reviewed_at": relationship_source.get("terms_reviewed_at"),  # type: ignore[union-attr]
+        "terms_reviewed_at": relationship_source.get("terms_reviewed_at"),
         "terms_result": "reviewed",
-        "allowed_use": relationship_source.get("allowed_use"),  # type: ignore[union-attr]
-        "no_editorial_text_copied": relationship_source.get("no_editorial_text_copied"),  # type: ignore[union-attr]
+        "allowed_use": relationship_source.get("allowed_use"),
+        "no_editorial_text_copied": relationship_source.get("no_editorial_text_copied"),
         "fallback_seed_path": "privacy_scope_seed.v1.json",
     }
 
@@ -604,23 +615,26 @@ def validate_benchmark_artifact(raw: dict[str, Any] | None, section: dict[str, A
 
 
 def _benchmark_decision_errors(raw: dict[str, Any]) -> list[str]:
-    thresholds = raw.get("thresholds") if isinstance(raw.get("thresholds"), dict) else {}
+    thresholds = _as_dict(raw.get("thresholds"))
     decisions = {item.get("decision") for item in raw.get("migration_decisions", []) if isinstance(item, dict)}
     errors: list[str] = []
     if (
-        raw.get("load_time_ms", 0) > thresholds.get("max_load_ms", float("inf"))  # type: ignore[union-attr]
+        raw.get("load_time_ms", 0) > thresholds.get("max_load_ms", float("inf"))
         and REQUIRED_BENCHMARK_DECISIONS["load"] not in decisions
     ):
         errors.append("benchmark: missing load migration decision")
-    search = raw.get("sampled_search") if isinstance(raw.get("sampled_search"), dict) else {}
+    search = _as_dict(raw.get("sampled_search"))
+    search_p95 = search.get("p95_ms", 0)
+    search_threshold = thresholds.get("max_search_p95_ms", float("inf"))
     if (
-        search.get("p95_ms", 0) > thresholds.get("max_search_p95_ms", float("inf"))  # type: ignore[union-attr]
+        isinstance(search_p95, (int, float)) and isinstance(search_threshold, (int, float))
+        and search_p95 > search_threshold
         and REQUIRED_BENCHMARK_DECISIONS["search"] not in decisions
     ):
         errors.append("benchmark: missing search migration decision")
     memory = raw.get("combined_memory_mb", raw.get("estimated_memory_mb", 0))
     if (
-        memory > thresholds.get("max_memory_mb", float("inf"))  # type: ignore[union-attr]
+        memory > thresholds.get("max_memory_mb", float("inf"))
         and REQUIRED_BENCHMARK_DECISIONS["memory"] not in decisions
     ):
         errors.append("benchmark: missing memory migration decision")
