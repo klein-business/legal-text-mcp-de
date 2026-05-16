@@ -142,11 +142,21 @@ Article-plus-section paths must be URL-encoded:
 
 ## Documentation
 
-- [Project overview](docs/overview.md)
-- [MCP tools reference](docs/features/mcp-law-tools.md)
-- [Supported laws](docs/features/supported-laws.md)
-- [Source provenance](docs/features/source-provenance.md)
-- [Scope and invariants](docs/features/known-issues.md)
+Full documentation is published at
+[klein-business.github.io/legal-text-mcp-de](https://klein-business.github.io/legal-text-mcp-de).
+
+Quick links:
+
+- [Quickstart](https://klein-business.github.io/legal-text-mcp-de/quickstart/uvx/)
+- [MCP tools](https://klein-business.github.io/legal-text-mcp-de/tools/list_laws/)
+- [HTTP API](https://klein-business.github.io/legal-text-mcp-de/api/)
+- [Operations: security, SBOM, cosign-verify, versioning, threat model](https://klein-business.github.io/legal-text-mcp-de/operations/security/)
+- [Roadmap](https://klein-business.github.io/legal-text-mcp-de/roadmap/)
+
+Source-of-truth documents live in the repo: [README.md](README.md),
+[CHANGELOG.md](CHANGELOG.md), [SECURITY.md](SECURITY.md),
+[CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
+[NOTICE](NOTICE), [LICENSE](LICENSE).
 
 ## Development
 
@@ -172,6 +182,22 @@ PYTHONPATH=mcp uv run --group dev python scripts/verify_pre_flip.py
 This is a pre-`v1.0.0` repository preparing for public release.
 Contribution guidelines, code of conduct, and security policy land in
 the next phases of the public-release programme.
+
+## Verification (post-v1.0.0)
+
+Each release is signed and accompanied by an SBOM and SLSA-3
+provenance.
+
+### Cosign image signature
+
+```bash
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:v1.0.0 \
+  --certificate-identity-regexp 'https://github.com/klein-business/.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
+
+See [Verify with cosign](https://klein-business.github.io/legal-text-mcp-de/operations/verify-with-cosign/)
+for SBOM and SLSA attestation verification.
 
 ## Licence and acknowledgements
 

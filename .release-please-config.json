@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "python",
+  "package-name": "legal-text-mcp-de",
+  "changelog-sections": [
+    {"type": "feat", "section": "Features"},
+    {"type": "fix", "section": "Bug Fixes"},
+    {"type": "perf", "section": "Performance Improvements"},
+    {"type": "refactor", "section": "Code Refactoring"},
+    {"type": "docs", "section": "Documentation"},
+    {"type": "build", "section": "Build System"},
+    {"type": "ci", "section": "Continuous Integration"},
+    {"type": "chore", "section": "Miscellaneous Chores"}
+  ],
+  "extra-files": [
+    {
+      "type": "toml",
+      "path": "pyproject.toml",
+      "jsonpath": "$.project.version"
+    },
+    {
+      "type": "generic",
+      "path": "src/legal_text_mcp_de/__init__.py",
+      "lines-pattern": "^__version__ = \".*\"$"
+    }
+  ]
+}

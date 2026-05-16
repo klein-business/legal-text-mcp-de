@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import argparse
@@ -7,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from legal_texts.validation import validate_generated_package  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.validation import validate_generated_package  # type: ignore[import-untyped]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

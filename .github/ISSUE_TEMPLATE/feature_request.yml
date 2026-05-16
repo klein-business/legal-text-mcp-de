@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a new feature, MCP tool, or HTTP endpoint.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For larger features, discuss the idea in
+        [Discussions](https://github.com/klein-business/legal-text-mcp-de/discussions)
+        first.
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What use case are you trying to solve?
+      description: Describe the situation that motivates this request.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed feature
+      description: How would it work? What's the interface?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: Other approaches that solve the same use case.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context

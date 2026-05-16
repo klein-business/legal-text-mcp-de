@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
 from __future__ import annotations
 
 import argparse
@@ -6,11 +8,11 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from legal_texts.state_law import (  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.state_law import (  # type: ignore[import-untyped]
     build_state_law_adapter_gate_artifact,
     write_state_law_adapter_gate_artifact,
 )
-from legal_texts.state_law_inventory import load_state_law_inventory, load_state_law_limitations  # type: ignore[import-not-found]
+from legal_text_mcp_de.legal_texts.state_law_inventory import load_state_law_inventory, load_state_law_limitations  # type: ignore[import-untyped]
 
 
 FIXTURE_HTML = """<!doctype html><html lang="de"><body><main data-state-law><h1>Landesdatenschutzgesetz</h1><section data-state-law-norm data-unit="par" data-value="1"><h2>§ 1 Zweck</h2><p>(1) Fixture text.</p></section></main></body></html>""".encode(

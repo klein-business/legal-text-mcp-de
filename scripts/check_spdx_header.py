@@ -63,10 +63,7 @@ def check_files(paths: list[Path], repo_root: Path) -> int:
             failures.append(p)
     for f in failures:
         print(
-            f"missing SPDX header: {f}\n"
-            f"  expected first 10 lines to contain:\n"
-            f"    {SPDX_LINE}\n"
-            f"    {COPYRIGHT_LINE}\n",
+            f"missing SPDX header: {f}\n  expected first 10 lines to contain:\n    {SPDX_LINE}\n    {COPYRIGHT_LINE}\n",
             file=sys.stderr,
         )
     return 0 if not failures else 1

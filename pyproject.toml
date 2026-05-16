@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
 [project]
 name = "legal-text-mcp-de"
 version = "0.1.0"
@@ -43,22 +47,38 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/klein-business/legal-text-mcp-de"
+Homepage = "https://klein-business.github.io/legal-text-mcp-de"
 Repository = "https://github.com/klein-business/legal-text-mcp-de"
 Issues = "https://github.com/klein-business/legal-text-mcp-de/issues"
 Changelog = "https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANGELOG.md"
 Security = "https://github.com/klein-business/legal-text-mcp-de/security/policy"
+
+[project.scripts]
+legal-text-mcp-de = "legal_text_mcp_de.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/legal_text_mcp_de"]
 
 [dependency-groups]
 dev = [
     "pytest",
     "httpx",
     "PyYAML~=6.0.1",
-    "ruff",
+    "ruff~=0.15.0",
     "detect-secrets~=1.5.0",
     "mypy~=1.13.0",
     "pytest-cov~=6.0.0",
     "pre-commit~=4.0",
+    "cyclonedx-bom~=5.0",
+]
+docs = [
+    "mkdocs~=1.6.0",
+    "mkdocs-material~=9.5.0",
+    "mkdocstrings[python]~=0.27.0",
+    "mkdocs-mermaid2-plugin~=1.2.0",
+    "mkdocs-git-revision-date-localized-plugin~=1.3.0",
+    "mike~=2.1.0",
+    "mkdocs-redirects~=1.2.0",
 ]
 prepare-data = [
     "GitPython~=3.1.32",
@@ -71,19 +91,17 @@ prepare-data = [
     "roman-numbers~=1.0.2",
 ]
 
-[tool.uv]
-package = false
-
 [tool.ruff]
 line-length = 120
 target-version = "py312"
+exclude = ["google-adk-agent/"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
 
 [tool.mypy]
 python_version = "3.12"
-files = ["scripts", "mcp"]
+files = ["scripts", "src"]
 show_error_codes = true
 pretty = true
 
@@ -92,20 +110,40 @@ module = "scripts.*"
 strict = true
 
 [[tool.mypy.overrides]]
-module = "mcp.*"
+module = "legal_text_mcp_de.config"
+strict = true
+
+[[tool.mypy.overrides]]
+module = "legal_text_mcp_de.http_models"
+strict = true
+
+[[tool.mypy.overrides]]
+module = "legal_text_mcp_de.legal_texts.errors"
+strict = true
+
+[[tool.mypy.overrides]]
+module = "legal_text_mcp_de.legal_texts.models"
+strict = true
+
+[[tool.mypy.overrides]]
+module = "legal_text_mcp_de.legal_texts.sources"
+strict = true
+
+[[tool.mypy.overrides]]
+module = "legal_text_mcp_de.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
 
 [tool.coverage.run]
-source = ["mcp"]
+source = ["src/legal_text_mcp_de"]
 branch = false
 omit = [
-    "mcp/tests/*",
-    "mcp/__pycache__/*",
+    "tests/*",
+    "src/legal_text_mcp_de/__pycache__/*",
 ]
 
 [tool.coverage.report]
-fail_under = 86
+fail_under = 88
 show_missing = true
 skip_covered = false
 exclude_lines = [
