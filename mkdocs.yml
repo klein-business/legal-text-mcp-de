@@ -106,6 +106,7 @@ nav:
     - Verify with cosign: operations/verify-with-cosign.md
     - Versioning: operations/versioning.md
     - Threat model: operations/threat-model.md
+    - Security review (2026-05): operations/security-review-2026-05.md
     - Coverage baseline: operations/coverage-baseline.md
     - OpenSSF application: operations/openssf-application.md
     - SLSA-3: operations/slsa.md
