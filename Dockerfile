@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pyproject.toml uv.lock README.md ./
 COPY src/legal_text_mcp_de ./src/legal_text_mcp_de
 
-RUN uv sync --frozen --no-dev --no-group prepare-data --no-group docs --no-install-project --compile-bytecode
+RUN uv sync --frozen --no-dev --no-group prepare-data --no-group docs --compile-bytecode
 
 # Non-root user
 RUN groupadd --system --gid 10001 app && \

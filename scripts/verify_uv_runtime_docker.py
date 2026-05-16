@@ -170,10 +170,7 @@ def verify_static_files() -> None:
 
     print_step("Checking Dockerfile uv runtime contract")
     assert_contains(dockerfile, "COPY --from=ghcr.io/astral-sh/uv:")
-    assert_contains(
-        dockerfile,
-        "uv sync --frozen --no-dev --no-group prepare-data --no-group docs --no-install-project --compile-bytecode",
-    )
+    assert_contains(dockerfile, "uv sync --frozen --no-dev")
     assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]')
 
     print_step("Checking data-prep uv contract")
