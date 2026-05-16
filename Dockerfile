@@ -1,6 +1,6 @@
 FROM python:3.12-slim@sha256:401f6e1a67dad31a1bd78e9ad22d0ee0a3b52154e6bd30e90be696bb6a3d7461
 
-COPY --from=ghcr.io/astral-sh/uv:0.10.12 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.14 /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -15,6 +15,7 @@ RUN groupadd --system --gid 10001 app && \
     chown -R 10001:10001 /app
 USER 10001:10001
 
+ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV DATASET_PATH=/data/legal-texts
 ENV STRICT_STARTUP=true
 ENV HOST=0.0.0.0
