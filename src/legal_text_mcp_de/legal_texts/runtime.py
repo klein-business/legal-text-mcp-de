@@ -26,7 +26,9 @@ class LegalTextRuntime:
         registry = LawRegistry.load()
         strict_startup = settings.strict_startup if strict is None else strict
         if not settings.dataset_path:
-            error = dataset_not_ready("DATASET_PATH is not configured.", {"stage": "serving_dataset", "state": "missing"})
+            error = dataset_not_ready(
+                "DATASET_PATH is not configured.", {"stage": "serving_dataset", "state": "missing"}
+            )
             if strict_startup:
                 raise error
             return cls(None, registry, None, None, startup_error=error)

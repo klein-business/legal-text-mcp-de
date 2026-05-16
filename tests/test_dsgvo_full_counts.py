@@ -139,10 +139,7 @@ def write_package(package_dir: Path, norms: list[dict]) -> None:
             "discovered_sources": 1,
             "imported_sources": 1,
         },
-        "content_hashes": {
-            name: f"sha256:{file_hash(package_dir / name)}"
-            for name in files
-        },
+        "content_hashes": {name: f"sha256:{file_hash(package_dir / name)}" for name in files},
         "validation_mode": "terminal",
         "source_families": ["eur-lex-cellar"],
     }
@@ -233,14 +230,16 @@ def test_verify_dsgvo_full_counts_script_writes_artifact(tmp_path):
     policy_path = tmp_path / "policy.json"
     write_json(policy_path, policy)
 
-    exit_code = verify_dsgvo_full_counts_main([
-        "--package",
-        str(package_dir),
-        "--policy",
-        str(policy_path),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_dsgvo_full_counts_main(
+        [
+            "--package",
+            str(package_dir),
+            "--policy",
+            str(policy_path),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 0
     artifact = json.loads(output.read_text(encoding="utf-8"))
@@ -268,14 +267,16 @@ def test_verify_dsgvo_full_counts_rejects_cellar_work_mismatch(tmp_path):
     policy_path = tmp_path / "policy.json"
     write_json(policy_path, policy)
 
-    exit_code = verify_dsgvo_full_counts_main([
-        "--package",
-        str(package_dir),
-        "--policy",
-        str(policy_path),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_dsgvo_full_counts_main(
+        [
+            "--package",
+            str(package_dir),
+            "--policy",
+            str(policy_path),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 1
     artifact = json.loads(output.read_text(encoding="utf-8"))
@@ -297,14 +298,16 @@ def test_verify_dsgvo_full_counts_rejects_expression_mismatch(tmp_path):
     policy_path = tmp_path / "policy.json"
     write_json(policy_path, policy)
 
-    exit_code = verify_dsgvo_full_counts_main([
-        "--package",
-        str(package_dir),
-        "--policy",
-        str(policy_path),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_dsgvo_full_counts_main(
+        [
+            "--package",
+            str(package_dir),
+            "--policy",
+            str(policy_path),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 1
     artifact = json.loads(output.read_text(encoding="utf-8"))
@@ -323,14 +326,16 @@ def test_verify_dsgvo_full_counts_rejects_missing_policy_content_hash(tmp_path):
     policy_path = tmp_path / "policy.json"
     write_json(policy_path, policy)
 
-    exit_code = verify_dsgvo_full_counts_main([
-        "--package",
-        str(package_dir),
-        "--policy",
-        str(policy_path),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_dsgvo_full_counts_main(
+        [
+            "--package",
+            str(package_dir),
+            "--policy",
+            str(policy_path),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 1
     artifact = json.loads(output.read_text(encoding="utf-8"))

@@ -26,7 +26,9 @@ def build_scaled_legacy_package(tmp_path: Path, *, norm_count: int = 160) -> Pat
         norm["norm_id"] = f"art:{index}"
         norm["value"] = str(index)
         norm["title"] = f"Artikel {index}"
-        norm["text"] = f"Skalierter Datenschutz Testtext Nummer {index}. Personenbezogene Daten und Suchbegriff {index % 7}."
+        norm["text"] = (
+            f"Skalierter Datenschutz Testtext Nummer {index}. Personenbezogene Daten und Suchbegriff {index % 7}."
+        )
         norms.append(norm)
     laws[0]["norm_count"] = len(norms)
     (package / "laws.json").write_text(json.dumps(laws), encoding="utf-8")

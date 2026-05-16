@@ -402,16 +402,8 @@ def _validate_limited_critical_law(canonical: str, outcome: dict[str, Any], evid
     if not isinstance(source_url, str) or not source_url.startswith("https://www.gesetze-im-internet.de/"):
         errors.append(f"critical_laws: {canonical} limitation requires official GII source_url")
     manifest_record = _as_dict(outcome.get("manifest_record"))
-    source_id = (
-        limitation.get("source_id")
-        or outcome.get("source_id")
-        or manifest_record.get("source_id")
-    )
-    source_path = (
-        limitation.get("source_path")
-        or details.get("source_path")
-        or manifest_record.get("source_path")
-    )
+    source_id = limitation.get("source_id") or outcome.get("source_id") or manifest_record.get("source_id")
+    source_path = limitation.get("source_path") or details.get("source_path") or manifest_record.get("source_path")
     if not limitation.get("limitation_id"):
         errors.append(f"critical_laws: {canonical} limitation missing limitation_id")
     if not source_id:
@@ -524,7 +516,7 @@ def validate_state_law_artifact(raw: dict[str, Any] | None, section: dict[str, A
         errors.append("state_law: total_states must be 16")
     imported_count = counts.get("imported", 0)
     limited_count = counts.get("limited", 0)
-    if (isinstance(imported_count, int) and isinstance(limited_count, int) and imported_count + limited_count != 16):
+    if isinstance(imported_count, int) and isinstance(limited_count, int) and imported_count + limited_count != 16:
         errors.append("state_law: imported + limited must equal 16")
     coverage_path_value = raw.get("coverage_path")
     coverage_path = Path(coverage_path_value) if isinstance(coverage_path_value, str) else None
@@ -627,7 +619,8 @@ def _benchmark_decision_errors(raw: dict[str, Any]) -> list[str]:
     search_p95 = search.get("p95_ms", 0)
     search_threshold = thresholds.get("max_search_p95_ms", float("inf"))
     if (
-        isinstance(search_p95, (int, float)) and isinstance(search_threshold, (int, float))
+        isinstance(search_p95, (int, float))
+        and isinstance(search_threshold, (int, float))
         and search_p95 > search_threshold
         and REQUIRED_BENCHMARK_DECISIONS["search"] not in decisions
     ):

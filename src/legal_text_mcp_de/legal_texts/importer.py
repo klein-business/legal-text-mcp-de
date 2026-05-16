@@ -113,11 +113,7 @@ def validate_eurlex_german_act_xml(
     label: str | None = None,
 ) -> None:
     text = content.decode("utf-8", errors="replace")
-    missing = [
-        marker
-        for marker in ("<LG.DOC>DE</LG.DOC>", "<ACT", "<ARTICLE")
-        if marker not in text
-    ]
+    missing = [marker for marker in ("<LG.DOC>DE</LG.DOC>", "<ACT", "<ARTICLE") if marker not in text]
     if missing:
         raise source_unavailable(
             f"{label or celex} does not look like German article XML.",

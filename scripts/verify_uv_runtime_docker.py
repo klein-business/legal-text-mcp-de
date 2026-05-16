@@ -129,6 +129,7 @@ def wait_for_ready(url: str, timeout: float = 20.0) -> dict[str, Any]:
 def import_external_mcp_client() -> tuple[Any, Any]:
     from mcp import ClientSession
     from mcp.client.streamable_http import streamablehttp_client
+
     return ClientSession, streamablehttp_client
 
 

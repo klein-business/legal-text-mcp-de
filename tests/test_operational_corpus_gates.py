@@ -175,7 +175,11 @@ def dsgvo_artifact(tmp_path: Path) -> Path:
             "counts": {"articles": 99, "recitals": 173},
             "boundary_samples": {
                 "articles": {"expected": ["art:1", "art:99"], "found": ["art:1", "art:99"], "missing": []},
-                "recitals": {"expected": ["recital:1", "recital:173"], "found": ["recital:1", "recital:173"], "missing": []},
+                "recitals": {
+                    "expected": ["recital:1", "recital:173"],
+                    "found": ["recital:1", "recital:173"],
+                    "missing": [],
+                },
             },
             "validation_errors": [],
         },
@@ -207,7 +211,10 @@ def eu_artifact(tmp_path: Path) -> Path:
                     "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854",
                     "version_policy": "official-german-eurlex-expression",
                     "limitation_id": "lim-data-act",
-                    "limitation": {"terminal_state": "source_unavailable", "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854"},
+                    "limitation": {
+                        "terminal_state": "source_unavailable",
+                        "source_url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R2854",
+                    },
                 },
             ],
             "validation_errors": [],
@@ -297,7 +304,16 @@ def test_full_corpus_bundle_success_with_contract_artifacts(tmp_path):
 
     assert exit_code == 0
     assert bundle["schema_version"] == "full-corpus-validation-bundle.v1"
-    for section in ("gii", "dsgvo", "critical_laws", "eu_neighbors", "state_law", "relationships", "runtime_readiness", "benchmark"):
+    for section in (
+        "gii",
+        "dsgvo",
+        "critical_laws",
+        "eu_neighbors",
+        "state_law",
+        "relationships",
+        "runtime_readiness",
+        "benchmark",
+    ):
         assert section in bundle
     for section in ("gii", "dsgvo", "eu_neighbors", "state_law", "relationships", "benchmark"):
         assert bundle[section]["source_artifact"] == bundle[section]["path"]
@@ -434,7 +450,10 @@ def test_full_corpus_bundle_rejects_invalid_relationship_seed(tmp_path):
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("relationships: relationships or source_limitations must be nonempty" in error for error in bundle["validation_errors"])
+    assert any(
+        "relationships: relationships or source_limitations must be nonempty" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_weak_critical_law_evidence(tmp_path):
@@ -446,7 +465,10 @@ def test_full_corpus_bundle_rejects_weak_critical_law_evidence(tmp_path):
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 imported evidence missing generated_norm_ids" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 imported evidence missing generated_norm_ids" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_cross_wired_critical_law_evidence(tmp_path):
@@ -459,8 +481,14 @@ def test_full_corpus_bundle_rejects_cross_wired_critical_law_evidence(tmp_path):
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 generated_law_ids must include bdsg_2018" in error for error in bundle["validation_errors"])
-    assert any("critical_laws: bdsg_2018 generated_norm_ids must all belong to bdsg_2018" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 generated_law_ids must include bdsg_2018" in error
+        for error in bundle["validation_errors"]
+    )
+    assert any(
+        "critical_laws: bdsg_2018 generated_norm_ids must all belong to bdsg_2018" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_weak_release_blocking_limitation(tmp_path):
@@ -469,14 +497,21 @@ def test_full_corpus_bundle_rejects_weak_release_blocking_limitation(tmp_path):
     raw["critical_law_outcomes"]["bdsg_2018"] = {
         "terminal_state": "parse_failed",
         "manifest_record": {"terminal_state": "parse_failed", "source_id": "gii:bdsg_2018", "source_path": "bdsg_2018"},
-        "limitation": {"terminal_state": "parse_failed", "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip", "release_blocking": True},
+        "limitation": {
+            "terminal_state": "parse_failed",
+            "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
+            "release_blocking": True,
+        },
     }
     artifacts["gii_artifact"] = write_json(tmp_path / "bad-limitation.json", raw)
 
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 limitation must use terminal_state source_unavailable" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 limitation must use terminal_state source_unavailable" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_under_specified_source_unavailable_limitation(tmp_path):
@@ -484,7 +519,11 @@ def test_full_corpus_bundle_rejects_under_specified_source_unavailable_limitatio
     raw = json.loads(artifacts["gii_artifact"].read_text(encoding="utf-8"))
     raw["critical_law_outcomes"]["bdsg_2018"] = {
         "terminal_state": "source_unavailable",
-        "manifest_record": {"terminal_state": "source_unavailable", "source_id": "gii:bdsg_2018", "source_path": "bdsg_2018"},
+        "manifest_record": {
+            "terminal_state": "source_unavailable",
+            "source_id": "gii:bdsg_2018",
+            "source_path": "bdsg_2018",
+        },
         "limitation": {
             "terminal_state": "source_unavailable",
             "source_id": "gii:bdsg_2018",
@@ -498,8 +537,13 @@ def test_full_corpus_bundle_rejects_under_specified_source_unavailable_limitatio
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 limitation missing limitation_id" in error for error in bundle["validation_errors"])
-    assert any("critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 limitation missing limitation_id" in error for error in bundle["validation_errors"]
+    )
+    assert any(
+        "critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_source_path_only_upstream_evidence(tmp_path):
@@ -507,7 +551,11 @@ def test_full_corpus_bundle_rejects_source_path_only_upstream_evidence(tmp_path)
     raw = json.loads(artifacts["gii_artifact"].read_text(encoding="utf-8"))
     raw["critical_law_outcomes"]["bdsg_2018"] = {
         "terminal_state": "source_unavailable",
-        "manifest_record": {"terminal_state": "source_unavailable", "source_id": "gii:bdsg_2018", "source_path": "bdsg_2018"},
+        "manifest_record": {
+            "terminal_state": "source_unavailable",
+            "source_id": "gii:bdsg_2018",
+            "source_path": "bdsg_2018",
+        },
         "limitation": {
             "limitation_id": "lim-bdsg-unavailable",
             "terminal_state": "source_unavailable",
@@ -524,7 +572,10 @@ def test_full_corpus_bundle_rejects_source_path_only_upstream_evidence(tmp_path)
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_empty_upstream_evidence_values(tmp_path):
@@ -532,7 +583,11 @@ def test_full_corpus_bundle_rejects_empty_upstream_evidence_values(tmp_path):
     raw = json.loads(artifacts["gii_artifact"].read_text(encoding="utf-8"))
     raw["critical_law_outcomes"]["bdsg_2018"] = {
         "terminal_state": "source_unavailable",
-        "manifest_record": {"terminal_state": "source_unavailable", "source_id": "gii:bdsg_2018", "source_path": "bdsg_2018"},
+        "manifest_record": {
+            "terminal_state": "source_unavailable",
+            "source_id": "gii:bdsg_2018",
+            "source_path": "bdsg_2018",
+        },
         "limitation": {
             "limitation_id": "lim-bdsg-unavailable",
             "terminal_state": "source_unavailable",
@@ -541,7 +596,13 @@ def test_full_corpus_bundle_rejects_empty_upstream_evidence_values(tmp_path):
             "source_url": "https://www.gesetze-im-internet.de/bdsg_2018/xml.zip",
             "reason": "official source unavailable",
             "retrieved_at": "2026-05-15T00:00:00Z",
-            "details": {"source_path": "bdsg_2018", "content_type": "", "error_code": "", "http_status": 0, "release_blocking": True},
+            "details": {
+                "source_path": "bdsg_2018",
+                "content_type": "",
+                "error_code": "",
+                "http_status": 0,
+                "release_blocking": True,
+            },
         },
     }
     artifacts["gii_artifact"] = write_json(tmp_path / "empty-upstream-evidence.json", raw)
@@ -549,7 +610,10 @@ def test_full_corpus_bundle_rejects_empty_upstream_evidence_values(tmp_path):
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_rejects_boolean_http_status_evidence(tmp_path):
@@ -557,7 +621,11 @@ def test_full_corpus_bundle_rejects_boolean_http_status_evidence(tmp_path):
     raw = json.loads(artifacts["gii_artifact"].read_text(encoding="utf-8"))
     raw["critical_law_outcomes"]["bdsg_2018"] = {
         "terminal_state": "source_unavailable",
-        "manifest_record": {"terminal_state": "source_unavailable", "source_id": "gii:bdsg_2018", "source_path": "bdsg_2018"},
+        "manifest_record": {
+            "terminal_state": "source_unavailable",
+            "source_id": "gii:bdsg_2018",
+            "source_path": "bdsg_2018",
+        },
         "limitation": {
             "limitation_id": "lim-bdsg-unavailable",
             "terminal_state": "source_unavailable",
@@ -574,7 +642,10 @@ def test_full_corpus_bundle_rejects_boolean_http_status_evidence(tmp_path):
     bundle, exit_code = build_bundle(**artifacts)
 
     assert exit_code == 1
-    assert any("critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error for error in bundle["validation_errors"])
+    assert any(
+        "critical_laws: bdsg_2018 limitation missing substantive upstream evidence details" in error
+        for error in bundle["validation_errors"]
+    )
 
 
 def test_full_corpus_bundle_accepts_legacy_ttdsg_critical_key(tmp_path):

@@ -199,7 +199,9 @@ def _validate_limitations(limitations: list[dict[str, Any]]) -> list[str]:
         "relationship_sources": [],
         "source_limitations": limitations,
     }
-    return [f"state-law limitations: {error}" for error in validate_corpus_manifest(manifest, require_terminal_states=True)]
+    return [
+        f"state-law limitations: {error}" for error in validate_corpus_manifest(manifest, require_terminal_states=True)
+    ]
 
 
 def _https(value: Any) -> bool:

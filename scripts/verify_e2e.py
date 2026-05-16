@@ -189,6 +189,7 @@ def run_http_generated_package_e2e(port: int) -> None:
 def import_external_mcp_client() -> tuple[Any, Any]:
     from mcp import ClientSession
     from mcp.client.streamable_http import streamablehttp_client
+
     return ClientSession, streamablehttp_client
 
 

@@ -45,7 +45,9 @@ class NormalizedDataset:
         }
 
     @classmethod
-    def load(cls, path: str | Path, registry: LawRegistry | None = None, *, require_search_index: bool = False) -> "NormalizedDataset":
+    def load(
+        cls, path: str | Path, registry: LawRegistry | None = None, *, require_search_index: bool = False
+    ) -> "NormalizedDataset":
         return cls(Path(path), registry, require_search_index=require_search_index)
 
     def _load_json_if_present(self, relative_path: str, default: Any) -> Any:
@@ -74,7 +76,9 @@ class NormalizedDataset:
         law = self.laws_by_id.get(law_id)
         if not law:
             raise law_not_found(code)
-        norms = [norm_summary(norm) for norm in sorted(self.norms_by_law.get(law_id, []), key=lambda item: item["norm_id"])]
+        norms = [
+            norm_summary(norm) for norm in sorted(self.norms_by_law.get(law_id, []), key=lambda item: item["norm_id"])
+        ]
         return {"law": law, "norms": norms}
 
     def law_record(self, code: str) -> dict[str, Any]:

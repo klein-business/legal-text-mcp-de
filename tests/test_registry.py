@@ -41,8 +41,22 @@ def test_unknown_law_has_structured_error():
 
 def test_ambiguous_alias_error_is_available_for_non_validating_registry():
     entries = [
-        {"canonical_id": "a", "display_code": "A", "display_name": "A", "source_kind": "gesetze-im-internet", "source_identifier": "a", "aliases": ["X"]},
-        {"canonical_id": "b", "display_code": "B", "display_name": "B", "source_kind": "gesetze-im-internet", "source_identifier": "b", "aliases": ["X"]},
+        {
+            "canonical_id": "a",
+            "display_code": "A",
+            "display_name": "A",
+            "source_kind": "gesetze-im-internet",
+            "source_identifier": "a",
+            "aliases": ["X"],
+        },
+        {
+            "canonical_id": "b",
+            "display_code": "B",
+            "display_name": "B",
+            "source_kind": "gesetze-im-internet",
+            "source_identifier": "b",
+            "aliases": ["X"],
+        },
     ]
     registry = LawRegistry.from_entries(entries, validate=False)
     with pytest.raises(LegalTextError) as exc:

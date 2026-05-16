@@ -171,7 +171,10 @@ def test_dsgvo_parser_wrapper_remains_compatible(tmp_path):
         '<ROOT><LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER="005"><TI.ART>Artikel 5</TI.ART><P>Text.</P></ARTICLE></ACT></ROOT>',
         encoding="utf-8",
     )
-    source = {"source_url": "https://publications.europa.eu/resource/cellar/fixture/DOC_2", "source_kind": "eur-lex-cellar"}
+    source = {
+        "source_url": "https://publications.europa.eu/resource/cellar/fixture/DOC_2",
+        "source_kind": "eur-lex-cellar",
+    }
 
     direct = parse_eurlex_act_xml(xml_path, {"canonical_id": "dsgvo_eu_2016_679"}, source)
     wrapped = parse_dsgvo_xml(xml_path, {"canonical_id": "dsgvo_eu_2016_679"}, source)
@@ -227,9 +230,18 @@ def test_eu_neighbor_imported_or_limited_records_resolve_relationship_targets_in
     relationship_source = seed_relationship_source_to_manifest_record(seed)
     dsgvo_norm_ids = ["dsgvo_eu_2016_679/art:5", "dsgvo_eu_2016_679/recital:1"]
     laws = [
-        law_record("dsgvo_eu_2016_679", "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "32016R0679", len(dsgvo_norm_ids)),
+        law_record(
+            "dsgvo_eu_2016_679",
+            "DSGVO",
+            "Datenschutz-Grundverordnung",
+            "eur-lex-cellar",
+            "32016R0679",
+            len(dsgvo_norm_ids),
+        ),
         law_record("bdsg_2018", "BDSG", "Bundesdatenschutzgesetz", "gesetze-im-internet", "bdsg_2018", 0),
-        law_record("tdddg", "TDDDG", "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz", "gesetze-im-internet", "ttdsg", 0),
+        law_record(
+            "tdddg", "TDDDG", "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz", "gesetze-im-internet", "ttdsg", 0
+        ),
         build_eu_neighbor_law(records["32024R1689"], norm_count=len(ai_norms)),
     ]
     norms = [
@@ -252,10 +264,20 @@ def test_eu_neighbor_imported_or_limited_records_resolve_relationship_targets_in
             eu_neighbor_imported_source(records["32024R1689"], [norm["canonical_id"] for norm in ai_norms]),
         ],
         "canonical_ids": [
-            {"canonical_id": "dsgvo_eu_2016_679", "source_family": "eur-lex-cellar", "source_id": "eur-lex-cellar:32016R0679", "celex": "32016R0679"},
+            {
+                "canonical_id": "dsgvo_eu_2016_679",
+                "source_family": "eur-lex-cellar",
+                "source_id": "eur-lex-cellar:32016R0679",
+                "celex": "32016R0679",
+            },
             {"canonical_id": "bdsg_2018", "source_family": "gii", "source_id": "gii:bdsg_2018"},
             {"canonical_id": "tdddg", "source_family": "gii", "source_id": "gii:ttdsg"},
-            {"canonical_id": "ai_act_eu_2024_1689", "source_family": "eur-lex-cellar", "source_id": "eur-lex-cellar:32024R1689", "celex": "32024R1689"},
+            {
+                "canonical_id": "ai_act_eu_2024_1689",
+                "source_family": "eur-lex-cellar",
+                "source_id": "eur-lex-cellar:32024R1689",
+                "celex": "32024R1689",
+            },
         ],
         "relationship_sources": [relationship_source],
         "source_limitations": limitations,
@@ -266,7 +288,11 @@ def test_eu_neighbor_imported_or_limited_records_resolve_relationship_targets_in
         "manifest.json": manifest,
         "source-limitations.json": limitations,
         "relationships.json": relationships,
-        "readiness.json": {"stage": "normalized_dataset", "state": "ready", "details": {"law_count": len(laws), "norm_count": len(norms)}},
+        "readiness.json": {
+            "stage": "normalized_dataset",
+            "state": "ready",
+            "details": {"law_count": len(laws), "norm_count": len(norms)},
+        },
         "search-index.json": {"documents": []},
     }
     for name, data in files.items():
@@ -302,16 +328,18 @@ def test_eu_neighbor_imported_or_limited_records_resolve_relationship_targets_in
 def test_verify_eu_neighbor_sources_writes_fixture_backed_artifact(tmp_path):
     output = tmp_path / "eu-neighbors.json"
 
-    exit_code = verify_eu_neighbor_sources_main([
-        "--seed",
-        str(DEFAULT_PRIVACY_SCOPE_SEED_PATH),
-        "--sources",
-        str(DEFAULT_EU_NEIGHBOR_SOURCES_PATH),
-        "--fixture-dir",
-        str(FIXTURE_DIR),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_eu_neighbor_sources_main(
+        [
+            "--seed",
+            str(DEFAULT_PRIVACY_SCOPE_SEED_PATH),
+            "--sources",
+            str(DEFAULT_EU_NEIGHBOR_SOURCES_PATH),
+            "--fixture-dir",
+            str(FIXTURE_DIR),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 0
     artifact = json.loads(output.read_text(encoding="utf-8"))
@@ -381,7 +409,9 @@ def zip_with_member(name: str, content: bytes) -> bytes:
     return buffer.getvalue()
 
 
-def law_record(canonical_id: str, display_code: str, display_name: str, source_kind: str, source_identifier: str, norm_count: int) -> dict:
+def law_record(
+    canonical_id: str, display_code: str, display_name: str, source_kind: str, source_identifier: str, norm_count: int
+) -> dict:
     if source_kind == "gesetze-im-internet":
         source_url = f"https://www.gesetze-im-internet.de/{source_identifier}/xml.zip"
         source_metadata = {"source_path": source_identifier}
@@ -426,7 +456,9 @@ def norm_record(law_id: str, norm_id: str, unit: str, value: str, text: str) -> 
         "text": text,
         "status": "active",
         "url": f"https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679#{norm_id.replace(':', '_')}",
-        "source": law_record(law_id, "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "32016R0679", 0)["source"],
+        "source": law_record(law_id, "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "32016R0679", 0)[
+            "source"
+        ],
         "subdivisions": [],
     }
 

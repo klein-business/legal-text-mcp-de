@@ -252,7 +252,11 @@ def _validate_seed_limitations(limitations: Any, errors: list[str]) -> tuple[set
         errors.append("source_limitations must be a list")
         return limitation_ids, celex_values
     for index, limitation in enumerate(limitations):
-        owner = str(limitation.get("limitation_id") or f"source_limitations[{index}]") if isinstance(limitation, dict) else f"source_limitations[{index}]"
+        owner = (
+            str(limitation.get("limitation_id") or f"source_limitations[{index}]")
+            if isinstance(limitation, dict)
+            else f"source_limitations[{index}]"
+        )
         if not isinstance(limitation, dict):
             errors.append(f"{owner} must be an object")
             continue
@@ -291,7 +295,11 @@ def _validate_seed_relationships(
     errors: list[str] = []
     seen: set[str] = set()
     for index, relationship in enumerate(relationships):
-        owner = str(relationship.get("relationship_id") or f"relationships[{index}]") if isinstance(relationship, dict) else f"relationships[{index}]"
+        owner = (
+            str(relationship.get("relationship_id") or f"relationships[{index}]")
+            if isinstance(relationship, dict)
+            else f"relationships[{index}]"
+        )
         if not isinstance(relationship, dict):
             errors.append(f"{owner} must be an object")
             continue
@@ -315,7 +323,11 @@ def _validate_seed_relationships(
         elif "provenance" in relationship:
             errors.append(f"{owner}: provenance must be an object")
         for endpoint_name in ("subject", "object"):
-            errors.extend(_validate_seed_endpoint(owner, endpoint_name, relationship.get(endpoint_name), target_ids, limitation_ids))
+            errors.extend(
+                _validate_seed_endpoint(
+                    owner, endpoint_name, relationship.get(endpoint_name), target_ids, limitation_ids
+                )
+            )
     return errors
 
 
@@ -337,7 +349,9 @@ def _validate_seed_endpoint(
         return [f"{owner}: {endpoint_name} target kind {kind} is not supported"]
     if kind == "source_limitation":
         if target_id not in limitation_ids:
-            return [f"{owner}: {endpoint_name} target source_limitation:{target_id} is not declared as a source limitation"]
+            return [
+                f"{owner}: {endpoint_name} target source_limitation:{target_id} is not declared as a source limitation"
+            ]
         return []
     if target_id not in target_ids.get(kind, set()):
         return [f"{owner}: {endpoint_name} target {kind}:{target_id} is not declared as an official target"]

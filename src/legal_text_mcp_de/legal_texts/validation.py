@@ -151,10 +151,13 @@ def validate_generated_package(path: Path, *, require_search_index: bool = False
         if manifest is not None:
             validation_mode = package.get("validation_mode")
             terminal_required = validation_mode == "terminal" if validation_mode in VALIDATION_MODES else None
-            errors.extend(f"manifest.json: {error}" for error in validate_corpus_manifest(
-                manifest,
-                require_terminal_states=terminal_required,
-            ))
+            errors.extend(
+                f"manifest.json: {error}"
+                for error in validate_corpus_manifest(
+                    manifest,
+                    require_terminal_states=terminal_required,
+                )
+            )
             if validation_mode in VALIDATION_MODES and manifest.get("validation_mode") != validation_mode:
                 errors.append(
                     f"manifest.json validation_mode {manifest.get('validation_mode')} "
@@ -168,7 +171,9 @@ def validate_generated_package(path: Path, *, require_search_index: bool = False
 
     source_limitations_path = path / "source-limitations.json"
     if source_limitations_path.exists():
-        source_limitations, source_limitation_load_errors = _load_json_list(source_limitations_path, "source-limitations.json")
+        source_limitations, source_limitation_load_errors = _load_json_list(
+            source_limitations_path, "source-limitations.json"
+        )
     else:
         source_limitations = []
         source_limitation_load_errors = []
@@ -187,7 +192,9 @@ def validate_generated_package(path: Path, *, require_search_index: bool = False
         errors.extend(validate_laws(laws))
     if norms is not None:
         errors.extend(validate_norms(norms, require_generated_container_schema=True))
-    errors.extend(_validate_package_counts(package.get("record_counts"), laws, norms, relationships, source_limitations, manifest))
+    errors.extend(
+        _validate_package_counts(package.get("record_counts"), laws, norms, relationships, source_limitations, manifest)
+    )
     errors.extend(_validate_law_norm_consistency(laws, norms))
     errors.extend(_validate_manifest_record_references(manifest, laws, norms))
     errors.extend(_validate_source_limitations_match_manifest(source_limitations, manifest))
@@ -326,7 +333,9 @@ def _load_json_list(path: Path, label: str) -> tuple[list[dict[str, Any]] | None
         return None, errors
     if not isinstance(data, list):
         return None, [f"{label} must be a list"]
-    object_errors = [f"{label}[{index}] must be an object" for index, item in enumerate(data) if not isinstance(item, dict)]
+    object_errors = [
+        f"{label}[{index}] must be an object" for index, item in enumerate(data) if not isinstance(item, dict)
+    ]
     if object_errors:
         return None, object_errors
     return data, []
@@ -482,7 +491,9 @@ def _validate_package_counts(
         if isinstance(discovered_sources, list):
             actual_counts["discovered_sources"] = len(discovered_sources)
             actual_counts["imported_sources"] = sum(
-                1 for source in discovered_sources if isinstance(source, dict) and source.get("terminal_state") == "imported"
+                1
+                for source in discovered_sources
+                if isinstance(source, dict) and source.get("terminal_state") == "imported"
             )
     errors: list[str] = []
     for key, actual in actual_counts.items():
@@ -553,9 +564,7 @@ def _validate_source_limitations_match_manifest(
     if limitations is None or not manifest:
         return []
     manifest_limitations = [
-        limitation
-        for limitation in manifest.get("source_limitations", [])
-        if isinstance(limitation, dict)
+        limitation for limitation in manifest.get("source_limitations", []) if isinstance(limitation, dict)
     ]
     manifest_by_limitation_id = {
         limitation.get("limitation_id"): limitation
@@ -671,14 +680,16 @@ def _validate_relationships(
         elif "provenance" in relationship:
             errors.append(f"{owner}: provenance must be an object")
         for endpoint_name in ("subject", "object"):
-            errors.extend(_validate_relationship_endpoint(
-                owner,
-                endpoint_name,
-                relationship.get(endpoint_name),
-                law_ids,
-                norm_ids,
-                limitation_ids,
-            ))
+            errors.extend(
+                _validate_relationship_endpoint(
+                    owner,
+                    endpoint_name,
+                    relationship.get(endpoint_name),
+                    law_ids,
+                    norm_ids,
+                    limitation_ids,
+                )
+            )
     return errors
 
 

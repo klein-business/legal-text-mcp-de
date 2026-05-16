@@ -95,7 +95,9 @@ def test_generated_unit_lookups_without_changing_article_child_behavior(tmp_path
         assert result["norm"]["unit"] == unit
         assert result["citation"]["canonical"]["norm_id"] == f"{unit}:{value}"
 
-    child = get_norm(dataset=NormalizedDataset.load(FIXTURE_DATASET, require_search_index=True), code="EGBGB", norm="art:246a/par:1")
+    child = get_norm(
+        dataset=NormalizedDataset.load(FIXTURE_DATASET, require_search_index=True), code="EGBGB", norm="art:246a/par:1"
+    )
     assert child["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
 
 

@@ -2,6 +2,7 @@
 # Copyright 2026 klein-business
 from legal_text_mcp_de.parser import LawParser
 
+
 def test_parser_init(sample_law_markdown):
     parser = LawParser(sample_law_markdown)
     assert parser.short_title == "TestG"
@@ -10,6 +11,7 @@ def test_parser_init(sample_law_markdown):
     assert "1" in parser.paragraphs
     assert "2" in parser.paragraphs
 
+
 def test_get_paragraph_whole(sample_law_markdown):
     parser = LawParser(sample_law_markdown)
     result = parser.get_paragraph("1")
@@ -17,6 +19,7 @@ def test_get_paragraph_whole(sample_law_markdown):
     assert result["name"] == "Scope"
     assert "This is the first paragraph." in result["text"]
     assert "It has multiple lines." in result["text"]
+
 
 def test_get_paragraph_not_found(sample_law_markdown):
     parser = LawParser(sample_law_markdown)

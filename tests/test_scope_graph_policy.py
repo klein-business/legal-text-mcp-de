@@ -42,7 +42,9 @@ def test_scope_policy_rejects_recursive_copied_editorial_text_fields():
 
     errors = validate_scope_policy(policy)
 
-    assert_has_error(errors, "scope policy must not include copied/editorial text fields ['metadata.nested.editorial_text']")
+    assert_has_error(
+        errors, "scope policy must not include copied/editorial text fields ['metadata.nested.editorial_text']"
+    )
 
 
 def test_seed_graph_policy_id_must_match_policy_record():

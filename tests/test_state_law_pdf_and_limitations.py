@@ -25,8 +25,12 @@ def build_phase9_fixture(tmp_path: Path) -> tuple[dict, Path]:
     nw = (FIXTURE_DIR / "official_like_nw.html").read_bytes()
     malformed = (FIXTURE_DIR / "malformed_html_law.html").read_bytes()
     by_url = {
-        next(record for record in inventory["states"] if record["state_code"] == "BB")["official_sources"][0]["url"]: bb,
-        next(record for record in inventory["states"] if record["state_code"] == "NW")["official_sources"][0]["url"]: nw,
+        next(record for record in inventory["states"] if record["state_code"] == "BB")["official_sources"][0][
+            "url"
+        ]: bb,
+        next(record for record in inventory["states"] if record["state_code"] == "NW")["official_sources"][0][
+            "url"
+        ]: nw,
     }
 
     def fake_fetch(url: str) -> tuple[int, dict[str, str], bytes]:
@@ -64,16 +68,18 @@ def test_state_law_pdf_gate_writes_zero_pdf_coverage_without_manual_text(tmp_pat
     before_laws = (package_dir / "laws.json").read_text(encoding="utf-8")
     before_norms = (package_dir / "norms.json").read_text(encoding="utf-8")
 
-    exit_code = verify_state_law_pdf_sources_main([
-        "--inventory",
-        str(DEFAULT_STATE_LAW_INVENTORY_PATH),
-        "--phase9-outcomes",
-        str(phase9_path),
-        "--package-dir",
-        str(package_dir),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_state_law_pdf_sources_main(
+        [
+            "--inventory",
+            str(DEFAULT_STATE_LAW_INVENTORY_PATH),
+            "--phase9-outcomes",
+            str(phase9_path),
+            "--package-dir",
+            str(package_dir),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 0
     gate = json.loads(output.read_text(encoding="utf-8"))
@@ -97,17 +103,22 @@ def test_state_law_pdf_gate_fails_missing_terminal_coverage(tmp_path):
     output = tmp_path / "pdf-gate.json"
     write_json(phase9_path, phase9)
 
-    exit_code = verify_state_law_pdf_sources_main([
-        "--inventory",
-        str(DEFAULT_STATE_LAW_INVENTORY_PATH),
-        "--phase9-outcomes",
-        str(phase9_path),
-        "--package-dir",
-        str(package_dir),
-        "--output",
-        str(output),
-    ])
+    exit_code = verify_state_law_pdf_sources_main(
+        [
+            "--inventory",
+            str(DEFAULT_STATE_LAW_INVENTORY_PATH),
+            "--phase9-outcomes",
+            str(phase9_path),
+            "--package-dir",
+            str(package_dir),
+            "--output",
+            str(output),
+        ]
+    )
 
     assert exit_code == 1
     gate = json.loads(output.read_text(encoding="utf-8"))
-    assert any("missing phase9 outcome for state:bb/brandenburgisches-datenschutzgesetz" in error for error in gate["validation_errors"])
+    assert any(
+        "missing phase9 outcome for state:bb/brandenburgisches-datenschutzgesetz" in error
+        for error in gate["validation_errors"]
+    )

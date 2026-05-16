@@ -14,9 +14,7 @@ import pytest
 from scripts import verify_pre_flip as vpf
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-APACHE_2_0_FIXTURE = (
-    REPO_ROOT / "tests" / "fixtures" / "legal" / "apache-2.0-canonical.txt"
-)
+APACHE_2_0_FIXTURE = REPO_ROOT / "tests" / "fixtures" / "legal" / "apache-2.0-canonical.txt"
 
 
 def _materialise_apache_license(target_dir: Path) -> Path:
@@ -85,9 +83,7 @@ def test_no_proprietary_strings_passes_when_absent(tmp_path: Path) -> None:
 def test_no_proprietary_strings_fails_on_proprietary_commercial(
     tmp_path: Path,
 ) -> None:
-    (tmp_path / "README.md").write_text(
-        "This is proprietary commercial software.", encoding="utf-8"
-    )
+    (tmp_path / "README.md").write_text("This is proprietary commercial software.", encoding="utf-8")
     result = vpf.check_no_proprietary_strings(tmp_path)
     assert result.passed is False
     assert "README.md" in result.message
@@ -96,17 +92,13 @@ def test_no_proprietary_strings_fails_on_proprietary_commercial(
 
 def test_no_proprietary_strings_ignores_docs_legacy(tmp_path: Path) -> None:
     (tmp_path / "docs-legacy").mkdir()
-    (tmp_path / "docs-legacy" / "old.md").write_text(
-        "This was proprietary commercial.", encoding="utf-8"
-    )
+    (tmp_path / "docs-legacy" / "old.md").write_text("This was proprietary commercial.", encoding="utf-8")
     result = vpf.check_no_proprietary_strings(tmp_path)
     assert result.passed is True, result.message
 
 
 def test_no_proprietary_strings_ignores_license_file(tmp_path: Path) -> None:
-    (tmp_path / "LICENSE").write_text(
-        "Copyright (c) 2025 X. All rights reserved.", encoding="utf-8"
-    )
+    (tmp_path / "LICENSE").write_text("Copyright (c) 2025 X. All rights reserved.", encoding="utf-8")
     result = vpf.check_no_proprietary_strings(tmp_path)
     assert result.passed is True, result.message
 
@@ -193,18 +185,14 @@ def test_pyproject_metadata_passes_for_valid(tmp_path: Path) -> None:
 
 
 def test_pyproject_metadata_fails_on_wrong_license(tmp_path: Path) -> None:
-    (tmp_path / "pyproject.toml").write_text(
-        PYPROJECT_INVALID_LICENSE, encoding="utf-8"
-    )
+    (tmp_path / "pyproject.toml").write_text(PYPROJECT_INVALID_LICENSE, encoding="utf-8")
     result = vpf.check_pyproject_metadata(tmp_path)
     assert result.passed is False
     assert "license" in result.message.lower()
 
 
 def test_pyproject_metadata_fails_on_missing_url(tmp_path: Path) -> None:
-    (tmp_path / "pyproject.toml").write_text(
-        PYPROJECT_MISSING_URL, encoding="utf-8"
-    )
+    (tmp_path / "pyproject.toml").write_text(PYPROJECT_MISSING_URL, encoding="utf-8")
     result = vpf.check_pyproject_metadata(tmp_path)
     assert result.passed is False
     assert "Repository" in result.message
@@ -289,13 +277,9 @@ def test_check_result_supports_skipped_status() -> None:
     assert skipped.skipped is True
 
 
-def test_secrets_scan_skips_when_tool_missing(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_secrets_scan_skips_when_tool_missing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """When detect-secrets-hook is not on PATH, return SKIPPED, not FAIL."""
-    (tmp_path / ".secrets.baseline").write_text(
-        '{"version": "1.5.0", "results": {}}', encoding="utf-8"
-    )
+    (tmp_path / ".secrets.baseline").write_text('{"version": "1.5.0", "results": {}}', encoding="utf-8")
     monkeypatch.setattr(vpf.shutil, "which", lambda name: None)
     result = vpf.check_no_unaudited_secrets(tmp_path)
     assert result.status == "SKIP", result.message
@@ -492,12 +476,16 @@ def test_pypi_name_reserved_passes_on_200(monkeypatch: pytest.MonkeyPatch) -> No
         def __init__(self, code: int) -> None:
             self.status = code
             self.code = code
+
         def __enter__(self) -> "FakeResponse":
             return self
+
         def __exit__(self, *a: object) -> bool:
             return False
+
     def fake_urlopen(req: object, timeout: int = 10) -> FakeResponse:
         return FakeResponse(200)
+
     monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
     result = vpf.check_pypi_name_reserved(Path("/tmp"))
     assert result.status == "PASS", result.message
@@ -506,9 +494,15 @@ def test_pypi_name_reserved_passes_on_200(monkeypatch: pytest.MonkeyPatch) -> No
 def test_pypi_name_reserved_fails_on_404(monkeypatch: pytest.MonkeyPatch) -> None:
     def fake_urlopen(req: object, timeout: int = 10) -> None:
         import urllib.error
+
         raise urllib.error.HTTPError(
-            "https://pypi.org/pypi/legal-text-mcp-de/json", 404, "Not Found", {}, None  # type: ignore[arg-type]
+            "https://pypi.org/pypi/legal-text-mcp-de/json",
+            404,
+            "Not Found",
+            {},
+            None,  # type: ignore[arg-type]
         )
+
     monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
     result = vpf.check_pypi_name_reserved(Path("/tmp"))
     assert result.status == "FAIL"
@@ -518,6 +512,7 @@ def test_pypi_name_reserved_fails_on_404(monkeypatch: pytest.MonkeyPatch) -> Non
 def test_pypi_name_reserved_skips_on_other_error(monkeypatch: pytest.MonkeyPatch) -> None:
     def fake_urlopen(req: object, timeout: int = 10) -> None:
         raise OSError("network unreachable")
+
     monkeypatch.setattr(vpf.urllib.request, "urlopen", fake_urlopen)
     result = vpf.check_pypi_name_reserved(Path("/tmp"))
     assert result.status == "SKIP"

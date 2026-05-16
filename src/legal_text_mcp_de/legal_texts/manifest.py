@@ -88,8 +88,7 @@ def validate_corpus_manifest(manifest: dict, *, require_terminal_states: bool | 
     if require_terminal_states is not None and validation_mode in VALIDATION_MODES:
         if require_terminal_states != terminal_required:
             errors.append(
-                f"validation_mode {validation_mode} conflicts with "
-                f"require_terminal_states={require_terminal_states}"
+                f"validation_mode {validation_mode} conflicts with require_terminal_states={require_terminal_states}"
             )
     if require_terminal_states is not None:
         terminal_required = require_terminal_states
@@ -203,13 +202,20 @@ def _validate_terminal_state(record: dict[str, Any], owner: str, require_termina
         return [f"{owner}: unsupported terminal_state {terminal_state}"]
 
     if terminal_state == "imported":
-        errors.extend(_require_fields(record, owner, "imported", (
-            "canonical_id",
-            "source_url",
-            "content_sha256",
-            "retrieved_at",
-            "parser_version",
-        )))
+        errors.extend(
+            _require_fields(
+                record,
+                owner,
+                "imported",
+                (
+                    "canonical_id",
+                    "source_url",
+                    "content_sha256",
+                    "retrieved_at",
+                    "parser_version",
+                ),
+            )
+        )
         if not record.get("generated_law_ids") and not record.get("generated_norm_ids"):
             errors.append(f"{owner}: imported requires at least one generated law or norm ID")
     elif terminal_state == "unsupported_format":
@@ -227,11 +233,18 @@ def _validate_terminal_state(record: dict[str, Any], owner: str, require_termina
         if not _any_text(record, ("diagnostic", "diagnostic_text", "error", "error_message")):
             errors.append(f"{owner}: parse_failed requires diagnostic text")
     elif terminal_state == "excluded_by_policy":
-        errors.extend(_require_fields(record, owner, "excluded_by_policy", (
-            "policy_reason",
-            "policy_reference",
-            "decided_at",
-        )))
+        errors.extend(
+            _require_fields(
+                record,
+                owner,
+                "excluded_by_policy",
+                (
+                    "policy_reason",
+                    "policy_reference",
+                    "decided_at",
+                ),
+            )
+        )
         forbidden = sorted(COPIED_TEXT_FIELDS & set(record))
         if forbidden:
             errors.append(f"{owner}: excluded_by_policy must not include copied/editorial text fields {forbidden}")
@@ -267,7 +280,11 @@ def _validate_eurlex_provenance(record: dict[str, Any], owner: str) -> list[str]
     language = _field(record, "language")
     if language and language != "de":
         errors.append(f"{owner}: eur-lex-cellar language must be de")
-    if not _field(record, "cellar_uri") and not _field(record, "official_eurlex_url") and not _official_eurlex_source(record):
+    if (
+        not _field(record, "cellar_uri")
+        and not _field(record, "official_eurlex_url")
+        and not _official_eurlex_source(record)
+    ):
         errors.append(f"{owner}: eur-lex-cellar requires cellar_uri or official EUR-Lex URL")
     for field_group, message in (
         (("work", "cellar_work"), "work"),

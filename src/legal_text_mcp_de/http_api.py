@@ -58,7 +58,9 @@ def create_http_app(runtime: LegalTextRuntime | None = None) -> FastAPI:
     def get_law(code: str):
         return run(lambda: runtime.get_law(code))
 
-    @app.get("/laws/{code}/norms/{norm:path}/relationships", response_model=RelationshipsResponse, responses=ERROR_RESPONSES)
+    @app.get(
+        "/laws/{code}/norms/{norm:path}/relationships", response_model=RelationshipsResponse, responses=ERROR_RESPONSES
+    )
     def get_norm_relationships(code: str, norm: str):
         return run(lambda: runtime.get_related_norms(code, norm))
 

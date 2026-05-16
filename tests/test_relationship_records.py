@@ -60,7 +60,11 @@ def test_seed_graph_relationships_transform_to_phase2_package_records():
     assert relationship_source["source_family"] == "third-party-scope"
     assert all(relationship["source_family"] == "third-party-scope" for relationship in relationships)
     assert all(relationship["provenance"]["source_url"].startswith("https://") for relationship in relationships)
-    assert all(endpoint["kind"] != "external_source" for relationship in relationships for endpoint in (relationship["subject"], relationship["object"]))
+    assert all(
+        endpoint["kind"] != "external_source"
+        for relationship in relationships
+        for endpoint in (relationship["subject"], relationship["object"])
+    )
     assert {limitation["limitation_id"] for limitation in limitations} >= {
         "lim-eu-ai-act-32024r1689",
         "lim-eu-data-act-32023r2854",
@@ -79,8 +83,16 @@ def test_seed_relationship_transform_can_resolve_eu_limitations_to_imported_laws
         },
     )
 
-    ai_relationship = next(relationship for relationship in relationships if relationship["relationship_id"] == "rel-scope-dsgvo-art5-ai-act")
-    data_relationship = next(relationship for relationship in relationships if relationship["relationship_id"] == "rel-scope-dsgvo-art5-data-act")
+    ai_relationship = next(
+        relationship
+        for relationship in relationships
+        if relationship["relationship_id"] == "rel-scope-dsgvo-art5-ai-act"
+    )
+    data_relationship = next(
+        relationship
+        for relationship in relationships
+        if relationship["relationship_id"] == "rel-scope-dsgvo-art5-data-act"
+    )
     assert ai_relationship["object"] == {"kind": "law", "id": "ai_act_eu_2024_1689"}
     assert data_relationship["object"] == {"kind": "source_limitation", "id": "lim-eu-data-act-32023r2854"}
 
@@ -147,9 +159,18 @@ def test_transformed_seed_records_pass_generated_package_relationship_validation
     relationship_source = seed_relationship_source_to_manifest_record(seed)
     norm_ids = ["dsgvo_eu_2016_679/art:5", "dsgvo_eu_2016_679/recital:1"]
     laws = [
-        law_record("dsgvo_eu_2016_679", "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "CELEX:32016R0679", len(norm_ids)),
+        law_record(
+            "dsgvo_eu_2016_679",
+            "DSGVO",
+            "Datenschutz-Grundverordnung",
+            "eur-lex-cellar",
+            "CELEX:32016R0679",
+            len(norm_ids),
+        ),
         law_record("bdsg_2018", "BDSG", "Bundesdatenschutzgesetz", "gesetze-im-internet", "bdsg_2018", 0),
-        law_record("tdddg", "TDDDG", "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz", "gesetze-im-internet", "ttdsg", 0),
+        law_record(
+            "tdddg", "TDDDG", "Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz", "gesetze-im-internet", "ttdsg", 0
+        ),
     ]
     norms = [
         norm_record("dsgvo_eu_2016_679", "art:5", "art", "5", "Rechtmaessigkeit der Verarbeitung"),
@@ -169,14 +190,23 @@ def test_transformed_seed_records_pass_generated_package_relationship_validation
             gii_imported_source("ttdsg", "tdddg"),
         ],
         "canonical_ids": [
-            {"canonical_id": "dsgvo_eu_2016_679", "source_family": "eur-lex-cellar", "source_id": "eur-lex-cellar:32016R0679", "celex": "32016R0679"},
+            {
+                "canonical_id": "dsgvo_eu_2016_679",
+                "source_family": "eur-lex-cellar",
+                "source_id": "eur-lex-cellar:32016R0679",
+                "celex": "32016R0679",
+            },
             {"canonical_id": "bdsg_2018", "source_family": "gii", "source_id": "gii:bdsg_2018"},
             {"canonical_id": "tdddg", "source_family": "gii", "source_id": "gii:ttdsg"},
         ],
         "relationship_sources": [relationship_source],
         "source_limitations": limitations,
     }
-    readiness = {"stage": "normalized_dataset", "state": "ready", "details": {"law_count": len(laws), "norm_count": len(norms)}}
+    readiness = {
+        "stage": "normalized_dataset",
+        "state": "ready",
+        "details": {"law_count": len(laws), "norm_count": len(norms)},
+    }
     files = {
         "laws.json": laws,
         "norms.json": norms,
@@ -214,7 +244,9 @@ def test_transformed_seed_records_pass_generated_package_relationship_validation
     assert validate_generated_package(package_dir, require_search_index=True) == []
 
 
-def law_record(canonical_id: str, display_code: str, display_name: str, source_kind: str, source_identifier: str, norm_count: int) -> dict:
+def law_record(
+    canonical_id: str, display_code: str, display_name: str, source_kind: str, source_identifier: str, norm_count: int
+) -> dict:
     source_url = "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679"
     source_metadata = {
         "celex": "32016R0679",
@@ -256,7 +288,9 @@ def norm_record(law_id: str, norm_id: str, unit: str, value: str, text: str) -> 
         "text": text,
         "status": "active",
         "url": f"https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679#{norm_id.replace(':', '_')}",
-        "source": law_record(law_id, "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "CELEX:32016R0679", 0)["source"],
+        "source": law_record(law_id, "DSGVO", "Datenschutz-Grundverordnung", "eur-lex-cellar", "CELEX:32016R0679", 0)[
+            "source"
+        ],
         "subdivisions": [],
     }
 

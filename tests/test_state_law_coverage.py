@@ -28,8 +28,12 @@ def build_phase9_fixture(tmp_path: Path) -> tuple[dict, Path]:
     nw = (FIXTURE_DIR / "official_like_nw.html").read_bytes()
     malformed = (FIXTURE_DIR / "malformed_html_law.html").read_bytes()
     by_url = {
-        next(record for record in inventory["states"] if record["state_code"] == "BB")["official_sources"][0]["url"]: bb,
-        next(record for record in inventory["states"] if record["state_code"] == "NW")["official_sources"][0]["url"]: nw,
+        next(record for record in inventory["states"] if record["state_code"] == "BB")["official_sources"][0][
+            "url"
+        ]: bb,
+        next(record for record in inventory["states"] if record["state_code"] == "NW")["official_sources"][0][
+            "url"
+        ]: nw,
     }
 
     def fake_fetch(url: str) -> tuple[int, dict[str, str], bytes]:
@@ -105,12 +109,26 @@ def test_state_law_coverage_rejects_missing_duplicate_and_dangling_entries(tmp_p
     next(entry for entry in dangling_law["states"] if entry["state_code"] == "BB")["law_id"] = "state:bb/missing"
     dangling_limitation = dict(coverage)
     dangling_limitation["states"] = [dict(entry) for entry in coverage["states"]]
-    next(entry for entry in dangling_limitation["states"] if entry["state_code"] == "HB")["source_limitation_id"] = "missing-lim"
+    next(entry for entry in dangling_limitation["states"] if entry["state_code"] == "HB")["source_limitation_id"] = (
+        "missing-lim"
+    )
 
-    assert_has_error(validate_state_law_coverage(missing, inventory, phase9, package_dir=package_dir), "missing coverage states ['BW']")
-    assert_has_error(validate_state_law_coverage(duplicate, inventory, phase9, package_dir=package_dir), "duplicate coverage state BB")
-    assert_has_error(validate_state_law_coverage(dangling_law, inventory, phase9, package_dir=package_dir), "law_id state:bb/missing not found")
-    assert_has_error(validate_state_law_coverage(dangling_limitation, inventory, phase9, package_dir=package_dir), "source_limitation_id missing-lim not found")
+    assert_has_error(
+        validate_state_law_coverage(missing, inventory, phase9, package_dir=package_dir),
+        "missing coverage states ['BW']",
+    )
+    assert_has_error(
+        validate_state_law_coverage(duplicate, inventory, phase9, package_dir=package_dir),
+        "duplicate coverage state BB",
+    )
+    assert_has_error(
+        validate_state_law_coverage(dangling_law, inventory, phase9, package_dir=package_dir),
+        "law_id state:bb/missing not found",
+    )
+    assert_has_error(
+        validate_state_law_coverage(dangling_limitation, inventory, phase9, package_dir=package_dir),
+        "source_limitation_id missing-lim not found",
+    )
 
 
 def test_state_law_coverage_rejects_wrong_existing_limitation_binding(tmp_path):
@@ -124,8 +142,14 @@ def test_state_law_coverage_rejects_wrong_existing_limitation_binding(tmp_path):
 
     errors = validate_state_law_coverage(swapped, inventory, phase9, package_dir=package_dir)
 
-    assert_has_error(errors, "HB: source_limitation_id lim-state-ni-dsg-source-limitation source_id state-law:ni/niedersaechsisches-datenschutzgesetz does not match coverage source_id state-law:hb/bremisches-datenschutzgesetz")
-    assert_has_error(errors, "HB: source_limitation_id lim-state-ni-dsg-source-limitation state_code ni does not match coverage state_code HB")
+    assert_has_error(
+        errors,
+        "HB: source_limitation_id lim-state-ni-dsg-source-limitation source_id state-law:ni/niedersaechsisches-datenschutzgesetz does not match coverage source_id state-law:hb/bremisches-datenschutzgesetz",
+    )
+    assert_has_error(
+        errors,
+        "HB: source_limitation_id lim-state-ni-dsg-source-limitation state_code ni does not match coverage state_code HB",
+    )
 
 
 def test_state_law_coverage_rejects_limitation_terminal_state_mismatch(tmp_path):
@@ -139,4 +163,7 @@ def test_state_law_coverage_rejects_limitation_terminal_state_mismatch(tmp_path)
 
     errors = validate_state_law_coverage(mismatched, inventory, phase9, package_dir=package_dir)
 
-    assert_has_error(errors, "HB: source_limitation_id lim-state-hb-dsg-source-limitation terminal_state source_unavailable does not match coverage terminal_state parse_failed")
+    assert_has_error(
+        errors,
+        "HB: source_limitation_id lim-state-hb-dsg-source-limitation terminal_state source_unavailable does not match coverage terminal_state parse_failed",
+    )

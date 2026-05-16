@@ -21,7 +21,9 @@ def build_state_law_coverage(
     *,
     package_dir: Path,
 ) -> dict[str, Any]:
-    outcomes = phase9_artifact.get("source_outcomes") if isinstance(phase9_artifact.get("source_outcomes"), dict) else {}
+    outcomes = (
+        phase9_artifact.get("source_outcomes") if isinstance(phase9_artifact.get("source_outcomes"), dict) else {}
+    )
     states: list[dict[str, Any]] = []
     for record in inventory.get("states", []):
         if not isinstance(record, dict):
@@ -78,9 +80,7 @@ def validate_state_law_coverage(
     if not isinstance(states, list):
         return errors + ["states must be a list"]
     inventory_records = {
-        record.get("state_code"): record
-        for record in inventory.get("states", [])
-        if isinstance(record, dict)
+        record.get("state_code"): record for record in inventory.get("states", []) if isinstance(record, dict)
     }
     law_ids = {law.get("canonical_id") for law in _load_json_list(package_dir / "laws.json")}
     limitations_by_id = {
@@ -104,9 +104,13 @@ def validate_state_law_coverage(
             errors.append(f"coverage state {state_code} is not in inventory")
             continue
         if entry.get("adapter_class") != record.get("adapter_class"):
-            errors.append(f"{state_code}: adapter_class {entry.get('adapter_class')} does not match inventory {record.get('adapter_class')}")
+            errors.append(
+                f"{state_code}: adapter_class {entry.get('adapter_class')} does not match inventory {record.get('adapter_class')}"
+            )
         if entry.get("source_format") != record.get("source_format"):
-            errors.append(f"{state_code}: source_format {entry.get('source_format')} does not match inventory {record.get('source_format')}")
+            errors.append(
+                f"{state_code}: source_format {entry.get('source_format')} does not match inventory {record.get('source_format')}"
+            )
         terminal_state = entry.get("terminal_state")
         if terminal_state == "imported":
             law_id = entry.get("law_id")
@@ -115,7 +119,9 @@ def validate_state_law_coverage(
         elif terminal_state in {"parse_failed", "source_unavailable", "unsupported_format", "excluded_by_policy"}:
             limitation_id = entry.get("source_limitation_id")
             if limitation_id not in limitation_ids:
-                errors.append(f"{state_code}: source_limitation_id {limitation_id} not found in package source-limitations.json")
+                errors.append(
+                    f"{state_code}: source_limitation_id {limitation_id} not found in package source-limitations.json"
+                )
             else:
                 errors.extend(_validate_limitation_binding(entry, limitations_by_id[limitation_id]))
         elif terminal_state == "missing":
@@ -178,7 +184,9 @@ def build_state_law_pdf_gate_artifact(
 ) -> dict[str, Any]:
     coverage = build_state_law_coverage(inventory, phase9_artifact, package_dir=package_dir)
     coverage_path.parent.mkdir(parents=True, exist_ok=True)
-    coverage_path.write_text(json.dumps(coverage, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    coverage_path.write_text(
+        json.dumps(coverage, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     errors = validate_state_law_coverage(coverage, inventory, phase9_artifact, package_dir=package_dir)
     return {
         "schema_version": STATE_LAW_PDF_GATE_SCHEMA_VERSION,
@@ -214,8 +222,15 @@ def _base_entry(record: dict[str, Any], package_dir: Path) -> dict[str, Any]:
 
 def _coverage_counts(inventory: dict[str, Any], states: list[dict[str, Any]]) -> dict[str, int]:
     imported = sum(1 for entry in states if entry.get("terminal_state") == "imported")
-    limited = sum(1 for entry in states if entry.get("terminal_state") in {"parse_failed", "source_unavailable", "unsupported_format", "excluded_by_policy"})
-    pdf_sources = sum(1 for record in inventory.get("states", []) if isinstance(record, dict) and record.get("adapter_class") == "pdf")
+    limited = sum(
+        1
+        for entry in states
+        if entry.get("terminal_state")
+        in {"parse_failed", "source_unavailable", "unsupported_format", "excluded_by_policy"}
+    )
+    pdf_sources = sum(
+        1 for record in inventory.get("states", []) if isinstance(record, dict) and record.get("adapter_class") == "pdf"
+    )
     return {
         "total_states": len(states),
         "imported": imported,

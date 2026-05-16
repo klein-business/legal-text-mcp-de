@@ -24,7 +24,9 @@ def assert_has_error(errors: list[str], expected: str) -> None:
 
 
 def valid_inventory_and_limitations() -> tuple[dict, list[dict]]:
-    return load_state_law_inventory(DEFAULT_STATE_LAW_INVENTORY_PATH), load_state_law_limitations(DEFAULT_STATE_LAW_LIMITATIONS_PATH)
+    return load_state_law_inventory(DEFAULT_STATE_LAW_INVENTORY_PATH), load_state_law_limitations(
+        DEFAULT_STATE_LAW_LIMITATIONS_PATH
+    )
 
 
 def test_state_law_inventory_covers_exact_fixed_state_set():
@@ -109,11 +111,18 @@ def test_state_law_inventory_rejects_missing_official_sources():
 def test_limitation_only_requires_matching_limitation_record():
     inventory, limitations = valid_inventory_and_limitations()
     limitation_state = next(record for record in inventory["states"] if record["adapter_class"] == "limitation_only")
-    limitations = [limitation for limitation in limitations if limitation["limitation_id"] != limitation_state["source_limitation_id"]]
+    limitations = [
+        limitation
+        for limitation in limitations
+        if limitation["limitation_id"] != limitation_state["source_limitation_id"]
+    ]
 
     errors = validate_state_law_inventory(inventory, limitations)
 
-    assert_has_error(errors, f"{limitation_state['state_code']}: source_limitation_id {limitation_state['source_limitation_id']} not found")
+    assert_has_error(
+        errors,
+        f"{limitation_state['state_code']}: source_limitation_id {limitation_state['source_limitation_id']} not found",
+    )
 
 
 def test_state_law_limitations_are_phase1_manifest_compatible():
@@ -212,15 +221,17 @@ def test_reachability_artifact_rejects_xml_source_served_as_html():
 def test_verify_state_law_inventory_writes_artifact_with_fake_fetch(tmp_path):
     output = tmp_path / "inventory-reachability.json"
 
-    exit_code = verify_state_law_inventory_main([
-        "--inventory",
-        str(DEFAULT_STATE_LAW_INVENTORY_PATH),
-        "--limitations",
-        str(DEFAULT_STATE_LAW_LIMITATIONS_PATH),
-        "--write-artifact",
-        str(output),
-        "--fixture-mode",
-    ])
+    exit_code = verify_state_law_inventory_main(
+        [
+            "--inventory",
+            str(DEFAULT_STATE_LAW_INVENTORY_PATH),
+            "--limitations",
+            str(DEFAULT_STATE_LAW_LIMITATIONS_PATH),
+            "--write-artifact",
+            str(output),
+            "--fixture-mode",
+        ]
+    )
 
     assert exit_code == 0
     artifact = json.loads(output.read_text(encoding="utf-8"))

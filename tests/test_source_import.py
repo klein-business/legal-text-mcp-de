@@ -1,13 +1,22 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
-from legal_text_mcp_de.legal_texts.importer import diff_manifests, probe_known_invalid, probe_source, validate_dsgvo_doc2
+from legal_text_mcp_de.legal_texts.importer import (
+    diff_manifests,
+    probe_known_invalid,
+    probe_source,
+    validate_dsgvo_doc2,
+)
 from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
 
 
 def fake_fetch(url):
     if "tddsg" in url or "/pangv/" in url:
         return 404, {"content-type": "text/html"}, b"missing"
-    body = b"<LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER=\"005\">Artikel 5</ARTICLE></ACT>" if "DOC_2" in url else b"zip-bytes"
+    body = (
+        b'<LG.DOC>DE</LG.DOC><ACT><ARTICLE IDENTIFIER="005">Artikel 5</ARTICLE></ACT>'
+        if "DOC_2" in url
+        else b"zip-bytes"
+    )
     return 200, {"content-type": "application/xml"}, body
 
 

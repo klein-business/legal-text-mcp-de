@@ -14,9 +14,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 def test_python_file_with_header_passes(tmp_path: Path) -> None:
     p = tmp_path / "new_module.py"
     p.write_text(
-        "# SPDX-License-Identifier: Apache-2.0\n"
-        "# Copyright 2026 klein-business\n"
-        "def f() -> int:\n    return 1\n",
+        "# SPDX-License-Identifier: Apache-2.0\n# Copyright 2026 klein-business\ndef f() -> int:\n    return 1\n",
         encoding="utf-8",
     )
     assert csh.file_has_spdx_header(p) is True
@@ -31,10 +29,7 @@ def test_python_file_missing_header_fails(tmp_path: Path) -> None:
 def test_python_file_with_shebang_before_header_passes(tmp_path: Path) -> None:
     p = tmp_path / "script.py"
     p.write_text(
-        "#!/usr/bin/env python3\n"
-        "# SPDX-License-Identifier: Apache-2.0\n"
-        "# Copyright 2026 klein-business\n"
-        "print('hi')\n",
+        "#!/usr/bin/env python3\n# SPDX-License-Identifier: Apache-2.0\n# Copyright 2026 klein-business\nprint('hi')\n",
         encoding="utf-8",
     )
     assert csh.file_has_spdx_header(p) is True
@@ -43,10 +38,7 @@ def test_python_file_with_shebang_before_header_passes(tmp_path: Path) -> None:
 def test_python_file_with_docstring_before_header_passes(tmp_path: Path) -> None:
     p = tmp_path / "module.py"
     p.write_text(
-        '"""Module doc."""\n'
-        '# SPDX-License-Identifier: Apache-2.0\n'
-        '# Copyright 2026 klein-business\n'
-        'x = 1\n',
+        '"""Module doc."""\n# SPDX-License-Identifier: Apache-2.0\n# Copyright 2026 klein-business\nx = 1\n',
         encoding="utf-8",
     )
     assert csh.file_has_spdx_header(p) is True

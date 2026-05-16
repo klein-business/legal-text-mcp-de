@@ -39,6 +39,10 @@ def normalize_snapshot(manifest_path: Path, output_dir: Path, registry: LawRegis
         norms.extend(law_norms)
     (output_dir / "laws.json").write_text(json.dumps(laws, ensure_ascii=False, indent=2), encoding="utf-8")
     (output_dir / "norms.json").write_text(json.dumps(norms, ensure_ascii=False, indent=2), encoding="utf-8")
-    readiness = {"stage": "normalized_dataset", "state": "ready", "details": {"law_count": len(laws), "norm_count": len(norms)}}
+    readiness = {
+        "stage": "normalized_dataset",
+        "state": "ready",
+        "details": {"law_count": len(laws), "norm_count": len(norms)},
+    }
     (output_dir / "readiness.json").write_text(json.dumps(readiness, ensure_ascii=False, indent=2), encoding="utf-8")
     return readiness

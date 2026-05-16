@@ -36,7 +36,9 @@ def tokenize(text: str) -> list[str]:
 
 
 class SearchService:
-    def __init__(self, dataset: NormalizedDataset, *, limit: int = DEFAULT_LIMIT, snippet_chars: int = DEFAULT_SNIPPET_CHARS) -> None:
+    def __init__(
+        self, dataset: NormalizedDataset, *, limit: int = DEFAULT_LIMIT, snippet_chars: int = DEFAULT_SNIPPET_CHARS
+    ) -> None:
         self.dataset = dataset
         self.limit = limit
         self.snippet_chars = snippet_chars

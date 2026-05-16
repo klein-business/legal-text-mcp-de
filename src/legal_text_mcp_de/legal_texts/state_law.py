@@ -161,19 +161,21 @@ def parse_state_law_html(
         norm_text = _sanitize_portal_chrome_text(item["text"])
         if not norm_text:
             continue
-        norms.append({
-            "canonical_id": f"{law_id}/{norm_id}",
-            "law_id": law_id,
-            "norm_id": norm_id,
-            "unit": unit,
-            "value": value,
-            "title": item.get("title"),
-            "text": norm_text,
-            "status": "active",
-            "url": f"{source_url}#{norm_id.replace(':', '-')}",
-            "source": source,
-            "subdivisions": _subdivisions(norm_text),
-        })
+        norms.append(
+            {
+                "canonical_id": f"{law_id}/{norm_id}",
+                "law_id": law_id,
+                "norm_id": norm_id,
+                "unit": unit,
+                "value": value,
+                "title": item.get("title"),
+                "text": norm_text,
+                "status": "active",
+                "url": f"{source_url}#{norm_id.replace(':', '-')}",
+                "source": source,
+                "subdivisions": _subdivisions(norm_text),
+            }
+        )
     if not norms:
         raise ValueError("stable HTML adapter found no parseable norm records")
 
@@ -308,7 +310,9 @@ def build_state_law_adapter_gate_artifact(
             "inventory_states": len(inventory.get("states", [])),
             "eligible_sources": eligible_count,
             "limitation_only_sources": sum(
-                1 for record in inventory.get("states", []) if isinstance(record, dict) and record.get("adapter_class") == "limitation_only"
+                1
+                for record in inventory.get("states", [])
+                if isinstance(record, dict) and record.get("adapter_class") == "limitation_only"
             ),
             "imported": result.terminal_state_counts.get("imported", 0),
             "source_unavailable": result.terminal_state_counts.get("source_unavailable", 0),
@@ -637,14 +641,13 @@ def _write_generated_package(
                 1 for source in manifest["discovered_sources"] if source.get("terminal_state") == "imported"
             ),
         },
-        "content_hashes": {
-            name: f"sha256:{_file_sha256(package_dir / name)}"
-            for name in files
-        },
+        "content_hashes": {name: f"sha256:{_file_sha256(package_dir / name)}" for name in files},
         "validation_mode": "terminal",
         "source_families": ["state-law"],
     }
-    (package_dir / "package.json").write_text(json.dumps(package, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (package_dir / "package.json").write_text(
+        json.dumps(package, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def _hash_package(package_dir: Path) -> str:
@@ -730,7 +733,7 @@ def _split_heading_tail(value: str) -> tuple[str | None, str]:
     match = ABS_MARKER_RE.search(value)
     if not match:
         return (value or None), ""
-    return (value[:match.start()].strip() or None), value[match.start():]
+    return (value[: match.start()].strip() or None), value[match.start() :]
 
 
 def _substantive_norm_text(value: str) -> bool:
@@ -771,14 +774,17 @@ def _legal_title_from_visible_text(record: dict[str, Any], visible_text: str) ->
         if not candidate or _portal_chrome_title(candidate):
             continue
         if "datenschutzgesetz" in normalized or (
-            slug_tokens and sum(1 for token in slug_tokens if token.casefold() in normalized) >= min(2, len(slug_tokens))
+            slug_tokens
+            and sum(1 for token in slug_tokens if token.casefold() in normalized) >= min(2, len(slug_tokens))
         ):
             return candidate
     return None
 
 
 def _inventory_law_title(record: dict[str, Any]) -> str:
-    return " ".join(part.capitalize() for part in str(record.get("law_slug", "")).split("-") if part) or str(record["law_id"])
+    return " ".join(part.capitalize() for part in str(record.get("law_slug", "")).split("-") if part) or str(
+        record["law_id"]
+    )
 
 
 def _sanitize_portal_chrome_text(value: str) -> str:

@@ -25,6 +25,7 @@ from typing import Literal
 
 try:
     import yaml as _yaml_module  # type: ignore[import-untyped]
+
     _YAML_AVAILABLE = True
 except ImportError:
     _YAML_AVAILABLE = False
@@ -70,10 +71,7 @@ def check_license_apache_2_0(root: Path) -> CheckResult:
         return CheckResult(
             name="LICENSE is Apache-2.0",
             status="FAIL",
-            message=(
-                f"LICENSE sha256 mismatch: got {digest}, "
-                f"expected {APACHE_2_0_SHA256}"
-            ),
+            message=(f"LICENSE sha256 mismatch: got {digest}, expected {APACHE_2_0_SHA256}"),
         )
     return CheckResult(name="LICENSE is Apache-2.0", status="PASS", message="ok")
 
@@ -159,9 +157,7 @@ def check_pyproject_metadata(root: Path) -> CheckResult:
         failures.append(f"license != 'Apache-2.0' (got {license_field!r})")
     requires_python = project.get("requires-python")
     if requires_python != ">=3.12":
-        failures.append(
-            f"requires-python != '>=3.12' (got {requires_python!r})"
-        )
+        failures.append(f"requires-python != '>=3.12' (got {requires_python!r})")
     urls = project.get("urls") or {}
     for required_url in REQUIRED_URLS:
         if required_url not in urls:
@@ -182,8 +178,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             name="no unaudited secrets",
             status="FAIL",
             message=(
-                ".secrets.baseline missing; create via: "
-                "uv run --group dev detect-secrets scan > .secrets.baseline"
+                ".secrets.baseline missing; create via: uv run --group dev detect-secrets scan > .secrets.baseline"
             ),
         )
     detect_secrets_hook = shutil.which("detect-secrets-hook")
@@ -194,9 +189,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
             message="detect-secrets-hook not on PATH; run via 'uv run --group dev'",
         )
     try:
-        tracked = subprocess.check_output(
-            ["git", "ls-files"], cwd=root, text=True
-        ).splitlines()
+        tracked = subprocess.check_output(["git", "ls-files"], cwd=root, text=True).splitlines()
     except (FileNotFoundError, subprocess.CalledProcessError) as exc:
         return CheckResult(
             name="no unaudited secrets",
@@ -206,11 +199,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
     # Drop noise files that are tracked but should not be scanned.
     excluded_prefixes = ("tests/fixtures/",)
     excluded_exact = {"uv.lock", ".secrets.baseline"}
-    files = [
-        f for f in tracked
-        if f not in excluded_exact
-        and not any(f.startswith(p) for p in excluded_prefixes)
-    ]
+    files = [f for f in tracked if f not in excluded_exact and not any(f.startswith(p) for p in excluded_prefixes)]
     if not files:
         return CheckResult(
             name="no unaudited secrets",
@@ -227,10 +216,7 @@ def check_no_unaudited_secrets(root: Path) -> CheckResult:
         return CheckResult(
             name="no unaudited secrets",
             status="FAIL",
-            message=(
-                f"detect-secrets-hook exit {proc.returncode}: "
-                f"{proc.stdout.strip() or proc.stderr.strip()}"
-            ),
+            message=(f"detect-secrets-hook exit {proc.returncode}: {proc.stdout.strip() or proc.stderr.strip()}"),
         )
     return CheckResult(name="no unaudited secrets", status="PASS", message="ok")
 
@@ -371,11 +357,7 @@ def check_workflow_set(root: Path) -> CheckResult:
             status="FAIL",
             message=f"{wf_dir} does not exist",
         )
-    present = {
-        p.name
-        for p in wf_dir.iterdir()
-        if p.is_file() and p.suffix in {".yml", ".yaml"}
-    }
+    present = {p.name for p in wf_dir.iterdir() if p.is_file() and p.suffix in {".yml", ".yaml"}}
     expected = set(EXPECTED_WORKFLOWS)
     missing = sorted(expected - present)
     extra = sorted(present - expected)
@@ -501,7 +483,9 @@ def check_security_settings(root: Path) -> CheckResult:
     if secret_scanning_status != "enabled":  # pragma: allowlist secret
         failures.append(f"secret_scanning != enabled (got {secret_scanning_status!r})")  # pragma: allowlist secret
     if push_protection_status != "enabled":  # pragma: allowlist secret
-        failures.append(f"secret_scanning_push_protection != enabled (got {push_protection_status!r})")  # pragma: allowlist secret
+        failures.append(
+            f"secret_scanning_push_protection != enabled (got {push_protection_status!r})"
+        )  # pragma: allowlist secret
     if pvr != "enabled":
         failures.append(f"private_vulnerability_reporting != enabled (got {pvr!r})")
     if failures:

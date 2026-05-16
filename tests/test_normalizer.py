@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
 """Focused tests for mcp.legal_texts.normalizer — normalize_snapshot."""
+
 from __future__ import annotations
 
 import json

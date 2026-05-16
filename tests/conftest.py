@@ -2,6 +2,7 @@
 # Copyright 2026 klein-business
 import pytest
 
+
 @pytest.fixture
 def sample_law_markdown():
     return """---

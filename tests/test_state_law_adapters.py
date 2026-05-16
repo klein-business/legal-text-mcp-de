@@ -29,7 +29,9 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures" / "state_law"
 
 
 def valid_inventory_and_limitations() -> tuple[dict, list[dict]]:
-    return load_state_law_inventory(DEFAULT_STATE_LAW_INVENTORY_PATH), load_state_law_limitations(DEFAULT_STATE_LAW_LIMITATIONS_PATH)
+    return load_state_law_inventory(DEFAULT_STATE_LAW_INVENTORY_PATH), load_state_law_limitations(
+        DEFAULT_STATE_LAW_LIMITATIONS_PATH
+    )
 
 
 def stable_html_body() -> bytes:
@@ -188,7 +190,15 @@ def test_meta_refresh_is_followed_and_preserved_in_import_metadata(tmp_path):
 def test_official_html_fallback_sanitizes_nrw_action_chrome_from_text_and_subdivisions():
     inventory, _limitations = valid_inventory_and_limitations()
     record = next(item for item in eligible_state_law_records(inventory) if item["state_code"] == "NW")
-    forbidden = ("Mehr Paragraph", "ausdrucken", "Link kopieren", "Link kopiert", "Pragraph", "Zum Textanfang", "Textanfang")
+    forbidden = (
+        "Mehr Paragraph",
+        "ausdrucken",
+        "Link kopieren",
+        "Link kopiert",
+        "Pragraph",
+        "Zum Textanfang",
+        "Textanfang",
+    )
 
     parsed = parse_state_law_html(
         official_like_nw_action_chrome_body(),
@@ -271,7 +281,9 @@ def test_adapter_gate_does_not_create_fake_laws_for_parse_failures(tmp_path):
     assert result.terminal_state_counts == {"parse_failed": 13, "source_unavailable": 3}
     assert result.laws == []
     assert len(result.source_limitations) == 16
-    first_limitation = next(item for item in result.source_limitations if item["source_id"] == "state-law:bw/landesdatenschutzgesetz")
+    first_limitation = next(
+        item for item in result.source_limitations if item["source_id"] == "state-law:bw/landesdatenschutzgesetz"
+    )
     assert first_limitation["terminal_state"] == "parse_failed"
     assert first_limitation["details"]["implementation_evidence"] is True
     assert validate_generated_package(tmp_path / "package", require_search_index=True) == []
@@ -291,7 +303,9 @@ def test_adapter_gate_emits_source_unavailable_for_fetch_exception(tmp_path):
         fetch=fake_fetch_exception,
     )
 
-    limitation = next(item for item in result.source_limitations if item["source_id"] == "state-law:bw/landesdatenschutzgesetz")
+    limitation = next(
+        item for item in result.source_limitations if item["source_id"] == "state-law:bw/landesdatenschutzgesetz"
+    )
     assert limitation["terminal_state"] == "source_unavailable"
     assert limitation["error_code"] == "fetch_exception"
     assert "fixture timeout" in limitation["details"]["diagnostic"]
@@ -339,17 +353,19 @@ def test_state_law_adapter_gate_artifact_writes_counts_and_package_reference(tmp
 def test_verify_state_law_adapters_script_runs_fixture_mode_without_network(tmp_path):
     output = tmp_path / "adapter-gate.json"
 
-    exit_code = verify_state_law_adapters_main([
-        "--inventory",
-        str(DEFAULT_STATE_LAW_INVENTORY_PATH),
-        "--limitations",
-        str(DEFAULT_STATE_LAW_LIMITATIONS_PATH),
-        "--package-dir",
-        str(tmp_path / "package"),
-        "--output",
-        str(output),
-        "--fixture-mode",
-    ])
+    exit_code = verify_state_law_adapters_main(
+        [
+            "--inventory",
+            str(DEFAULT_STATE_LAW_INVENTORY_PATH),
+            "--limitations",
+            str(DEFAULT_STATE_LAW_LIMITATIONS_PATH),
+            "--package-dir",
+            str(tmp_path / "package"),
+            "--output",
+            str(output),
+            "--fixture-mode",
+        ]
+    )
 
     assert exit_code == 0
     artifact = json.loads(output.read_text(encoding="utf-8"))

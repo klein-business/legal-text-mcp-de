@@ -80,7 +80,9 @@ def test_terminal_state_required_fields_are_validated():
     assert_has_error(errors, "gii:parse-failed-missing: parse_failed requires diagnostic text")
     assert_has_error(errors, "third-party-scope:excluded-missing: excluded_by_policy requires policy_reference")
     assert_has_error(errors, "third-party-scope:excluded-missing: excluded_by_policy requires decided_at")
-    assert_has_error(errors, "third-party-scope:excluded-missing: excluded_by_policy must not include copied/editorial text fields")
+    assert_has_error(
+        errors, "third-party-scope:excluded-missing: excluded_by_policy must not include copied/editorial text fields"
+    )
 
 
 def test_canonical_ids_alias_migrations_and_state_law_prefix_are_validated():

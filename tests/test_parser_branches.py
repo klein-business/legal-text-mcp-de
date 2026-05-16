@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
 """Focused branch-coverage tests for mcp.parser targeting uncovered line ranges."""
+
 from __future__ import annotations
 
 import json
@@ -98,6 +99,7 @@ Content.
 # Task 16 missed lines: LawNode.__repr__ (line 52)
 # ---------------------------------------------------------------------------
 
+
 def test_law_node_repr() -> None:
     """LawNode.__repr__ returns a useful debug string."""
     node = LawNode("paragraph", "1", "Scope")
@@ -111,6 +113,7 @@ def test_law_node_repr() -> None:
 # Missed lines 104-105: multi-line frontmatter title continuation
 # ---------------------------------------------------------------------------
 
+
 def test_parser_multi_line_title() -> None:
     """Frontmatter title spanning multiple lines is joined with a space."""
     parser = LawParser(_MULTI_LINE_TITLE_MARKDOWN)
@@ -122,6 +125,7 @@ def test_parser_multi_line_title() -> None:
 # ---------------------------------------------------------------------------
 # Missed lines 176-217: get_paragraph with absatz_id
 # ---------------------------------------------------------------------------
+
 
 def test_get_paragraph_existing_absatz(sample_law_markdown: str) -> None:
     """Retrieving an existing absatz returns the absatz text."""
@@ -150,6 +154,7 @@ def test_get_paragraph_absatz_stops_at_next_absatz(sample_law_markdown: str) -> 
 # Missed lines 243-248: load_laws_from_folder
 # ---------------------------------------------------------------------------
 
+
 def test_load_laws_from_folder(tmp_path: Path) -> None:
     """load_laws_from_folder loads all index.md files found in a directory."""
     law_dir = tmp_path / "bgb"
@@ -164,6 +169,7 @@ def test_load_laws_from_folder(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 # Missed line 255: _load_law_from_markdown — fewer paragraphs than min_paragraphs
 # ---------------------------------------------------------------------------
+
 
 def test_load_law_skips_small_laws(tmp_path: Path) -> None:
     """_load_law_from_markdown returns None for laws below min_paragraphs."""
@@ -181,6 +187,7 @@ def test_load_law_skips_small_laws(tmp_path: Path) -> None:
 # Missed line 258: _load_law_from_markdown — raises when short_title missing
 # ---------------------------------------------------------------------------
 
+
 def test_load_law_raises_without_short_title(tmp_path: Path) -> None:
     """_load_law_from_markdown raises ValueError when jurabk/short_title is absent."""
     file_path = tmp_path / "no_abbr.md"
@@ -194,6 +201,7 @@ def test_load_law_raises_without_short_title(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 # Missed lines 283-285: load_law_from_file
 # ---------------------------------------------------------------------------
+
 
 def test_load_law_from_file(tmp_path: Path) -> None:
     """load_law_from_file reads a file and returns the short title."""
@@ -209,6 +217,7 @@ def test_load_law_from_file(tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 # Missed lines 349-371: get_available_laws with search_string
 # ---------------------------------------------------------------------------
+
 
 def test_get_available_laws_with_search_string(tmp_path: Path) -> None:
     """get_available_laws with a search string uses fuzzy matching."""
@@ -229,6 +238,7 @@ def test_get_available_laws_with_search_string(tmp_path: Path) -> None:
 # Missed lines 388-389: LawLibrary.get — law not found
 # ---------------------------------------------------------------------------
 
+
 def test_library_get_raises_for_unknown_law() -> None:
     """LawLibrary.get raises KeyError when the law code is not loaded."""
     library = LawLibrary()
@@ -239,6 +249,7 @@ def test_library_get_raises_for_unknown_law() -> None:
 # ---------------------------------------------------------------------------
 # Missed line 420: LawLibrary.search — FTS query with results
 # ---------------------------------------------------------------------------
+
 
 def test_library_search_returns_results(tmp_path: Path) -> None:
     """LawLibrary.search returns matching paragraphs from loaded laws."""
@@ -258,6 +269,7 @@ def test_library_search_returns_results(tmp_path: Path) -> None:
 # Missed line 436: LawLibrary.search — sqlite OperationalError
 # ---------------------------------------------------------------------------
 
+
 def test_library_search_handles_fts_error() -> None:
     """LawLibrary.search returns empty list on FTS syntax errors."""
     library = LawLibrary()
@@ -269,6 +281,7 @@ def test_library_search_handles_fts_error() -> None:
 # ---------------------------------------------------------------------------
 # Missed lines 297-300: load_law_from_url (uses requests but we mock urllib)
 # ---------------------------------------------------------------------------
+
 
 def test_load_law_from_url(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """load_law_from_url reads markdown from a URL."""
@@ -302,6 +315,7 @@ def test_load_law_from_url(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> N
 # ---------------------------------------------------------------------------
 # Missed lines 312-323: load_laws_from_github
 # ---------------------------------------------------------------------------
+
 
 def test_load_laws_from_github(monkeypatch: pytest.MonkeyPatch) -> None:
     """load_laws_from_github loads multiple laws from URLs, skips failures."""
@@ -347,6 +361,7 @@ def test_load_laws_from_github_handles_failure(monkeypatch: pytest.MonkeyPatch) 
 # ---------------------------------------------------------------------------
 # Additional: get_json and get_available_laws_json for completeness
 # ---------------------------------------------------------------------------
+
 
 def test_get_json_returns_json_string(tmp_path: Path) -> None:
     """LawLibrary.get_json returns valid JSON for a found paragraph."""

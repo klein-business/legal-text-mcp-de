@@ -65,21 +65,25 @@ def parse_gii_toc(content: bytes | str, *, toc_url: str = DEFAULT_GII_TOC_URL) -
         raw_xml_zip_link = _find_xml_zip_link(element)
         title = _item_title(element)
         if not raw_xml_zip_link:
-            malformed_items.append({
-                "index": index,
-                "reason": "missing xml.zip link",
-                "title": title,
-            })
+            malformed_items.append(
+                {
+                    "index": index,
+                    "reason": "missing xml.zip link",
+                    "title": title,
+                }
+            )
             continue
         xml_zip_link = urllib.parse.urljoin(toc_url, raw_xml_zip_link)
         source_path = _source_path_from_xml_zip_url(xml_zip_link)
         if not source_path:
-            malformed_items.append({
-                "index": index,
-                "reason": "invalid xml.zip source path",
-                "link": raw_xml_zip_link,
-                "title": title,
-            })
+            malformed_items.append(
+                {
+                    "index": index,
+                    "reason": "invalid xml.zip source path",
+                    "link": raw_xml_zip_link,
+                    "title": title,
+                }
+            )
             continue
         if source_path in seen:
             validation_errors.append(f"duplicate GII source_path {source_path}")
@@ -117,8 +121,7 @@ def build_gii_discovery_artifact(
     )
     validation_errors = list(parse_result.validation_errors)
     validation_errors.extend(
-        f"malformed GII TOC item at index {item['index']}: {item['reason']}"
-        for item in parse_result.malformed_items
+        f"malformed GII TOC item at index {item['index']}: {item['reason']}" for item in parse_result.malformed_items
     )
     if parse_result.validation_errors and not parse_result.items:
         diagnostic = "; ".join(parse_result.validation_errors)
@@ -267,10 +270,7 @@ def _build_manifest(
         "parser_versions": {
             "gii_toc": parser_version,
         },
-        "discovered_sources": [
-            _manifest_discovered_source(item, discovery_artifact_id)
-            for item in discovered_sources
-        ],
+        "discovered_sources": [_manifest_discovered_source(item, discovery_artifact_id) for item in discovered_sources],
         "canonical_ids": [],
         "relationship_sources": [],
     }

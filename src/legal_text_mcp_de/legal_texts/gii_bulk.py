@@ -323,7 +323,9 @@ def _source_limitation(
             "source_path": record["source_path"],
             "release_blocking": release_blocking,
             "official_upstream_evidence": (
-                official_upstream_evidence if official_upstream_evidence is not None else terminal_state == "source_unavailable"
+                official_upstream_evidence
+                if official_upstream_evidence is not None
+                else terminal_state == "source_unavailable"
             ),
         },
     }
@@ -434,14 +436,13 @@ def _write_generated_package(
             "discovered_sources": discovered_count,
             "imported_sources": imported_count,
         },
-        "content_hashes": {
-            name: f"sha256:{_file_sha256(package_dir / name)}"
-            for name in files
-        },
+        "content_hashes": {name: f"sha256:{_file_sha256(package_dir / name)}" for name in files},
         "validation_mode": "terminal",
         "source_families": ["gii"],
     }
-    (package_dir / "package.json").write_text(json.dumps(package, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (package_dir / "package.json").write_text(
+        json.dumps(package, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def _discovered_records(discovery_artifact: dict[str, Any]) -> list[dict[str, Any]]:

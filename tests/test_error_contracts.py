@@ -42,8 +42,22 @@ def test_service_and_http_error_shapes():
 def test_dataset_not_ready_and_ambiguous_error_shape():
     assert dataset_not_ready("missing").to_dict()["error"]["code"] == DATASET_NOT_READY
     entries = [
-        {"canonical_id": "a", "display_code": "A", "display_name": "A", "source_kind": "gesetze-im-internet", "source_identifier": "a", "aliases": ["X"]},
-        {"canonical_id": "b", "display_code": "B", "display_name": "B", "source_kind": "gesetze-im-internet", "source_identifier": "b", "aliases": ["X"]},
+        {
+            "canonical_id": "a",
+            "display_code": "A",
+            "display_name": "A",
+            "source_kind": "gesetze-im-internet",
+            "source_identifier": "a",
+            "aliases": ["X"],
+        },
+        {
+            "canonical_id": "b",
+            "display_code": "B",
+            "display_name": "B",
+            "source_kind": "gesetze-im-internet",
+            "source_identifier": "b",
+            "aliases": ["X"],
+        },
     ]
     registry = LawRegistry.from_entries(entries, validate=False)
     try:

@@ -126,7 +126,9 @@ def test_generated_gii_package_preserves_existing_canonical_aliases_and_source_p
     tdddg_law = next(law for law in result.laws if law["canonical_id"] == "tdddg")
     assert tdddg_law["source"]["source_identifier"] == "ttdsg"
     assert tdddg_law["source"]["source_metadata"]["source_path"] == "ttdsg"
-    imported_manifest = next(record for record in result.manifest["discovered_sources"] if record["source_path"] == "ttdsg")
+    imported_manifest = next(
+        record for record in result.manifest["discovered_sources"] if record["source_path"] == "ttdsg"
+    )
     assert imported_manifest["source_id"] == "gii:ttdsg"
     assert imported_manifest["generated_law_ids"] == ["tdddg"]
     assert imported_manifest["generated_norm_ids"] == ["tdddg/par:25"]
@@ -291,20 +293,22 @@ def test_verify_gii_corpus_gate_script_runs_fixture_mode_without_network(tmp_pat
     discovery_path.write_text(json.dumps(discovery_artifact(), ensure_ascii=False), encoding="utf-8")
     output = tmp_path / "gate.json"
 
-    exit_code = verify_gii_corpus_gate_main([
-        "--discovery",
-        str(discovery_path),
-        "--payload-dir",
-        str(PAYLOAD_DIR),
-        "--package-dir",
-        str(tmp_path / "package"),
-        "--output",
-        str(output),
-        "--retrieved-at",
-        "2026-05-15T00:00:00Z",
-        "--parser-variant-matrix",
-        str(PARSER_MATRIX),
-    ])
+    exit_code = verify_gii_corpus_gate_main(
+        [
+            "--discovery",
+            str(discovery_path),
+            "--payload-dir",
+            str(PAYLOAD_DIR),
+            "--package-dir",
+            str(tmp_path / "package"),
+            "--output",
+            str(output),
+            "--retrieved-at",
+            "2026-05-15T00:00:00Z",
+            "--parser-variant-matrix",
+            str(PARSER_MATRIX),
+        ]
+    )
 
     assert exit_code == 0
     written = json.loads(output.read_text(encoding="utf-8"))

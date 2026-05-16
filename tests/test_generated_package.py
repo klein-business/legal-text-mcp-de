@@ -138,7 +138,9 @@ def test_generated_package_rejects_extra_norm_not_declared_by_imported_manifest_
 
     errors = validate_generated_package(package_path)
 
-    assert_has_error(errors, "norms.json contains extra norm dsgvo_eu_2016_679/art:999 not declared by imported manifest sources")
+    assert_has_error(
+        errors, "norms.json contains extra norm dsgvo_eu_2016_679/art:999 not declared by imported manifest sources"
+    )
 
 
 def test_generated_package_rejects_directory_laws_json_without_raising(tmp_path):
@@ -190,11 +192,26 @@ def test_generated_package_rejects_source_limitation_same_id_contradiction(tmp_p
 
     errors = validate_generated_package(package_path)
 
-    assert_has_error(errors, "lim-state-be-missing: source limitation source_family gii does not match manifest source_family state-law")
-    assert_has_error(errors, "lim-state-be-missing: source limitation source_id gii:contradiction does not match manifest source_id state-law:be/missing")
-    assert_has_error(errors, "lim-state-be-missing: source limitation terminal_state parse_failed does not match manifest terminal_state source_unavailable")
-    assert_has_error(errors, "lim-state-be-missing: source limitation source_url https://example.test/contradiction does not match manifest source_url https://example.test/be/missing")
-    assert_has_error(errors, "lim-state-be-missing: source limitation retrieved_at 2026-05-16T00:00:00Z does not match manifest retrieved_at 2026-05-15T00:00:00Z")
+    assert_has_error(
+        errors,
+        "lim-state-be-missing: source limitation source_family gii does not match manifest source_family state-law",
+    )
+    assert_has_error(
+        errors,
+        "lim-state-be-missing: source limitation source_id gii:contradiction does not match manifest source_id state-law:be/missing",
+    )
+    assert_has_error(
+        errors,
+        "lim-state-be-missing: source limitation terminal_state parse_failed does not match manifest terminal_state source_unavailable",
+    )
+    assert_has_error(
+        errors,
+        "lim-state-be-missing: source limitation source_url https://example.test/contradiction does not match manifest source_url https://example.test/be/missing",
+    )
+    assert_has_error(
+        errors,
+        "lim-state-be-missing: source limitation retrieved_at 2026-05-16T00:00:00Z does not match manifest retrieved_at 2026-05-15T00:00:00Z",
+    )
 
 
 def test_generated_package_rejects_imported_source_limitation_terminal_state(tmp_path):
@@ -218,7 +235,10 @@ def test_generated_package_rejects_relationship_source_not_declared_by_manifest(
 
     errors = validate_generated_package(package_path)
 
-    assert_has_error(errors, "rel-dsgvo-art5-limitation: relationship source ('third-party-scope', 'third-party-scope:unknown') is not declared by manifest relationship_sources")
+    assert_has_error(
+        errors,
+        "rel-dsgvo-art5-limitation: relationship source ('third-party-scope', 'third-party-scope:unknown') is not declared by manifest relationship_sources",
+    )
 
 
 def test_generated_package_rejects_unresolved_relationship_target(tmp_path):
@@ -230,7 +250,9 @@ def test_generated_package_rejects_unresolved_relationship_target(tmp_path):
 
     errors = validate_generated_package(package_path)
 
-    assert_has_error(errors, "rel-dsgvo-art5-limitation: object target source_limitation:missing-limitation does not resolve")
+    assert_has_error(
+        errors, "rel-dsgvo-art5-limitation: object target source_limitation:missing-limitation does not resolve"
+    )
 
 
 def test_generated_package_rejects_external_source_relationship_target(tmp_path):
@@ -291,7 +313,10 @@ def test_generated_package_rejects_nested_relationship_copied_text_fields(tmp_pa
 
     errors = validate_generated_package(package_path)
 
-    assert_has_error(errors, "rel-dsgvo-art5-limitation: relationship must not include copied/editorial text fields ['metadata.nested.editorial_text']")
+    assert_has_error(
+        errors,
+        "rel-dsgvo-art5-limitation: relationship must not include copied/editorial text fields ['metadata.nested.editorial_text']",
+    )
 
 
 def test_generated_package_rejects_directory_relationships_json_without_raising(tmp_path):

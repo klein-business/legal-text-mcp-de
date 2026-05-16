@@ -113,7 +113,9 @@ def validate_eu_neighbor_source_records(records: list[dict[str, Any]], seed: dic
                 else None
             )
             if record.get("source_url") != expected_source_url:
-                errors.append(f"{owner}: source_url must be official Publications/Cellar DOC_1 URL matching Cellar metadata")
+                errors.append(
+                    f"{owner}: source_url must be official Publications/Cellar DOC_1 URL matching Cellar metadata"
+                )
             seed_limitation = _seed_limitation_for_celex(seed, celex) if isinstance(celex, str) else None
             if seed_limitation is not None:
                 seed_mappings = {
@@ -127,7 +129,9 @@ def validate_eu_neighbor_source_records(records: list[dict[str, Any]], seed: dic
                 for field, expected in seed_mappings.items():
                     actual = seed_limitation.get(field)
                     if actual != expected:
-                        errors.append(f"{owner}: seed limitation {field} {actual} does not match source metadata {expected}")
+                        errors.append(
+                            f"{owner}: seed limitation {field} {actual} does not match source metadata {expected}"
+                        )
     missing_config = MINIMUM_EU_NEIGHBOR_CELEXS - seen_celexes
     for celex in sorted(missing_config):
         errors.append(f"configured EU neighbor CELEX {celex} is missing")
@@ -151,7 +155,9 @@ def build_eu_neighbor_law(record: dict[str, Any], *, norm_count: int) -> dict[st
         "canonical_id": record["canonical_id"],
         "display_code": record["display_code"],
         "display_name": record["display_name"],
-        "source": eu_neighbor_source_metadata(record, content_hash="fixture-content", retrieved_at="2026-05-15T00:00:00Z"),
+        "source": eu_neighbor_source_metadata(
+            record, content_hash="fixture-content", retrieved_at="2026-05-15T00:00:00Z"
+        ),
         "aliases": [record["display_code"], record["canonical_id"], record["celex"]],
         "norm_count": norm_count,
     }
@@ -247,7 +253,11 @@ def _seed_eu_celexes(seed: dict[str, Any]) -> set[str]:
 
 def _seed_limitation_for_celex(seed: dict[str, Any], celex: str) -> dict[str, Any] | None:
     for limitation in seed.get("source_limitations", []):
-        if isinstance(limitation, dict) and limitation.get("source_family") == "eur-lex-cellar" and limitation.get("celex") == celex:
+        if (
+            isinstance(limitation, dict)
+            and limitation.get("source_family") == "eur-lex-cellar"
+            and limitation.get("celex") == celex
+        ):
             return limitation
     return None
 
