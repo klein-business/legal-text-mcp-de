@@ -2,20 +2,29 @@ name: Commitlint
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
 
 permissions:
   contents: read
   pull-requests: read
+  statuses: write
+  checks: write
 
 jobs:
   pr-title:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
+    # Always runs so a required status is emitted on every PR; the actual
+    # Conventional-Commits lint step is skipped for Dependabot-labelled PRs
+    # because Dependabot owns its own commit-message format.
     name: PR title (Conventional Commits)
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
+      - name: Skip for dependencies-labelled PRs
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'dependencies') }}
+        run: echo "Skipped (dependencies label) — Dependabot manages its own commit message format."
+
       - name: Lint PR title
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
         uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
