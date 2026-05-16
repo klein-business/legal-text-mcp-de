@@ -3,19 +3,20 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/legal-text-mcp-de.svg?style=for-the-badge&logo=pypi&logoColor=white&color=3775A9"></a>
-  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="Python 3.12 / 3.13" src="https://img.shields.io/pypi/pyversions/legal-text-mcp-de.svg?style=for-the-badge&logo=python&logoColor=white"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/blob/main/LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=for-the-badge"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/klein-business/legal-text-mcp-de?style=for-the-badge&logo=github&color=111827"></a>
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/legal-text-mcp-de.svg?style=flat-square&logo=pypi&logoColor=white&color=3775A9"></a>
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="Python 3.12 / 3.13" src="https://img.shields.io/pypi/pyversions/legal-text-mcp-de.svg?style=flat-square&logo=python&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/blob/main/LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=flat-square"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/klein-business/legal-text-mcp-de?style=flat-square&logo=github&color=111827&label=release"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/pkgs/container/legal-text-mcp-de"><img alt="Container image" src="https://img.shields.io/badge/ghcr.io-multi--arch-2496ED?style=flat-square&logo=docker&logoColor=white"></a>
+  <a href="https://klein-business.github.io/legal-text-mcp-de/"><img alt="Docs" src="https://img.shields.io/badge/docs-mkdocs--material-526CFE?style=flat-square&logo=materialformkdocs&logoColor=white"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/ci.yml?branch=main&style=flat-square&label=CI&logo=github"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/codeql.yml?branch=main&style=flat-square&label=CodeQL&logo=github"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/scorecard.yml"><img alt="OpenSSF Scorecard" src="https://api.securityscorecards.dev/projects/github.com/klein-business/legal-text-mcp-de/badge?style=flat-square"></a>
-  <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://www.bestpractices.dev/projects/12860/badge?style=flat-square"></a>
-  <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://slsa.dev/images/gh-badge-level3.svg"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/pkgs/container/legal-text-mcp-de"><img alt="Container image" src="https://img.shields.io/badge/ghcr.io-klein--business%2Flegal--text--mcp--de-2496ED?style=flat-square&logo=docker&logoColor=white"></a>
-  <a href="https://klein-business.github.io/legal-text-mcp-de/"><img alt="Docs" src="https://img.shields.io/badge/docs-mkdocs--material-526CFE?style=flat-square&logo=materialformkdocs&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/ci.yml?branch=main&style=flat-square&label=CI&logo=githubactions&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/codeql.yml?branch=main&style=flat-square&label=CodeQL&logo=githubactions&logoColor=white"></a>
+  <a href="https://api.securityscorecards.dev/projects/github.com/klein-business/legal-text-mcp-de"><img alt="OpenSSF Scorecard" src="https://img.shields.io/ossf-scorecard/github.com/klein-business/legal-text-mcp-de?style=flat-square&label=OSSF%20Scorecard"></a>
+  <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/12860?style=flat-square&label=OSSF%20Best%20Practices&color=16A34A"></a>
+  <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://img.shields.io/badge/SLSA-Level%203-2DBA00?style=flat-square&logo=githubactions&logoColor=white"></a>
+  <a href="https://github.com/sigstore/cosign"><img alt="Signed by cosign" src="https://img.shields.io/badge/cosign-signed-purple?style=flat-square&logo=sigstore&logoColor=white"></a>
 </p>
 
 # legal-text-mcp-de
