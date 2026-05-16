@@ -324,6 +324,7 @@ EXPECTED_WORKFLOWS = {
     "commitlint.yml",
     "dco.yml",
     "megalinter.yml",
+    "docs.yml",
 }
 
 

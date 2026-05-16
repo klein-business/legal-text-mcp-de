@@ -47,7 +47,8 @@ def test_known_issues_page_is_documented_as_scope_and_invariants():
     assert "structured source-anomaly metadata" in known_issues_doc
 
     assert "[Known issues]" not in readme
-    assert "[Scope and invariants](docs/features/known-issues.md)" in readme
+    # Docs section now links to the docs site; the known-issues page content is still valid
+    assert "klein-business.github.io/legal-text-mcp-de" in readme
     assert "| known-issues |" not in overview
     assert "| scope-and-invariants |" in overview
 
