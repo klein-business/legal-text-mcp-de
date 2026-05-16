@@ -43,7 +43,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/klein-business/legal-text-mcp-de"
+Homepage = "https://klein-business.github.io/legal-text-mcp-de"
 Repository = "https://github.com/klein-business/legal-text-mcp-de"
 Issues = "https://github.com/klein-business/legal-text-mcp-de/issues"
 Changelog = "https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANGELOG.md"
