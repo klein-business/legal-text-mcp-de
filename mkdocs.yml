@@ -108,6 +108,7 @@ nav:
     - Threat model: operations/threat-model.md
     - Coverage baseline: operations/coverage-baseline.md
     - OpenSSF application: operations/openssf-application.md
+    - SLSA-3: operations/slsa.md
     - Launch procedure: operations/launch-procedure.md
   - Contributing:
     - How to contribute: contributing/index.md
