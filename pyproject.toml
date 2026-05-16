@@ -39,7 +39,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "mcp[cli]==1.23.0",
+    "mcp[cli]==1.27.1",
     "rapidfuzz",
     "pydantic-settings",
     "fastapi",
