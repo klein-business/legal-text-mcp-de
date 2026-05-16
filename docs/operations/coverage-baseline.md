@@ -1,0 +1,1 @@
+--8<-- "docs/operations/coverage-baseline-phase2.md"
