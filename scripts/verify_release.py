@@ -211,6 +211,9 @@ def check_no_stale_workflow_refs(roots: list[Path] | None = None) -> None:
             if "plans" in path.parts and "reviews" in path.parts:
                 # Review artifacts can quote previous failing commands as evidence.
                 continue
+            if "superpowers" in path.parts:
+                # Internal agent-authored planning docs are not operational guides.
+                continue
             try:
                 text = path.read_text(encoding="utf-8")
             except UnicodeDecodeError:
