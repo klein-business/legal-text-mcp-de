@@ -47,7 +47,7 @@ jobs:
         id: hash
         run: |
           cd dist
-          echo "hashes=$(sha256sum *.whl *.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
+          echo "hashes=$(sha256sum -- *.whl *.tar.gz | base64 -w0)" >> "$GITHUB_OUTPUT"
 
       - name: Upload dist artifacts
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.4
@@ -227,7 +227,7 @@ jobs:
           path: dist/
 
       - name: Compute checksums
-        run: cd dist && sha256sum * > checksums.txt
+        run: cd dist && sha256sum -- * > checksums.txt
 
       - name: Create release
         env:
