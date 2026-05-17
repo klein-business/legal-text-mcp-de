@@ -48,7 +48,7 @@ class NormalizedLaw:
     display_name: str
     state_code: str  # 'by', 'nrw', 'bw', 'nds', 'he'
     source_url: str
-    norms: list[NormalizedNorm]
+    norms: tuple[NormalizedNorm, ...]
 
 
 @runtime_checkable

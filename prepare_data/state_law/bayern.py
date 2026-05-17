@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable
 
-from bs4 import BeautifulSoup  # type: ignore[import-untyped]
+from bs4 import BeautifulSoup
 
 from prepare_data.state_law.base import (
     NormalizedLaw,
@@ -48,7 +48,7 @@ class BayernStateLaw:
             title = a.get_text(strip=True)
             href = str(a.get("href", ""))
             law_id = href.rsplit("/", 1)[-1]
-            if not law_id:
+            if not title or not law_id:
                 continue
             out.append(StateLawSummary(law_id=law_id, title=title, url=href))
         return out
@@ -63,21 +63,21 @@ class BayernStateLaw:
         h1 = soup.find("h1")
         display_name = h1.get_text(strip=True) if h1 else raw.law_id
         display_code = raw.law_id
-        norms: list[NormalizedNorm] = []
-        for article in soup.find_all("article"):
-            norm_id = str(article.get("id", "")) or "art-unknown"
+        norm_list: list[NormalizedNorm] = []
+        for i, article in enumerate(soup.find_all("article")):
+            norm_id = str(article.get("id", "")) or f"art-unknown-{i}"
             h2 = article.find("h2")
             title_full = h2.get_text(strip=True) if h2 else ""
             # Split "Art. N Title" into prefix + clean title
             parts = title_full.split(" ", 2)
             clean_title = parts[2] if len(parts) >= 3 else title_full
             text = " ".join(p.get_text(strip=True) for p in article.find_all("p"))
-            norms.append(NormalizedNorm(norm_id=norm_id, title=clean_title, text=text))
+            norm_list.append(NormalizedNorm(norm_id=norm_id, title=clean_title, text=text))
         return NormalizedLaw(
             canonical_id=f"by/{display_code.lower()}",
             display_code=display_code,
             display_name=display_name,
             state_code="by",
             source_url=LAW_URL_TPL.format(law_id=raw.law_id),
-            norms=norms,
+            norms=tuple(norm_list),
         )
