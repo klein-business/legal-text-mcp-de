@@ -10,9 +10,11 @@ from prepare_data.state_law.base import (
     StateLawSummary,
 )
 from prepare_data.state_law.bayern import BayernStateLaw
+from prepare_data.state_law.nrw import NRWStateLaw
 
 __all__ = [
     "BayernStateLaw",
+    "NRWStateLaw",
     "NormalizedLaw",
     "NormalizedNorm",
     "StateLawRaw",
