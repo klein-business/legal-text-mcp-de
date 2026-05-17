@@ -2483,16 +2483,17 @@
 
 
 <h1 id="verify-with-cosign">Verify with cosign<a class="headerlink" href="#verify-with-cosign" title="Permanent link">&para;</a></h1>
-<p>Every OCI image released after v1.0.0 is signed with
+<p>Every OCI image released since v1.0.0 is signed with
 <a href="https://docs.sigstore.dev/">Sigstore cosign</a> using keyless OIDC
-signing from GitHub Actions.</p>
+signing from GitHub Actions. Examples below use the current image tag
+<code>2.0.0</code>; substitute the tag you actually pulled.</p>
 <h2 id="install-cosign">Install cosign<a class="headerlink" href="#install-cosign" title="Permanent link">&para;</a></h2>
 <p><a href="https://docs.sigstore.dev/system_config/installation">Cosign installation instructions</a>.</p>
 <p>Via Homebrew:</p>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>cosign
 </code></pre></div>
 <h2 id="verify-the-signature">Verify the signature<a class="headerlink" href="#verify-the-signature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>cosign<span class="w"> </span>verify<span class="w"> </span>ghcr.io/klein-business/legal-text-mcp-de:v1.0.0<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>cosign<span class="w"> </span>verify<span class="w"> </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/klein-business/.*&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span>https://token.actions.githubusercontent.com
 </code></pre></div>
@@ -2504,13 +2505,13 @@ indicates verification failure.</p>
 <span class="w">  </span>--type<span class="w"> </span>cyclonedx<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/klein-business/.*&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span>https://token.actions.githubusercontent.com<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:v1.0.0
+<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.0
 
 cosign<span class="w"> </span>verify-attestation<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>slsaprovenance<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/klein-business/.*&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span>https://token.actions.githubusercontent.com<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:v1.0.0
+<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.0
 </code></pre></div>
 <p>Both return JSON predicates with the expected types when verification
 succeeds.</p>
@@ -2550,7 +2551,7 @@ before using the image.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 16, 2026 07:13:16 UTC">May 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 19:03:54 UTC">May 17, 2026</span>
   </span>
 
     
