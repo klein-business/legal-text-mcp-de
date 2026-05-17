@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-05-17
+
+### Added
+- Corpus pipeline v2: builds federal (~6500), top-5 state-law (~2000) and 5 EU acts into a signed `.tar.zst` bundle.
+- `prepare_data/build_corpus.py` CLI entry point for assembling bundles from configurable sources (`bund`, `land:<code>`, `eu:<celex>`).
+- `src/legal_text_mcp_de/corpus/` package: `BundleManifest`/`BundleEntry` schemas, `CorpusCache` (XDG-compliant), `verify_bundle_signature` (cosign keyless), `load_corpus_bundle` (local-first with OCI auto-download fallback).
+- New env vars: `CORPUS_VERSION`, `CORPUS_AUTO_DOWNLOAD`, `CORPUS_CERT_IDENTITY`, `STRICT_DATASET`.
+- 5 state-law scrapers: Bayern (gesetze-bayern.de), NRW (recht.nrw.de), BW (landesrecht-bw.de jportal), NDS (nds-voris.de), HE (rv.hessenrecht.hessen.de).
+- 4 EU-act loaders: ePrivacy (32002L0058), DSA (32022R2065), DMA (32022R1925), AI Act (32024R1689).
+- 36 new tests covering the corpus pipeline (total 419 tests passing).
+
+### Changed
+- `DATASET_PATH` unset is no longer fatal at startup; default is auto-download from GHCR. Set `STRICT_DATASET=true` to restore old fail-fast behaviour.
+
+### Compatibility
+- All 9 v1 MCP tools unchanged. HTTP API unchanged. Drop-in for v1.0.0 callers.
+
 ## [Unreleased]
 
 ### Changed
