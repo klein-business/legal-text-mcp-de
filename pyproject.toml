@@ -72,6 +72,7 @@ dev = [
     "cyclonedx-bom~=7.3",
     "types-beautifulsoup4~=4.12",
     "zstandard~=0.23.0",
+    "pytest-asyncio~=0.24",
 ]
 docs = [
     "mkdocs~=1.6.0",
@@ -138,6 +139,9 @@ strict = true
 module = "legal_text_mcp_de.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
 
 [tool.coverage.run]
 source = ["src/legal_text_mcp_de"]
