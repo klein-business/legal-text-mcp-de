@@ -35,8 +35,8 @@ exploration.
     This starts the server against ~10 German federal laws and is useful
     for trying out the tools before you have a full generated corpus.
 
-Restart Cursor. The nine tools appear in the tool list under the MCP
-section.
+Restart Cursor. The ten tools (9 v1 law tools + `research_topic`)
+appear in the tool list under the MCP section.
 
 ## Verification
 

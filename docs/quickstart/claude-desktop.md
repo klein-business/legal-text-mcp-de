@@ -36,7 +36,9 @@ exploration.
     This starts the server against ~10 German federal laws and is useful
     for trying out the tools before you have a full generated corpus.
 
-Restart Claude Desktop. The nine tools appear in the tool list.
+Restart Claude Desktop. The ten tools (9 v1 law tools + `research_topic`)
+appear in the tool list, alongside the 10 `legal://` resources and 5
+slash-prompts.
 
 ## Verification
 

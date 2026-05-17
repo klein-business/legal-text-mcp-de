@@ -131,7 +131,7 @@ package at `/data/legal-texts`:
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:1.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
 ```
 
 ## MCP Resources
@@ -260,7 +260,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and secu
 All contributions must comply with the [Developer Certificate of Origin](https://developercertificate.org/)
 (sign-off with `git commit -s`).
 
-## Verification (post-v1.0.0)
+## Verification (post-v2.0.0)
 
 Each release is signed and accompanied by an SBOM and SLSA-3
 provenance.

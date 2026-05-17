@@ -4,16 +4,20 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.
 
 ## Stability contract
 
-The stability contract begins at **v1.0.0**:
+The stability contract begins at **v1.0.0** and continues through the
+current **v2.0.0** GA:
 
 - **MCP tool signatures** (names, required parameters, return shapes) are stable
-  across patch and minor releases.
+  across patch and minor releases. The v1 → v2 transition added one new tool
+  (`research_topic`) and kept all 9 v1 tool signatures byte-identical; the
+  contract is frozen by `tests/test_v1_compat.py` going forward.
 - **HTTP routes** (paths, methods, response shapes) are stable across patch and
   minor releases.
 - **Breaking changes** trigger a major version bump.
 
-Before v1.0.0 (current state), any release may include breaking changes. The
-`CHANGELOG.md` documents all changes.
+See [Migration v1 → v2](migration-v1-v2.md) for the v2.0 changes that required
+the major bump (corpus distribution model, `DATASET_PATH` default,
+`get_corpus_coverage` aggregate counts).
 
 ## Version scheme
 
@@ -40,9 +44,9 @@ Emergency security fixes may bypass the deprecation cycle.
 
 ## Support policy
 
-- **Current `v1.x`** — receives bug fixes and security patches.
-- **Previous major** — once a `v2.0.0` exists, the previous `v1.x` receives
-  security patches for 6 months, then is unsupported.
+- **Current `v2.x`** — receives bug fixes and security patches.
+- **Previous major (`v1.x`)** — receives security patches until 2026-11-17
+  (6 months after `v2.0.0` GA), then unsupported.
 
 ## Release automation
 
