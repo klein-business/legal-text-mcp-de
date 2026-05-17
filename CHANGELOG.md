@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-rc.4] - 2026-05-17
+
+### Added
+- **Tier 5 — research_topic Smart Tool:** multi-step legal research with 2 sampling calls per invocation
+  - Step 1: corpus search via `runtime.search_laws`
+  - Step 2: hydrate norm text via `runtime.get_norm`
+  - Step 3: LLM ranking of candidates by relevance (sampling call)
+  - Step 4: related-norms graph loading
+  - Step 5: LLM synthesis of research report (sampling call)
+  - Graceful degradation when client lacks sampling
+  - Progress reports via `ctx.report_progress`
+- `tools/research_models.py`: `ResearchReport`, `RankedNorm` pydantic schemas
+- `tools/research_prompts.py`: `build_ranking_prompt`, `build_synthesis_prompt`
+- CI smoke workflow `.github/workflows/research-topic-smoke.yml` (cost-capped Haiku, opt-in via `smoke-test` environment)
+
 ## [2.0.0-rc.3] - 2026-05-17
 
 ### Added
