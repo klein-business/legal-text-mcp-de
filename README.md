@@ -124,7 +124,14 @@ uv run legal-text-mcp-de
 ```
 
 The default transport is streamable HTTP at
-`http://localhost:8001/mcp`.
+`http://localhost:8001/mcp`. For desktop / offline clients use the
+stdio transport instead — see
+[Quickstart → stdio](https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/stdio/).
+
+> **Dev shortcut.** A [`Justfile`](Justfile) wraps the common `uv`
+> invocations (`just install`, `just test`, `just lint`, `just run`,
+> `just api`, `just docs`). Install via `brew install just`. The
+> Justfile is optional — CI only uses `uv` directly.
 
 ### Run the HTTP API
 
