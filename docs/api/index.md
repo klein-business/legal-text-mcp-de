@@ -80,6 +80,18 @@ All endpoints return structured errors in JSON:
 }
 ```
 
+## Environment variables
+
+The HTTP API reads these in addition to the MCP server's settings:
+
+| Variable | Default | Effect |
+| --- | --- | --- |
+| `HOST` | `0.0.0.0` | Bind address |
+| `PORT` | `8001` | Bind port (mapped to 8080 in the quickstart example) |
+| `DATASET_PATH` | unset (auto-download) | Path to corpus bundle |
+| `STRICT_STARTUP` | `false` | Fail fast on dataset load errors |
+| `MAX_REQUEST_BODY_BYTES` | `1048576` | Reject `Content-Length > N` with 413 (defence-in-depth on top of the reverse-proxy limit) |
+
 HTTP status codes:
 
 | Code | Meaning |

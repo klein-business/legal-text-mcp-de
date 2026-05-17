@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     corpus_auto_download: bool = True
     corpus_cert_identity: str | None = None
     strict_dataset: bool = False
+    # Defence-in-depth body-size cap at the application layer. The
+    # operator's reverse proxy is expected to enforce its own limit;
+    # this is the second line. 1 MiB covers every legitimate request
+    # the HTTP API serves (query strings, citation paths) with room
+    # to spare.
+    max_request_body_bytes: int = 1_048_576
 
 
 settings = Settings()

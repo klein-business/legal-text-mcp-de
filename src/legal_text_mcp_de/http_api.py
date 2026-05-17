@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Request
 from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from legal_text_mcp_de.config import settings
 from legal_text_mcp_de.http_models import (
@@ -32,9 +33,60 @@ ERROR_RESPONSES = {
 }
 
 
+class RequestBodySizeLimitMiddleware(BaseHTTPMiddleware):
+    """Defence-in-depth: reject requests whose body exceeds the limit.
+
+    The operator's reverse proxy is expected to enforce its own
+    request-size cap; this middleware closes the gap when the API is
+    exposed directly (e.g. inside a container without a fronting proxy).
+
+    The middleware short-circuits on a known ``Content-Length`` header
+    that exceeds the limit. Requests without ``Content-Length`` (e.g.
+    chunked transfers, GETs without a body) are not pre-rejected — the
+    framework's own body-reading machinery applies for those, so a
+    chunked POST that streams beyond the limit will be cut off by the
+    transport layer, not by this middleware. That is by design: this
+    cap is a last-line defence, not a substitute for proxy-level limits.
+    """
+
+    def __init__(self, app, max_bytes: int) -> None:
+        super().__init__(app)
+        self.max_bytes = max_bytes
+
+    async def dispatch(self, request: Request, call_next):
+        content_length = request.headers.get("content-length")
+        if content_length is not None:
+            try:
+                size = int(content_length)
+            except ValueError:
+                size = None
+            if size is not None and size > self.max_bytes:
+                return JSONResponse(
+                    status_code=413,
+                    content={
+                        "error": {
+                            "code": "PAYLOAD_TOO_LARGE",
+                            "message": (
+                                f"Request body of {size} bytes exceeds the "
+                                f"configured maximum of {self.max_bytes} bytes."
+                            ),
+                            "details": {
+                                "max_request_body_bytes": self.max_bytes,
+                                "received_bytes": size,
+                            },
+                        }
+                    },
+                )
+        return await call_next(request)
+
+
 def create_http_app(runtime: LegalTextRuntime | None = None) -> FastAPI:
     runtime = runtime or LegalTextRuntime.from_settings(settings, strict=False)
     app = FastAPI(title="legal-text-mcp-de", version="1.0.0")
+    app.add_middleware(
+        RequestBodySizeLimitMiddleware,
+        max_bytes=settings.max_request_body_bytes,
+    )
 
     def run(call):
         try:
