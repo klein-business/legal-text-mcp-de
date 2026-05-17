@@ -1,7 +1,7 @@
 # deployment/Dockerfile.hosted
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
-FROM ghcr.io/klein-business/legal-text-mcp-de:2.0.0-rc.4
+FROM ghcr.io/klein-business/legal-text-mcp-de:2.0.0@sha256:10958304da461768bddd8d90ff759bb2e0a2e6970693b304ef3c8ec2b8723c31
 
 COPY deployment/ratelimit_middleware.py /app/deployment/
 COPY deployment/anonymised_logging.py /app/deployment/
