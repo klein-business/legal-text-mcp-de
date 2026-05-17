@@ -74,6 +74,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
 
         return "\n\n---\n\n".join(sections)
 
+    # ------------------------------------------------------------------
+    # B6: legal://laws/{code}/norms/{norm_id} — single norm as Markdown
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws/{code}/norms/{norm_id}")
+    def read_norm(code: str, norm_id: str) -> str:
+        """Single norm as Markdown."""
+        try:
+            data = runtime.get_norm(code, norm_id)
+        except Exception as exc:
+            return f"# Error\n\nFailed to load norm `{norm_id}` of `{code}`: {exc}"
+        return render_norm(data)
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
         """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""

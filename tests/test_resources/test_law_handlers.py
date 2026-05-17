@@ -123,3 +123,29 @@ def test_legal_laws_code_full_contains_norm_text():
     text = _text(result)
     # fixture BGB has norms par:309, par:312, par:355
     assert "312" in text or "309" in text or "355" in text
+
+
+# ---------------------------------------------------------------------------
+# B6: legal://laws/{code}/norms/{norm_id}
+# ---------------------------------------------------------------------------
+
+
+def test_legal_laws_norms_norm_id_returns_markdown():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/norms/par:312")
+    text = _text(result)
+    assert text.startswith("#")
+
+
+def test_legal_laws_norms_norm_id_contains_stand():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/norms/par:312")
+    text = _text(result)
+    assert "Stand" in text or "Retrieved" in text
+
+
+def test_legal_laws_norms_norm_id_unknown_returns_error():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/norms/par:9999")
+    text = _text(result)
+    assert "Error" in text or "error" in text
