@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 klein-business
-from legal_text_mcp_de.corpus.bundle_schema import BundleManifest, BundleEntry
+from legal_text_mcp_de.corpus import BundleManifest, BundleEntry
 
 
 def test_bundle_manifest_round_trips_through_json():
@@ -15,7 +15,7 @@ def test_bundle_manifest_round_trips_through_json():
                 source_kind="gesetze-im-internet",
                 source_url="https://www.gesetze-im-internet.de/bgb/xml.zip",
                 content_hash="sha256:abc123",
-                bytes=3_145_728,
+                size_bytes=3_145_728,
                 law_count=1,
                 norm_count=2420,
             ),
