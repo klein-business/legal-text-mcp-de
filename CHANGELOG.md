@@ -5,6 +5,57 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-05-17
+
+### Added — MCP capabilities
+
+#### Tier 2 — Resources (~10 URIs under `legal://`)
+- `legal://laws` (paginated JSON list with cursor + limit)
+- `legal://laws/{code}`, `legal://laws/{code}/full` (Markdown)
+- `legal://laws/{code}/norms/{norm_id}` (Markdown), `.../relationships` (JSON)
+- `legal://laws/{code}/source` (JSON provenance)
+- `legal://corpus/coverage`, `legal://corpus/limitations`, `legal://corpus/manifest` (JSON)
+
+#### Tier 3 — Prompts (5 curated slash-workflows)
+- `/rechtsfrage`, `/zitation-checken`, `/norm-erklaeren`, `/recherche`, `/dsgvo-check`
+
+#### Tier 4 — Sampling helpers
+- `safe_sample` with timeout, retry, schema validation
+- Error hierarchy + `MockSamplingClient` for testing
+
+#### Tier 5 — `research_topic` Smart Tool
+- Multi-step recherche with 2 sampling calls (LLM ranking + synthesis)
+- Graceful degradation when client lacks sampling
+- Progress reports via `ctx.report_progress`
+
+### Added — Corpus
+- Expanded from 5 to ~8500 laws (federal + top-5 Länder + 5 EU acts)
+- Signed `.tar.zst` distribution via GHCR OCI artifact + GitHub Releases
+
+### Added — Hosting
+- Optional public-hosted MCP service at `mcp.klein.business/legal/de`
+- Caddy + TLS + CSP/HSTS security headers
+- Rate limiting (per-IP + per-bearer-token)
+- Anonymised logging (no bodies, no PII)
+- Prometheus metrics endpoint
+- Privacy + ToS HTML pages
+- Blue-green deploy script
+
+### Changed
+- `get_corpus_coverage` schema bumped v1 → v2 with new aggregate counts (old fields preserved)
+- `DATASET_PATH` unset is now allowed (auto-downloads); set `STRICT_DATASET=true` for old behaviour
+- Coverage gates raised to 92% statement / 82% branch
+
+### Compatibility
+- All 9 v1 tools unchanged (signatures + return shapes frozen by `tests/test_v1_compat.py`)
+- HTTP API surface unchanged
+- See `docs/operations/migration-v1-v2.md`
+
+### Statistics
+- 80+ tasks across 7 phases (A: Corpus, B: Resources, C: Prompts, D: Sampling, E: research_topic, F: Hosting, G: Polish)
+- ~80 commits, all SSH-signed
+- 485+ tests passing, 92%+ statement coverage, 82%+ branch coverage
+
 ## [2.0.0-rc.4] - 2026-05-17
 
 ### Added
