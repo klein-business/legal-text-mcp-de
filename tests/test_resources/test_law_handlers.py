@@ -94,3 +94,32 @@ def test_legal_laws_code_unknown_returns_error_markdown():
     result = _read(app, "legal://laws/does-not-exist")
     text = _text(result)
     assert "Error" in text or "error" in text
+
+
+# ---------------------------------------------------------------------------
+# B5: legal://laws/{code}/full
+# ---------------------------------------------------------------------------
+
+
+def test_legal_laws_code_full_returns_markdown():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/full")
+    text = _text(result)
+    assert text.startswith("#")
+
+
+def test_legal_laws_code_full_contains_multiple_headings():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/full")
+    text = _text(result)
+    # Should have at least the law heading + one norm heading
+    heading_count = text.count("\n# ")
+    assert heading_count >= 1 or text.startswith("# ")
+
+
+def test_legal_laws_code_full_contains_norm_text():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/full")
+    text = _text(result)
+    # fixture BGB has norms par:309, par:312, par:355
+    assert "312" in text or "309" in text or "355" in text

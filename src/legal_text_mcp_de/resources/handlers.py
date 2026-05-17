@@ -13,7 +13,7 @@ import json
 from mcp.server.fastmcp import FastMCP
 
 from legal_text_mcp_de.legal_texts.runtime import LegalTextRuntime
-from legal_text_mcp_de.resources.markdown_render import render_law
+from legal_text_mcp_de.resources.markdown_render import render_law, render_norm
 
 
 def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
@@ -44,6 +44,35 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
         except Exception as exc:
             return f"# Error\n\nFailed to load law `{code}`: {exc}"
         return render_law(data)
+
+    # ------------------------------------------------------------------
+    # B5: legal://laws/{code}/full — full law text (all norms) as Markdown
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws/{code}/full")
+    def read_law_full(code: str) -> str:
+        """Full law text — law header followed by each norm's full text."""
+        try:
+            law_data = runtime.get_law(code)
+        except Exception as exc:
+            return f"# Error\n\nFailed to load law `{code}`: {exc}"
+
+        law = law_data.get("law", {})
+        norms = law_data.get("norms", []) or []
+        canonical_id = law.get("canonical_id", code)
+
+        sections: list[str] = [render_law(law_data)]
+
+        for norm_entry in norms:
+            norm_id = norm_entry.get("norm_id", "")
+            try:
+                norm_data = runtime.get_norm(canonical_id, norm_id)
+                sections.append(render_norm(norm_data))
+            except Exception:
+                display_id = norm_entry.get("display_id", norm_id)
+                sections.append(f"## {display_id}\n\n*(Text nicht verfügbar)*")
+
+        return "\n\n---\n\n".join(sections)
 
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
