@@ -51,13 +51,15 @@ def _mime(result) -> str | None:
 
 
 def test_legal_laws_returns_json_list():
+    """legal://laws returns a paginated envelope with an 'entries' list (B13)."""
     app = _fixture_app()
     result = _read(app, "legal://laws")
     text = _text(result)
     data = json.loads(text)
-    assert "laws" in data
-    assert isinstance(data["laws"], list)
-    assert len(data["laws"]) > 0
+    # B13: response is now a paginated envelope — entries replaces the top-level laws list
+    assert "entries" in data, f"expected 'entries' key, got: {list(data)}"
+    assert isinstance(data["entries"], list)
+    assert len(data["entries"]) > 0
 
 
 def test_legal_laws_list_contains_bgb():
@@ -65,7 +67,7 @@ def test_legal_laws_list_contains_bgb():
     result = _read(app, "legal://laws")
     text = _text(result)
     data = json.loads(text)
-    codes = [law.get("canonical_id") for law in data["laws"]]
+    codes = [law.get("canonical_id") for law in data["entries"]]
     assert "bgb" in codes
 
 

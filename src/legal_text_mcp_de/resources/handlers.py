@@ -21,17 +21,62 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
     """Register all legal:// MCP resources on the given FastMCP app."""
 
     # ------------------------------------------------------------------
-    # B3: legal://laws — list of all laws as JSON
+    # B3 / B13: legal://laws — paginated list of laws as JSON
+    #
+    # FastMCP 1.27.x URI template variables map only to *path* components,
+    # not query-string parameters.  Registering "legal://laws?cursor=..." is
+    # not routable.  We therefore expose pagination through path components:
+    #
+    #   legal://laws               → page 1 (cursor=0, limit=50)  [default]
+    #   legal://laws/page/{cursor}/{limit}  → explicit page
     # ------------------------------------------------------------------
+
+    def _serve_laws_page(cursor: int, limit: int) -> str:
+        """Return a JSON page from the laws list.
+
+        Response shape::
+
+            {
+                "entries":     [...],   # law objects for this page
+                "cursor":      N,       # requested cursor
+                "limit":       M,       # effective limit (clamped 1–500)
+                "next_cursor": N+M | null,
+                "total":       T
+            }
+        """
+        limit = max(1, min(limit, 500))
+        try:
+            data = runtime.list_laws(None)
+        except Exception as exc:
+            return json.dumps({"error": str(exc), "entries": [], "next_cursor": None}, ensure_ascii=False)
+        entries = data.get("laws", data.get("entries", []))
+        total = len(entries)
+        page = entries[cursor : cursor + limit]
+        next_cursor: int | None = cursor + limit if (cursor + limit) < total else None
+        return json.dumps(
+            {
+                "entries": page,
+                "cursor": cursor,
+                "limit": limit,
+                "next_cursor": next_cursor,
+                "total": total,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
 
     @app.resource("legal://laws")
     def list_laws() -> str:
-        """All laws in the corpus as JSON."""
-        try:
-            data = runtime.list_laws()
-        except Exception as exc:
-            data = {"error": str(exc)}
-        return json.dumps(data, indent=2, ensure_ascii=False)
+        """First page of laws (cursor=0, limit=50).
+
+        Use ``legal://laws/page/{cursor}/{limit}`` for subsequent pages.
+        """
+        return _serve_laws_page(0, 50)
+
+    @app.resource("legal://laws/page/{cursor}/{limit}")
+    def list_laws_page(cursor: int, limit: int) -> str:
+        """Paginated law list.  cursor is a zero-based integer offset; limit is page size (1–500)."""
+        return _serve_laws_page(cursor, limit)
 
     # ------------------------------------------------------------------
     # B4: legal://laws/{code} — law header + norm index as Markdown
