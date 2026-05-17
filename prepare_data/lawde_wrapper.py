@@ -46,6 +46,9 @@ class LawdeIncremental:
     head_fn: Callable[[str], str]
     fetch_fn: Callable[[str], bytes]
 
+    def __post_init__(self) -> None:
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
     def _cached_hash(self, law_id: str) -> str | None:
         f = self.cache_dir / f"{law_id}.sha256"
         if not f.exists():
