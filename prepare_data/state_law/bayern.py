@@ -38,7 +38,7 @@ class BayernStateLaw:
     """
 
     state_code: str = "by"
-    http_get: Callable[[str], str] = field(default=_default_http_get)
+    http_get: Callable[[str], str] = field(default_factory=lambda: _default_http_get)
 
     def fetch_index(self) -> list[StateLawSummary]:
         body = self.http_get(INDEX_URL)

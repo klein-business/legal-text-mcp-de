@@ -23,6 +23,33 @@ from pathlib import Path
 from typing import Any
 
 from prepare_data.bundle_packager import pack_bundle
+from prepare_data.eu_acts import AIAct, DMAAct, DSAAct, EPrivacyAct
+from prepare_data.normalizer import normalize_for_runtime
+from prepare_data.state_law import (
+    BayernStateLaw,
+    BWStateLaw,
+    HEStateLaw,
+    NDSStateLaw,
+    NRWStateLaw,
+)
+
+# Maps source-spec code → concrete scraper class.
+# Typed as Any-value dicts so that mypy does not reject the concrete classes
+# for not being exact subtypes of the Protocol / structural stub.
+_STATE_REGISTRY: dict[str, Any] = {
+    "by": BayernStateLaw,
+    "nrw": NRWStateLaw,
+    "bw": BWStateLaw,
+    "nds": NDSStateLaw,
+    "he": HEStateLaw,
+}
+
+_EU_REGISTRY: dict[str, Any] = {
+    "32002L0058": EPrivacyAct,
+    "32022R2065": DSAAct,
+    "32022R1925": DMAAct,
+    "32024R1689": AIAct,
+}
 
 
 def _utc_now_iso() -> str:
@@ -30,18 +57,53 @@ def _utc_now_iso() -> str:
 
 
 def _collect_bund_laws() -> list[dict[str, Any]]:
-    """Stub — wired in Task A16 once lawde_wrapper is integrated end-to-end."""
+    """Stub — lawde end-to-end integration is deferred to a later task."""
     return []
 
 
 def _collect_state_laws(state_codes: list[str]) -> list[dict[str, Any]]:
-    """Stub — wired in Task A16."""
-    return []
+    """Run each state-law scraper, normalise its laws into the runtime dict shape."""
+    out: list[dict[str, Any]] = []
+    retrieved_at = _utc_now_iso()
+    for code in state_codes:
+        klass = _STATE_REGISTRY.get(code)
+        if not klass:
+            print(f"WARN: unknown state code {code}, skipping", flush=True)
+            continue
+        source = klass()
+        try:
+            index = source.fetch_index()
+        except Exception as exc:
+            print(f"WARN: {code}: fetch_index failed: {exc}", flush=True)
+            continue
+        for summary in index:
+            try:
+                raw = source.fetch_law(summary.law_id)
+                norm = source.normalize(raw)
+                out += normalize_for_runtime([norm], source_kind=f"state-{code}", retrieved_at=retrieved_at)
+            except Exception as exc:
+                print(f"WARN: {code}/{summary.law_id} failed: {exc}", flush=True)
+                continue
+    return out
 
 
 def _collect_eu_acts(celexes: list[str]) -> list[dict[str, Any]]:
-    """Stub — wired in Task A16."""
-    return []
+    """Run each EU-act loader, normalise into the runtime dict shape."""
+    out: list[dict[str, Any]] = []
+    retrieved_at = _utc_now_iso()
+    for celex in celexes:
+        klass = _EU_REGISTRY.get(celex)
+        if not klass:
+            print(f"WARN: unknown CELEX {celex}, skipping", flush=True)
+            continue
+        try:
+            loader = klass()
+            norm = loader.fetch_and_normalise()
+            out += normalize_for_runtime([norm], source_kind="eur-lex-cellar", retrieved_at=retrieved_at)
+        except Exception as exc:
+            print(f"WARN: CELEX {celex} failed: {exc}", flush=True)
+            continue
+    return out
 
 
 def main(argv: list[str] | None = None) -> int:
