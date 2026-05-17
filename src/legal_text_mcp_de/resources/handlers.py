@@ -87,6 +87,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
             return f"# Error\n\nFailed to load norm `{norm_id}` of `{code}`: {exc}"
         return render_norm(data)
 
+    # ------------------------------------------------------------------
+    # B7: legal://laws/{code}/norms/{norm_id}/relationships — JSON
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws/{code}/norms/{norm_id}/relationships")
+    def read_norm_relationships(code: str, norm_id: str) -> str:
+        """Related norms for a norm as JSON."""
+        try:
+            data = runtime.get_related_norms(code, norm_id)
+        except Exception as exc:
+            data = {"error": str(exc), "code": code, "norm_id": norm_id}
+        return json.dumps(data, indent=2, ensure_ascii=False)
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
         """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""

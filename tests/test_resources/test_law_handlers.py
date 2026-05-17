@@ -149,3 +149,25 @@ def test_legal_laws_norms_norm_id_unknown_returns_error():
     result = _read(app, "legal://laws/bgb/norms/par:9999")
     text = _text(result)
     assert "Error" in text or "error" in text
+
+
+# ---------------------------------------------------------------------------
+# B7: legal://laws/{code}/norms/{norm_id}/relationships
+# ---------------------------------------------------------------------------
+
+
+def test_legal_laws_norms_relationships_returns_json():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/norms/par:312/relationships")
+    text = _text(result)
+    data = json.loads(text)
+    assert "relationships" in data
+    assert "norm" in data
+
+
+def test_legal_laws_norms_relationships_unknown_returns_error_json():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/norms/par:9999/relationships")
+    text = _text(result)
+    data = json.loads(text)
+    assert "error" in data
