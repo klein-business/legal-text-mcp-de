@@ -8,12 +8,20 @@ from legal_text_mcp_de.corpus.bundle_schema import (
     BundleManifest,
 )
 from legal_text_mcp_de.corpus.cache import CorpusCache
+from legal_text_mcp_de.corpus.loader import (
+    BundleLoadError,
+    LoadedBundle,
+    load_corpus_bundle,
+)
 from legal_text_mcp_de.corpus.verifier import verify_bundle_signature
 
 __all__ = [
     "BUNDLE_SCHEMA_VERSION",
     "BundleEntry",
+    "BundleLoadError",
     "BundleManifest",
     "CorpusCache",
+    "LoadedBundle",
+    "load_corpus_bundle",
     "verify_bundle_signature",
 ]
