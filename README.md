@@ -21,9 +21,7 @@
 
 # legal-text-mcp-de
 
-`legal-text-mcp-de` is a Python [Model Context Protocol](https://modelcontextprotocol.io)
-server and HTTP API for loading, validating, searching, and resolving
-**German legal texts** with source provenance.
+MCP-native research agent for German federal + state law, with HTTP API as secondary surface.
 
 It is **local or server-side infrastructure**: no SaaS, no billing, no
 accounts, no tenant model, and **no legal advice**. The runtime loads
@@ -44,7 +42,7 @@ Older internal documentation has been archived under
 
 | | |
 | --- | --- |
-| Lifecycle | Pre-`v1.0.0` public release in preparation |
+| Lifecycle | Stable `v2.0.0` GA — MCP-native domain server |
 | Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
 | Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
 | Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
@@ -65,20 +63,41 @@ Older internal documentation has been archived under
 
 ## Installation
 
+### Mode 1 — uvx + auto-download (default, easiest)
+
 ```bash
-# from PyPI (recommended)
-pip install legal-text-mcp-de
-# or
-uv pip install legal-text-mcp-de
-# or run without installing
 uvx legal-text-mcp-de
 ```
 
-Pre-built multi-arch container image (linux/amd64 + linux/arm64,
-cosign-signed, SLSA-3 provenance):
+Server fetches the latest signed corpus bundle from GHCR on first run.
+
+### Mode 2 — Docker with pre-bundled corpus
 
 ```bash
-docker pull ghcr.io/klein-business/legal-text-mcp-de:1.0.0
+docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.0
+```
+
+### Mode 3 — Self-built corpus (compliance-sensitive)
+
+```bash
+git clone https://github.com/klein-business/legal-text-mcp-de
+cd legal-text-mcp-de
+uv run python -m prepare_data.build_corpus --output ./my-corpus.tar.zst --sources land:by,land:nrw
+DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de
+```
+
+### Mode 4 — Public-hosted service
+
+```json
+// claude_desktop_config.json
+{
+  "mcpServers": {
+    "legal-de": {
+      "url": "https://mcp.klein.business/legal/de",
+      "transport": "streamable-http"
+    }
+  }
+}
 ```
 
 ## Quickstart
@@ -114,6 +133,40 @@ docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
   ghcr.io/klein-business/legal-text-mcp-de:1.0.0
 ```
+
+## MCP Resources
+
+v2.0 exposes the corpus as read-only `legal://` URIs that any MCP client can load directly into its LLM context. Examples:
+
+- `legal://laws` — paginated index
+- `legal://laws/bgb` — BGB header + norm index
+- `legal://laws/bgb/norms/par:433` — § 433 BGB as Markdown
+- `legal://corpus/coverage` — what's in the corpus
+
+See `docs/concepts/mcp-native.md` for the full URI catalogue.
+
+## MCP Prompts (slash-commands)
+
+Five curated workflows appear as slash-commands in MCP clients:
+
+| Slash | Args | Purpose |
+|---|---|---|
+| `/rechtsfrage` | `frage`, `rechtsgebiet?` | Answer a German legal question with exact norm citations |
+| `/zitation-checken` | `citation` | Resolve a citation (e.g. `§ 433 Abs. 1 BGB`) + Stand-Datum |
+| `/norm-erklaeren` | `code`, `norm` | Plain-language explanation with cited cross-references |
+| `/recherche` | `topic` | Multi-step research using `research_topic` smart tool |
+| `/dsgvo-check` | `aktivitaet` | Walk through GDPR Art. 5, 6, 7, 9, 13, 14 against a processing activity |
+
+## Smart Tools
+
+`research_topic` is a multi-step research tool that orchestrates 2 LLM-sampling calls per invocation:
+
+1. Corpus search for candidate norms
+2. LLM ranking of candidates by relevance
+3. Related-norms graph loading
+4. LLM synthesis of a structured research report
+
+When the client lacks sampling support, the tool returns a degraded report with ranked candidates only.
 
 ## Data Sources
 
@@ -203,9 +256,9 @@ PYTHONPATH=mcp uv run --group dev python scripts/verify_pre_flip.py
 
 ## Contributing
 
-This is a pre-`v1.0.0` repository preparing for public release.
-Contribution guidelines, code of conduct, and security policy land in
-the next phases of the public-release programme.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and security policy.
+All contributions must comply with the [Developer Certificate of Origin](https://developercertificate.org/)
+(sign-off with `git commit -s`).
 
 ## Verification (post-v1.0.0)
 
@@ -215,7 +268,7 @@ provenance.
 ### Cosign image signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:v1.0.0 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:v2.0.0 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```

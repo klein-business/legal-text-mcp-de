@@ -37,6 +37,7 @@ def test_tool_registry_has_only_supported_tools():
         "get_corpus_coverage",
         "get_source_limitations",
         "get_related_norms",
+        "research_topic",
     }
     assert "get_lawlibrary" not in names
     assert "get_paragraph" not in names

@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.7
+version: 2.0
 ---
 
 # legal-text-mcp-de
@@ -9,9 +9,11 @@ version: 1.7
 ## Purpose
 
 `legal-text-mcp-de` provides source-backed German and EU privacy-law texts
-through MCP and a small HTTP API. The runtime serves validated local packages:
-small committed fixtures for fast CI, or generated production corpus packages
-kept outside Git.
+through MCP (v2.0) and a small HTTP API. The runtime serves validated local
+packages — small committed fixtures for fast CI — or a signed v2 corpus bundle
+(~8,500 laws from GII, 5 state portals, and EUR-Lex Cellar) distributed as an
+OCI artifact from GHCR. An optional public hosted instance is available at
+`mcp.klein.business`.
 
 The project is open source under the Apache License 2.0. It does not provide legal
 advice and does not include SaaS, billing, account, authorization, or
@@ -56,29 +58,43 @@ benchmarks, and the final validation bundle.
 
 - Python 3.12
 - uv with `pyproject.toml` and `uv.lock` for locked dependencies
-- FastMCP via `mcp[cli]`
+- FastMCP via `mcp[cli]` (tools, resources, prompts, sampling)
 - FastAPI and Uvicorn for the HTTP API
 - Pydantic settings for runtime configuration
 - Standard-library XML/ZIP/JSON/hash tooling for source import and validation
-- Pytest for unit, parser, service, transport, docs, and release-gate tests
+- `zstandard` for corpus bundle compression/decompression
+- `SPARQLWrapper` for EUR-Lex Cellar queries
+- `prometheus_client` for hosted-service metrics
+- Pytest + `pytest-asyncio` for unit, parser, service, transport, sampling, docs, and release-gate tests
 
 ## Modules
 
 | Module | Description | Documentation |
 | ------ | ----------- | ------------- |
 | mcp-server | MCP server, HTTP app, legal text services, source adapters, generated package validation, operational gates, and tests. | [Detail](modules/mcp-server.md) |
-| container-runtime | Docker packaging for the server with external validated package mounting. | [Detail](modules/container-runtime.md) |
-| data-preparation | Legacy helper workflow for Markdown-era data preparation; not the production source path. | [Detail](modules/data-preparation.md) |
+| corpus | v2 corpus bundle loader, XDG cache, cosign verifier, and `BundleManifest` schema. | [Detail](modules/corpus.md) |
+| resources | `legal://` URI resource handlers and Markdown renderer (10 URIs). | [Detail](modules/resources.md) |
+| prompts | 5 MCP slash-command templates for German legal workflows. | [Detail](modules/prompts.md) |
+| sampling | `safe_sample` helper, schemas, error hierarchy, and `MockSamplingClient`. | [Detail](modules/sampling.md) |
+| container-runtime | Docker packaging for the server — standard image and hosted-service image. | [Detail](modules/container-runtime.md) |
+| data-preparation | v2 corpus build pipeline (state-law scrapers, EU-act loaders, `build_corpus` CLI) and legacy helper. | [Detail](modules/data-preparation.md) |
+| hosted-deployment | Rate-limit middleware, bearer-token auth, Prometheus metrics, Caddy config for `mcp.klein.business`. | [Detail](modules/hosted-deployment.md) |
 | google-adk-agent | Optional legacy demo agent kept outside the reliable legal text runtime. | [Detail](modules/google-adk-agent.md) |
 
 ## Key Features
 
 | Feature | Description | Documentation |
 | ------- | ----------- | ------------- |
-| supported-laws | Fixture law set plus generated full-corpus scope and critical-law rules. | [Detail](features/supported-laws.md) |
+| supported-laws | Fixture law set plus generated full-corpus scope (~8,500 laws) and critical-law rules. | [Detail](features/supported-laws.md) |
 | source-provenance | Official source provenance, source limitations, manifest terminal states, and relationship-source metadata. | [Detail](features/source-provenance.md) |
 | law-loading-and-indexing | Legacy and generated package loading, readiness, search indexing, and operational artifacts. | [Detail](features/law-loading-and-indexing.md) |
 | mcp-law-tools | Stable MCP tool surface including coverage, source limitation, and relationship lookups. | [Detail](features/mcp-law-tools.md) |
+| mcp-resources | 10 `legal://` URIs exposing law and norm texts as Markdown resources. | [Detail](features/mcp-resources.md) |
+| mcp-prompts | 5 slash-command templates for common German legal workflows. | [Detail](features/mcp-prompts.md) |
+| mcp-sampling | MCP Sampling capability with `safe_sample` helper for smart tools. | [Detail](features/mcp-sampling.md) |
+| research-topic-smart-tool | Multi-step legal research with LLM-assisted norm ranking and synthesis. | [Detail](features/research-topic-smart-tool.md) |
+| public-hosted-service | Optional publicly hosted instance at `mcp.klein.business` with daily corpus refresh. | [Detail](features/public-hosted-service.md) |
+| data-preparation | v2 corpus build pipeline: state-law scrapers, EU-act loaders, `build_corpus` CLI. | [Detail](features/data-preparation.md) |
 | api-contracts | Shared JSON response and error contracts. | [Detail](features/api-contracts.md) |
 | http-api | FastAPI endpoints and OpenAPI contract. | [Detail](features/http-api.md) |
 | scope-and-invariants | Explicit product boundaries, source invariants, and compatibility metadata. | [Detail](features/known-issues.md) |
@@ -110,25 +126,23 @@ uv sync --all-groups
 ### Run MCP
 
 ```bash
-DATASET_PATH=mcp/tests/fixtures/normalized \
+DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-PYTHONPATH=mcp \
-uv run python mcp/server.py
+uv run legal-text-mcp-de
 ```
 
 ### Run HTTP API
 
 ```bash
-DATASET_PATH=mcp/tests/fixtures/normalized \
+DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-PYTHONPATH=mcp \
-uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
 ```
 
 ### Testing
 
 ```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
+uv run --group dev python scripts/verify_release.py
 ```
 
 This command includes docs verification, fixture-backed tests, and local HTTP

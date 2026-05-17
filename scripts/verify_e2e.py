@@ -30,6 +30,7 @@ EXPECTED_TOOLS = {
     "get_corpus_coverage",
     "get_source_limitations",
     "get_related_norms",
+    "research_topic",
 }
 EXPECTED_HTTP_PATHS = {
     "/health",

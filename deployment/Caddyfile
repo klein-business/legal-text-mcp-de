@@ -1,0 +1,31 @@
+# deployment/Caddyfile
+mcp.klein.business {
+    encode zstd gzip
+
+    header {
+        Content-Security-Policy "default-src 'self'; script-src 'none'; object-src 'none'; frame-ancestors 'none'"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "no-referrer"
+        Permissions-Policy "interest-cohort=()"
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    }
+
+    handle_path /legal/de* {
+        reverse_proxy legal-text-mcp-de:8001
+    }
+
+    handle /privacy {
+        rewrite * /privacy.html
+        file_server { root /etc/caddy/static }
+    }
+
+    handle /terms {
+        rewrite * /terms.html
+        file_server { root /etc/caddy/static }
+    }
+
+    handle {
+        respond "Not Found" 404
+    }
+}

@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     debug: bool = False
     load_from_github: list[str] | None = None
     load_from_folder: str | None = None
+    corpus_version: str = "latest"
+    corpus_auto_download: bool = True
+    corpus_cert_identity: str | None = None
+    strict_dataset: bool = False
 
 
 settings = Settings()

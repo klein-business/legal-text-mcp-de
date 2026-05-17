@@ -79,43 +79,51 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Quickstart:
-    - Claude Desktop: quickstart/claude-desktop.md
-    - Cursor: quickstart/cursor.md
-    - uvx: quickstart/uvx.md
-    - Docker: quickstart/docker.md
+      - Claude Desktop: quickstart/claude-desktop.md
+      - Cursor: quickstart/cursor.md
+      - uvx: quickstart/uvx.md
+      - Docker: quickstart/docker.md
   - Concepts:
-    - Data modes: concepts/data-modes.md
-    - Provenance: concepts/provenance.md
-    - MCP and HTTP surface: concepts/mcp-and-http-surface.md
-  - MCP tools:
-    - list_laws: tools/list_laws.md
-    - get_law: tools/get_law.md
-    - get_norm: tools/get_norm.md
-    - resolve_citation: tools/resolve_citation.md
-    - search_laws: tools/search_laws.md
-    - get_source_metadata: tools/get_source_metadata.md
-    - get_corpus_coverage: tools/get_corpus_coverage.md
-    - get_source_limitations: tools/get_source_limitations.md
-    - get_related_norms: tools/get_related_norms.md
+      - Data modes: concepts/data-modes.md
+      - Provenance: concepts/provenance.md
+      - MCP and HTTP surface: concepts/mcp-and-http-surface.md
+      - MCP-native architecture: concepts/mcp-native.md
+  - MCP Resources:
+      - Overview: resources/index.md
+  - MCP Prompts:
+      - Slash-command reference: prompts/index.md
+  - MCP Tools:
+      - list_laws: tools/list_laws.md
+      - get_law: tools/get_law.md
+      - get_norm: tools/get_norm.md
+      - resolve_citation: tools/resolve_citation.md
+      - search_laws: tools/search_laws.md
+      - get_source_metadata: tools/get_source_metadata.md
+      - get_corpus_coverage: tools/get_corpus_coverage.md
+      - get_source_limitations: tools/get_source_limitations.md
+      - get_related_norms: tools/get_related_norms.md
+  - Smart Tools:
+      - research_topic: tools/research_topic.md
   - HTTP API:
-    - Overview: api/index.md
-    - OpenAPI reference: api/openapi.md
+      - Overview: api/index.md
+      - OpenAPI reference: api/openapi.md
   - Operations:
-    - Security: operations/security.md
-    - SBOM: operations/sbom.md
-    - Verify with cosign: operations/verify-with-cosign.md
-    - Versioning: operations/versioning.md
-    - Threat model: operations/threat-model.md
-    - Security review (2026-05): operations/security-review-2026-05.md
-    - Coverage baseline: operations/coverage-baseline.md
-    - OpenSSF application: operations/openssf-application.md
-    - SLSA-3: operations/slsa.md
-    - Launch procedure: operations/launch-procedure.md
+      - Security: operations/security.md
+      - SBOM: operations/sbom.md
+      - Verify with cosign: operations/verify-with-cosign.md
+      - Versioning: operations/versioning.md
+      - Threat model: operations/threat-model.md
+      - Security review (2026-05): operations/security-review-2026-05.md
+      - Coverage baseline: operations/coverage-baseline.md
+      - OpenSSF application: operations/openssf-application.md
+      - SLSA-3: operations/slsa.md
+      - Launch procedure: operations/launch-procedure.md
+      - Migration v1 → v2: operations/migration-v1-v2.md
   - Contributing:
-    - How to contribute: contributing/index.md
-    - Code of Conduct: contributing/code-of-conduct.md
+      - How to contribute: contributing/index.md
+      - Code of Conduct: contributing/code-of-conduct.md
   - Community:
-    - Governance: community/governance.md
-    - Support: community/support.md
+      - Governance: community/governance.md
+      - Support: community/support.md
   - Changelog: changelog.md
   - Roadmap: roadmap.md

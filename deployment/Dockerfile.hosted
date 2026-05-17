@@ -1,0 +1,16 @@
+# deployment/Dockerfile.hosted
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 klein-business
+FROM ghcr.io/klein-business/legal-text-mcp-de:2.0.0-rc.4
+
+COPY deployment/ratelimit_middleware.py /app/deployment/
+COPY deployment/anonymised_logging.py /app/deployment/
+
+ENV HOSTED=true
+ENV PORT=8001
+ENV DATASET_PATH=/data/corpus/latest.tar.zst
+ENV STRICT_DATASET=true
+
+# Corpus is mounted at /data/corpus by docker-compose
+
+CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]

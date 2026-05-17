@@ -5,6 +5,129 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-05-17
+
+### Added — MCP capabilities
+
+#### Tier 2 — Resources (~10 URIs under `legal://`)
+- `legal://laws` (paginated JSON list with cursor + limit)
+- `legal://laws/{code}`, `legal://laws/{code}/full` (Markdown)
+- `legal://laws/{code}/norms/{norm_id}` (Markdown), `.../relationships` (JSON)
+- `legal://laws/{code}/source` (JSON provenance)
+- `legal://corpus/coverage`, `legal://corpus/limitations`, `legal://corpus/manifest` (JSON)
+
+#### Tier 3 — Prompts (5 curated slash-workflows)
+- `/rechtsfrage`, `/zitation-checken`, `/norm-erklaeren`, `/recherche`, `/dsgvo-check`
+
+#### Tier 4 — Sampling helpers
+- `safe_sample` with timeout, retry, schema validation
+- Error hierarchy + `MockSamplingClient` for testing
+
+#### Tier 5 — `research_topic` Smart Tool
+- Multi-step recherche with 2 sampling calls (LLM ranking + synthesis)
+- Graceful degradation when client lacks sampling
+- Progress reports via `ctx.report_progress`
+
+### Added — Corpus
+- Expanded from 5 to ~8500 laws (federal + top-5 Länder + 5 EU acts)
+- Signed `.tar.zst` distribution via GHCR OCI artifact + GitHub Releases
+
+### Added — Hosting
+- Optional public-hosted MCP service at `mcp.klein.business/legal/de`
+- Caddy + TLS + CSP/HSTS security headers
+- Rate limiting (per-IP + per-bearer-token)
+- Anonymised logging (no bodies, no PII)
+- Prometheus metrics endpoint
+- Privacy + ToS HTML pages
+- Blue-green deploy script
+
+### Changed
+- `get_corpus_coverage` schema bumped v1 → v2 with new aggregate counts (old fields preserved)
+- `DATASET_PATH` unset is now allowed (auto-downloads); set `STRICT_DATASET=true` for old behaviour
+- Coverage gates raised to 92% statement / 82% branch
+
+### Compatibility
+- All 9 v1 tools unchanged (signatures + return shapes frozen by `tests/test_v1_compat.py`)
+- HTTP API surface unchanged
+- See `docs/operations/migration-v1-v2.md`
+
+### Statistics
+- 80+ tasks across 7 phases (A: Corpus, B: Resources, C: Prompts, D: Sampling, E: research_topic, F: Hosting, G: Polish)
+- ~80 commits, all SSH-signed
+- 485+ tests passing, 92%+ statement coverage, 82%+ branch coverage
+
+## [2.0.0-rc.4] - 2026-05-17
+
+### Added
+- **Tier 5 — research_topic Smart Tool:** multi-step legal research with 2 sampling calls per invocation
+  - Step 1: corpus search via `runtime.search_laws`
+  - Step 2: hydrate norm text via `runtime.get_norm`
+  - Step 3: LLM ranking of candidates by relevance (sampling call)
+  - Step 4: related-norms graph loading
+  - Step 5: LLM synthesis of research report (sampling call)
+  - Graceful degradation when client lacks sampling
+  - Progress reports via `ctx.report_progress`
+- `tools/research_models.py`: `ResearchReport`, `RankedNorm` pydantic schemas
+- `tools/research_prompts.py`: `build_ranking_prompt`, `build_synthesis_prompt`
+- CI smoke workflow `.github/workflows/research-topic-smoke.yml` (cost-capped Haiku, opt-in via `smoke-test` environment)
+
+## [2.0.0-rc.3] - 2026-05-17
+
+### Added
+- **Tier 4 — Sampling infrastructure:** `safe_sample` helper with timeout, retry, schema validation, and graceful degradation paths for clients that lack sampling support.
+- Error hierarchy: `SamplingError`, `SamplingNotSupported`, `SamplingTimeout`, `SamplingRefused`, `SchemaValidationError`.
+- Pydantic schemas: `SampleResult`, `RankingEntry`, `RankingResult` (with `top_n()` helper).
+- `MockSamplingClient` for deterministic tests of smart tools (used by Phase E `research_topic` E2E).
+
+## [2.0.0-rc.2] - 2026-05-17
+
+### Added
+- **Tier 3 — MCP Prompts:** 5 curated slash-workflows
+  - `/rechtsfrage` — answer a German legal question with exact citations
+  - `/zitation-checken` — resolve a citation and format the result with Stand-Datum
+  - `/norm-erklaeren` — load a norm + relationships, plain-language explanation
+  - `/recherche` — multi-step recherche (placeholder for E5 research_topic smart tool)
+  - `/dsgvo-check` — walk through GDPR Art. 5, 6, 7, 9, 13, 14 against an activity
+
+## [2.0.0-rc.1] - 2026-05-17
+
+### Added
+- **Tier 2 — MCP Resources:** 10 read-only URIs under `legal://`
+  - `legal://laws` (paginated JSON list, cursor + limit via path components)
+  - `legal://laws/page/{cursor}/{limit}` (explicit page access)
+  - `legal://laws/{code}` (Markdown law header + norm index)
+  - `legal://laws/{code}/full` (full law as Markdown)
+  - `legal://laws/{code}/norms/{norm_id}` (Markdown single norm)
+  - `legal://laws/{code}/norms/{norm_id}/relationships` (JSON related-norm graph)
+  - `legal://laws/{code}/source` (JSON provenance)
+  - `legal://corpus/coverage`, `legal://corpus/limitations`, `legal://corpus/manifest` (JSON corpus-wide)
+- `resources/markdown_render.py`: pure renderers `render_norm()`, `render_law()`
+- `tools/` module: 9 v1 MCP tools moved out of `server.py` into `tools/v1_tools.py` (`register_v1_tools(app, runtime)`); behaviour unchanged
+
+### Changed
+- `server.py` slimmed to orchestration only (registers tools + resources)
+
+### Compatibility
+- v1 MCP tool contract frozen in `tests/test_v1_compat.py` — all 9 tool names + signatures unchanged
+- HTTP API surface unchanged
+
+## [1.5.0] - 2026-05-17
+
+### Added
+- Corpus pipeline v2: builds federal (~6500), top-5 state-law (~2000) and 5 EU acts into a signed `.tar.zst` bundle.
+- `prepare_data/build_corpus.py` CLI entry point for assembling bundles from configurable sources (`bund`, `land:<code>`, `eu:<celex>`).
+- `src/legal_text_mcp_de/corpus/` package: `BundleManifest`/`BundleEntry` schemas, `CorpusCache` (XDG-compliant), `verify_bundle_signature` (cosign keyless), `load_corpus_bundle` (local-first with OCI auto-download fallback).
+- New env vars: `CORPUS_VERSION`, `CORPUS_AUTO_DOWNLOAD`, `CORPUS_CERT_IDENTITY`, `STRICT_DATASET`.
+- 5 state-law scrapers: Bayern (gesetze-bayern.de), NRW (recht.nrw.de), BW (landesrecht-bw.de jportal), NDS (nds-voris.de), HE (rv.hessenrecht.hessen.de).
+- 4 EU-act loaders: ePrivacy (32002L0058), DSA (32022R2065), DMA (32022R1925), AI Act (32024R1689).
+- 36 new tests covering the corpus pipeline (total 419 tests passing).
+
+### Changed
+- `DATASET_PATH` unset is no longer fatal at startup; default is auto-download from GHCR. Set `STRICT_DATASET=true` to restore old fail-fast behaviour.
+
+### Compatibility
+- All 9 v1 MCP tools unchanged. HTTP API unchanged. Drop-in for v1.0.0 callers.
+
 ## [Unreleased]
 
 ### Changed
