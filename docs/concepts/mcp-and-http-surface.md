@@ -20,8 +20,8 @@ sequenceDiagram
   S-->>C: NormRecord JSON
 ```
 
-Nine tools are exposed. See the [MCP tools reference](../tools/list_laws.md)
-for the full list and parameters.
+Ten tools are exposed (9 v1 law tools plus `research_topic`). See the
+[MCP tools reference](../tools/list_laws.md) for the full list and parameters.
 
 ### Starting the MCP server
 

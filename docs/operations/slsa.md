@@ -36,7 +36,7 @@ cosign verify-attestation \
   --type slsaprovenance \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  ghcr.io/klein-business/legal-text-mcp-de:v2.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
 ```
 
 ## Why SLSA-3?

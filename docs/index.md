@@ -34,7 +34,9 @@ server and HTTP API for loading, validating, searching, and resolving
 ## What it is not
 
 - A legal-advice engine. No interpretation, no AI legal reasoning.
-- A hosted service. You run it locally or on your own infrastructure.
+- A tenant-specific SaaS or legal-advice service. The optional public
+  endpoint is stateless; you can also run it locally or on your own
+  infrastructure.
 - A bundler of editorial law text. Texts come from official sources
   (gesetze-im-internet.de, EUR-Lex / Cellar) at runtime.
 
