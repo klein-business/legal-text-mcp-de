@@ -2,9 +2,8 @@
 # Copyright 2026 klein-business
 """Resource handlers for legal:// URIs.
 
-This module is the registration entry point. Individual URI handlers will
-be added in subsequent tasks (B3-B11). For now it registers one static
-resource (legal://corpus/manifest) so the resources subsystem is wired up.
+This module is the registration entry point. All URI handlers for the
+legal:// namespace are registered inside register_resources().
 """
 
 from __future__ import annotations
@@ -18,6 +17,19 @@ from legal_text_mcp_de.legal_texts.runtime import LegalTextRuntime
 
 def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
     """Register all legal:// MCP resources on the given FastMCP app."""
+
+    # ------------------------------------------------------------------
+    # B3: legal://laws — list of all laws as JSON
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws")
+    def list_laws() -> str:
+        """All laws in the corpus as JSON."""
+        try:
+            data = runtime.list_laws()
+        except Exception as exc:
+            data = {"error": str(exc)}
+        return json.dumps(data, indent=2, ensure_ascii=False)
 
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
