@@ -100,6 +100,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
             data = {"error": str(exc), "code": code, "norm_id": norm_id}
         return json.dumps(data, indent=2, ensure_ascii=False)
 
+    # ------------------------------------------------------------------
+    # B8: legal://laws/{code}/source — source metadata as JSON
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws/{code}/source")
+    def read_law_source(code: str) -> str:
+        """Source metadata for a law as JSON."""
+        try:
+            data = runtime.get_source_metadata(code)
+        except Exception as exc:
+            data = {"error": str(exc), "code": code}
+        return json.dumps(data, indent=2, ensure_ascii=False)
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
         """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""

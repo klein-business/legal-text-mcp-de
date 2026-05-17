@@ -171,3 +171,24 @@ def test_legal_laws_norms_relationships_unknown_returns_error_json():
     text = _text(result)
     data = json.loads(text)
     assert "error" in data
+
+
+# ---------------------------------------------------------------------------
+# B8: legal://laws/{code}/source
+# ---------------------------------------------------------------------------
+
+
+def test_legal_laws_code_source_returns_json():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb/source")
+    text = _text(result)
+    data = json.loads(text)
+    assert "sources" in data
+
+
+def test_legal_laws_code_source_unknown_returns_error_json():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/does-not-exist/source")
+    text = _text(result)
+    data = json.loads(text)
+    assert "error" in data
