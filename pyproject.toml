@@ -91,6 +91,7 @@ prepare-data = [
     "beautifulsoup4~=4.14.3",
     "roman-numbers~=1.0.2",
     "types-beautifulsoup4~=4.12",
+    "SPARQLWrapper~=2.0.0",
 ]
 
 [tool.ruff]
