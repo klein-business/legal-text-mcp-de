@@ -7,5 +7,11 @@ from legal_text_mcp_de.corpus.bundle_schema import (
     BundleEntry,
     BundleManifest,
 )
+from legal_text_mcp_de.corpus.verifier import verify_bundle_signature
 
-__all__ = ["BUNDLE_SCHEMA_VERSION", "BundleEntry", "BundleManifest"]
+__all__ = [
+    "BUNDLE_SCHEMA_VERSION",
+    "BundleEntry",
+    "BundleManifest",
+    "verify_bundle_signature",
+]
