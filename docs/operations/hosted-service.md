@@ -49,3 +49,5 @@ Before promoting a tag from staging to production:
 - [ ] CHANGELOG updated with any operational notes
 - [ ] DNS TTL lowered before swap, restored after
 - [ ] On-call notified
+
+> Record the promotion in docs/operations/soak-test.md with verdict "OK for promotion to prod".
