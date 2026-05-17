@@ -17,7 +17,7 @@ from legal_text_mcp_de.corpus.loader import BundleLoadError, load_corpus_bundle
 from legal_text_mcp_de.legal_texts.runtime import LegalTextRuntime
 from legal_text_mcp_de.prompts import register_prompts
 from legal_text_mcp_de.resources import register_resources
-from legal_text_mcp_de.tools import register_v1_tools
+from legal_text_mcp_de.tools import register_research_topic, register_v1_tools
 
 
 def _resolve_dataset_path() -> Path | None:
@@ -56,6 +56,7 @@ def create_mcp_app(runtime: LegalTextRuntime | None = None) -> FastMCP:
         debug=settings.debug,
     )
     register_v1_tools(app, runtime)
+    register_research_topic(app, runtime)
     register_resources(app, runtime)
     register_prompts(app)
     return app
