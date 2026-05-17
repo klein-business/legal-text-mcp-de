@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-rc.3] - 2026-05-17
+
+### Added
+- **Tier 4 — Sampling infrastructure:** `safe_sample` helper with timeout, retry, schema validation, and graceful degradation paths for clients that lack sampling support.
+- Error hierarchy: `SamplingError`, `SamplingNotSupported`, `SamplingTimeout`, `SamplingRefused`, `SchemaValidationError`.
+- Pydantic schemas: `SampleResult`, `RankingEntry`, `RankingResult` (with `top_n()` helper).
+- `MockSamplingClient` for deterministic tests of smart tools (used by Phase E `research_topic` E2E).
+
 ## [2.0.0-rc.2] - 2026-05-17
 
 ### Added
