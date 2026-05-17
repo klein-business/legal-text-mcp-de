@@ -13,6 +13,7 @@ import json
 from mcp.server.fastmcp import FastMCP
 
 from legal_text_mcp_de.legal_texts.runtime import LegalTextRuntime
+from legal_text_mcp_de.resources.markdown_render import render_law
 
 
 def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
@@ -30,6 +31,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
         except Exception as exc:
             data = {"error": str(exc)}
         return json.dumps(data, indent=2, ensure_ascii=False)
+
+    # ------------------------------------------------------------------
+    # B4: legal://laws/{code} — law header + norm index as Markdown
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://laws/{code}")
+    def read_law(code: str) -> str:
+        """Law header + norm index as Markdown."""
+        try:
+            data = runtime.get_law(code)
+        except Exception as exc:
+            return f"# Error\n\nFailed to load law `{code}`: {exc}"
+        return render_law(data)
 
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:

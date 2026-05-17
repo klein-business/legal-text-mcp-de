@@ -67,3 +67,30 @@ def test_legal_laws_list_contains_bgb():
     data = json.loads(text)
     codes = [law.get("canonical_id") for law in data["laws"]]
     assert "bgb" in codes
+
+
+# ---------------------------------------------------------------------------
+# B4: legal://laws/{code}
+# ---------------------------------------------------------------------------
+
+
+def test_legal_laws_code_returns_markdown_with_h1():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb")
+    text = _text(result)
+    assert text.startswith("#")
+    assert "BGB" in text or "bgb" in text.lower()
+
+
+def test_legal_laws_code_contains_normen_section():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/bgb")
+    text = _text(result)
+    assert "## Normen" in text
+
+
+def test_legal_laws_code_unknown_returns_error_markdown():
+    app = _fixture_app()
+    result = _read(app, "legal://laws/does-not-exist")
+    text = _text(result)
+    assert "Error" in text or "error" in text
