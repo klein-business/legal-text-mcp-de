@@ -15,8 +15,10 @@ from legal_text_mcp_de.sampling.schemas import (
     RankingResult,
     SampleResult,
 )
+from legal_text_mcp_de.sampling.testing import MockSamplingClient
 
 __all__ = [
+    "MockSamplingClient",
     "RankingEntry",
     "RankingResult",
     "SampleResult",
