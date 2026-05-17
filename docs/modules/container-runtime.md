@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "container-runtime"
-version: 1.2
+version: 2.0
 ---
 
 # Module: container-runtime
@@ -11,14 +11,19 @@ version: 1.2
 
 ## Overview
 
-The container runtime is the root `Dockerfile`. It packages the MCP server code
-and dependencies, then expects a validated fixture or generated package at
-`/data/legal-texts`.
+The container runtime ships two Dockerfiles:
+
+- `Dockerfile` — the standard image used for self-hosting. It packages the MCP
+  server code and dependencies, then expects a validated corpus bundle or
+  normalized dataset at `/data/legal-texts`.
+- `deployment/Dockerfile.hosted` — the hosted-service image layered on top of
+  the standard image. It adds rate-limiting and anonymised-logging middleware
+  and is used at `mcp.klein.business`.
 
 ### Responsibility
 
-The image is responsible for running the MCP server in a reproducible Python
-environment. It is not responsible for cloning demo data, generating source
+The images are responsible for running the MCP server in a reproducible Python
+environment. They are not responsible for cloning demo data, generating source
 snapshots, running full-corpus import gates, or embedding legal texts in the
 image.
 
@@ -28,13 +33,16 @@ image.
 | ---------- | ---- | ------- |
 | `python:3.12-slim` | container base image | Provides the Python runtime. |
 | `uv.lock` and `pyproject.toml` | dependency metadata | Provide the locked uv-managed runtime dependencies. |
-| `/data/legal-texts` | mounted data path | Supplies the validated normalized or generated dataset package. |
+| `/data/legal-texts` (standard) | mounted data path | Supplies the validated normalized or generated dataset package. |
+| `/data/corpus/latest.tar.zst` (hosted) | mounted data path | Supplies the daily-refreshed v2 corpus bundle. |
 
 ## Structure
 
 | Path | Type | Purpose |
 | ---- | ---- | ------- |
-| `Dockerfile` | file | Defines the server container image and startup command. |
+| `Dockerfile` | file | Standard server image; expects dataset at `/data/legal-texts`. |
+| `deployment/Dockerfile.hosted` | file | Hosted-service image; layers middleware, sets `HOSTED=true`, `STRICT_DATASET=true`. |
+| `deployment/Caddyfile` | file | Caddy reverse-proxy config for `mcp.klein.business`. |
 
 ## Key Symbols
 
@@ -43,35 +51,54 @@ image.
 | `FROM python:3.12-slim` | Docker instruction | `Dockerfile:1` | Selects the Python base image. |
 | `COPY --from=ghcr.io/astral-sh/uv:0.10.12` | Docker instruction | `Dockerfile` | Adds the pinned uv binary. |
 | `RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode` | Docker instruction | `Dockerfile` | Installs locked runtime dependencies. |
-| `COPY mcp/ ./mcp/` | Docker instruction | `Dockerfile` | Copies server code into `/app/mcp`. |
 | `ENV DATASET_PATH=/data/legal-texts` | Docker instruction | `Dockerfile` | Points strict startup at the mounted normalized dataset. |
-| `CMD ["uv", "run", "--frozen", "--no-sync", "python", "mcp/server.py"]` | Docker instruction | `Dockerfile` | Starts the MCP server from the uv-managed environment. |
+| `CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]` | Docker instruction | `Dockerfile` | Starts the MCP server via the `legal-text-mcp-de` console script. |
+| `FROM ghcr.io/klein-business/legal-text-mcp-de:2.0.0-rc.4` | Docker instruction | `Dockerfile.hosted:4` | Extends the published base image. |
+| `ENV HOSTED=true` | Docker instruction | `Dockerfile.hosted` | Activates rate-limit and logging middleware registration. |
+| `ENV DATASET_PATH=/data/corpus/latest.tar.zst` | Docker instruction | `Dockerfile.hosted` | Points to the daily-refreshed v2 bundle. |
 
 ## Data Flow
 
-At runtime, `server.py` loads `DATASET_PATH=/data/legal-texts`, validates
-readiness through `LegalTextRuntime`, and serves the MCP tools. The image no
-longer installs Git and no longer clones `bundestag/gesetze`.
+At runtime, `server.py` resolves the corpus via `_resolve_dataset_path` and
+validates readiness through `LegalTextRuntime`. The standard image mounts a
+legacy fixture or generated package; the hosted image mounts a v2 `.tar.zst`
+bundle that the `corpus/loader.py` stack reads directly.
 
-Generated production packages should be built and validated before container
-startup. Operators mount the package read-only; operational artifacts such as
-`.artifacts/full-corpus/validation-bundle.json` remain outside the image and
-outside Git.
+Generated production packages and bundles should be built and validated before
+container startup. Operational artifacts remain outside the image and outside Git.
 
 ## Configuration
 
-Mount a validated package into the configured path:
+**Standard image:**
 
 ```bash
-docker run --rm -p 8001:8001 -v /path/to/legal-text-package:/data/legal-texts:ro legal-text-mcp-de
+docker run --rm -p 8001:8001 \
+  -v /path/to/legal-text-package:/data/legal-texts:ro \
+  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
 ```
 
-The mounted directory may be a legacy fixture package with `laws.json` and
-`norms.json`, or a strict generated package with `package.json`, `manifest.json`,
-`source-limitations.json`, `relationships.json`, `readiness.json`, and
-`search-index.json`.
+**Self-host with v2 bundle:**
+
+```bash
+docker run --rm -p 8001:8001 \
+  -v /path/to/corpus.tar.zst:/data/legal-texts:ro \
+  -e STRICT_DATASET=true \
+  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
+```
+
+The mounted path may be:
+
+- a legacy fixture directory with `laws.json` and `norms.json`;
+- a strict generated package with `package.json`, `manifest.json`,
+  `source-limitations.json`, `relationships.json`, `readiness.json`, and
+  `search-index.json`;
+- a v2 `.tar.zst` corpus bundle (standard image with `CORPUS_AUTO_DOWNLOAD`
+  disabled, or hosted image).
 
 ## Inventory Notes
 
 - **Coverage**: full.
-- **Notes**: Production data supply is external to the image and auditable through manifests.
+- **Notes**: Production data supply is external to the image and auditable through
+  manifests and cosign signatures. See [hosted-deployment](hosted-deployment.md)
+  for the full hosted-service topology and [public-hosted-service feature](../features/public-hosted-service.md)
+  for end-user connection instructions.
