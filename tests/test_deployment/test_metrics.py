@@ -2,8 +2,6 @@
 # Copyright 2026 klein-business
 from deployment.metrics import (
     CORPUS_VERSION,
-    RATE_LIMIT_REJECTIONS,
-    REQUEST_LATENCY,
     REQUESTS_TOTAL,
     render_metrics,
 )

@@ -3,7 +3,6 @@
 import json
 import logging
 
-import pytest
 from fastapi import FastAPI
 from starlette.testclient import TestClient
 
