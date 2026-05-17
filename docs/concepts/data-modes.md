@@ -42,7 +42,7 @@ The Docker image expects a generated package mounted at
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:v1.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:v2.0.0
 ```
 
 (Replace the path. Read-only mount is sufficient.)

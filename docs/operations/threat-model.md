@@ -78,6 +78,7 @@ Out of scope:
 
 ## Review
 
-Reviewed: 2026-05-16 (Phase 3+4 close).
-Next review: at v1.1.0 or any architectural change affecting the MCP
-or HTTP surface.
+Reviewed: 2026-05-17 (v2.0.0 GA close).
+Next review: at v2.1.0 or any architectural change affecting the MCP
+or HTTP surface (notably: new Resource URIs, new Smart Tools, or
+changes to the Sampling helpers).

@@ -12,11 +12,24 @@ server and HTTP API for loading, validating, searching, and resolving
 
 ## What it is
 
-- An MCP server (streamable HTTP transport, default `:8001/mcp`) that
-  exposes nine tools for German federal laws and EU acts.
+- An MCP-native domain server (streamable HTTP transport, default
+  `:8001/mcp`) that implements all four MCP capability classes for
+  German federal + state laws and EU acts:
+    - **Tools** — 10 callable tools (9 v1 law tools + `research_topic`
+      multi-step smart tool with Sampling).
+    - **Resources** — 10 read-only `legal://` URIs (paginated law
+      index, full law text, single norm, relationships, corpus
+      coverage/limitations/manifest).
+    - **Prompts** — 5 curated slash-workflows (`/rechtsfrage`,
+      `/zitation-checken`, `/norm-erklaeren`, `/recherche`,
+      `/dsgvo-check`).
+    - **Sampling** — `safe_sample` helper for server-orchestrated
+      LLM calls with retry + schema validation, used by
+      `research_topic`.
 - A FastAPI HTTP API over the same runtime, for non-MCP clients.
-- Local or server-side infrastructure: no SaaS, no accounts, no
-  tenant model, no editorial-content bundling.
+- Local or server-side infrastructure: no SaaS account required.
+  Self-host via `uvx` / Docker, or use the optional public-hosted
+  endpoint at `mcp.klein.business/legal/de`.
 
 ## What it is not
 

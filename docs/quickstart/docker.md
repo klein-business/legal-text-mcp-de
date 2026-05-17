@@ -6,15 +6,13 @@ package at `/data/legal-texts`.
 ## Pull the image
 
 ```bash
-docker pull ghcr.io/klein-business/legal-text-mcp-de:v1.0.0
+docker pull ghcr.io/klein-business/legal-text-mcp-de:v2.0.0
 ```
-
-(After v1.0.0 release. Pre-release: build locally from the repo.)
 
 ## Verify the signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:v1.0.0 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:v2.0.0 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
@@ -27,7 +25,7 @@ details.
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:v1.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:v2.0.0
 ```
 
 The container runs as UID 10001 (non-root). The dataset mount is
@@ -50,7 +48,8 @@ curl http://localhost:8001/mcp -X POST \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-Expected: JSON response listing nine tools.
+Expected: JSON response listing ten tools (9 v1 law tools +
+`research_topic`).
 
 ## Environment variables
 

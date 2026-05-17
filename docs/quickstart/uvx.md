@@ -36,7 +36,8 @@ curl http://localhost:8001/mcp -X POST \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-Expected: JSON response listing nine tools.
+Expected: JSON response listing ten tools (9 v1 law tools +
+`research_topic`).
 
 ## Environment variables
 

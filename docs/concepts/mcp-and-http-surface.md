@@ -32,7 +32,7 @@ PYTHONPATH=mcp \
 uv run python mcp/server.py
 ```
 
-Or with `uvx` (post-v1.0.0):
+Or with `uvx` (post-v1.0.0; recommended path since v2.0.0 GA):
 
 ```bash
 DATASET_PATH=/path/to/package uvx legal-text-mcp-de
@@ -46,7 +46,8 @@ curl http://localhost:8001/mcp -X POST \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-Expected: JSON response listing nine tools.
+Expected: JSON response listing ten tools (9 v1 law tools +
+`research_topic`).
 
 ## HTTP API (FastAPI)
 
