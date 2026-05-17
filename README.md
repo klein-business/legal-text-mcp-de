@@ -3,20 +3,20 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/legal-text-mcp-de.svg?style=flat-square&logo=pypi&logoColor=white&color=3775A9"></a>
-  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="Python 3.12 / 3.13" src="https://img.shields.io/pypi/pyversions/legal-text-mcp-de.svg?style=flat-square&logo=python&logoColor=white"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/blob/main/LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=flat-square"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/klein-business/legal-text-mcp-de?style=flat-square&logo=github&color=111827&label=release"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/pkgs/container/legal-text-mcp-de"><img alt="Container image" src="https://img.shields.io/badge/ghcr.io-multi--arch-2496ED?style=flat-square&logo=docker&logoColor=white"></a>
-  <a href="https://klein-business.github.io/legal-text-mcp-de/"><img alt="Docs" src="https://img.shields.io/badge/docs-mkdocs--material-526CFE?style=flat-square&logo=materialformkdocs&logoColor=white"></a>
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/legal-text-mcp-de.svg?style=for-the-badge&logo=pypi&logoColor=white&color=3775A9"></a>
+  <a href="https://pypi.org/project/legal-text-mcp-de/"><img alt="Python 3.12 / 3.13" src="https://img.shields.io/pypi/pyversions/legal-text-mcp-de.svg?style=for-the-badge&logo=python&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/blob/main/LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-16A34A?style=for-the-badge"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/klein-business/legal-text-mcp-de?style=for-the-badge&logo=github&color=111827&label=release"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/pkgs/container/legal-text-mcp-de"><img alt="Container image" src="https://img.shields.io/badge/ghcr.io-multi--arch-2496ED?style=for-the-badge&logo=docker&logoColor=white"></a>
+  <a href="https://klein-business.github.io/legal-text-mcp-de/"><img alt="Docs" src="https://img.shields.io/badge/docs-mkdocs--material-526CFE?style=for-the-badge&logo=materialformkdocs&logoColor=white"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/ci.yml?branch=main&style=flat-square&label=CI&logo=githubactions&logoColor=white"></a>
-  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/codeql.yml?branch=main&style=flat-square&label=CodeQL&logo=githubactions&logoColor=white"></a>
-  <a href="https://api.securityscorecards.dev/projects/github.com/klein-business/legal-text-mcp-de"><img alt="OpenSSF Scorecard" src="https://img.shields.io/ossf-scorecard/github.com/klein-business/legal-text-mcp-de?style=flat-square&label=OSSF%20Scorecard"></a>
-  <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/12860?style=flat-square&label=OSSF%20Best%20Practices&color=16A34A"></a>
-  <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://img.shields.io/badge/SLSA-Level%203-2DBA00?style=flat-square&logo=githubactions&logoColor=white"></a>
-  <a href="https://github.com/sigstore/cosign"><img alt="Signed by cosign" src="https://img.shields.io/badge/cosign-signed-purple?style=flat-square&logo=sigstore&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/ci.yml?branch=main&style=for-the-badge&label=CI&logo=githubactions&logoColor=white"></a>
+  <a href="https://github.com/klein-business/legal-text-mcp-de/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/klein-business/legal-text-mcp-de/codeql.yml?branch=main&style=for-the-badge&label=CodeQL&logo=githubactions&logoColor=white"></a>
+  <a href="https://api.securityscorecards.dev/projects/github.com/klein-business/legal-text-mcp-de"><img alt="OpenSSF Scorecard" src="https://img.shields.io/ossf-scorecard/github.com/klein-business/legal-text-mcp-de?style=for-the-badge&label=OSSF%20Scorecard"></a>
+  <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/12860?style=for-the-badge&label=OSSF%20Best%20Practices&color=16A34A"></a>
+  <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://img.shields.io/badge/SLSA-Level%203-2DBA00?style=for-the-badge&logo=githubactions&logoColor=white"></a>
+  <a href="https://github.com/sigstore/cosign"><img alt="Signed by cosign" src="https://img.shields.io/badge/cosign-signed-purple?style=for-the-badge&logo=sigstore&logoColor=white"></a>
 </p>
 
 # legal-text-mcp-de
@@ -42,7 +42,7 @@ Older internal documentation has been archived under
 
 | | |
 | --- | --- |
-| Lifecycle | Stable `v2.0.0` GA — MCP-native domain server |
+| Lifecycle | Stable `v2.0.1` (patch on `v2.0.0` GA) — MCP-native domain server |
 | Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
 | Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
 | Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
@@ -66,7 +66,7 @@ Older internal documentation has been archived under
 ### Mode 1 — `pip install` from PyPI (smallest dependency)
 
 ```bash
-pip install legal-text-mcp-de==2.0.0
+pip install legal-text-mcp-de==2.0.1
 DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de
 ```
 
@@ -85,7 +85,7 @@ Server fetches the latest signed corpus bundle from GHCR on first run.
 ### Mode 3 — Docker with pre-bundled corpus
 
 ```bash
-docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.0
+docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.1
 ```
 
 ### Mode 4 — Self-built corpus (compliance-sensitive)
@@ -142,7 +142,7 @@ package at `/data/legal-texts`:
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:2.0.1
 ```
 
 ## MCP Resources
@@ -274,12 +274,12 @@ All contributions must comply with the [Developer Certificate of Origin](https:/
 ## Verification (post-v2.0.0)
 
 Each release is signed and accompanied by an SBOM and SLSA-3
-provenance.
+provenance. Examples below use `v2.0.1`; substitute the tag you pulled.
 
 ### Cosign image signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.0.0 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.0.1 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
