@@ -83,6 +83,7 @@ nav:
       - Cursor: quickstart/cursor.md
       - uvx: quickstart/uvx.md
       - Docker: quickstart/docker.md
+      - stdio (offline / Claude Desktop): quickstart/stdio.md
   - Concepts:
       - Data modes: concepts/data-modes.md
       - Provenance: concepts/provenance.md
@@ -107,8 +108,10 @@ nav:
   - HTTP API:
       - Overview: api/index.md
       - OpenAPI reference: api/openapi.md
+      - Typed Python client: api/python-client.md
   - Operations:
       - Security: operations/security.md
+      - Production deployment: operations/production-deployment.md
       - SBOM: operations/sbom.md
       - Verify with cosign: operations/verify-with-cosign.md
       - Versioning: operations/versioning.md

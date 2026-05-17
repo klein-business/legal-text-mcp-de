@@ -32,11 +32,30 @@ git clone https://github.com/klein-business/legal-text-mcp-de.git
 cd legal-text-mcp-de
 uv sync --all-groups
 uv run --group dev pre-commit install        # optional but recommended
-PYTHONPATH=mcp uv run --group dev pytest mcp/tests -v
+uv run --group dev pytest
 ```
 
-After the source rename (Section F of the public-release programme),
-`PYTHONPATH=mcp` is no longer required; `uv run pytest` is sufficient.
+### Justfile shortcuts (optional)
+
+The repository ships a [`Justfile`](Justfile) with thin wrappers around
+the canonical `uv` invocations. Install [`just`](https://just.systems/)
+(`brew install just`) and run any of:
+
+```bash
+just                    # list all targets
+just install            # uv sync --all-groups
+just test               # uv run --group dev pytest
+just lint               # ruff check + format --check
+just fix                # ruff check --fix + format
+just typecheck          # mypy scripts/
+just docs               # mkdocs serve at localhost:8000
+just run                # MCP server on fixture corpus
+just api                # HTTP API on :8080 on fixture corpus
+just verify-release     # the same release-gate the CI runs
+```
+
+The Justfile is a documentation artefact — using `uv` directly is
+always equivalent. CI only invokes `uv`, never `just`.
 
 ## Branch and PR conventions
 
