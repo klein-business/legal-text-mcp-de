@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-rc.2] - 2026-05-17
+
+### Added
+- **Tier 3 — MCP Prompts:** 5 curated slash-workflows
+  - `/rechtsfrage` — answer a German legal question with exact citations
+  - `/zitation-checken` — resolve a citation and format the result with Stand-Datum
+  - `/norm-erklaeren` — load a norm + relationships, plain-language explanation
+  - `/recherche` — multi-step recherche (placeholder for E5 research_topic smart tool)
+  - `/dsgvo-check` — walk through GDPR Art. 5, 6, 7, 9, 13, 14 against an activity
+
 ## [2.0.0-rc.1] - 2026-05-17
 
 ### Added
