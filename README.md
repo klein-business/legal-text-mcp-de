@@ -63,7 +63,18 @@ Older internal documentation has been archived under
 
 ## Installation
 
-### Mode 1 — uvx + auto-download (default, easiest)
+### Mode 1 — `pip install` from PyPI (smallest dependency)
+
+```bash
+pip install legal-text-mcp-de==2.0.0
+DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de
+```
+
+The package ships the runtime only; provide a corpus bundle via
+`DATASET_PATH` (build with `prepare_data.build_corpus`, see Mode 4) or
+point at an existing `.tar.zst` you trust.
+
+### Mode 2 — `uvx` + auto-download (recommended, easiest)
 
 ```bash
 uvx legal-text-mcp-de
@@ -71,13 +82,13 @@ uvx legal-text-mcp-de
 
 Server fetches the latest signed corpus bundle from GHCR on first run.
 
-### Mode 2 — Docker with pre-bundled corpus
+### Mode 3 — Docker with pre-bundled corpus
 
 ```bash
 docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.0
 ```
 
-### Mode 3 — Self-built corpus (compliance-sensitive)
+### Mode 4 — Self-built corpus (compliance-sensitive)
 
 ```bash
 git clone https://github.com/klein-business/legal-text-mcp-de
@@ -86,7 +97,7 @@ uv run python -m prepare_data.build_corpus --output ./my-corpus.tar.zst --source
 DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de
 ```
 
-### Mode 4 — Public-hosted service
+### Mode 5 — Public-hosted service
 
 ```json
 // claude_desktop_config.json
