@@ -7,11 +7,13 @@ from legal_text_mcp_de.corpus.bundle_schema import (
     BundleEntry,
     BundleManifest,
 )
+from legal_text_mcp_de.corpus.cache import CorpusCache
 from legal_text_mcp_de.corpus.verifier import verify_bundle_signature
 
 __all__ = [
     "BUNDLE_SCHEMA_VERSION",
     "BundleEntry",
     "BundleManifest",
+    "CorpusCache",
     "verify_bundle_signature",
 ]
