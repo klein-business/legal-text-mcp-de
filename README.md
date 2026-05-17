@@ -134,6 +134,11 @@ STRICT_STARTUP=true \
 uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
 ```
 
+The HTTP layer enforces `MAX_REQUEST_BODY_BYTES` (default `1048576` = 1 MiB)
+as a defence-in-depth body-size cap; over-limit requests return `413
+Payload Too Large`. The operator's reverse proxy is still expected to
+enforce a proxy-level limit on top of this.
+
 ### Docker
 
 The Docker image does not bundle legal text data. Mount a validated
