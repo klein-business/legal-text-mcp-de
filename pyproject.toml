@@ -96,6 +96,11 @@ prepare-data = [
     "SPARQLWrapper~=2.0.0",
     "zstandard~=0.23.0",
 ]
+hosted = [
+    "prometheus-client~=0.21",
+    "fastapi",
+    "starlette",
+]
 
 [tool.ruff]
 line-length = 120
