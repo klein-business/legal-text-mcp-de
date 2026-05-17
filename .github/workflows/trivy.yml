@@ -3,10 +3,10 @@ name: Trivy
 on:
   pull_request:
     paths:
-      - 'Dockerfile'
-      - 'src/**'
-      - 'pyproject.toml'
-      - 'uv.lock'
+      - "Dockerfile"
+      - "src/**"
+      - "pyproject.toml"
+      - "uv.lock"
   push:
     branches:
       - main
@@ -52,7 +52,7 @@ jobs:
         with:
           image-ref: legal-text-mcp-de:trivy-scan
           severity: HIGH,CRITICAL
-          exit-code: '0'  # informational only; SARIF upload + GitHub Code Scanning gates production view
+          exit-code: "0" # informational only; SARIF upload + GitHub Code Scanning gates production view
           ignore-unfixed: true
           format: sarif
           output: trivy-results.sarif

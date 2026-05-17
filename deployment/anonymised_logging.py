@@ -28,12 +28,14 @@ class AnonymisedLoggingMiddleware(BaseHTTPMiddleware):
         latency_ms = int((time.perf_counter() - start) * 1000)
         ua = request.headers.get("user-agent", "-")
         ua_hash = abs(hash(ua)) % 10000  # cheap UA bucket, no PII retained
-        line = json.dumps({
-            "method": request.method,
-            "path": request.url.path,
-            "status": response.status_code,
-            "latency_ms": latency_ms,
-            "ua_bucket": ua_hash,
-        })
+        line = json.dumps(
+            {
+                "method": request.method,
+                "path": request.url.path,
+                "status": response.status_code,
+                "latency_ms": latency_ms,
+                "ua_bucket": ua_hash,
+            }
+        )
         logger.info(line)
         return response

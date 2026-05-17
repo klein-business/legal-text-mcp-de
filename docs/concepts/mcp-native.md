@@ -43,7 +43,7 @@ Together these reduce LLM latency, improve discoverability, and allow complex wo
 
 ## Further reading
 
-- [MCP Resources](resources/index.md) — usage examples
-- [MCP Prompts](prompts/index.md) — slash-command reference
-- [research_topic smart tool](tools/research_topic.md) — deep dive
-- [Migration v1 → v2](operations/migration-v1-v2.md)
+- [MCP Resources](../resources/index.md) — usage examples
+- [MCP Prompts](../prompts/index.md) — slash-command reference
+- [research_topic smart tool](../tools/research_topic.md) — deep dive
+- [Migration v1 → v2](../operations/migration-v1-v2.md)

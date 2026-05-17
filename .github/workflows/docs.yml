@@ -5,10 +5,10 @@ on:
     branches:
       - main
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 permissions:
-  contents: write   # mike pushes to gh-pages
+  contents: write # mike pushes to gh-pages
 
 concurrency:
   group: docs-${{ github.workflow }}-${{ github.ref }}

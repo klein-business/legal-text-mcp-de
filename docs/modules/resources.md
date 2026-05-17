@@ -73,7 +73,7 @@ running search (see `legal_texts/search.py`), or authenticating clients.
 ```
 # {display_id} {code} — {title}
 
-**Stand:** {stand_date} · **Retrieved:** {retrieved_at} · **Source:** [{url}]({url})
+**Stand:** {stand_date} · **Retrieved:** {retrieved_at} · **Source:** <{url}>
 
 {norm text}
 

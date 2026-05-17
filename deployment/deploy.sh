@@ -24,7 +24,7 @@ docker run -d \
 
 # Wait for healthcheck
 sleep 5
-for i in {1..10}; do
+for _ in {1..10}; do
     if curl -fsS http://localhost:8002/health > /dev/null; then
         echo "Green slot healthy"
         break

@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 permissions:
   contents: write
@@ -145,7 +145,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          provenance: false  # SLSA generator handles provenance
+          provenance: false # SLSA generator handles provenance
 
   slsa-oci:
     name: SLSA-3 provenance (OCI)
@@ -207,7 +207,15 @@ jobs:
 
   github-release:
     name: Create GitHub Release
-    needs: [build-python, slsa-python, publish-pypi, build-image, slsa-oci, cosign-sign-image]
+    needs:
+      [
+        build-python,
+        slsa-python,
+        publish-pypi,
+        build-image,
+        slsa-oci,
+        cosign-sign-image,
+      ]
     runs-on: ubuntu-latest
     permissions:
       contents: write

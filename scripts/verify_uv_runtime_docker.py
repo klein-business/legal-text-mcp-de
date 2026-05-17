@@ -29,6 +29,7 @@ EXPECTED_TOOLS = {
     "get_source_metadata",
     "get_source_limitations",
     "get_related_norms",
+    "research_topic",
 }
 
 
