@@ -9,8 +9,16 @@ from legal_text_mcp_de.sampling.errors import (
     SamplingTimeout,
     SchemaValidationError,
 )
+from legal_text_mcp_de.sampling.schemas import (
+    RankingEntry,
+    RankingResult,
+    SampleResult,
+)
 
 __all__ = [
+    "RankingEntry",
+    "RankingResult",
+    "SampleResult",
     "SamplingError",
     "SamplingNotSupported",
     "SamplingRefused",
