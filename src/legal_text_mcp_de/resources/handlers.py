@@ -126,6 +126,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
             data = {"error": str(exc)}
         return json.dumps(data, indent=2, ensure_ascii=False)
 
+    # ------------------------------------------------------------------
+    # B10: legal://corpus/limitations — source limitations as JSON
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://corpus/limitations")
+    def corpus_limitations() -> str:
+        """Known source limitations (gaps, caveats) for the corpus."""
+        try:
+            data = runtime.get_source_limitations()
+        except Exception as exc:  # pragma: no cover
+            data = {"error": str(exc)}
+        return json.dumps(data, indent=2, ensure_ascii=False)
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
         """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""

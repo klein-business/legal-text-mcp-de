@@ -70,3 +70,24 @@ def test_corpus_coverage_has_source_families():
     data = json.loads(text)
     assert "source_families" in data
     assert isinstance(data["source_families"], list)
+
+
+# ---------------------------------------------------------------------------
+# B10: legal://corpus/limitations
+# ---------------------------------------------------------------------------
+
+
+def test_corpus_limitations_returns_json():
+    app = _fixture_app()
+    result = _read(app, "legal://corpus/limitations")
+    text = _text(result)
+    data = json.loads(text)
+    assert isinstance(data, dict)
+
+
+def test_corpus_limitations_has_source_limitations_key():
+    app = _fixture_app()
+    result = _read(app, "legal://corpus/limitations")
+    text = _text(result)
+    data = json.loads(text)
+    assert "source_limitations" in data
