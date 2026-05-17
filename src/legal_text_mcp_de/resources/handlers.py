@@ -113,6 +113,19 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
             data = {"error": str(exc), "code": code}
         return json.dumps(data, indent=2, ensure_ascii=False)
 
+    # ------------------------------------------------------------------
+    # B9: legal://corpus/coverage — per-law inventory as JSON
+    # ------------------------------------------------------------------
+
+    @app.resource("legal://corpus/coverage")
+    def corpus_coverage() -> str:
+        """Corpus coverage — per-law inventory, counts, and source families."""
+        try:
+            data = runtime.get_corpus_coverage()
+        except Exception as exc:  # pragma: no cover
+            data = {"error": str(exc)}
+        return json.dumps(data, indent=2, ensure_ascii=False)
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
         """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""
