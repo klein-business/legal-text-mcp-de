@@ -5,6 +5,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-05-17
+
+Patch release rolling up post-GA cleanup. All changes are backwards-
+compatible; no behaviour or surface changes vs. v2.0.0.
+
+### Fixed
+- `pyproject.toml`: `pytest-asyncio` constraint loosened to `>=0.24,<2`
+  so Dependabot's security update for `pytest` (8.4.2 → 9.0.3) resolves
+  cleanly. Bumps lockfile to `pytest 9.0.3` + `pytest-asyncio 1.3.0`.
+  Resolves Dependabot Updates run 25989549469. (#71)
+- `docs/`: GHCR docker tag examples corrected from `:v2.0.0` to
+  `:2.0.0` (no leading `v` — matches the actual published tag).
+  Files: `README.md`, `docs/quickstart/docker.md`,
+  `docs/concepts/data-modes.md`, `docs/operations/{slsa,verify-with-cosign}.md`. (#73)
+- `deployment/Dockerfile.hosted`: base image bumped from
+  `:2.0.0-rc.4` (stale RC) to `:2.0.0@sha256:10958304…` (GA, digest-pinned). (#75)
+
+### Changed
+- **Workflow permissions hardening:** every workflow's top-level
+  `permissions:` is now `contents: read`; writes (`packages`,
+  `id-token`, `security-events`, `statuses`, `checks`, `contents:write`)
+  pushed to job-level. Lifts OpenSSF Scorecard `Token-Permissions`
+  from 0 to 10. Workflows touched: `codeql`, `commitlint`, `docs`,
+  `release-please`, `release`, `trivy`, `research-topic-smoke`,
+  `scorecard`. (#74, #75)
+- `.github/workflows/release.yml`: SLSA-Python generator now uploads
+  the `*.intoto.jsonl` provenance file as a GitHub Release asset
+  (`upload-assets: true`). Closes Scorecard `Signed-Releases: 0`. (#75)
+- `.release-please-manifest.json` bumped `0.1.0` → `2.0.0` → `2.0.1`
+  so release-please tracks future patch/minor deltas correctly. (#71, this PR)
+- `scripts/verify_pre_flip.py`: `EXPECTED_WORKFLOWS` includes
+  `research-topic-smoke.yml`. (#71)
+- `tests/test_verify_pre_flip.py`: in-test fixture aligned with the
+  production list. (#71)
+
+### Docs
+- **`README.md`:** badge style restored to `for-the-badge` (larger,
+  more prominent); `pip install legal-text-mcp-de==2.0.1` added as
+  install Mode 1 (PyPI); other 4 install modes renumbered. (#74, this PR)
+- `docs/concepts/mcp-native.md`: relative links to `../resources/…`,
+  `../prompts/…`, `../tools/…`, `../operations/…` corrected. (#71)
+- `docs/index.md`: replaces "nine tools" with full v2 capability
+  bullets (Tools 10×, Resources 10×, Prompts 5×, Sampling). (#72)
+- `docs/quickstart/{claude-desktop,cursor,uvx,docker}.md` +
+  `docs/concepts/mcp-and-http-surface.md`: "nine tools" → "ten tools
+  (9 v1 law tools + `research_topic`)". (#72)
+- `docs/operations/versioning.md`: stability contract extended to
+  cover v1 → v2 transition; support policy updated (`v2.x` current,
+  `v1.x` security-only until 2026-11-17). (#72)
+- `docs/operations/threat-model.md`: review date refreshed to
+  `2026-05-17 (v2.0.0 GA close)`. (#72)
+
+### Removed
+- `docs/quickstart/docker.md`: stale "Pre-release: build locally"
+  note. (#72)
+
+### Compatibility
+- All 9 v1 MCP tool signatures + 1 v2 `research_topic` tool unchanged
+  (still frozen by `tests/test_v1_compat.py`).
+- HTTP API surface unchanged.
+
 ## [2.0.0] - 2026-05-17
 
 ### Added — MCP capabilities
