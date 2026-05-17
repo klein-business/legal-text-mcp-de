@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/docker/">
+        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/operations/production-deployment/">
       
       
-        <link rel="prev" href="../uvx/">
+        <link rel="prev" href="../security/">
       
       
-        <link rel="next" href="../stdio/">
+        <link rel="next" href="../sbom/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Docker - legal-text-mcp-de</title>
+        <title>Production deployment - legal-text-mcp-de</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart-with-docker" class="md-skip">
+        <a href="#production-deployment" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docker
+              Production deployment
             
           </span>
         </div>
@@ -246,13 +246,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../claude-desktop/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../quickstart/claude-desktop/" class="md-tabs__link">
           
   
   
@@ -388,11 +386,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../operations/security/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../security/" class="md-tabs__link">
           
   
   
@@ -558,31 +558,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -600,7 +597,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -618,7 +615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../claude-desktop/" class="md-nav__link">
+      <a href="../../quickstart/claude-desktop/" class="md-nav__link">
         
   
   
@@ -646,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cursor/" class="md-nav__link">
+      <a href="../../quickstart/cursor/" class="md-nav__link">
         
   
   
@@ -674,7 +671,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../uvx/" class="md-nav__link">
+      <a href="../../quickstart/uvx/" class="md-nav__link">
         
   
   
@@ -699,37 +696,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Docker
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../quickstart/docker/" class="md-nav__link">
         
   
   
@@ -745,103 +715,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#pull-the-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pull the image
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verify-the-signature" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verify the signature
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#build-locally-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Build locally (development)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment variables
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -854,7 +727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../stdio/" class="md-nav__link">
+      <a href="../../quickstart/stdio/" class="md-nav__link">
         
   
   
@@ -1784,28 +1657,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
             
   
   
@@ -1823,7 +1699,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1841,7 +1717,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -1866,10 +1742,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../operations/production-deployment/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production deployment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1885,6 +1788,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#option-1-caddy-tls-by-default-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1 — Caddy (TLS-by-default, recommended)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-2-nginx-manual-cert-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2 — nginx (manual cert config)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health checking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging + observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1897,7 +1875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/sbom/" class="md-nav__link">
+      <a href="../sbom/" class="md-nav__link">
         
   
   
@@ -1925,7 +1903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/verify-with-cosign/" class="md-nav__link">
+      <a href="../verify-with-cosign/" class="md-nav__link">
         
   
   
@@ -1953,7 +1931,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/versioning/" class="md-nav__link">
+      <a href="../versioning/" class="md-nav__link">
         
   
   
@@ -1981,7 +1959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/threat-model/" class="md-nav__link">
+      <a href="../threat-model/" class="md-nav__link">
         
   
   
@@ -2009,7 +1987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/security-review-2026-05/" class="md-nav__link">
+      <a href="../security-review-2026-05/" class="md-nav__link">
         
   
   
@@ -2037,7 +2015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/coverage-baseline/" class="md-nav__link">
+      <a href="../coverage-baseline/" class="md-nav__link">
         
   
   
@@ -2065,7 +2043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/openssf-application/" class="md-nav__link">
+      <a href="../openssf-application/" class="md-nav__link">
         
   
   
@@ -2093,7 +2071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/slsa/" class="md-nav__link">
+      <a href="../slsa/" class="md-nav__link">
         
   
   
@@ -2121,7 +2099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/launch-procedure/" class="md-nav__link">
+      <a href="../launch-procedure/" class="md-nav__link">
         
   
   
@@ -2149,7 +2127,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/migration-v1-v2/" class="md-nav__link">
+      <a href="../migration-v1-v2/" class="md-nav__link">
         
   
   
@@ -2492,10 +2470,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pull-the-image" class="md-nav__link">
+  <a href="#option-1-caddy-tls-by-default-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pull the image
+        Option 1 — Caddy (TLS-by-default, recommended)
       
     </span>
   </a>
@@ -2503,10 +2481,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verify-the-signature" class="md-nav__link">
+  <a href="#option-2-nginx-manual-cert-config" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify the signature
+        Option 2 — nginx (manual cert config)
       
     </span>
   </a>
@@ -2514,10 +2492,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
+  <a href="#health-checking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run
+        Health checking
       
     </span>
   </a>
@@ -2525,32 +2503,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-locally-development" class="md-nav__link">
+  <a href="#logging-observability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build locally (development)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environment variables
+        Logging + observability
       
     </span>
   </a>
@@ -2588,76 +2544,164 @@
   
 
 
-<h1 id="quickstart-with-docker">Quickstart with Docker<a class="headerlink" href="#quickstart-with-docker" title="Permanent link">&para;</a></h1>
-<p>The Docker image does not bundle legal text data. Mount a generated
-package at <code>/data/legal-texts</code>.</p>
-<h2 id="pull-the-image">Pull the image<a class="headerlink" href="#pull-the-image" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.1
+<h1 id="production-deployment">Production deployment<a class="headerlink" href="#production-deployment" title="Permanent link">&para;</a></h1>
+<p>The HTTP API runs as a bare <code>uvicorn</code> on <code>http://0.0.0.0:8001</code>. For
+production exposure you need:</p>
+<ol>
+<li><strong>TLS termination</strong> (Let's Encrypt or your own CA).</li>
+<li><strong>A request body size limit</strong> at the proxy layer (in addition to
+   the app-layer <code>MAX_REQUEST_BODY_BYTES</code> cap — see
+   <a href="../../api/">HTTP API overview</a>).</li>
+<li><strong>Rate limiting</strong> per IP and per bearer token (deployment-specific;
+   the app does not enforce this itself, only the optional hosted
+   deployment in <code>deployment/ratelimit_middleware.py</code> does).</li>
+<li><strong>A process supervisor</strong> that restarts the container on failure
+   (<code>docker compose</code>, <code>systemd</code>, Kubernetes — your choice).</li>
+</ol>
+<p>Two reference reverse-proxy configurations follow. Both fall back to
+the GHCR container as the upstream; replace <code>legal-text-mcp-de</code> with
+<code>legal-text-mcp-de-full</code> if you want the bundle-included variant.</p>
+<h2 id="option-1-caddy-tls-by-default-recommended">Option 1 — Caddy (TLS-by-default, recommended)<a class="headerlink" href="#option-1-caddy-tls-by-default-recommended" title="Permanent link">&para;</a></h2>
+<p><code>Caddyfile</code>:</p>
+<div class="highlight"><pre><span></span><code>legal.example.org {
+    # Automatic Let&#39;s Encrypt + HTTP/3
+    tls admin@example.org
+
+    # Defence-in-depth security headers
+    header {
+        Strict-Transport-Security &quot;max-age=31536000; includeSubDomains&quot;
+        X-Content-Type-Options &quot;nosniff&quot;
+        Content-Security-Policy &quot;default-src &#39;none&#39;; frame-ancestors &#39;none&#39;&quot;
+        -Server
+    }
+
+    # Proxy-level body cap (app cap is independently enforced)
+    request_body {
+        max_size 1MB
+    }
+
+    reverse_proxy legal-text-mcp-de:8001 {
+        health_uri /health
+        health_interval 30s
+        health_timeout 5s
+    }
+}
 </code></pre></div>
-<h2 id="verify-the-signature">Verify the signature<a class="headerlink" href="#verify-the-signature" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>cosign<span class="w"> </span>verify<span class="w"> </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-identity-regexp<span class="w"> </span><span class="s1">&#39;https://github.com/klein-business/.*&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--certificate-oidc-issuer<span class="w"> </span>https://token.actions.githubusercontent.com
+<p><code>docker-compose.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">legal-text-mcp-de</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/klein-business/legal-text-mcp-de:2.0.1</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">DATASET_PATH</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/legal-texts</span>
+<span class="w">      </span><span class="nt">STRICT_STARTUP</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<span class="w">      </span><span class="nt">MAX_REQUEST_BODY_BYTES</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1048576&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/srv/legal-corpus:/data/legal-texts:ro</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">edge</span><span class="p p-Indicator">]</span>
+
+<span class="w">  </span><span class="nt">caddy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy:2-alpine</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;80:80&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;443:443&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;443:443/udp&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./Caddyfile:/etc/caddy/Caddyfile:ro</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy_data:/data</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy_config:/config</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">edge</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">legal-text-mcp-de</span><span class="p p-Indicator">]</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">caddy_data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">caddy_config</span><span class="p">:</span>
+
+<span class="nt">networks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">edge</span><span class="p">:</span>
 </code></pre></div>
-<p>See <a href="../../operations/verify-with-cosign/">Verify with cosign</a> for
-details.</p>
-<h2 id="run">Run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:8001<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span>/path/to/legal-text-package:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
+<p>Bring up:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://legal.example.org/health<span class="w">    </span><span class="c1"># -&gt; {&quot;status&quot;:&quot;ok&quot;}</span>
+</code></pre></div>
+<h2 id="option-2-nginx-manual-cert-config">Option 2 — nginx (manual cert config)<a class="headerlink" href="#option-2-nginx-manual-cert-config" title="Permanent link">&para;</a></h2>
+<p><code>nginx.conf</code> (or a server block in <code>sites-enabled/</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="w"> </span><span class="s">http2</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">legal.example.org</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">ssl_certificate</span><span class="w">     </span><span class="s">/etc/letsencrypt/live/legal.example.org/fullchain.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/legal.example.org/privkey.pem</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_protocols</span><span class="w"> </span><span class="s">TLSv1.2</span><span class="w"> </span><span class="s">TLSv1.3</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">ssl_ciphers</span><span class="w"> </span><span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1"># Defence-in-depth headers</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Strict-Transport-Security</span><span class="w"> </span><span class="s">&quot;max-age=31536000</span><span class="p">;</span><span class="w"> </span><span class="kn">includeSubDomains&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">X-Content-Type-Options</span><span class="w"> </span><span class="s">&quot;nosniff&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Content-Security-Policy</span><span class="w"> </span><span class="s">&quot;default-src</span><span class="w"> </span><span class="s">&#39;none&#39;</span><span class="p">;</span><span class="w"> </span><span class="kn">frame-ancestors</span><span class="w"> </span><span class="s">&#39;none&#39;&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_tokens</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1"># Proxy-level body cap (app cap is independently enforced)</span>
+<span class="w">    </span><span class="kn">client_max_body_size</span><span class="w"> </span><span class="mi">1m</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1"># Health endpoint for upstream monitoring (no logging)</span>
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">/health</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">access_log</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://127.0.0.1:8001/health</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w">         </span><span class="s">http://127.0.0.1:8001</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">Host</span><span class="w">              </span><span class="nv">$host</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">X-Forwarded-For</span><span class="w">   </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="s">30s</span><span class="p">;</span>
+<span class="w">        </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="s">30s</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">legal.example.org</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Run the container behind it (systemd unit, native install, or:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>--restart<span class="w"> </span>unless-stopped<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8001:8001<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>/srv/legal-corpus:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">DATASET_PATH</span><span class="o">=</span>/data/legal-texts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">MAX_REQUEST_BODY_BYTES</span><span class="o">=</span><span class="m">1048576</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.1
 </code></pre></div>
-<p>The container runs as UID 10001 (non-root). The dataset mount is
-read-only.</p>
-<h2 id="build-locally-development">Build locally (development)<a class="headerlink" href="#build-locally-development" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>legal-text-mcp-de:dev<span class="w"> </span>.
-docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:8001<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/mcp/tests/fixtures/normalized:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>legal-text-mcp-de:dev
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nginx<span class="w"> </span>-t<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://legal.example.org/health<span class="w">    </span><span class="c1"># -&gt; {&quot;status&quot;:&quot;ok&quot;}</span>
 </code></pre></div>
-<h2 id="verification">Verification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8001/mcp<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;tools/list&quot;}&#39;</span>
+<h2 id="health-checking">Health checking<a class="headerlink" href="#health-checking" title="Permanent link">&para;</a></h2>
+<p>The container exposes <code>/health</code> (lightweight) and <code>/ready</code>
+(includes dataset readiness). For Kubernetes:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">readinessProbe</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">/ready</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8001</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="nt">livenessProbe</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">/health</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8001</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
 </code></pre></div>
-<p>Expected: JSON response listing ten tools (9 v1 law tools +
-<code>research_topic</code>).</p>
-<h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DATASET_PATH</code></td>
-<td><code>/data/legal-texts</code></td>
-<td>Path to the corpus inside the container.</td>
-</tr>
-<tr>
-<td><code>STRICT_STARTUP</code></td>
-<td><code>false</code></td>
-<td>Fail fast on dataset errors when <code>true</code>.</td>
-</tr>
-<tr>
-<td><code>HOST</code></td>
-<td><code>0.0.0.0</code></td>
-<td>Bind address inside the container.</td>
-</tr>
-<tr>
-<td><code>PORT</code></td>
-<td><code>8001</code></td>
-<td>Port inside the container.</td>
-</tr>
-</tbody>
-</table>
+<h2 id="logging-observability">Logging + observability<a class="headerlink" href="#logging-observability" title="Permanent link">&para;</a></h2>
+<p>The Hosted-deployment variant
+(<code>deployment/anonymised_logging.py</code>, <code>deployment/metrics.py</code>) adds:
+- per-request JSON log lines (method, path, status, latency, UA bucket
+  — no bodies, no PII)
+- Prometheus <code>/metrics</code> endpoint</p>
+<p>If you want those, build with <code>deployment/Dockerfile.hosted</code> instead
+of the default image. Otherwise run plain <code>uvicorn</code> and pipe stdout
+to your log shipper.</p>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../uvx/">uvx</a> — running without Docker.</li>
-<li><a href="../../operations/verify-with-cosign/">Verify with cosign</a> — image signature verification.</li>
-<li><a href="../../operations/sbom/">SBOM</a> — inspecting the image SBOM.</li>
+<li><a href="../../api/">HTTP API overview</a> — body-size cap details</li>
+<li><a href="../security/">Security</a> — full threat model and mitigations</li>
+<li><a href="../hosted-service/">Hosted-service operations</a> — <code>mcp.klein.business/legal/de</code> runbook</li>
+<li><a href="../verify-with-cosign/">Verify with cosign</a> — image signature verification before deploy</li>
 </ul>
 
 
@@ -2679,7 +2723,7 @@ docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 19:29:49 UTC">May 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 19:48:37 UTC">May 17, 2026</span>
   </span>
 
     

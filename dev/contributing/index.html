@@ -720,6 +720,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stdio (offline / Claude Desktop)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1590,6 +1618,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/python-client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typed Python client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1666,6 +1722,34 @@
     
   
     Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/production-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production deployment
   
 
     
@@ -2131,6 +2215,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Development setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#justfile-shortcuts-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justfile shortcuts (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2460,6 +2561,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Development setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#justfile-shortcuts-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justfile shortcuts (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2551,10 +2669,25 @@ behaviour to <code>martin@klein.business</code>.</p>
 <span class="nb">cd</span><span class="w"> </span>legal-text-mcp-de
 uv<span class="w"> </span>sync<span class="w"> </span>--all-groups
 uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w">        </span><span class="c1"># optional but recommended</span>
-<span class="nv">PYTHONPATH</span><span class="o">=</span>mcp<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>pytest<span class="w"> </span>mcp/tests<span class="w"> </span>-v
+uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>pytest
 </code></pre></div>
-<p>After the source rename (Section F of the public-release programme),
-<code>PYTHONPATH=mcp</code> is no longer required; <code>uv run pytest</code> is sufficient.</p>
+<h3 id="justfile-shortcuts-optional">Justfile shortcuts (optional)<a class="headerlink" href="#justfile-shortcuts-optional" title="Permanent link">&para;</a></h3>
+<p>The repository ships a <a href="Justfile"><code>Justfile</code></a> with thin wrappers around
+the canonical <code>uv</code> invocations. Install <a href="https://just.systems/"><code>just</code></a>
+(<code>brew install just</code>) and run any of:</p>
+<div class="highlight"><pre><span></span><code>just<span class="w">                    </span><span class="c1"># list all targets</span>
+just<span class="w"> </span>install<span class="w">            </span><span class="c1"># uv sync --all-groups</span>
+just<span class="w"> </span><span class="nb">test</span><span class="w">               </span><span class="c1"># uv run --group dev pytest</span>
+just<span class="w"> </span>lint<span class="w">               </span><span class="c1"># ruff check + format --check</span>
+just<span class="w"> </span>fix<span class="w">                </span><span class="c1"># ruff check --fix + format</span>
+just<span class="w"> </span>typecheck<span class="w">          </span><span class="c1"># mypy scripts/</span>
+just<span class="w"> </span>docs<span class="w">               </span><span class="c1"># mkdocs serve at localhost:8000</span>
+just<span class="w"> </span>run<span class="w">                </span><span class="c1"># MCP server on fixture corpus</span>
+just<span class="w"> </span>api<span class="w">                </span><span class="c1"># HTTP API on :8080 on fixture corpus</span>
+just<span class="w"> </span>verify-release<span class="w">     </span><span class="c1"># the same release-gate the CI runs</span>
+</code></pre></div>
+<p>The Justfile is a documentation artefact — using <code>uv</code> directly is
+always equivalent. CI only invokes <code>uv</code>, never <code>just</code>.</p>
 <h2 id="branch-and-pr-conventions">Branch and PR conventions<a class="headerlink" href="#branch-and-pr-conventions" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Branch names: <code>feat/&lt;short-description&gt;</code>, <code>fix/&lt;short-description&gt;</code>,

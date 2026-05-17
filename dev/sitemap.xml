@@ -25,6 +25,10 @@
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
+         <loc>https://klein-business.github.io/legal-text-mcp-de/latest/api/python-client/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
          <loc>https://klein-business.github.io/legal-text-mcp-de/latest/community/governance/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
@@ -177,6 +181,10 @@
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
+         <loc>https://klein-business.github.io/legal-text-mcp-de/latest/operations/production-deployment/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
          <loc>https://klein-business.github.io/legal-text-mcp-de/latest/operations/sbom/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
@@ -226,6 +234,10 @@
     </url>
     <url>
          <loc>https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/docker/</loc>
+         <lastmod>2026-05-17</lastmod>
+    </url>
+    <url>
+         <loc>https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/stdio/</loc>
          <lastmod>2026-05-17</lastmod>
     </url>
     <url>
