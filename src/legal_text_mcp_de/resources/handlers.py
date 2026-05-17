@@ -9,6 +9,7 @@ legal:// namespace are registered inside register_resources().
 from __future__ import annotations
 
 import json
+from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
@@ -139,11 +140,31 @@ def register_resources(app: FastMCP, runtime: LegalTextRuntime) -> None:
             data = {"error": str(exc)}
         return json.dumps(data, indent=2, ensure_ascii=False)
 
+    # ------------------------------------------------------------------
+    # B11: legal://corpus/manifest — bundle-level manifest as JSON
+    # ------------------------------------------------------------------
+
     @app.resource("legal://corpus/manifest")
     def corpus_manifest() -> str:
-        """Bundle manifest as JSON (coverage + provenance + retrieval timestamps)."""
+        """Bundle manifest: bundle-id, version, source-versions, retrieval timestamps.
+
+        Focuses on bundle-level provenance fields. For the full per-law
+        inventory see legal://corpus/coverage.
+        """
         try:
             coverage = runtime.get_corpus_coverage()
-        except Exception as exc:  # pragma: no cover — surface raw error to client
-            coverage = {"error": str(exc)}
-        return json.dumps(coverage, indent=2, ensure_ascii=False)
+        except Exception as exc:  # pragma: no cover
+            return json.dumps({"error": str(exc)}, indent=2, ensure_ascii=False)
+
+        # Extract bundle-level fields; fall back to coverage summary if the
+        # generated package metadata is absent (fixture / dev mode).
+        manifest: dict[str, Any] = {
+            "bundle_id": coverage.get("package", {}).get("bundle_id"),
+            "bundle_version": coverage.get("package", {}).get("version"),
+            "generated_package_present": coverage.get("generated_package_present", False),
+            "manifest": coverage.get("manifest", {}),
+            "counts": coverage.get("counts", {}),
+            "source_families": coverage.get("source_families", []),
+            "retrieved_at": coverage.get("package", {}).get("retrieved_at"),
+        }
+        return json.dumps(manifest, indent=2, ensure_ascii=False)

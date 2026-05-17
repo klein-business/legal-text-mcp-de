@@ -91,3 +91,29 @@ def test_corpus_limitations_has_source_limitations_key():
     text = _text(result)
     data = json.loads(text)
     assert "source_limitations" in data
+
+
+# ---------------------------------------------------------------------------
+# B11: legal://corpus/manifest (improved)
+# ---------------------------------------------------------------------------
+
+
+def test_corpus_manifest_returns_json_with_bundle_fields():
+    app = _fixture_app()
+    result = _read(app, "legal://corpus/manifest")
+    text = _text(result)
+    data = json.loads(text)
+    # Manifest must expose bundle-level keys (even if values are None in fixture mode)
+    assert "generated_package_present" in data
+    assert "counts" in data
+    assert "source_families" in data
+
+
+def test_corpus_manifest_counts_has_laws():
+    app = _fixture_app()
+    result = _read(app, "legal://corpus/manifest")
+    text = _text(result)
+    data = json.loads(text)
+    assert "counts" in data
+    assert "laws" in data["counts"]
+    assert data["counts"]["laws"] > 0
