@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "legal-text-mcp-de"
-version = "1.5.0"
+version = "2.0.0-rc.1"
 description = "Python MCP server and HTTP API for loading, validating, searching, and resolving German legal texts with source provenance."
 readme = "README.md"
 license = "Apache-2.0"

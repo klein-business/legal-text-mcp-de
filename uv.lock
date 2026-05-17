@@ -799,7 +799,7 @@ wheels = [
 
 [[package]]
 name = "legal-text-mcp-de"
-version = "1.5.0"
+version = "2.0.0rc1"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },

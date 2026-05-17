@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-rc.1] - 2026-05-17
+
+### Added
+- **Tier 2 — MCP Resources:** 10 read-only URIs under `legal://`
+  - `legal://laws` (paginated JSON list, cursor + limit via path components)
+  - `legal://laws/page/{cursor}/{limit}` (explicit page access)
+  - `legal://laws/{code}` (Markdown law header + norm index)
+  - `legal://laws/{code}/full` (full law as Markdown)
+  - `legal://laws/{code}/norms/{norm_id}` (Markdown single norm)
+  - `legal://laws/{code}/norms/{norm_id}/relationships` (JSON related-norm graph)
+  - `legal://laws/{code}/source` (JSON provenance)
+  - `legal://corpus/coverage`, `legal://corpus/limitations`, `legal://corpus/manifest` (JSON corpus-wide)
+- `resources/markdown_render.py`: pure renderers `render_norm()`, `render_law()`
+- `tools/` module: 9 v1 MCP tools moved out of `server.py` into `tools/v1_tools.py` (`register_v1_tools(app, runtime)`); behaviour unchanged
+
+### Changed
+- `server.py` slimmed to orchestration only (registers tools + resources)
+
+### Compatibility
+- v1 MCP tool contract frozen in `tests/test_v1_compat.py` — all 9 tool names + signatures unchanged
+- HTTP API surface unchanged
+
 ## [1.5.0] - 2026-05-17
 
 ### Added
