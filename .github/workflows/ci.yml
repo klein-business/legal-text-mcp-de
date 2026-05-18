@@ -58,7 +58,7 @@ jobs:
         run: uv run --group dev mypy scripts
 
   typecheck-warn:
-    name: Mypy plain (mcp) [non-blocking]
+    name: Mypy plain (src) [non-blocking]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     continue-on-error: true
@@ -75,16 +75,42 @@ jobs:
       - name: Sync
         run: uv sync --locked --all-groups
 
-      - name: Mypy on mcp/ (capped output)
-        run: |
-          uv run --group dev mypy mcp 2>&1 | head -60 | tee mypy-mcp-summary.txt || true
+      - name: Mypy on src/ (warning-gate)
+        # `mypy` (no args) uses [tool.mypy].files = ["scripts", "src"] from
+        # pyproject.toml. The strict-ratcheted modules (config, http_models,
+        # legal_texts.{errors,models,sources}, cli.*) are validated by the
+        # `typecheck-strict-cli` job below. Modules still under the warning
+        # gate are surfaced here but do not fail CI.
+        run: uv run --group dev mypy 2>&1 | tee mypy-summary.txt || true
 
       - name: Upload mypy summary
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.4.4
         with:
-          name: mypy-mcp-summary
-          path: mypy-mcp-summary.txt
+          name: mypy-summary
+          path: mypy-summary.txt
           retention-days: 14
+
+  typecheck-strict-cli:
+    name: Mypy strict (cli)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          version: "0.10.12"
+          enable-cache: true
+
+      - name: Sync
+        run: uv sync --locked --all-groups
+
+      - name: Mypy strict on src/legal_text_mcp_de/cli/
+        # Strict-ratcheted as of v2.1.1+ (post #95). Hard-fail on any
+        # regression — keep this module strict-clean as we evolve the CLI.
+        run: uv run --group dev mypy --strict src/legal_text_mcp_de/cli/
 
   test:
     name: Test (py${{ matrix.python-version }})

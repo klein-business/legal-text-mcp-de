@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Annotated
+from typing import Annotated, Any, Coroutine, TypeVar
 
 import typer
 
@@ -23,8 +23,10 @@ from legal_text_mcp_de.tools.research_topic import _run_research
 
 research_app = typer.Typer(help="Smart-tool subcommands.")
 
+_T = TypeVar("_T")
 
-def _run_async(coro):
+
+def _run_async(coro: Coroutine[Any, Any, _T]) -> _T:
     """Run *coro* without leaving the main thread without an event loop.
 
     ``asyncio.run`` closes the loop and clears the thread-local loop, which

@@ -81,7 +81,9 @@ def completion_show(shell: Annotated[str, typer.Argument()]) -> None:
     if shell not in {"bash", "zsh", "fish"}:
         typer.echo(f"unsupported shell: {shell}", err=True)
         raise typer.Exit(code=2)
-    script = _typer_completion.get_completion_script(
+    # typer.completion ships incomplete public stubs in 0.25.x; the function
+    # is exported and callable at runtime, but mypy strict cannot see it.
+    script = _typer_completion.get_completion_script(  # type: ignore[attr-defined]
         prog_name="legal-text-mcp-de",
         complete_var="_LEGAL_TEXT_MCP_DE_COMPLETE",
         shell=shell,
