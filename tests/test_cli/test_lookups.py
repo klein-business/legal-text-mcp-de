@@ -99,3 +99,11 @@ def test_search_with_code_filter():
     payload = json.loads(result.stdout)
     assert payload["data"]["codes"] == ["uwg_2004"]
     assert payload["data"]["results"]
+
+
+def test_meta_for_dsgvo_includes_eur_lex_kind():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "meta", "DSGVO"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["data"]["sources"][0]["source"]["source_kind"] == "eur-lex-cellar"
