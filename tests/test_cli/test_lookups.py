@@ -84,8 +84,20 @@ def test_cite_resolves_egbgb_art_246a_par_1():
     runner = CliRunner()
     result = runner.invoke(
         app,
-        ["--json", "cite", "--code", "EGBGB", "--unit", "art",
-         "--paragraph", "246a", "--child-unit", "par", "--child-value", "1"],
+        [
+            "--json",
+            "cite",
+            "--code",
+            "EGBGB",
+            "--unit",
+            "art",
+            "--paragraph",
+            "246a",
+            "--child-unit",
+            "par",
+            "--child-value",
+            "1",
+        ],
     )
     assert result.exit_code == 0
     payload = json.loads(result.stdout)

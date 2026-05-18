@@ -58,9 +58,7 @@ def law(
         raise typer.Exit(code=EXIT_RUNTIME)
     if not full and "law" in payload and "norms" in payload["law"]:
         # Strip norm bodies in summary mode
-        payload["law"]["norms"] = [
-            {k: v for k, v in n.items() if k != "text"} for n in payload["law"].get("norms", [])
-        ]
+        payload["law"]["norms"] = [{k: v for k, v in n.items() if k != "text"} for n in payload["law"].get("norms", [])]
     render_data(payload, force_json=force_json)
 
 
@@ -120,7 +118,9 @@ def cite(
 def search(
     ctx: typer.Context,
     query: Annotated[str, typer.Argument(help="Full-text search query.")],
-    code: Annotated[list[str] | None, typer.Option("--code", help="Restrict to one or more law codes (repeatable).")] = None,
+    code: Annotated[
+        list[str] | None, typer.Option("--code", help="Restrict to one or more law codes (repeatable).")
+    ] = None,
     limit: Annotated[int, typer.Option("--limit", help="Maximum number of hits to return.")] = 50,
 ) -> None:
     """Full-text search across the corpus."""
