@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.klein-business/legal-text-mcp-de",
-  "description": "German federal & state legal texts (BGB, DSGVO, …) with canonical IDs and cite-grade provenance.",
+  "description": "German federal & state legal texts (BGB, DSGVO, \u2026) with canonical IDs and cite-grade provenance.",
   "repository": {
     "url": "https://github.com/klein-business/legal-text-mcp-de",
     "source": "github"
@@ -52,7 +52,6 @@
     },
     {
       "registryType": "oci",
-      "registryBaseUrl": "https://ghcr.io",
       "identifier": "ghcr.io/klein-business/legal-text-mcp-de",
       "version": "2.1.2",
       "transport": {
