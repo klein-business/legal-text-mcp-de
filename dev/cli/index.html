@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/operations/production-deployment/">
+        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/cli/">
       
       
-        <link rel="prev" href="../security/">
+        <link rel="prev" href="../quickstart/stdio/">
       
       
-        <link rel="next" href="../sbom/">
+        <link rel="next" href="../concepts/data-modes/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
     
     
       
-        <title>Production deployment - legal-text-mcp-de</title>
+        <title>Reference - legal-text-mcp-de</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,7 +53,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#production-deployment" class="md-skip">
+        <a href="#cli-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="legal-text-mcp-de" class="md-header__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
+    <a href=".." title="legal-text-mcp-de" class="md-header__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Production deployment
+              Reference
             
           </span>
         </div>
@@ -229,7 +229,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../quickstart/claude-desktop/" class="md-tabs__link">
+        <a href="../quickstart/claude-desktop/" class="md-tabs__link">
           
   
   
@@ -266,11 +266,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../cli/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -290,7 +292,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../concepts/data-modes/" class="md-tabs__link">
+        <a href="../concepts/data-modes/" class="md-tabs__link">
           
   
   
@@ -310,7 +312,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../resources/" class="md-tabs__link">
+        <a href="../resources/" class="md-tabs__link">
           
   
   
@@ -330,7 +332,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../prompts/" class="md-tabs__link">
+        <a href="../prompts/" class="md-tabs__link">
           
   
   
@@ -350,7 +352,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tools/list_laws/" class="md-tabs__link">
+        <a href="../tools/list_laws/" class="md-tabs__link">
           
   
   
@@ -370,7 +372,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tools/research_topic/" class="md-tabs__link">
+        <a href="../tools/research_topic/" class="md-tabs__link">
           
   
   
@@ -390,7 +392,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/" class="md-tabs__link">
+        <a href="../api/" class="md-tabs__link">
           
   
   
@@ -406,13 +408,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../security/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../operations/security/" class="md-tabs__link">
           
   
   
@@ -432,7 +432,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../contributing/" class="md-tabs__link">
+        <a href="../contributing/" class="md-tabs__link">
           
   
   
@@ -452,7 +452,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../community/governance/" class="md-tabs__link">
+        <a href="../community/governance/" class="md-tabs__link">
           
   
   
@@ -470,7 +470,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../changelog/" class="md-tabs__link">
+      <a href="../changelog/" class="md-tabs__link">
         
   
   
@@ -489,7 +489,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../roadmap/" class="md-tabs__link">
+      <a href="../roadmap/" class="md-tabs__link">
         
   
   
@@ -524,7 +524,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="legal-text-mcp-de" class="md-nav__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
+    <a href=".." title="legal-text-mcp-de" class="md-nav__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -554,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -635,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/claude-desktop/" class="md-nav__link">
+      <a href="../quickstart/claude-desktop/" class="md-nav__link">
         
   
   
@@ -663,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/cursor/" class="md-nav__link">
+      <a href="../quickstart/cursor/" class="md-nav__link">
         
   
   
@@ -691,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/uvx/" class="md-nav__link">
+      <a href="../quickstart/uvx/" class="md-nav__link">
         
   
   
@@ -719,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/docker/" class="md-nav__link">
+      <a href="../quickstart/docker/" class="md-nav__link">
         
   
   
@@ -747,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/stdio/" class="md-nav__link">
+      <a href="../quickstart/stdio/" class="md-nav__link">
         
   
   
@@ -779,28 +779,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -818,7 +821,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -833,10 +836,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../cli/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -852,6 +882,114 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global flags
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#read-only-lookups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Read-only lookups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Smart tool
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#corpus-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Corpus lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -925,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/data-modes/" class="md-nav__link">
+      <a href="../concepts/data-modes/" class="md-nav__link">
         
   
   
@@ -953,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/provenance/" class="md-nav__link">
+      <a href="../concepts/provenance/" class="md-nav__link">
         
   
   
@@ -981,7 +1119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/mcp-and-http-surface/" class="md-nav__link">
+      <a href="../concepts/mcp-and-http-surface/" class="md-nav__link">
         
   
   
@@ -1009,7 +1147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/mcp-native/" class="md-nav__link">
+      <a href="../concepts/mcp-native/" class="md-nav__link">
         
   
   
@@ -1098,7 +1236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../resources/" class="md-nav__link">
+      <a href="../resources/" class="md-nav__link">
         
   
   
@@ -1187,7 +1325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../prompts/" class="md-nav__link">
+      <a href="../prompts/" class="md-nav__link">
         
   
   
@@ -1276,7 +1414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/list_laws/" class="md-nav__link">
+      <a href="../tools/list_laws/" class="md-nav__link">
         
   
   
@@ -1304,7 +1442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_law/" class="md-nav__link">
+      <a href="../tools/get_law/" class="md-nav__link">
         
   
   
@@ -1332,7 +1470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_norm/" class="md-nav__link">
+      <a href="../tools/get_norm/" class="md-nav__link">
         
   
   
@@ -1360,7 +1498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/resolve_citation/" class="md-nav__link">
+      <a href="../tools/resolve_citation/" class="md-nav__link">
         
   
   
@@ -1388,7 +1526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/search_laws/" class="md-nav__link">
+      <a href="../tools/search_laws/" class="md-nav__link">
         
   
   
@@ -1416,7 +1554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_source_metadata/" class="md-nav__link">
+      <a href="../tools/get_source_metadata/" class="md-nav__link">
         
   
   
@@ -1444,7 +1582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_corpus_coverage/" class="md-nav__link">
+      <a href="../tools/get_corpus_coverage/" class="md-nav__link">
         
   
   
@@ -1472,7 +1610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_source_limitations/" class="md-nav__link">
+      <a href="../tools/get_source_limitations/" class="md-nav__link">
         
   
   
@@ -1500,7 +1638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/get_related_norms/" class="md-nav__link">
+      <a href="../tools/get_related_norms/" class="md-nav__link">
         
   
   
@@ -1589,7 +1727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/research_topic/" class="md-nav__link">
+      <a href="../tools/research_topic/" class="md-nav__link">
         
   
   
@@ -1678,7 +1816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/" class="md-nav__link">
+      <a href="../api/" class="md-nav__link">
         
   
   
@@ -1706,7 +1844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/openapi/" class="md-nav__link">
+      <a href="../api/openapi/" class="md-nav__link">
         
   
   
@@ -1734,7 +1872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/python-client/" class="md-nav__link">
+      <a href="../api/python-client/" class="md-nav__link">
         
   
   
@@ -1766,31 +1904,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -1808,7 +1943,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1826,7 +1961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../security/" class="md-nav__link">
+      <a href="../operations/security/" class="md-nav__link">
         
   
   
@@ -1851,37 +1986,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Production deployment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../operations/production-deployment/" class="md-nav__link">
         
   
   
@@ -1897,81 +2005,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#option-1-caddy-tls-by-default-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option 1 — Caddy (TLS-by-default, recommended)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#option-2-nginx-manual-cert-config" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option 2 — nginx (manual cert config)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#health-checking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Health checking
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logging-observability" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logging + observability
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1984,7 +2017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sbom/" class="md-nav__link">
+      <a href="../operations/sbom/" class="md-nav__link">
         
   
   
@@ -2012,7 +2045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../verify-with-cosign/" class="md-nav__link">
+      <a href="../operations/verify-with-cosign/" class="md-nav__link">
         
   
   
@@ -2040,7 +2073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../versioning/" class="md-nav__link">
+      <a href="../operations/versioning/" class="md-nav__link">
         
   
   
@@ -2068,7 +2101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../threat-model/" class="md-nav__link">
+      <a href="../operations/threat-model/" class="md-nav__link">
         
   
   
@@ -2096,7 +2129,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-review-2026-05/" class="md-nav__link">
+      <a href="../operations/security-review-2026-05/" class="md-nav__link">
         
   
   
@@ -2124,7 +2157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../coverage-baseline/" class="md-nav__link">
+      <a href="../operations/coverage-baseline/" class="md-nav__link">
         
   
   
@@ -2152,7 +2185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../openssf-application/" class="md-nav__link">
+      <a href="../operations/openssf-application/" class="md-nav__link">
         
   
   
@@ -2180,7 +2213,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../slsa/" class="md-nav__link">
+      <a href="../operations/slsa/" class="md-nav__link">
         
   
   
@@ -2208,7 +2241,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../launch-procedure/" class="md-nav__link">
+      <a href="../operations/launch-procedure/" class="md-nav__link">
         
   
   
@@ -2236,7 +2269,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migration-v1-v2/" class="md-nav__link">
+      <a href="../operations/migration-v1-v2/" class="md-nav__link">
         
   
   
@@ -2325,7 +2358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -2353,7 +2386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/code-of-conduct/" class="md-nav__link">
+      <a href="../contributing/code-of-conduct/" class="md-nav__link">
         
   
   
@@ -2442,7 +2475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../community/governance/" class="md-nav__link">
+      <a href="../community/governance/" class="md-nav__link">
         
   
   
@@ -2470,7 +2503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../community/support/" class="md-nav__link">
+      <a href="../community/support/" class="md-nav__link">
         
   
   
@@ -2505,7 +2538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -2532,7 +2565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../roadmap/" class="md-nav__link">
+      <a href="../roadmap/" class="md-nav__link">
         
   
   
@@ -2579,10 +2612,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#option-1-caddy-tls-by-default-recommended" class="md-nav__link">
+  <a href="#global-flags" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option 1 — Caddy (TLS-by-default, recommended)
+        Global flags
       
     </span>
   </a>
@@ -2590,10 +2623,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-2-nginx-manual-cert-config" class="md-nav__link">
+  <a href="#server-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Option 2 — nginx (manual cert config)
+        Server lifecycle
       
     </span>
   </a>
@@ -2601,10 +2634,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#health-checking" class="md-nav__link">
+  <a href="#read-only-lookups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Health checking
+        Read-only lookups
       
     </span>
   </a>
@@ -2612,10 +2645,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#logging-observability" class="md-nav__link">
+  <a href="#smart-tool" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Logging + observability
+        Smart tool
       
     </span>
   </a>
@@ -2623,10 +2656,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#corpus-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        Corpus lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
       
     </span>
   </a>
@@ -2653,164 +2719,112 @@
   
 
 
-<h1 id="production-deployment">Production deployment<a class="headerlink" href="#production-deployment" title="Permanent link">&para;</a></h1>
-<p>The HTTP API runs as a bare <code>uvicorn</code> on <code>http://0.0.0.0:8001</code>. For
-production exposure you need:</p>
-<ol>
-<li><strong>TLS termination</strong> (Let's Encrypt or your own CA).</li>
-<li><strong>A request body size limit</strong> at the proxy layer (in addition to
-   the app-layer <code>MAX_REQUEST_BODY_BYTES</code> cap — see
-   <a href="../../api/">HTTP API overview</a>).</li>
-<li><strong>Rate limiting</strong> per IP and per bearer token (deployment-specific;
-   the app does not enforce this itself, only the optional hosted
-   deployment in <code>deployment/ratelimit_middleware.py</code> does).</li>
-<li><strong>A process supervisor</strong> that restarts the container on failure
-   (<code>docker compose</code>, <code>systemd</code>, Kubernetes — your choice).</li>
-</ol>
-<p>Two reference reverse-proxy configurations follow. Both fall back to
-the GHCR container as the upstream; replace <code>legal-text-mcp-de</code> with
-<code>legal-text-mcp-de-full</code> if you want the bundle-included variant.</p>
-<h2 id="option-1-caddy-tls-by-default-recommended">Option 1 — Caddy (TLS-by-default, recommended)<a class="headerlink" href="#option-1-caddy-tls-by-default-recommended" title="Permanent link">&para;</a></h2>
-<p><code>Caddyfile</code>:</p>
-<div class="highlight"><pre><span></span><code>legal.example.org {
-    # Automatic Let&#39;s Encrypt + HTTP/3
-    tls admin@example.org
-
-    # Defence-in-depth security headers
-    header {
-        Strict-Transport-Security &quot;max-age=31536000; includeSubDomains&quot;
-        X-Content-Type-Options &quot;nosniff&quot;
-        Content-Security-Policy &quot;default-src &#39;none&#39;; frame-ancestors &#39;none&#39;&quot;
-        -Server
-    }
-
-    # Proxy-level body cap (app cap is independently enforced)
-    request_body {
-        max_size 1MB
-    }
-
-    reverse_proxy legal-text-mcp-de:8001 {
-        health_uri /health
-        health_interval 30s
-        health_timeout 5s
-    }
-}
+<h1 id="cli-reference">CLI reference<a class="headerlink" href="#cli-reference" title="Permanent link">&para;</a></h1>
+<p><code>legal-text-mcp-de</code> is a <code>typer</code>-based subcommand CLI introduced in
+v2.1.0. Bare invocation prints <code>--help</code>. Add <code>--json</code> to any subcommand
+for machine-readable output (matches the HTTP API response schema).</p>
+<h2 id="global-flags">Global flags<a class="headerlink" href="#global-flags" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--json</code></td>
+<td>Force JSON output even on a TTY</td>
+</tr>
+<tr>
+<td><code>--quiet</code>, <code>-q</code></td>
+<td>Suppress non-essential stderr</td>
+</tr>
+<tr>
+<td><code>--debug</code>, <code>-v</code></td>
+<td>Verbose logging</td>
+</tr>
+<tr>
+<td><code>--version</code></td>
+<td>Print version and exit</td>
+</tr>
+</tbody>
+</table>
+<h2 id="server-lifecycle">Server lifecycle<a class="headerlink" href="#server-lifecycle" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>--host<span class="w"> </span>H<span class="o">]</span><span class="w"> </span><span class="o">[</span>--port<span class="w"> </span>P<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dataset<span class="w"> </span>PATH<span class="o">]</span><span class="w"> </span><span class="o">[</span>--strict<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>http<span class="w">  </span><span class="o">[</span>--host<span class="w"> </span>H<span class="o">]</span><span class="w"> </span><span class="o">[</span>--port<span class="w"> </span>P<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dataset<span class="w"> </span>PATH<span class="o">]</span>
 </code></pre></div>
-<p><code>docker-compose.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">legal-text-mcp-de</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/klein-business/legal-text-mcp-de:2.1.0</span>
-<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
-<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">DATASET_PATH</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/legal-texts</span>
-<span class="w">      </span><span class="nt">STRICT_STARTUP</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
-<span class="w">      </span><span class="nt">MAX_REQUEST_BODY_BYTES</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1048576&quot;</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/srv/legal-corpus:/data/legal-texts:ro</span>
-<span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">edge</span><span class="p p-Indicator">]</span>
-
-<span class="w">  </span><span class="nt">caddy</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy:2-alpine</span>
-<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
-<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;80:80&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;443:443&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;443:443/udp&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./Caddyfile:/etc/caddy/Caddyfile:ro</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy_data:/data</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caddy_config:/config</span>
-<span class="w">    </span><span class="nt">networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">edge</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">legal-text-mcp-de</span><span class="p p-Indicator">]</span>
-
-<span class="nt">volumes</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">caddy_data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">caddy_config</span><span class="p">:</span>
-
-<span class="nt">networks</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">edge</span><span class="p">:</span>
+<h2 id="read-only-lookups">Read-only lookups<a class="headerlink" href="#read-only-lookups" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>laws<span class="w"> </span><span class="o">[</span>--query<span class="w"> </span>Q<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>law<span class="w">  </span>CODE<span class="w"> </span><span class="o">[</span>--full<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>norm<span class="w"> </span>CODE<span class="w"> </span>NORM_ID
+legal-text-mcp-de<span class="w"> </span>cite<span class="w"> </span>--code<span class="w"> </span>CODE<span class="w"> </span>--unit<span class="w"> </span>UNIT<span class="w"> </span>--paragraph<span class="w"> </span>P<span class="w"> </span><span class="o">[</span>--child-unit<span class="w"> </span>U<span class="w"> </span>--child-value<span class="w"> </span>V<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>search<span class="w"> </span>QUERY<span class="w"> </span><span class="o">[</span>--code<span class="w"> </span>C<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">[</span>--limit<span class="w"> </span>N<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>meta<span class="w"> </span>CODE
+legal-text-mcp-de<span class="w"> </span>coverage
+legal-text-mcp-de<span class="w"> </span>limitations<span class="w"> </span><span class="o">[</span>--source-family<span class="w"> </span>F<span class="o">]</span><span class="w"> </span><span class="o">[</span>--terminal-state<span class="w"> </span>S<span class="o">]</span><span class="w"> </span><span class="o">[</span>--state-code<span class="w"> </span>C<span class="o">]</span><span class="w"> </span><span class="o">[</span>--law-id<span class="w"> </span>L<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>related<span class="w"> </span>CODE<span class="w"> </span>NORM_ID
 </code></pre></div>
-<p>Bring up:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-curl<span class="w"> </span>-fsSL<span class="w"> </span>https://legal.example.org/health<span class="w">    </span><span class="c1"># -&gt; {&quot;status&quot;:&quot;ok&quot;}</span>
+<h2 id="smart-tool">Smart tool<a class="headerlink" href="#smart-tool" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>research<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--max-candidates<span class="w"> </span>N<span class="o">]</span><span class="w"> </span><span class="o">[</span>--detail<span class="w"> </span>brief<span class="p">|</span>full<span class="o">]</span>
 </code></pre></div>
-<h2 id="option-2-nginx-manual-cert-config">Option 2 — nginx (manual cert config)<a class="headerlink" href="#option-2-nginx-manual-cert-config" title="Permanent link">&para;</a></h2>
-<p><code>nginx.conf</code> (or a server block in <code>sites-enabled/</code>):</p>
-<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="s">ssl</span><span class="w"> </span><span class="s">http2</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">legal.example.org</span><span class="p">;</span>
-
-<span class="w">    </span><span class="kn">ssl_certificate</span><span class="w">     </span><span class="s">/etc/letsencrypt/live/legal.example.org/fullchain.pem</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">ssl_certificate_key</span><span class="w"> </span><span class="s">/etc/letsencrypt/live/legal.example.org/privkey.pem</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">ssl_protocols</span><span class="w"> </span><span class="s">TLSv1.2</span><span class="w"> </span><span class="s">TLSv1.3</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">ssl_ciphers</span><span class="w"> </span><span class="s">HIGH:!aNULL:!MD5</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1"># Defence-in-depth headers</span>
-<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Strict-Transport-Security</span><span class="w"> </span><span class="s">&quot;max-age=31536000</span><span class="p">;</span><span class="w"> </span><span class="kn">includeSubDomains&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">X-Content-Type-Options</span><span class="w"> </span><span class="s">&quot;nosniff&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">add_header</span><span class="w"> </span><span class="s">Content-Security-Policy</span><span class="w"> </span><span class="s">&quot;default-src</span><span class="w"> </span><span class="s">&#39;none&#39;</span><span class="p">;</span><span class="w"> </span><span class="kn">frame-ancestors</span><span class="w"> </span><span class="s">&#39;none&#39;&quot;</span><span class="w"> </span><span class="s">always</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">server_tokens</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1"># Proxy-level body cap (app cap is independently enforced)</span>
-<span class="w">    </span><span class="kn">client_max_body_size</span><span class="w"> </span><span class="mi">1m</span><span class="p">;</span>
-
-<span class="w">    </span><span class="c1"># Health endpoint for upstream monitoring (no logging)</span>
-<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">/health</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kn">access_log</span><span class="w"> </span><span class="no">off</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://127.0.0.1:8001/health</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kn">proxy_pass</span><span class="w">         </span><span class="s">http://127.0.0.1:8001</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">Host</span><span class="w">              </span><span class="nv">$host</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">X-Forwarded-For</span><span class="w">   </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_set_header</span><span class="w">   </span><span class="s">X-Forwarded-Proto</span><span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_read_timeout</span><span class="w"> </span><span class="s">30s</span><span class="p">;</span>
-<span class="w">        </span><span class="kn">proxy_send_timeout</span><span class="w"> </span><span class="s">30s</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">server</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">server_name</span><span class="w"> </span><span class="s">legal.example.org</span><span class="p">;</span>
-<span class="w">    </span><span class="kn">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
-<span class="p">}</span>
+<p>Needs <code>ANTHROPIC_API_KEY</code> for full LLM-ranked synthesis. Without the key,
+degrades gracefully to a ranked search-hits fallback (exit code 0).</p>
+<h2 id="corpus-lifecycle">Corpus lifecycle<a class="headerlink" href="#corpus-lifecycle" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>corpus<span class="w"> </span>pull<span class="w">   </span><span class="o">[</span>--version<span class="w"> </span>V<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>corpus<span class="w"> </span>verify<span class="w"> </span><span class="o">[</span>--cert-identity<span class="w"> </span>ID<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>corpus<span class="w"> </span>info
 </code></pre></div>
-<p>Run the container behind it (systemd unit, native install, or:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>--restart<span class="w"> </span>unless-stopped<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:8001:8001<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span>/srv/legal-corpus:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="nv">DATASET_PATH</span><span class="o">=</span>/data/legal-texts<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="nv">MAX_REQUEST_BODY_BYTES</span><span class="o">=</span><span class="m">1048576</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.1.0<span class="w"> </span>serve
+<h2 id="diagnostics">Diagnostics<a class="headerlink" href="#diagnostics" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>health<span class="w">  </span><span class="o">[</span>--url<span class="w"> </span>URL<span class="o">]</span>
+legal-text-mcp-de<span class="w"> </span>version
+legal-text-mcp-de<span class="w"> </span>completion<span class="w"> </span>show<span class="w">    </span><span class="o">{</span>bash<span class="p">|</span>zsh<span class="p">|</span>fish<span class="o">}</span>
+legal-text-mcp-de<span class="w"> </span>completion<span class="w"> </span>install<span class="w"> </span><span class="o">{</span>bash<span class="p">|</span>zsh<span class="p">|</span>fish<span class="o">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nginx<span class="w"> </span>-t<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
-curl<span class="w"> </span>-fsSL<span class="w"> </span>https://legal.example.org/health<span class="w">    </span><span class="c1"># -&gt; {&quot;status&quot;:&quot;ok&quot;}</span>
-</code></pre></div>
-<h2 id="health-checking">Health checking<a class="headerlink" href="#health-checking" title="Permanent link">&para;</a></h2>
-<p>The container exposes <code>/health</code> (lightweight) and <code>/ready</code>
-(includes dataset readiness). For Kubernetes:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">readinessProbe</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">/ready</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8001</span><span class="w"> </span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-<span class="nt">livenessProbe</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">httpGet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">/health</span><span class="p p-Indicator">,</span><span class="nt"> port</span><span class="p">:</span><span class="w"> </span><span class="nv">8001</span><span class="w"> </span><span class="p p-Indicator">}</span>
-<span class="w">  </span><span class="nt">periodSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
-</code></pre></div>
-<h2 id="logging-observability">Logging + observability<a class="headerlink" href="#logging-observability" title="Permanent link">&para;</a></h2>
-<p>The Hosted-deployment variant
-(<code>deployment/anonymised_logging.py</code>, <code>deployment/metrics.py</code>) adds:
-- per-request JSON log lines (method, path, status, latency, UA bucket
-  — no bodies, no PII)
-- Prometheus <code>/metrics</code> endpoint</p>
-<p>If you want those, build with <code>deployment/Dockerfile.hosted</code> instead
-of the default image. Otherwise run plain <code>uvicorn</code> and pipe stdout
-to your log shipper.</p>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<h2 id="exit-codes">Exit codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Runtime / business error (LegalTextError)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CLI usage error (typer default)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smart-tool sampling error (hard)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Corpus error (pull or verify failed)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Connectivity error (<code>health</code> unreachable)</td>
+</tr>
+<tr>
+<td>130</td>
+<td>SIGINT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../api/">HTTP API overview</a> — body-size cap details</li>
-<li><a href="../security/">Security</a> — full threat model and mitigations</li>
-<li><a href="../hosted-service/">Hosted-service operations</a> — <code>mcp.klein.business/legal/de</code> runbook</li>
-<li><a href="../verify-with-cosign/">Verify with cosign</a> — image signature verification before deploy</li>
+<li><a href="../api/">HTTP API overview</a></li>
+<li><a href="../operations/migration-v1-v2/">Migration v1 → v2 → v2.1</a></li>
+<li><a href="../operations/production-deployment/">Production deployment</a></li>
 </ul>
 
 
@@ -2890,10 +2904,10 @@ to your log shipper.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
