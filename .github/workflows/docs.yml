@@ -11,7 +11,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: docs-${{ github.workflow }}-${{ github.ref }}
+  # All docs deployments share one lock so a tag-push run never races
+  # the main-push run on the gh-pages branch (mike's underlying `git
+  # push` would otherwise be rejected when the two ran in parallel).
+  # cancel-in-progress=false → second run queues, then deploys with a
+  # fresh gh-pages state. Observed twice on v2.1.0 + v2.1.1 tag pushes.
+  group: docs-gh-pages-push
   cancel-in-progress: false
 
 jobs:
