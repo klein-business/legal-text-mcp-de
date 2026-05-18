@@ -1,0 +1,87 @@
+name: MCP Registry Publish
+
+# Publishes the server to the official Model Context Protocol Registry
+# (https://registry.modelcontextprotocol.io) on every tag push. The
+# registry requires GitHub-namespaced names (io.github.<owner>/<server>)
+# and verifies ownership via GitHub Actions OIDC — no secrets, no PATs.
+#
+# server.json is the source of truth for what gets published; its
+# version field is bumped automatically by release-please as part of
+# the normal release flow.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Validate server.json without publishing"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mcp-registry-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish to MCP Registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write  # OIDC for github-oidc auth
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+          sudo mv mcp-publisher /usr/local/bin/
+          mcp-publisher --help
+
+      - name: Validate server.json
+        # Hard-fail if the schema check fails — better to error out before
+        # touching the live registry. Also catches drift between server.json
+        # and the actual release artifacts.
+        run: mcp-publisher validate
+
+      - name: Verify server.json version matches tag
+        # The version inside server.json must match the git tag we are
+        # publishing. release-please's extra-files bumps server.json
+        # alongside pyproject.toml so they always agree — this guard
+        # catches the case where someone bypasses release-please.
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          JSON_VERSION="$(jq -r '.version' server.json)"
+          if [ "$TAG_VERSION" != "$JSON_VERSION" ]; then
+            echo "::error::server.json version ($JSON_VERSION) does not match tag ($TAG_VERSION)"
+            exit 1
+          fi
+          echo "version match: $TAG_VERSION"
+
+      - name: Login (GitHub OIDC)
+        # OIDC eliminates the need for long-lived tokens. The registry
+        # verifies the OIDC claim against the io.github.<owner> namespace
+        # in server.json and rejects mismatches.
+        if: ${{ !inputs.dry_run }}
+        run: mcp-publisher login github-oidc
+
+      - name: Publish
+        if: ${{ !inputs.dry_run }}
+        run: mcp-publisher publish
+
+      - name: Dry-run summary
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "::notice::Dry-run mode — server.json validated but not published."
+          echo "Would publish:"
+          jq '{name, version, packages: [.packages[] | {registryType, identifier, version}]}' server.json
