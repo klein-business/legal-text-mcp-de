@@ -2316,6 +2316,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#your-first-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your first contribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture tour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2662,6 +2684,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#your-first-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your first contribution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture tour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2772,6 +2816,54 @@ behaviour to <code>martin@klein.business</code>.</p>
   <a href="https://github.com/klein-business/legal-text-mcp-de/issues">GitHub Issues</a>
   (use the appropriate template)</li>
 </ul>
+<h2 id="your-first-contribution">Your first contribution<a class="headerlink" href="#your-first-contribution" title="Permanent link">&para;</a></h2>
+<p>New here? Two curated entry points:</p>
+<ul>
+<li>🌱 <strong><a href="https://github.com/klein-business/legal-text-mcp-de/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">Good first issues</a></strong> —
+  small, self-contained, well-specified tasks with a clear acceptance criterion.
+  Each issue links to the exact files to touch and the tests to add. Typical scope:
+  1–4 hours.</li>
+<li>🆘 <strong><a href="https://github.com/klein-business/legal-text-mcp-de/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22">Help wanted</a></strong> —
+  larger items where outside expertise would speed things up (extra
+  jurisdictions, alternative deployment recipes, integration recipes for new
+  MCP clients).</li>
+</ul>
+<p><strong>Workflow for first-time contributors:</strong></p>
+<ol>
+<li>Comment on the issue to claim it (avoids two people working in parallel).</li>
+<li>Fork → branch off <code>main</code> using <code>feat/&lt;topic&gt;</code> / <code>fix/&lt;topic&gt;</code> / <code>docs/&lt;topic&gt;</code>.</li>
+<li><code>uv sync --all-groups &amp;&amp; uv run --group dev pytest</code> to confirm a green baseline.</li>
+<li>Implement → add tests → <code>uv run --group dev ruff check . &amp;&amp; ruff format .</code>.</li>
+<li>Commit with <code>git commit -s</code> (DCO sign-off — see below) and push.</li>
+<li>Open a PR — CI runs ~16 checks; turnaround on review is usually &lt;48 h.</li>
+</ol>
+<p>If anything is unclear, post in the issue or in <a href="https://github.com/klein-business/legal-text-mcp-de/discussions/categories/q-a">Q&amp;A Discussions</a>.
+No question is too small.</p>
+<h2 id="architecture-tour">Architecture tour<a class="headerlink" href="#architecture-tour" title="Permanent link">&para;</a></h2>
+<p>Five-minute mental map before you change code:</p>
+<div class="highlight"><pre><span></span><code>src/legal_text_mcp_de/
+├── cli/                # Typer CLI (14 subcommands)
+│   ├── _lookups.py     #   read-only commands: laws, law, norm, cite, …
+│   ├── _server.py      #   `serve` (MCP) and `http` (FastAPI)
+│   ├── _corpus.py      #   `corpus pull/verify/info` (ORAS-backed)
+│   └── …
+├── http_api.py         # FastAPI app (mirrors the MCP tool surface)
+├── http_models.py      # Pydantic v2 schemas — single source of truth for
+│                       # both HTTP and CLI JSON envelopes
+├── server.py           # MCP server entry point (delegates to legal_texts/)
+├── config.py           # pydantic-settings — all env-driven config
+└── legal_texts/        # Domain core: loading, parsing, search, citing
+    ├── models.py       #   normalised data model (Law, Norm, Source, …)
+    ├── sources/        #   one adapter per upstream feed
+    ├── search.py       #   rapidfuzz-backed search
+    └── citation.py     #   citation parser + resolver
+</code></pre></div>
+<p>The <strong>MCP tools</strong>, <strong>HTTP routes</strong>, and <strong>CLI subcommands</strong> all delegate to the
+same underlying <code>LegalTextRuntime</code>. So a fix in <code>legal_texts/</code> automatically
+benefits all three surfaces — and one new HTTP route gets a CLI subcommand by
+adding ~30 lines in <code>cli/_lookups.py</code>.</p>
+<p>Full module-level documentation lives at
+<a href="https://klein-business.github.io/legal-text-mcp-de/modules/cli/">docs/modules/</a>.</p>
 <h2 id="development-setup">Development setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h2>
 <p>Requires Python 3.12 or 3.13 and <a href="https://docs.astral.sh/uv/"><code>uv</code></a>.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/klein-business/legal-text-mcp-de.git
