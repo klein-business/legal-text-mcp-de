@@ -209,3 +209,25 @@ def limitations(
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("related")
+def related(
+    ctx: typer.Context,
+    code: Annotated[str, typer.Argument(help="Law code.")],
+    norm_id: Annotated[str, typer.Argument(help="Norm identifier.")],
+) -> None:
+    """List relationships emanating from a norm."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        payload = runtime.get_related_norms(code, norm_id)
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    render_data(payload, force_json=force_json)

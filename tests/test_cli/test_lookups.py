@@ -123,3 +123,11 @@ def test_limitations_returns_count_field():
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert "count" in payload["data"]
+
+
+def test_related_returns_count_field_zero_or_more():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "related", "BGB", "§ 355"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert "count" in payload["data"]
