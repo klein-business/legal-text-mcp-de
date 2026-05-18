@@ -1,0 +1,198 @@
+# CodeRabbit configuration for legal-text-mcp-de
+# Docs: https://docs.coderabbit.ai/reference/configuration
+#
+# This file is the source of truth — UI settings in app.coderabbit.ai are
+# overridden by this YAML. Edits go through the normal PR flow so behaviour
+# changes are reviewable and reversible like any other code change.
+
+language: en-US
+
+tone_instructions: |
+  Professional, direct, German engineering culture: precise, concise,
+  no filler. When suggesting changes, prefer code-block diffs over prose.
+  Reference our conventions when relevant: Conventional Commits, DCO
+  sign-off (`git commit -s`), SemVer 2.0.0, Apache-2.0, pinned `uv`
+  toolchain. Avoid hedging; cite the file:line for every concrete claim.
+
+early_access: false
+enable_free_tier: true
+
+reviews:
+  # Friendly tone, less nitpicky than "assertive". We can dial up later
+  # if reviews feel too soft.
+  profile: chill
+
+  # CodeRabbit should NOT cast a hard "Changes Requested" review by
+  # default — its job is to surface issues, not gate the merge. We use
+  # branch protection's required status checks for hard gates.
+  request_changes_workflow: false
+
+  # High-level summary in the PR description is genuinely useful for
+  # both reviewers and the changelog scribe.
+  high_level_summary: true
+
+  # No poem. It's cute, but it's also noise on every PR.
+  poem: false
+
+  # Show the "skipped" reasons explicitly — surfaces config drift fast.
+  review_status: true
+
+  # Keep the walkthrough collapsed by default so PR pages stay scannable.
+  collapse_walkthrough: true
+
+  # Sequence + flow diagrams are useful for cross-module changes
+  # (CLI ↔ HTTP ↔ runtime).
+  sequence_diagrams: true
+  changed_files_summary: true
+
+  # Stop reviewing once a PR closes — saves quota and noise.
+  abort_on_close: true
+
+  # ----------------------------------------------------------------
+  # Auto-review trigger configuration
+  # ----------------------------------------------------------------
+  # The default CodeRabbit install on this repo skipped PR #107 with
+  # "Auto reviews are disabled on base/target branches other than the
+  # default branch". `main` IS our default branch, but the default
+  # `base_branches: []` apparently does not resolve to it reliably.
+  # Setting it explicitly fixes auto-review for every PR.
+  auto_review:
+    enabled: true
+    auto_incremental_review: true   # re-review on every push, not just open
+    drafts: false                    # don't burn quota on WIP drafts
+    base_branches:
+      - main
+    ignore_title_keywords:
+      - "[skip review]"
+      - "[ci-skip]"
+      - "wip"
+    labels: []  # review every PR regardless of labels
+
+  # ----------------------------------------------------------------
+  # Path filters — what CodeRabbit reads and what it ignores
+  # ----------------------------------------------------------------
+  # Negative patterns (prefix `!`) exclude. Defaults include everything
+  # the repo tracks, so we only need to subtract noise.
+  path_filters:
+    - "!docs-legacy/**"               # archived legacy docs
+    - "!docs/superpowers/**"          # planning artefacts (specs + plans)
+    - "!tests/fixtures/**"            # data, not code
+    - "!**/*.lock"                    # lockfiles (uv.lock, etc.)
+    - "!**/*.snap"                    # snapshot artefacts
+    - "!.claude/**"                   # claude-code session state
+    - "!.venv/**"
+    - "!.pytest_cache/**"
+    - "!.ruff_cache/**"
+    - "!.mypy_cache/**"
+    - "!licenses/**"                  # third-party licence texts
+    - "!assets/**"                    # binary assets (banner, favicon)
+
+  # ----------------------------------------------------------------
+  # Path-specific review instructions
+  # ----------------------------------------------------------------
+  path_instructions:
+    - path: "src/legal_text_mcp_de/cli/**/*.py"
+      instructions: |
+        Strict-typed module (mypy --strict in CI). Every public symbol
+        needs a full type annotation. Use the EXIT_* constants from
+        cli/_output.py — never raw int exit codes. Output flows through
+        render_data() / render_error() so the JSON envelope contract
+        with http_models stays consistent. Tests use typer.testing.CliRunner
+        WITHOUT mix_stderr=False (removed in Click 8.2+).
+
+    - path: "src/legal_text_mcp_de/http_api.py"
+      instructions: |
+        Strict-typed module. FastAPI route handlers return Any because
+        response_model validates the actual return shape at runtime —
+        don't try to over-specify return types. ERROR_RESPONSES is
+        intentionally typed as dict[int | str, dict[str, Any]] to match
+        FastAPI's loose signature; don't narrow it.
+
+    - path: "src/legal_text_mcp_de/legal_texts/**/*.py"
+      instructions: |
+        Domain core. Three of five sub-modules (errors, models, sources)
+        are already mypy --strict; treat that as the ratchet floor.
+        All adapters under sources/ must return canonical_ids in the
+        established shape (e.g. `bgb/par:355`, `egbgb/art:246a/par:1`,
+        `dsgvo/art:6/par:1/lit:a`). Source provenance (URL + fetched_at
+        + content_hash) must round-trip through serialization.
+
+    - path: "tests/**/*.py"
+      instructions: |
+        We use pytest with `asyncio_mode=auto` from pyproject. CLI tests
+        use typer.testing.CliRunner. Fixture corpus is at
+        tests/fixtures/normalized — DO NOT load production corpora in
+        tests. Coverage floor is 86% combined (statement + branch)
+        enforced by `[tool.coverage.report] fail_under` in pyproject.
+
+    - path: "server.json"
+      instructions: |
+        Source of truth for the official MCP Registry. After version
+        bumps, $.version, $.packages[0].version, and $.packages[1].identifier
+        (OCI :X.Y.Z suffix) must all match the git tag. OCI packages
+        MUST NOT have registryBaseUrl or a separate version field —
+        version goes in the identifier (`ghcr.io/owner/img:X.Y.Z`).
+        Run `mcp-publisher validate` locally before pushing if you can.
+
+    - path: ".github/workflows/**/*.yml"
+      instructions: |
+        Every uses: action must be pinned by SHA, not by tag (security
+        baseline). Workflow_run triggers MUST have a 4-layer if-guard
+        (event_name, conclusion, workflow_run.event == 'push',
+        head_branch shape) — see mcp-registry.yml for the canonical
+        pattern. Required status check names are referenced by branch
+        protection, so renames need a coordinated update there.
+
+    - path: "Dockerfile"
+      instructions: |
+        Base image must be digest-pinned (sha256:...). Non-root user
+        UID 10001 is required. The
+        `LABEL io.modelcontextprotocol.server.name=…` annotation is
+        required by the MCP Registry for OCI verification — don't drop it.
+
+    - path: "docs/**/*.md"
+      instructions: |
+        mkdocs-material site. Internal links use relative paths so they
+        work both on github.com and on the rendered docs site. Code
+        blocks must specify a language fence. No literal "{{ ... }}"
+        Jinja-style tokens in prose (verify_release.py treats them as
+        unfilled placeholders).
+
+    - path: "CHANGELOG.md"
+      instructions: |
+        Keep a Changelog 1.1.0 format. New release sections go at the
+        TOP, immediately after the introduction block. Use the standard
+        section headings (Added, Changed, Fixed, Deprecated, Removed,
+        Security). Reference PR numbers with #N, not full URLs.
+
+  labeling_instructions:
+    - label: "documentation"
+      instructions: "Apply when the PR primarily changes files under docs/, README.md, or .md files in the repo root."
+    - label: "dependencies"
+      instructions: "Apply when the PR changes pyproject.toml or uv.lock (excluding pure version bumps via release-please)."
+    - label: "good first issue"
+      instructions: "Never apply — this label is curated by maintainers, not by automation."
+
+# ----------------------------------------------------------------
+# Chat — @coderabbitai mentions
+# ----------------------------------------------------------------
+chat:
+  # No ASCII art in chat replies (keeps the PR thread compact).
+  art: false
+
+  # External contributors (e.g. fork-PR authors) can interact with the
+  # bot. Important for our contributor funnel — RounakSharma2005-style
+  # first-time contributors can ask the bot to clarify review feedback.
+  allow_non_org_members: true
+
+  # Bot answers @-mentions automatically without needing manual approval.
+  auto_reply: true
+
+# ----------------------------------------------------------------
+# Knowledge base — let CodeRabbit learn this codebase's patterns
+# ----------------------------------------------------------------
+knowledge_base:
+  # Opt in to the knowledge base so reviews improve over time as
+  # CodeRabbit learns our conventions. The KB is scoped to this repo;
+  # nothing leaks across orgs.
+  opt_out: false
