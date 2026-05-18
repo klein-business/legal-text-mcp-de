@@ -51,3 +51,26 @@ jobs:
           VERSION="${GITHUB_REF#refs/tags/v}"
           uv run --group docs mike deploy --push --update-aliases "$VERSION" latest
           uv run --group docs mike set-default --push latest
+
+      - name: Refresh smart 404.html in gh-pages root
+        # mike does not generate a root 404.html, so unversioned sub-paths
+        # (/api/, /tools/list_laws/, /quickstart/uvx/, …) return a hard
+        # 404 even when /latest/api/ etc. exist. Drop scripts/gh-pages-404.html
+        # into the gh-pages root after every mike deploy; the script rewrites
+        # unversioned paths to their /latest/<rest> equivalent client-side.
+        run: |
+          git fetch origin gh-pages
+          tmpdir="$(mktemp -d)"
+          git worktree add "$tmpdir" gh-pages
+          cp scripts/gh-pages-404.html "$tmpdir/404.html"
+          (
+            cd "$tmpdir"
+            if git diff --quiet 404.html; then
+              echo "404.html already up to date — skipping commit."
+            else
+              git add 404.html
+              git commit -m "docs(404): refresh smart-redirect 404.html"
+              git push origin gh-pages
+            fi
+          )
+          git worktree remove --force "$tmpdir"
