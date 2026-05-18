@@ -114,3 +114,30 @@ def cite(
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("search")
+def search(
+    ctx: typer.Context,
+    query: Annotated[str, typer.Argument(help="Full-text search query.")],
+    code: Annotated[list[str] | None, typer.Option("--code", help="Restrict to one or more law codes (repeatable).")] = None,
+    limit: Annotated[int, typer.Option("--limit", help="Maximum number of hits to return.")] = 50,
+) -> None:
+    """Full-text search across the corpus."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        payload = runtime.search_laws(query, code)
+        # Apply --limit at CLI layer (runtime returns all)
+        if "results" in payload:
+            payload["results"] = payload["results"][:limit]
+            payload["count"] = len(payload["results"])
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    render_data(payload, force_json=force_json)

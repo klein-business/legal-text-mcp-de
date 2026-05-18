@@ -90,3 +90,12 @@ def test_cite_resolves_egbgb_art_246a_par_1():
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert payload["data"]["norm"]["canonical_id"] == "egbgb/art:246a/par:1"
+
+
+def test_search_with_code_filter():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "search", "Werbung", "--code", "UWG"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["data"]["codes"] == ["uwg_2004"]
+    assert payload["data"]["results"]
