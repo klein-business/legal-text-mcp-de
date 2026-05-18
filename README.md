@@ -192,6 +192,7 @@ docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
   ghcr.io/klein-business/legal-text-mcp-de:2.1.1 serve
 ```
+- See `examples/docker-compose/http` for a Docker Compose deployment example.
 
 ## MCP Resources
 

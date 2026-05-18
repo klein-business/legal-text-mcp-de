@@ -1,0 +1,25 @@
+services:
+  legal-text-mcp-de:
+    image: ghcr.io/klein-business/legal-text-mcp-de:2.1.1@sha256:fc1aeca32cf75ee437608d3595cdce66c188c322732c81f436b6c64d730e1b93
+
+    command: http
+
+    ports:
+      - "8001:8001"
+
+    environment:
+      STRICT_DATASET: "true"
+      PORT: "8001"
+      HOST: "0.0.0.0"
+
+    volumes:
+      - corpus_data:/data/corpus
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  corpus_data:
