@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.3] - 2026-05-18
+
+Follow-up to v2.1.2. Closes the two known gaps of the v2.1.2 registry-discovery
+release. No runtime behaviour changes.
+
+### Added
+- **OCI package back in the MCP Registry**: now that the v2.1.3 image carries
+  the required `LABEL io.modelcontextprotocol.server.name=…`, the OCI entry
+  re-enters `server.json` (`ghcr.io/klein-business/legal-text-mcp-de:2.1.3`)
+  so docker-using MCP clients discover the multi-arch image alongside the
+  PyPI package.
+
+### Fixed
+- **Race condition between `release.yml` and `mcp-registry.yml`**: the
+  registry publish previously fired in parallel with the artefact publish
+  and rejected with "PyPI package X not found" / "OCI image X not found".
+  Trigger changed from `push: tags` to `workflow_run: [Release], completed`
+  so the registry publish only starts after `release.yml` succeeds. Two
+  defence-in-depth wait steps poll PyPI + GHCR for up to 5 min each before
+  invoking `mcp-publisher publish`.
+
+### Changed
+- `.release-please-config.json`: OCI identifier line-pattern bumper restored,
+  so future releases keep the OCI `:X.Y.Z` suffix in sync with PyPI version
+  in a single PR.
+
 ## [2.1.2] - 2026-05-18
 
 Distribution / discovery release. No runtime behaviour changes.
