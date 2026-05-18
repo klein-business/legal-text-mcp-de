@@ -13,6 +13,7 @@ from typing import Annotated
 
 import typer
 
+from legal_text_mcp_de.cli._corpus import corpus_app
 from legal_text_mcp_de.cli._lookups import lookups_app
 from legal_text_mcp_de.cli._research import research_app
 from legal_text_mcp_de.cli._server import server_app
@@ -71,6 +72,9 @@ for command_info in server_app.registered_commands:
 
 for command_info in research_app.registered_commands:
     app.registered_commands.append(command_info)
+
+# corpus is a sub-Typer (keeps its `corpus` prefix), not lifted onto root.
+app.add_typer(corpus_app, name="corpus")
 
 
 def main() -> None:
