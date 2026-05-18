@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+SPDX-License-Identifier: Apache-2.0
+Copyright 2026 klein-business
+
+Smart 404 page for the mike-versioned docs site.
+
+mike publishes every release under /{version}/ with /latest/ pointing
+at the current GA. The repo root has a meta-refresh from / to /latest/,
+but unversioned sub-paths like /api/, /quickstart/uvx/, /tools/list_laws/
+return a hard 404 because mike does not generate them.
+
+This file rewrites unversioned paths to their /latest/ equivalent so
+external links into the docs (e.g. from blog posts, the README, search
+results) keep working. Paths that already carry a version prefix
+(/2.0.1/, /latest/, /dev/) get a real 404 page instead, because that
+indicates the requested page genuinely does not exist in that version.
+
+Deployed into the gh-pages root by .github/workflows/docs.yml after
+every mike deploy. Do not commit this file to gh-pages by hand — the
+workflow does it.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Redirecting to latest …</title>
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 40em; margin: 4em auto; padding: 0 1em; color: #1f2937; }
+  h1 { color: #b91c1c; }
+  code { background: #f3f4f6; padding: 0.1em 0.4em; border-radius: 0.25em; }
+  a { color: #2563eb; }
+</style>
+<script>
+(function() {
+  var BASE = "/legal-text-mcp-de/";
+  var location = window.location;
+  var path = location.pathname;
+
+  if (path.indexOf(BASE) !== 0) {
+    // Outside our base path — let the browser keep the 404 visible.
+    return;
+  }
+
+  var rest = path.substring(BASE.length);
+
+  // Already in a versioned path? Real 404 — do not loop.
+  // Matches /latest/..., /dev/..., /1.0.0/..., /2.0.1/..., etc.
+  if (/^(latest|dev|\d+\.\d+\.\d+)(\/|$)/.test(rest)) {
+    return;
+  }
+
+  if (!rest) {
+    // /legal-text-mcp-de itself — the mike root index.html handles this.
+    location.replace(BASE);
+    return;
+  }
+
+  // Rewrite the unversioned sub-path to /latest/<rest> with query + hash preserved.
+  var target = BASE + "latest/" + rest + location.search + location.hash;
+  location.replace(target);
+})();
+</script>
+</head>
+<body>
+<h1>404 — Page not found</h1>
+<p>
+  This page does not exist at that URL. The documentation is
+  versioned: every release lives under
+  <code>/legal-text-mcp-de/&lt;version&gt;/</code>.
+</p>
+<p>
+  Try the <a href="/legal-text-mcp-de/latest/">latest version</a> or
+  pick a specific release from the
+  <a href="/legal-text-mcp-de/">version selector</a>.
+</p>
+<noscript>
+<p>
+  Your browser blocked JavaScript, so the automatic redirect to
+  <code>/latest/</code> could not run. Follow the link above.
+</p>
+</noscript>
+</body>
+</html>
