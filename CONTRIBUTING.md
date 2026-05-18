@@ -23,6 +23,62 @@ Do **not** open a public issue for security vulnerabilities. See
   [GitHub Issues](https://github.com/klein-business/legal-text-mcp-de/issues)
   (use the appropriate template)
 
+## Your first contribution
+
+New here? Two curated entry points:
+
+- 🌱 **[Good first issues](https://github.com/klein-business/legal-text-mcp-de/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** —
+  small, self-contained, well-specified tasks with a clear acceptance criterion.
+  Each issue links to the exact files to touch and the tests to add. Typical scope:
+  1–4 hours.
+- 🆘 **[Help wanted](https://github.com/klein-business/legal-text-mcp-de/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** —
+  larger items where outside expertise would speed things up (extra
+  jurisdictions, alternative deployment recipes, integration recipes for new
+  MCP clients).
+
+**Workflow for first-time contributors:**
+
+1. Comment on the issue to claim it (avoids two people working in parallel).
+2. Fork → branch off `main` using `feat/<topic>` / `fix/<topic>` / `docs/<topic>`.
+3. `uv sync --all-groups && uv run --group dev pytest` to confirm a green baseline.
+4. Implement → add tests → `uv run --group dev ruff check . && ruff format .`.
+5. Commit with `git commit -s` (DCO sign-off — see below) and push.
+6. Open a PR — CI runs ~16 checks; turnaround on review is usually <48 h.
+
+If anything is unclear, post in the issue or in [Q&A Discussions](https://github.com/klein-business/legal-text-mcp-de/discussions/categories/q-a).
+No question is too small.
+
+## Architecture tour
+
+Five-minute mental map before you change code:
+
+```
+src/legal_text_mcp_de/
+├── cli/                # Typer CLI (14 subcommands)
+│   ├── _lookups.py     #   read-only commands: laws, law, norm, cite, …
+│   ├── _server.py      #   `serve` (MCP) and `http` (FastAPI)
+│   ├── _corpus.py      #   `corpus pull/verify/info` (ORAS-backed)
+│   └── …
+├── http_api.py         # FastAPI app (mirrors the MCP tool surface)
+├── http_models.py      # Pydantic v2 schemas — single source of truth for
+│                       # both HTTP and CLI JSON envelopes
+├── server.py           # MCP server entry point (delegates to legal_texts/)
+├── config.py           # pydantic-settings — all env-driven config
+└── legal_texts/        # Domain core: loading, parsing, search, citing
+    ├── models.py       #   normalised data model (Law, Norm, Source, …)
+    ├── sources/        #   one adapter per upstream feed
+    ├── search.py       #   rapidfuzz-backed search
+    └── citation.py     #   citation parser + resolver
+```
+
+The **MCP tools**, **HTTP routes**, and **CLI subcommands** all delegate to the
+same underlying `LegalTextRuntime`. So a fix in `legal_texts/` automatically
+benefits all three surfaces — and one new HTTP route gets a CLI subcommand by
+adding ~30 lines in `cli/_lookups.py`.
+
+Full module-level documentation lives at
+[docs/modules/](https://klein-business.github.io/legal-text-mcp-de/modules/cli/).
+
 ## Development setup
 
 Requires Python 3.12 or 3.13 and [`uv`](https://docs.astral.sh/uv/).
