@@ -347,3 +347,18 @@ See [NOTICE](NOTICE) for required attribution.
 Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp)
 (Copyright (c) 2025 Florian Leuerer, MIT). Upstream licence terms are
 preserved in [licenses/MIT-floleuerer.txt](licenses/MIT-floleuerer.txt).
+
+---
+
+<sub>**MCP Registry**: `io.github.klein-business/legal-text-mcp-de` ·
+[registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io/v0/servers?search=legal-text-mcp-de)</sub>
+
+<!--
+The line below is a machine-readable ownership marker used by the
+official MCP Registry's PyPI verification flow. It MUST stay in the
+PyPI-rendered README (i.e. inside README.md, not in a Markdown
+comment, since PyPI strips HTML comments). Removing it will break
+the auto-publish workflow in .github/workflows/mcp-registry.yml.
+-->
+
+mcp-name: io.github.klein-business/legal-text-mcp-de
