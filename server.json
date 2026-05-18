@@ -52,8 +52,7 @@
     },
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/klein-business/legal-text-mcp-de",
-      "version": "2.1.2",
+      "identifier": "ghcr.io/klein-business/legal-text-mcp-de:2.1.2",
       "transport": {
         "type": "stdio"
       },
