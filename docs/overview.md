@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 2.1
+version: 2.1.3
 ---
 
 # legal-text-mcp-de
@@ -16,6 +16,11 @@ packages — small committed fixtures for fast CI — or a signed v2 corpus bund
 (~8,500 laws from GII, 5 state portals, and EUR-Lex Cellar) distributed as an
 OCI artifact from GHCR. An optional public hosted instance is available at
 `mcp.klein.business`.
+
+Since v2.1.2 the server is listed in the
+[official Model Context Protocol Registry](https://registry.modelcontextprotocol.io)
+as `io.github.klein-business/legal-text-mcp-de` so MCP-aware clients can
+auto-discover it; see [features/mcp-registry-distribution](features/mcp-registry-distribution.md).
 
 The project is open source under the Apache License 2.0. It does not provide legal
 advice and does not include SaaS, billing, account, authorization, or
@@ -103,6 +108,7 @@ benchmarks, and the final validation bundle.
 | data-preparation | v2 corpus build pipeline: state-law scrapers, EU-act loaders, `build_corpus` CLI. | [Detail](features/data-preparation.md) |
 | api-contracts | Shared JSON response and error contracts. | [Detail](features/api-contracts.md) |
 | http-api | FastAPI endpoints and OpenAPI contract. | [Detail](features/http-api.md) |
+| mcp-registry-distribution | Auto-publish to the official Model Context Protocol Registry on every tag push via `server.json` + `mcp-publisher` + GitHub OIDC. Also drives Smithery.ai auto-discovery via `smithery.yaml`. (Since v2.1.2.) | [Detail](features/mcp-registry-distribution.md) |
 | scope-and-invariants | Explicit product boundaries, source invariants, and compatibility metadata. | [Detail](features/known-issues.md) |
 
 ## Generated Corpus Behavior

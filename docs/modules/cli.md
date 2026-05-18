@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "cli"
-version: 2.1
+version: 2.1.3
 ---
 
 # Module: cli
@@ -245,10 +245,21 @@ Tests live under `tests/test_cli/` (8 modules):
 | `test_corpus.py` | 6 | `pull` / `verify` / `info` with `subprocess.run` monkey-patched; missing-bundle path returns `EXIT_CORPUS`. |
 | `test_diagnostic.py` | 8 | `version`, `health` (success / 5xx / transport error), `completion show` / `install` for bash/zsh/fish, unsupported shell. |
 
-Coverage: ≥86% across `src/legal_text_mcp_de/cli/`. `_server.py` is
-intentionally at ~39% (its only meaningful uncovered branches reach into
+Coverage: **91 % across `src/legal_text_mcp_de/cli/`** since v2.1.2 (was
+~88 %); `_lookups.py` jumped from 77 % → 96 % via a parametrised
+"every lookup exits 1 on missing DATASET_PATH" test (PR #89). `_server.py` is
+intentionally at ~39 % (its only meaningful uncovered branches reach into
 `mcp.run(transport=…)` and `uvicorn.run(…)` which are exercised end-to-end
 by `scripts/verify_e2e.py`, not by unit tests).
+
+### Type-checking
+
+The whole `legal_text_mcp_de.cli.*` package is on the `mypy --strict`
+ratchet since v2.1.2 (PR #96). A dedicated hard-failing CI job
+`Mypy strict (cli + http_api)` runs `mypy --strict` against the package on
+every PR; any regression blocks the merge. The strict set covers all 8
+files (`__init__`, `_output`, `_runtime`, `_lookups`, `_server`,
+`_research`, `_corpus`, `_diagnostic`).
 
 ## Inventory Notes
 

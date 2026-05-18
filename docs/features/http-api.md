@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "http-api"
-version: 2.1
+version: 2.1.3
 ---
 
 # Feature: http-api
@@ -87,3 +87,12 @@ HTTP errors preserve the shared envelope:
 ```
 
 The API does not return silent empty successes for missing datasets, unknown laws, missing norms, invalid citations, or invalid search queries.
+
+## Type-checking
+
+`src/legal_text_mcp_de/http_api.py` is on the `mypy --strict` ratchet since
+v2.1.2 (PR #97). The hard-failing CI job `Mypy strict (cli + http_api)` runs
+`mypy --strict` against this file (alongside `cli/*`) on every PR; any
+regression in the route handlers, middleware, or `ERROR_RESPONSES` table
+blocks the merge. Combined with the strict `cli.*` ratchet, the full
+user-facing API surface (CLI + HTTP) is now type-strict.

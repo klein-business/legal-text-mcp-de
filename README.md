@@ -17,6 +17,7 @@
   <a href="https://www.bestpractices.dev/projects/12860"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/12860?style=for-the-badge&label=OSSF%20Best%20Practices&color=16A34A"></a>
   <a href="https://slsa.dev"><img alt="SLSA Level 3" src="https://img.shields.io/badge/SLSA-Level%203-2DBA00?style=for-the-badge&logo=githubactions&logoColor=white"></a>
   <a href="https://github.com/sigstore/cosign"><img alt="Signed by cosign" src="https://img.shields.io/badge/cosign-signed-purple?style=for-the-badge&logo=sigstore&logoColor=white"></a>
+  <a href="https://registry.modelcontextprotocol.io/v0/servers?search=legal-text-mcp-de"><img alt="MCP Registry" src="https://img.shields.io/badge/MCP%20Registry-listed-1F6FEB?style=for-the-badge&logo=anthropic&logoColor=white"></a>
 </p>
 
 # legal-text-mcp-de
