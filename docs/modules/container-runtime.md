@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "container-runtime"
-version: 2.1
+version: 2.1.3
 ---
 
 # Module: container-runtime
@@ -48,8 +48,9 @@ image.
 
 | Symbol | Kind | Location | Purpose |
 | ------ | ---- | -------- | ------- |
-| `FROM python:3.12-slim` | Docker instruction | `Dockerfile:1` | Selects the Python base image. |
-| `COPY --from=ghcr.io/astral-sh/uv:0.10.12` | Docker instruction | `Dockerfile` | Adds the pinned uv binary. |
+| `FROM python:3.12-slim` | Docker instruction | `Dockerfile:1` | Selects the Python base image. Pinned by digest. |
+| `LABEL io.modelcontextprotocol.server.name="io.github.klein-business/legal-text-mcp-de"` | Docker instruction | `Dockerfile` | OCI ownership annotation required by the [MCP Registry](../features/mcp-registry-distribution.md) for OCI-package verification. Added in v2.1.3. Must match `server.json` `.name` exactly. |
+| `COPY --from=ghcr.io/astral-sh/uv:0.11.14` | Docker instruction | `Dockerfile` | Adds the pinned uv binary. |
 | `RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode` | Docker instruction | `Dockerfile` | Installs locked runtime dependencies. |
 | `ENV DATASET_PATH=/data/legal-texts` | Docker instruction | `Dockerfile` | Points strict startup at the mounted normalized dataset. |
 | `CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]` | Docker instruction | `Dockerfile` | Starts the MCP server via the `legal-text-mcp-de serve` CLI subcommand. The `serve` argument is required as of v2.1.0 because bare invocation now prints `--help`. |
@@ -102,3 +103,9 @@ The mounted path may be:
   manifests and cosign signatures. See [hosted-deployment](hosted-deployment.md)
   for the full hosted-service topology and [public-hosted-service feature](../features/public-hosted-service.md)
   for end-user connection instructions.
+- **Registry distribution**: the same multi-arch image is the `oci` package
+  registered on the [official MCP Registry](https://registry.modelcontextprotocol.io)
+  as `ghcr.io/klein-business/legal-text-mcp-de:<version>` — see
+  [features/mcp-registry-distribution](../features/mcp-registry-distribution.md).
+  The `LABEL io.modelcontextprotocol.server.name` directive must stay in the
+  Dockerfile for the next OCI publish to succeed.

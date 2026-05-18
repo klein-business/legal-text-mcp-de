@@ -2,7 +2,7 @@
 type: documentation
 entity: feature
 feature: "cli-shell-surface"
-version: 2.1
+version: 2.1.3
 ---
 
 # Feature: cli-shell-surface
