@@ -115,3 +115,11 @@ def test_coverage_returns_counts():
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert "generated_package_present" in payload["data"]
+
+
+def test_limitations_returns_count_field():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "limitations"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert "count" in payload["data"]

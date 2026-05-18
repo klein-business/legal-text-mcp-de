@@ -180,3 +180,32 @@ def coverage(ctx: typer.Context) -> None:
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("limitations")
+def limitations(
+    ctx: typer.Context,
+    source_family: Annotated[str | None, typer.Option("--source-family")] = None,
+    terminal_state: Annotated[str | None, typer.Option("--terminal-state")] = None,
+    state_code: Annotated[str | None, typer.Option("--state-code")] = None,
+    law_id: Annotated[str | None, typer.Option("--law-id")] = None,
+) -> None:
+    """List sources that did not produce a normalised entry."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        payload = runtime.get_source_limitations(
+            source_family=source_family,
+            terminal_state=terminal_state,
+            state_code=state_code,
+            law_id=law_id,
+        )
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    render_data(payload, force_json=force_json)
