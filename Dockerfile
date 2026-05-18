@@ -25,4 +25,4 @@ ENV PORT=8001
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8001/health', timeout=2)" || exit 1
 
-CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]
+CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]

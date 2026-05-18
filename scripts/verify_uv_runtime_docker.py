@@ -172,7 +172,7 @@ def verify_static_files() -> None:
     print_step("Checking Dockerfile uv runtime contract")
     assert_contains(dockerfile, "COPY --from=ghcr.io/astral-sh/uv:")
     assert_contains(dockerfile, "uv sync --frozen --no-dev")
-    assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]')
+    assert_contains(dockerfile, 'CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]')
 
     print_step("Checking data-prep uv contract")
     assert_contains(
@@ -207,7 +207,7 @@ def verify_release_and_e2e() -> None:
 def verify_direct_mcp_startup() -> None:
     port = free_port()
     process = start_process(
-        ["uv", "run", "legal-text-mcp-de"],
+        ["uv", "run", "legal-text-mcp-de", "serve"],
         env=env_for_server(port),
     )
     try:
