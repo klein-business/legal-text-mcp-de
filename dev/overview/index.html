@@ -1224,7 +1224,9 @@
 <h1 id="legal-text-mcp-de">legal-text-mcp-de<a class="headerlink" href="#legal-text-mcp-de" title="Permanent link">¶</a></h1>
 <h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">¶</a></h2>
 <p><code>legal-text-mcp-de</code> provides source-backed German and EU privacy-law texts
-through MCP (v2.0) and a small HTTP API. The runtime serves validated local
+through MCP (v2 surface), a small HTTP API, and — since v2.1 — a typer-based
+shell CLI that exposes the same tool surface, server lifecycle, and corpus
+pipeline behind explicit subcommands. The runtime serves validated local
 packages — small committed fixtures for fast CI — or a signed v2 corpus bundle
 (~8,500 laws from GII, 5 state portals, and EUR-Lex Cellar) distributed as an
 OCI artifact from GHCR. An optional public hosted instance is available at
@@ -1274,7 +1276,9 @@ benchmarks, and the final validation bundle.</p>
 <li><code>zstandard</code> for corpus bundle compression/decompression</li>
 <li><code>SPARQLWrapper</code> for EUR-Lex Cellar queries</li>
 <li><code>prometheus_client</code> for hosted-service metrics</li>
-<li>Pytest + <code>pytest-asyncio</code> for unit, parser, service, transport, sampling, docs, and release-gate tests</li>
+<li><code>typer</code> (&gt;=0.20, &lt;1) as a direct dep since v2.1 — backs the user-facing CLI surface (promoted from transitive via <code>mcp[cli]</code>)</li>
+<li><code>httpx</code> for the CLI <code>health</code> subcommand probe</li>
+<li>Pytest + <code>pytest-asyncio</code> for unit, parser, service, transport, sampling, CLI, docs, and release-gate tests</li>
 </ul>
 <h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">¶</a></h2>
 <table>
@@ -1290,6 +1294,11 @@ benchmarks, and the final validation bundle.</p>
 <td>mcp-server</td>
 <td>MCP server, HTTP app, legal text services, source adapters, generated package validation, operational gates, and tests.</td>
 <td><a href="../modules/mcp-server/">Detail</a></td>
+</tr>
+<tr>
+<td>cli</td>
+<td>typer-based CLI: 14 subcommands wrapping the MCP/HTTP/corpus surfaces.</td>
+<td><a href="../modules/cli/">Detail</a></td>
 </tr>
 <tr>
 <td>corpus</td>
@@ -1364,6 +1373,11 @@ benchmarks, and the final validation bundle.</p>
 <td><a href="../features/mcp-law-tools/">Detail</a></td>
 </tr>
 <tr>
+<td>cli-shell-surface</td>
+<td>typer-based CLI exposing every MCP tool + server lifecycle + corpus + diagnostics. BREAKING in v2.1.0: bare invocation prints --help.</td>
+<td><a href="../features/cli-shell-surface/">Detail</a></td>
+</tr>
+<tr>
 <td>mcp-resources</td>
 <td>10 <code>legal://</code> URIs exposing law and norm texts as Markdown resources.</td>
 <td><a href="../features/mcp-resources/">Detail</a></td>
@@ -1433,12 +1447,22 @@ benchmarks, and the final validation bundle.</p>
 <h3 id="run-mcp">Run MCP<a class="headerlink" href="#run-mcp" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nv">DATASET_PATH</span><span class="o">=</span>src/tests/fixtures/normalized<span class="w"> </span><span class="se">\</span>
 <span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>serve
 </code></pre></div>
+<blockquote>
+<p><strong>Breaking change in v2.1.0:</strong> the bare <code>uv run legal-text-mcp-de</code>
+invocation now prints <code>--help</code> instead of starting the MCP server. Use the
+explicit <code>serve</code> subcommand. See <a href="../features/cli-shell-surface/">features/cli-shell-surface</a>.</p>
+</blockquote>
 <h3 id="run-http-api">Run HTTP API<a class="headerlink" href="#run-http-api" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nv">DATASET_PATH</span><span class="o">=</span>src/tests/fixtures/normalized<span class="w"> </span><span class="se">\</span>
 <span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>legal_text_mcp_de.http_api:app<span class="w"> </span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+</code></pre></div>
+<p>The same FastAPI app is also reachable through the CLI (added in v2.1.0):</p>
+<div class="highlight"><pre><span></span><code><span class="nv">DATASET_PATH</span><span class="o">=</span>src/tests/fixtures/normalized<span class="w"> </span><span class="se">\</span>
+<span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>http<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
 </code></pre></div>
 <h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/verify_release.py
@@ -1461,7 +1485,7 @@ default PR CI.</p>
 <span class="md-icon" title="Last update">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
 </span>
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 11:26:48 UTC">May 17, 2026</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 07:32:24 UTC">May 18, 2026</span>
 </span>
 </aside>
 </article>

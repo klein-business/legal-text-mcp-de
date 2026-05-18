@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/modules/container-runtime/">
+        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/features/cli-shell-surface/">
       
       
       
@@ -23,7 +23,7 @@
     
     
       
-        <title>Module: container-runtime - legal-text-mcp-de</title>
+        <title>Feature: cli-shell-surface - legal-text-mcp-de</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-container-runtime" class="md-skip">
+        <a href="#feature-cli-shell-surface" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Module: container-runtime
+              Feature: cli-shell-surface
             
           </span>
         </div>
@@ -2468,22 +2468,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Summary
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Overview">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#responsibility" class="md-nav__link">
+  <a href="#user-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Responsibility
+        User Flow
       
     </span>
   </a>
@@ -2491,10 +2502,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
+  <a href="#output-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dependencies
+        Output Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical Flow
       
     </span>
   </a>
@@ -2507,10 +2529,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Structure
+        Implementation
       
     </span>
   </a>
@@ -2518,10 +2540,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-symbols" class="md-nav__link">
+  <a href="#exit-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Symbols
+        Exit Codes
       
     </span>
   </a>
@@ -2529,10 +2551,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#data-flow" class="md-nav__link">
+  <a href="#edge-cases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Data Flow
+        Edge Cases
       
     </span>
   </a>
@@ -2540,10 +2562,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#compatibility-with-the-http-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Compatibility with the HTTP API
       
     </span>
   </a>
@@ -2551,10 +2573,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inventory-notes" class="md-nav__link">
+  <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inventory Notes
+        Related
       
     </span>
   </a>
@@ -2581,180 +2603,301 @@
   
 
 
-<h1 id="module-container-runtime">Module: container-runtime<a class="headerlink" href="#module-container-runtime" title="Permanent link">&para;</a></h1>
+<h1 id="feature-cli-shell-surface">Feature: cli-shell-surface<a class="headerlink" href="#feature-cli-shell-surface" title="Permanent link">&para;</a></h1>
 <blockquote>
 <p>Part of <a href="../../overview/">legal-text-mcp-de</a></p>
 </blockquote>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>The container runtime ships two Dockerfiles:</p>
-<ul>
-<li><code>Dockerfile</code> — the standard image used for self-hosting. It packages the MCP
-  server code and dependencies, then expects a validated corpus bundle or
-  normalized dataset at <code>/data/legal-texts</code>.</li>
-<li><code>deployment/Dockerfile.hosted</code> — the hosted-service image layered on top of
-  the standard image. It adds rate-limiting and anonymised-logging middleware
-  and is used at <code>mcp.klein.business</code>.</li>
-</ul>
-<h3 id="responsibility">Responsibility<a class="headerlink" href="#responsibility" title="Permanent link">&para;</a></h3>
-<p>The images are responsible for running the MCP server in a reproducible Python
-environment. They are not responsible for cloning demo data, generating source
-snapshots, running full-corpus import gates, or embedding legal texts in the
-image.</p>
-<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Dependency</th>
-<th>Type</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>python:3.12-slim</code></td>
-<td>container base image</td>
-<td>Provides the Python runtime.</td>
-</tr>
-<tr>
-<td><code>uv.lock</code> and <code>pyproject.toml</code></td>
-<td>dependency metadata</td>
-<td>Provide the locked uv-managed runtime dependencies.</td>
-</tr>
-<tr>
-<td><code>/data/legal-texts</code> (standard)</td>
-<td>mounted data path</td>
-<td>Supplies the validated normalized or generated dataset package.</td>
-</tr>
-<tr>
-<td><code>/data/corpus/latest.tar.zst</code> (hosted)</td>
-<td>mounted data path</td>
-<td>Supplies the daily-refreshed v2 corpus bundle.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Path</th>
-<th>Type</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Dockerfile</code></td>
-<td>file</td>
-<td>Standard server image; expects dataset at <code>/data/legal-texts</code>.</td>
-</tr>
-<tr>
-<td><code>deployment/Dockerfile.hosted</code></td>
-<td>file</td>
-<td>Hosted-service image; layers middleware, sets <code>HOSTED=true</code>, <code>STRICT_DATASET=true</code>.</td>
-</tr>
-<tr>
-<td><code>deployment/Caddyfile</code></td>
-<td>file</td>
-<td>Caddy reverse-proxy config for <code>mcp.klein.business</code>.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="key-symbols">Key Symbols<a class="headerlink" href="#key-symbols" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Kind</th>
-<th>Location</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>FROM python:3.12-slim</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile:1</code></td>
-<td>Selects the Python base image.</td>
-</tr>
-<tr>
-<td><code>COPY --from=ghcr.io/astral-sh/uv:0.10.12</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile</code></td>
-<td>Adds the pinned uv binary.</td>
-</tr>
-<tr>
-<td><code>RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile</code></td>
-<td>Installs locked runtime dependencies.</td>
-</tr>
-<tr>
-<td><code>ENV DATASET_PATH=/data/legal-texts</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile</code></td>
-<td>Points strict startup at the mounted normalized dataset.</td>
-</tr>
-<tr>
-<td><code>CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile</code></td>
-<td>Starts the MCP server via the <code>legal-text-mcp-de serve</code> CLI subcommand. The <code>serve</code> argument is required as of v2.1.0 because bare invocation now prints <code>--help</code>.</td>
-</tr>
-<tr>
-<td><code>FROM ghcr.io/klein-business/legal-text-mcp-de:2.1.0</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile.hosted:4</code></td>
-<td>Extends the published base image.</td>
-</tr>
-<tr>
-<td><code>ENV HOSTED=true</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile.hosted</code></td>
-<td>Activates rate-limit and logging middleware registration.</td>
-</tr>
-<tr>
-<td><code>ENV DATASET_PATH=/data/corpus/latest.tar.zst</code></td>
-<td>Docker instruction</td>
-<td><code>Dockerfile.hosted</code></td>
-<td>Points to the daily-refreshed v2 bundle.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
-<p>At runtime, <code>server.py</code> resolves the corpus via <code>_resolve_dataset_path</code> and
-validates readiness through <code>LegalTextRuntime</code>. The standard image mounts a
-legacy fixture or generated package; the hosted image mounts a v2 <code>.tar.zst</code>
-bundle that the <code>corpus/loader.py</code> stack reads directly.</p>
-<p>Generated production packages and bundles should be built and validated before
-container startup. Operational artifacts remain outside the image and outside Git.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p><strong>Standard image:</strong></p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:8001<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span>/path/to/legal-text-package:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.0
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>v2.1.0 introduces a <a href="https://typer.tiangolo.com">Typer</a>-based command-line
+interface that exposes every MCP tool, the FastMCP server lifecycle, the
+FastAPI HTTP transport, the signed corpus bundle pipeline, and a set of
+diagnostic commands behind 14 explicit subcommands. The CLI is the new
+user-facing entry point for the <code>legal-text-mcp-de</code> console script.</p>
+<blockquote>
+<p><strong>Breaking change in v2.1.0:</strong> bare <code>legal-text-mcp-de</code> invocation now
+prints <code>--help</code> instead of starting the MCP server. Use
+<code>legal-text-mcp-de serve</code> to start the server. The Dockerfile <code>CMD</code> was
+updated accordingly. See the <code>[2.1.0]</code> entry in
+<a href="../../changelog/">CHANGELOG</a> for migration details.</p>
+</blockquote>
+<p>The CLI's JSON output envelope is contract-compatible with the existing
+HTTP API responses (<code>legal_text_mcp_de.http_models.*</code>), so the same
+client code that consumes <code>/laws/{code}</code> can consume
+<code>legal-text-mcp-de law BGB --json</code> interchangeably.</p>
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<h3 id="user-flow">User Flow<a class="headerlink" href="#user-flow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start the MCP server (replaces pre-v2.1 bare invocation):</span>
+<span class="nv">DATASET_PATH</span><span class="o">=</span>src/tests/fixtures/normalized<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>serve
+
+<span class="c1"># Or run a one-shot lookup:</span>
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>law<span class="w"> </span>BGB
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;widerruf&quot;</span><span class="w"> </span>--code<span class="w"> </span>bgb<span class="w"> </span>--limit<span class="w"> </span><span class="m">5</span>
+
+<span class="c1"># Pipe-friendly JSON envelope (machine-readable matches http_models):</span>
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>norm<span class="w"> </span>BGB<span class="w"> </span><span class="s2">&quot;§ 355&quot;</span><span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.data.norm.text&#39;</span>
+
+<span class="c1"># Multi-step LLM research (needs ANTHROPIC_API_KEY for full mode):</span>
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>research<span class="w"> </span><span class="s2">&quot;Datenschutz Einwilligung&quot;</span><span class="w"> </span>--detail<span class="w"> </span>full
+
+<span class="c1"># Pull and verify the signed corpus bundle:</span>
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>corpus<span class="w"> </span>pull<span class="w"> </span>--version<span class="w"> </span>latest
+uv<span class="w"> </span>run<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>corpus<span class="w"> </span>verify
 </code></pre></div>
-<p><strong>Self-host with v2 bundle:</strong></p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8001</span>:8001<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-v<span class="w"> </span>/path/to/corpus.tar.zst:/data/legal-texts:ro<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-e<span class="w"> </span><span class="nv">STRICT_DATASET</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ghcr.io/klein-business/legal-text-mcp-de:2.0.0
-</code></pre></div>
-<p>The mounted path may be:</p>
+<p>The full subcommand catalogue is documented in
+<a href="../../cli/">docs/cli/index.md</a>.</p>
+<h3 id="output-mode">Output Mode<a class="headerlink" href="#output-mode" title="Permanent link">&para;</a></h3>
+<p>Output mode is decided per-process based on the stream <code>--json</code> is
+writing to:</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Mode</th>
+<th>Where errors go</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdout is a TTY</td>
+<td>text (Rich)</td>
+<td>stderr</td>
+</tr>
+<tr>
+<td>stdout is piped / redirected</td>
+<td>JSON envelope</td>
+<td>stdout (so <code>\| jq</code> works)</td>
+</tr>
+<tr>
+<td><code>--json</code> flag set explicitly</td>
+<td>JSON envelope (always wins)</td>
+<td>stdout</td>
+</tr>
+</tbody>
+</table>
+<p>Success payloads are <code>{"data": …, "error": null}</code>. Error payloads are
+<code>{"data": null, "error": {"code", "message", "details"}}</code> — the same
+<code>ErrorBody</code> shape used by the HTTP API.</p>
+<h3 id="technical-flow">Technical Flow<a class="headerlink" href="#technical-flow" title="Permanent link">&para;</a></h3>
+<ol>
+<li>The user invokes <code>legal-text-mcp-de &lt;subcommand&gt; [...]</code> (the
+   console-script registered as <code>legal_text_mcp_de.cli:main</code>).</li>
+<li>The root Typer callback <code>_root</code> captures <code>--json</code>, <code>--quiet</code>, <code>--debug</code>
+   into <code>ctx.obj</code>, then either dispatches to the named subcommand or — if
+   no subcommand was provided — prints <code>--help</code> and exits 0.</li>
+<li>Read-only subcommands call <code>get_runtime_or_die()</code> once per process to
+   instantiate <code>Settings()</code> (reads env vars at call time) and
+   <code>LegalTextRuntime.from_settings(settings, strict=True)</code>. Subsequent
+   subcommands in the same process reuse the cached runtime.</li>
+<li>The subcommand calls the appropriate runtime method (or an external
+   helper for <code>serve</code>, <code>http</code>, <code>research</code>, <code>corpus</code>, <code>health</code>) and passes
+   the resulting payload to <code>render_data</code>.</li>
+<li><code>render_data</code> checks <code>is_json_mode</code> against the output stream and
+   writes either a Rich-rendered table or a JSON envelope.</li>
+<li>On exception, the subcommand catches a domain-specific error type
+   (<code>LegalTextError</code>, <code>SamplingError</code>, <code>httpx.HTTPError</code>, or a
+   subprocess non-zero exit) and calls <code>render_error</code> + <code>raise
+   typer.Exit(code=…)</code> with the matching exit-code constant.</li>
+</ol>
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>File</th>
+<th>Backing function / external call</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>laws [--query Q]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.list_laws(query)</code></td>
+</tr>
+<tr>
+<td><code>law CODE [--full]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_law(code)</code>; strips norm bodies unless <code>--full</code>.</td>
+</tr>
+<tr>
+<td><code>norm CODE NORM_ID</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_norm(code, norm_id)</code></td>
+</tr>
+<tr>
+<td><code>cite --code --unit --paragraph [--child-unit --child-value]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.resolve_citation(...)</code></td>
+</tr>
+<tr>
+<td><code>search QUERY [--code …] [--limit N]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.search_laws(query, codes)</code>; <code>--limit</code> applied client-side.</td>
+</tr>
+<tr>
+<td><code>meta CODE</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_source_metadata(code)</code></td>
+</tr>
+<tr>
+<td><code>coverage</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_corpus_coverage()</code></td>
+</tr>
+<tr>
+<td><code>limitations [filters…]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_source_limitations(...)</code></td>
+</tr>
+<tr>
+<td><code>related CODE NORM_ID</code></td>
+<td><a href="../../modules/cli/"><code>cli/_lookups.py</code></a></td>
+<td><code>LegalTextRuntime.get_related_norms(code, norm_id)</code></td>
+</tr>
+<tr>
+<td><code>serve [--host --port --dataset --strict]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_server.py</code></a></td>
+<td><code>create_mcp_app(runtime).run(transport="streamable-http")</code></td>
+</tr>
+<tr>
+<td><code>http [--host --port --dataset]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_server.py</code></a></td>
+<td><code>uvicorn.run("legal_text_mcp_de.http_api:app", …)</code></td>
+</tr>
+<tr>
+<td><code>research TOPIC [--max-candidates --detail]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_research.py</code></a></td>
+<td><code>tools.research_topic._run_research(...)</code></td>
+</tr>
+<tr>
+<td><code>corpus pull [--version]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_corpus.py</code></a></td>
+<td><code>subprocess.run(["oras", "pull", …])</code></td>
+</tr>
+<tr>
+<td><code>corpus verify [--cert-identity]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_corpus.py</code></a></td>
+<td><code>subprocess.run(["cosign", "verify-blob", …])</code></td>
+</tr>
+<tr>
+<td><code>corpus info</code></td>
+<td><a href="../../modules/cli/"><code>cli/_corpus.py</code></a></td>
+<td>Filesystem listing of <code>$XDG_CACHE_HOME/legal-text-mcp-de</code>.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><a href="../../modules/cli/"><code>cli/_diagnostic.py</code></a></td>
+<td><code>importlib.metadata.version("legal-text-mcp-de")</code> + <code>platform.*</code>.</td>
+</tr>
+<tr>
+<td><code>health [--url]</code></td>
+<td><a href="../../modules/cli/"><code>cli/_diagnostic.py</code></a></td>
+<td><code>httpx.get(url, timeout=5.0)</code></td>
+</tr>
+<tr>
+<td><code>completion show {bash\|zsh\|fish}</code></td>
+<td><a href="../../modules/cli/"><code>cli/_diagnostic.py</code></a></td>
+<td><code>typer.completion.get_completion_script(...)</code></td>
+</tr>
+<tr>
+<td><code>completion install {bash\|zsh\|fish}</code></td>
+<td><a href="../../modules/cli/"><code>cli/_diagnostic.py</code></a></td>
+<td>Prints install instructions (does not modify RC files).</td>
+</tr>
+</tbody>
+</table>
+<p>Module-level documentation lives at <a href="../../modules/cli/">docs/modules/cli.md</a>.</p>
+<h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Constant</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>EXIT_SUCCESS</code></td>
+<td>Normal success; also a <code>research</code> run that degraded to a ranked-search fallback because no sampling client was available.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>EXIT_RUNTIME</code></td>
+<td><code>LegalTextError</code> from runtime (missing dataset, unknown law/norm, invalid citation). Error envelope carries the original <code>code</code> + <code>details</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>EXIT_USAGE</code></td>
+<td>Typer default: unknown flag, missing argument. Also <code>completion {show,install}</code> with an unsupported shell name.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>EXIT_SAMPLING</code></td>
+<td><code>SamplingError</code> raised by <code>_run_research</code> (timeout, schema violation, refusal). Distinguishable from <code>EXIT_RUNTIME</code> so CI can treat sampling outages differently from data errors.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>EXIT_CORPUS</code></td>
+<td><code>corpus pull</code> non-zero (<code>oras</code> missing or registry unreachable); <code>corpus verify</code> with no cached bundle or non-zero <code>cosign verify-blob</code>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>EXIT_CONNECTIVITY</code></td>
+<td><code>health</code> subcommand: transport error (<code>httpx.HTTPError</code>) or non-200 response.</td>
+</tr>
+<tr>
+<td>130</td>
+<td><code>EXIT_INTERRUPT</code></td>
+<td>SIGINT.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="edge-cases">Edge Cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
 <ul>
-<li>a legacy fixture directory with <code>laws.json</code> and <code>norms.json</code>;</li>
-<li>a strict generated package with <code>package.json</code>, <code>manifest.json</code>,
-  <code>source-limitations.json</code>, <code>relationships.json</code>, <code>readiness.json</code>, and
-  <code>search-index.json</code>;</li>
-<li>a v2 <code>.tar.zst</code> corpus bundle (standard image with <code>CORPUS_AUTO_DOWNLOAD</code>
-  disabled, or hosted image).</li>
+<li><strong>No <code>DATASET_PATH</code> and no bundle in the XDG cache.</strong> The first read-only
+  subcommand call to <code>get_runtime_or_die()</code> raises <code>LegalTextError</code> with
+  the runtime's structured <code>{code, message, details}</code>. Exit: 1.</li>
+<li><strong><code>research</code> without <code>ANTHROPIC_API_KEY</code>.</strong> <code>_run_research</code> falls back to
+  the ranked-search degraded mode and returns a <code>ResearchReport</code> with
+  <code>status="degraded_no_sampling"</code>. The CLI exits 0 — the degraded payload
+  is a valid response, not an error. See
+  <a href="../research-topic-smart-tool/">research-topic-smart-tool</a> for the
+  contract.</li>
+<li><strong><code>research</code> with sampling timeout / schema violation / refusal.</strong> A
+  hard <code>SamplingError</code> exits 3.</li>
+<li><strong><code>corpus pull</code> without <code>oras</code> installed.</strong> <code>subprocess.run</code> raises or
+  returns non-zero; the CLI writes an error envelope and exits 4.</li>
+<li><strong><code>corpus verify</code> against the wrong tag.</strong> <code>cosign verify-blob</code> fails;
+  exit 4 with the verifier's stderr in the error envelope's <code>details</code>.</li>
+<li><strong><code>health</code> against an unreachable URL.</strong> <code>httpx.HTTPError</code>; exit 5.</li>
+<li><strong>Bare <code>legal-text-mcp-de</code>.</strong> Prints <code>--help</code> and exits 0. Pre-v2.1.0
+  this started the MCP server.</li>
+<li><strong><code>--json</code> on a TTY.</strong> The flag wins: JSON envelope on stdout even when
+  the user is reading the result in a terminal.</li>
 </ul>
-<h2 id="inventory-notes">Inventory Notes<a class="headerlink" href="#inventory-notes" title="Permanent link">&para;</a></h2>
+<h2 id="compatibility-with-the-http-api">Compatibility with the HTTP API<a class="headerlink" href="#compatibility-with-the-http-api" title="Permanent link">&para;</a></h2>
+<p>Every CLI JSON envelope's <code>data</code> field carries the exact same dict shape
+as the corresponding HTTP endpoint response, because both pathways
+serialise the same <code>LegalTextRuntime</code> return values through the same
+<code>legal_text_mcp_de.http_models.*</code> Pydantic models:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># These two snippets return the same payload inside the `data` key:</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:8001/laws/bgb<span class="w">            </span><span class="p">|</span><span class="w"> </span>jq
+legal-text-mcp-de<span class="w"> </span>law<span class="w"> </span>bgb<span class="w"> </span>--full<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.data
+</code></pre></div>
+<p>This keeps the CLI a thin shell over the underlying transport contract —
+no parallel JSON schema to maintain.</p>
+<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Coverage</strong>: full.</li>
-<li><strong>Notes</strong>: Production data supply is external to the image and auditable through
-  manifests and cosign signatures. See <a href="../hosted-deployment/">hosted-deployment</a>
-  for the full hosted-service topology and <a href="../../features/public-hosted-service/">public-hosted-service feature</a>
-  for end-user connection instructions.</li>
+<li><a href="../../cli/">docs/cli/index.md</a> — curated end-user CLI reference.</li>
+<li><a href="../../modules/cli/">cli module</a> — package structure, symbols, tests.</li>
+<li><a href="../mcp-law-tools/">mcp-law-tools</a> — the MCP tools each read-only
+  subcommand wraps.</li>
+<li><a href="../research-topic-smart-tool/">research-topic-smart-tool</a> — the smart
+  tool behind <code>research</code>.</li>
+<li><a href="../http-api/">http-api</a> — the FastAPI surface behind <code>http</code> and the
+  source of the JSON shape used by every CLI subcommand.</li>
 </ul>
 
 

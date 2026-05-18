@@ -6,10 +6,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="Python MCP server and HTTP API for German legal texts with source provenance." name="description"/>
-<link href="https://klein-business.github.io/legal-text-mcp-de/latest/modules/mcp-server/" rel="canonical"/>
+<link href="https://klein-business.github.io/legal-text-mcp-de/latest/modules/cli/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6" name="generator"/>
-<title>Module: mcp-server - legal-text-mcp-de</title>
+<title>Module: cli - legal-text-mcp-de</title>
 <link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.ab4e12ef.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -22,7 +22,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#module-mcp-server">
+<a class="md-skip" href="#module-cli">
           Skip to content
         </a>
 </div>
@@ -48,7 +48,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Module: mcp-server
+              Module: cli
             
           </span>
 </div>
@@ -1146,39 +1146,124 @@
       
     </span>
 </a>
-</li>
+<nav aria-label="Key Symbols" class="md-nav">
+<ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#data-flow">
+<a class="md-nav__link" href="#cli__init__py">
 <span class="md-ellipsis">
       
-        Data Flow
+        cli/__init__.py
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#full-corpus-gate-sequence">
+<a class="md-nav__link" href="#cli_outputpy">
 <span class="md-ellipsis">
       
-        Full-Corpus Gate Sequence
+        cli/_output.py
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#configuration">
+<a class="md-nav__link" href="#cli_runtimepy">
 <span class="md-ellipsis">
       
-        Configuration
+        cli/_runtime.py
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#test-coverage">
+<a class="md-nav__link" href="#cli_lookupspy">
 <span class="md-ellipsis">
       
-        Test Coverage
+        cli/_lookups.py
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cli_serverpy">
+<span class="md-ellipsis">
+      
+        cli/_server.py
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cli_researchpy">
+<span class="md-ellipsis">
+      
+        cli/_research.py
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cli_corpuspy">
+<span class="md-ellipsis">
+      
+        cli/_corpus.py
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#cli_diagnosticpy">
+<span class="md-ellipsis">
+      
+        cli/_diagnostic.py
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#subcommand-registration-pattern">
+<span class="md-ellipsis">
+      
+        Subcommand Registration Pattern
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#output-mode-and-json-contract">
+<span class="md-ellipsis">
+      
+        Output Mode and JSON Contract
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#exit-codes">
+<span class="md-ellipsis">
+      
+        Exit Codes
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-flow-surface-map">
+<span class="md-ellipsis">
+      
+        Data Flow / Surface Map
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#testing">
+<span class="md-ellipsis">
+      
+        Testing
       
     </span>
 </a>
@@ -1199,38 +1284,39 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="module-mcp-server">Module: mcp-server<a class="headerlink" href="#module-mcp-server" title="Permanent link">¶</a></h1>
+<h1 id="module-cli">Module: cli<a class="headerlink" href="#module-cli" title="Permanent link">¶</a></h1>
 <blockquote>
 <p>Part of <a href="../../overview/">legal-text-mcp-de</a></p>
 </blockquote>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
-<p><code>src/legal_text_mcp_de/</code> contains the MCP server, HTTP app factory, legal text
-services, source import helpers, normalization parsers, generated-package
-validators, operational corpus gates, validated fixture data, and tests.</p>
-<p>In v2 the <code>server.py</code> entry point is a slim orchestrator: the MCP tool surface,
-resource handlers, and prompt templates live in the dedicated sub-packages
-<code>tools/</code>, <code>resources/</code>, and <code>prompts/</code>. Corpus bundle loading is handled by the
-<code>corpus/</code> sub-package. The <code>sampling/</code> sub-package provides the smart-tool
-sampling helpers.</p>
-<p>Since v2.1.0 the user-facing entry point is the <code>cli/</code> sub-package, not
-<code>server.py</code>. The <code>legal-text-mcp-de</code> console script repoints to
-<code>legal_text_mcp_de.cli:main</code>, and the MCP server is started via the
-<code>serve</code> subcommand. <code>server.py:main()</code> is preserved as an internal entry
-point that the CLI's <code>serve</code> subcommand delegates to — bare invocation no
-longer reaches it. See <a href="../../features/cli-shell-surface/">features/cli-shell-surface</a>
-for the BREAKING-change details.</p>
+<p>The <code>src/legal_text_mcp_de/cli/</code> package implements the user-facing shell CLI
+introduced in v2.1.0. It is a <a href="https://typer.tiangolo.com">Typer</a> application
+that wraps every existing MCP tool, the FastMCP server lifecycle, the FastAPI
+HTTP transport, the corpus bundle pipeline, and a small set of diagnostic
+commands behind 14 explicit subcommands.</p>
+<p>The CLI is now the user-facing entry point: the <code>legal-text-mcp-de</code> console
+script repoints from <code>legal_text_mcp_de.server:main</code> to
+<code>legal_text_mcp_de.cli:main</code>. Bare invocation prints <code>--help</code> instead of
+starting the MCP server. The MCP server is now reachable through the
+<code>serve</code> subcommand. This is a <strong>breaking change</strong> documented in CHANGELOG
+under <code>[2.1.0]</code> and in <a href="../../features/cli-shell-surface/">features/cli-shell-surface</a>.</p>
 <h3 id="responsibility">Responsibility<a class="headerlink" href="#responsibility" title="Permanent link">¶</a></h3>
 <p>This module is responsible for:</p>
 <ul>
-<li>loading a validated normalized dataset package or a v2 corpus bundle;</li>
-<li>resolving law aliases through a versioned registry;</li>
-<li>returning source-backed law, norm, citation, search, and metadata JSON objects;</li>
-<li>exposing corpus coverage, source limitations, and relationship metadata;</li>
-<li>exposing the same domain services through MCP tools, MCP resources, MCP
-  prompts, and the HTTP API;</li>
-<li>failing with structured errors when data or citations are invalid.</li>
+<li>exposing 14 typer subcommands that 1:1 mirror the MCP tool surface plus
+  server/HTTP lifecycle, corpus management, and diagnostics;</li>
+<li>rendering payloads as either Rich-styled text (TTY) or JSON (pipe or
+  <code>--json</code>) using the existing <code>http_models</code> Pydantic shapes as the JSON
+  contract;</li>
+<li>mapping internal exception types (<code>LegalTextError</code>, <code>SamplingError</code>,
+  subprocess failures, <code>httpx.HTTPError</code>) to seven well-defined process
+  exit codes;</li>
+<li>lazily loading and caching a single <code>LegalTextRuntime</code> per process so that
+  read-only subcommands stay cheap when invoked back-to-back.</li>
 </ul>
-<p>It is not responsible for legal evaluation, user management, billing, tenant isolation, or production hosting.</p>
+<p>It is not responsible for the business logic of any subcommand — every
+subcommand delegates to existing runtime methods (<code>LegalTextRuntime.*</code>),
+<code>create_mcp_app</code>, <code>_run_research</code>, or external binaries (<code>oras</code>, <code>cosign</code>).</p>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -1242,34 +1328,59 @@ for the BREAKING-change details.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>mcp.server.fastmcp.FastMCP</code></td>
+<td><code>typer</code></td>
 <td>library</td>
-<td>MCP streamable HTTP tool/resource/prompt transport.</td>
+<td>Subcommand registration, argument parsing, help rendering. Promoted in v2.1.0 from a transitive dep (via <code>mcp[cli]</code>) to a direct dep pinned at <code>&gt;=0.20,&lt;1</code>.</td>
 </tr>
 <tr>
-<td><code>fastapi</code>, <code>uvicorn</code></td>
+<td><code>rich</code></td>
 <td>library</td>
-<td>HTTP API and OpenAPI generation.</td>
+<td>TTY-aware text rendering for <code>render_data</code> and <code>render_error</code>. Reused from <code>mcp[cli]</code>.</td>
 </tr>
 <tr>
-<td><code>pydantic-settings</code></td>
+<td><code>httpx</code></td>
 <td>library</td>
-<td>Runtime settings from environment and <code>.env</code>.</td>
+<td><code>health</code> subcommand: HTTP probe against a running server.</td>
 </tr>
 <tr>
-<td><code>xml.etree.ElementTree</code>, <code>zipfile</code>, <code>hashlib</code></td>
-<td>standard library</td>
-<td>Source parsing, snapshot handling, and hash manifests.</td>
-</tr>
-<tr>
-<td><code>zstandard</code></td>
+<td><code>uvicorn</code></td>
 <td>library</td>
-<td>Decompression of v2 <code>.tar.zst</code> corpus bundles.</td>
+<td>Started in-process by the <code>http</code> subcommand.</td>
 </tr>
 <tr>
-<td><code>pytest</code>, <code>pytest-asyncio</code></td>
-<td>test library</td>
-<td>Unit, parser, service, transport, sampling, and release-gate tests.</td>
+<td><code>oras</code>, <code>cosign</code></td>
+<td>external binaries</td>
+<td>Invoked via <code>subprocess</code> by <code>corpus pull</code> and <code>corpus verify</code>. Not Python deps.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.legal_texts.runtime.LegalTextRuntime</code></td>
+<td>internal</td>
+<td>Backs every read-only lookup subcommand.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.server.create_mcp_app</code></td>
+<td>internal</td>
+<td>Started by the <code>serve</code> subcommand.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.tools.research_topic._run_research</code></td>
+<td>internal</td>
+<td>Backs the <code>research</code> subcommand.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.http_models.*</code></td>
+<td>internal</td>
+<td>Implicit JSON-output contract — every subcommand's JSON envelope matches the corresponding HTTP response model.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.sampling.errors.SamplingError</code></td>
+<td>internal</td>
+<td>Mapped to exit code 3.</td>
+</tr>
+<tr>
+<td><code>legal_text_mcp_de.legal_texts.errors.LegalTextError</code></td>
+<td>internal</td>
+<td>Mapped to exit code 1 with the structured <code>{code, message, details}</code> envelope.</td>
 </tr>
 </tbody>
 </table>
@@ -1284,446 +1395,490 @@ for the BREAKING-change details.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>src/legal_text_mcp_de/server.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/__init__.py</code></td>
 <td>file</td>
-<td>Slim FastMCP app factory; orchestrates registration of tools, resources, and prompts.</td>
+<td>Root <code>typer.Typer</code> app, global flags (<code>--json</code>, <code>--quiet</code>, <code>--debug</code>, <code>--version</code>), subcommand registration loop, <code>main()</code> entry point.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/http_api.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_output.py</code></td>
 <td>file</td>
-<td>FastAPI app factory and HTTP routes.</td>
+<td>TTY-vs-JSON detection, <code>render_data</code> / <code>render_error</code> / <code>render_table</code> helpers, exit-code constants.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/http_models.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_runtime.py</code></td>
 <td>file</td>
-<td>Pydantic response models for HTTP/OpenAPI.</td>
+<td><code>get_runtime_or_die()</code> + <code>reset_runtime_cache()</code> — lazy, per-process <code>LegalTextRuntime</code> loader.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/config.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_lookups.py</code></td>
 <td>file</td>
-<td>Runtime settings including dataset path, corpus auto-download, startup strictness, host, port, and debug flag.</td>
+<td>9 read-only lookup subcommands (1:1 with the v1 MCP tools).</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/corpus/</code></td>
-<td>dir</td>
-<td>v2 corpus bundle loader, cache, verifier, and schema. See <a href="../corpus/">corpus module</a>.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/tools/</code></td>
-<td>dir</td>
-<td>v1 law tools + <code>research_topic</code> smart tool + models and prompts.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/resources/</code></td>
-<td>dir</td>
-<td><code>legal://</code> URI handlers and Markdown renderer. See <a href="../resources/">resources module</a>.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/prompts/</code></td>
-<td>dir</td>
-<td>5 slash-command templates. See <a href="../prompts/">prompts module</a>.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/sampling/</code></td>
-<td>dir</td>
-<td><code>safe_sample</code> helper, schemas, errors, MockSamplingClient. See <a href="../sampling/">sampling module</a>.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/data/laws.v1.json</code></td>
+<td><code>src/legal_text_mcp_de/cli/_server.py</code></td>
 <td>file</td>
-<td>Versioned law registry with aliases, canonical IDs, display codes, and source metadata.</td>
+<td><code>serve</code> (MCP, streamable HTTP) and <code>http</code> (FastAPI via uvicorn) lifecycle subcommands.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/legal_texts/sources.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_research.py</code></td>
 <td>file</td>
-<td>Canonical GII and Cellar source specifications plus invalid-path regressions.</td>
+<td><code>research</code> subcommand wrapping <code>tools/research_topic._run_research</code>.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_toc.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_corpus.py</code></td>
 <td>file</td>
-<td>GII TOC parser, discovery manifest/artifact builder, and opt-in live fetch helper.</td>
+<td><code>corpus</code> sub-Typer: <code>pull</code> (ORAS), <code>verify</code> (cosign), <code>info</code>.</td>
 </tr>
 <tr>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_bulk.py</code></td>
+<td><code>src/legal_text_mcp_de/cli/_diagnostic.py</code></td>
 <td>file</td>
-<td>Fixture-backed GII bulk normalization, terminal-state package generation, and critical-law gate helpers.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/importer.py</code></td>
-<td>file</td>
-<td>Source probing, snapshot download, SHA-256 hashing, manifest generation, and manifest diffing.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_xml.py</code></td>
-<td>file</td>
-<td>GII XML ZIP parser for German legal texts.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/eurlex_xml.py</code></td>
-<td>file</td>
-<td>DSGVO Cellar/Formex article parser.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/eu_neighbors.py</code></td>
-<td>file</td>
-<td>Bounded EU neighbor source records, source limitations, and fixture parsing.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/state_law.py</code></td>
-<td>file</td>
-<td>State-law adapter gate helpers and generated package writing.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/state_law_coverage.py</code></td>
-<td>file</td>
-<td>State-law 16-outcome coverage and PDF/source gate artifact helpers.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/relationships.py</code></td>
-<td>file</td>
-<td>Privacy scope policy/seed validation and relationship package transforms.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/normalizer.py</code></td>
-<td>file</td>
-<td>Snapshot-manifest to normalized dataset conversion.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/validation.py</code></td>
-<td>file</td>
-<td>Legacy normalized dataset validation, strict generated-package validation, and readiness state generation.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/manifest.py</code></td>
-<td>file</td>
-<td>Versioned full-corpus manifest contract and source-completeness validation.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/dataset.py</code></td>
-<td>file</td>
-<td>Normalized dataset loader and lookup layer.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/resolver.py</code></td>
-<td>file</td>
-<td>Structured citation and norm resolver.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/search.py</code></td>
-<td>file</td>
-<td>Deterministic plain-text search over normalized norms.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/runtime.py</code></td>
-<td>file</td>
-<td>Runtime composition for registry, dataset, resolver, search, and metadata services.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/legal_texts/errors.py</code></td>
-<td>file</td>
-<td>Shared structured error codes and envelopes.</td>
-</tr>
-<tr>
-<td><code>src/legal_text_mcp_de/parser.py</code></td>
-<td>file</td>
-<td>Legacy Markdown parser retained for compatibility tests.</td>
-</tr>
-<tr>
-<td><code>src/tests/</code></td>
-<td>dir</td>
-<td>Fixture-backed test suite and release-gate coverage.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_release.py</code></td>
-<td>file</td>
-<td>Runs the full release gate and then local network E2E.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_e2e.py</code></td>
-<td>file</td>
-<td>Starts real local HTTP/MCP server processes and verifies both transports end-to-end.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_dsgvo_full_counts.py</code></td>
-<td>file</td>
-<td>Validates DSGVO article/recital count, Cellar policy, boundary samples, and content hash evidence.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_eu_neighbor_sources.py</code></td>
-<td>file</td>
-<td>Builds EU neighbor imported-or-limited source evidence.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_state_law_pdf_sources.py</code></td>
-<td>file</td>
-<td>Writes final state-law PDF/source coverage evidence.</td>
-</tr>
-<tr>
-<td><code>scripts/benchmark_corpus_runtime.py</code></td>
-<td>file</td>
-<td>Measures package load, search p95, and combined dataset/search memory.</td>
-</tr>
-<tr>
-<td><code>scripts/verify_full_corpus_bundle.py</code></td>
-<td>file</td>
-<td>Composes and validates the full-corpus release evidence bundle.</td>
+<td><code>version</code>, <code>health</code>, and <code>completion</code> sub-Typer (<code>show</code> / <code>install</code>).</td>
 </tr>
 </tbody>
 </table>
 <h2 id="key-symbols">Key Symbols<a class="headerlink" href="#key-symbols" title="Permanent link">¶</a></h2>
+<h3 id="cli__init__py"><code>cli/__init__.py</code><a class="headerlink" href="#cli__init__py" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
 <th>Symbol</th>
 <th>Kind</th>
-<th>Location</th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Settings</code></td>
-<td>class</td>
-<td><code>src/legal_text_mcp_de/config.py</code></td>
-<td>Defines <code>DATASET_PATH</code>, <code>CORPUS_AUTO_DOWNLOAD</code>, <code>STRICT_STARTUP</code>, host, port, debug, and legacy parser settings.</td>
+<td><code>app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Root Typer app; constructed with <code>invoke_without_command=True</code> and <code>add_completion=False</code> (completion is handled by the explicit <code>completion</code> sub-Typer).</td>
 </tr>
 <tr>
-<td><code>create_mcp_app</code></td>
+<td><code>_root</code></td>
+<td>callback</td>
+<td>Captures the four global flags into <code>ctx.obj</code> and exits 0 after printing help when no subcommand was given.</td>
+</tr>
+<tr>
+<td><code>_resolve_version</code></td>
 <td>function</td>
-<td><code>src/legal_text_mcp_de/server.py</code></td>
-<td>Builds the FastMCP app and registers tools, resources, and prompts.</td>
+<td>Reads the installed package version via <code>importlib.metadata.version</code>; returns <code>"0.0.0+unknown"</code> on <code>PackageNotFoundError</code>.</td>
 </tr>
 <tr>
-<td><code>create_http_app</code></td>
+<td><code>_version_callback</code></td>
 <td>function</td>
-<td><code>src/legal_text_mcp_de/http_api.py</code></td>
-<td>Builds the FastAPI app over an injected or configured runtime.</td>
+<td>Eager callback for <code>--version</code>.</td>
 </tr>
 <tr>
-<td><code>LegalTextRuntime</code></td>
-<td>class</td>
-<td><code>src/legal_text_mcp_de/legal_texts/runtime.py</code></td>
-<td>Shared application service used by both transports.</td>
-</tr>
-<tr>
-<td><code>LawRegistry</code></td>
-<td>class</td>
-<td><code>src/legal_text_mcp_de/legal_texts/registry.py</code></td>
-<td>Resolves aliases to canonical IDs and validates collisions.</td>
-</tr>
-<tr>
-<td><code>NormalizedDataset</code></td>
-<td>class</td>
-<td><code>src/legal_text_mcp_de/legal_texts/dataset.py</code></td>
-<td>Loads <code>laws.json</code>, <code>norms.json</code>, and readiness data.</td>
-</tr>
-<tr>
-<td><code>resolve_citation</code></td>
+<td><code>main</code></td>
 <td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/resolver.py</code></td>
-<td>Resolves exact structured legal citations.</td>
-</tr>
-<tr>
-<td><code>SearchService</code></td>
-<td>class</td>
-<td><code>src/legal_text_mcp_de/legal_texts/search.py</code></td>
-<td>Runs deterministic search and produces HTML-free snippets.</td>
-</tr>
-<tr>
-<td><code>validate_dataset_package</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/validation.py</code></td>
-<td>Verifies dataset readiness and dispatches to strict generated-package validation when <code>package.json</code> is present.</td>
-</tr>
-<tr>
-<td><code>validate_generated_package</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/validation.py</code></td>
-<td>Validates generated package metadata, hashes, manifest references, source limitations, relationships, and citation units.</td>
-</tr>
-<tr>
-<td><code>validate_corpus_manifest</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/manifest.py</code></td>
-<td>Validates <code>corpus-manifest.v1</code> source families, terminal states, canonical IDs, and relationship-source policy.</td>
-</tr>
-<tr>
-<td><code>parse_gii_toc</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_toc.py</code></td>
-<td>Parses official GII TOC XML into deterministic discovery records and diagnostics.</td>
-</tr>
-<tr>
-<td><code>fetch_gii_discovery_artifact</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_toc.py</code></td>
-<td>Fetches the live GII TOC and builds a <code>gii-discovery-artifact.v1</code> payload.</td>
-</tr>
-<tr>
-<td><code>write_gii_discovery_artifact</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_toc.py</code></td>
-<td>Writes discovery artifacts to an explicit path for live-gate evidence.</td>
-</tr>
-<tr>
-<td><code>run_gii_bulk_normalization</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_bulk.py</code></td>
-<td>Consumes discovery records plus local payloads and writes a generated fixture package with terminal states.</td>
-</tr>
-<tr>
-<td><code>build_gii_corpus_gate_artifact</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/gii_bulk.py</code></td>
-<td>Builds <code>gii-corpus-gate.v1</code> evidence with coverage counts, critical-law outcomes, and package hash.</td>
-</tr>
-<tr>
-<td><code>validate_privacy_scope_seed</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/relationships.py</code></td>
-<td>Validates relationship-source metadata, official targets, limitations, and relationship endpoints.</td>
-</tr>
-<tr>
-<td><code>build_state_law_pdf_gate_artifact</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/state_law_coverage.py</code></td>
-<td>Builds <code>state-law-pdf-source-gate.v1</code> and <code>state-law-coverage.v1</code> artifacts.</td>
-</tr>
-<tr>
-<td><code>import_snapshot</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/importer.py</code></td>
-<td>Downloads source snapshots and writes a hash manifest.</td>
-</tr>
-<tr>
-<td><code>normalize_snapshot</code></td>
-<td>function</td>
-<td><code>src/legal_text_mcp_de/legal_texts/normalizer.py</code></td>
-<td>Produces normalized <code>laws.json</code> and <code>norms.json</code> from a snapshot manifest.</td>
+<td>Console-script entry point (<code>legal-text-mcp-de = legal_text_mcp_de.cli:main</code>).</td>
 </tr>
 </tbody>
 </table>
-<h2 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">¶</a></h2>
-<ol>
-<li>Source specs identify fixture GII XML ZIP URLs and the DSGVO Cellar XML URL.</li>
-<li>GII discovery can parse the official TOC into discovery-mode manifest records
-   for full-corpus builds.</li>
-<li>Bulk GII gates can consume discovery records plus explicit local payloads and
-   assign terminal states for fixture/full-corpus evidence.</li>
-<li>Import helpers download raw artifacts, compute hashes, and write manifests.</li>
-<li>Normalizers parse raw XML into structured law and norm records.</li>
-<li>Validation checks required fields, duplicate IDs, source metadata, readiness, and, for generated packages, package metadata, content hashes, manifest consistency, source limitations, and relationships.</li>
-<li>Operational gate scripts validate full-corpus evidence without adding
-   network-heavy work to default PR CI.</li>
-<li>Runtime loads the normalized dataset and exposes registry, citation, search,
-   coverage, source-limitation, and relationship services.</li>
-<li>MCP and HTTP transports delegate to runtime methods and wrap <code>LegalTextError</code> as structured JSON.</li>
-</ol>
-<h2 id="full-corpus-gate-sequence">Full-Corpus Gate Sequence<a class="headerlink" href="#full-corpus-gate-sequence" title="Permanent link">¶</a></h2>
-<pre class="mermaid"><code>sequenceDiagram
-    participant Operator
-    participant GII as GII gate
-    participant DSGVO as DSGVO count gate
-    participant EU as EU neighbor gate
-    participant State as State-law gate
-    participant Bench as Runtime benchmark
-    participant Bundle as Bundle verifier
-
-    Operator-&gt;&gt;GII: verify_gii_discovery.py and verify_gii_corpus_gate.py
-    GII--&gt;&gt;Operator: gii-corpus-gate.v1
-    Operator-&gt;&gt;DSGVO: verify_dsgvo_full_counts.py
-    DSGVO--&gt;&gt;Operator: dsgvo-full-counts.v1
-    Operator-&gt;&gt;EU: verify_eu_neighbor_sources.py
-    EU--&gt;&gt;Operator: eu-neighbor-sources.v1
-    Operator-&gt;&gt;State: verify_state_law_pdf_sources.py
-    State--&gt;&gt;Operator: state-law-pdf-source-gate.v1
-    Operator-&gt;&gt;Bench: benchmark_corpus_runtime.py
-    Bench--&gt;&gt;Operator: corpus-runtime-benchmark.v1
-    Operator-&gt;&gt;Bundle: verify_full_corpus_bundle.py
-    Bundle--&gt;&gt;Operator: full-corpus-validation-bundle.v1
-</code></pre>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
+<h3 id="cli_outputpy"><code>cli/_output.py</code><a class="headerlink" href="#cli_outputpy" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
-<th>Setting</th>
-<th>Default</th>
+<th>Symbol</th>
+<th>Kind</th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>DATASET_PATH</code> / <code>dataset_path</code></td>
-<td><code>None</code></td>
-<td>Path to a validated normalized dataset package or v2 bundle.</td>
+<td><code>EXIT_SUCCESS</code> / <code>EXIT_RUNTIME</code> / <code>EXIT_USAGE</code> / <code>EXIT_SAMPLING</code> / <code>EXIT_CORPUS</code> / <code>EXIT_CONNECTIVITY</code> / <code>EXIT_INTERRUPT</code></td>
+<td><code>Final[int]</code></td>
+<td>The seven exit-code constants: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>130</code>.</td>
 </tr>
 <tr>
-<td><code>CORPUS_AUTO_DOWNLOAD</code></td>
-<td><code>false</code></td>
-<td>Enable <code>oras pull</code> of the corpus bundle from GHCR when <code>DATASET_PATH</code> is unset.</td>
+<td><code>is_json_mode</code></td>
+<td>function</td>
+<td>Decides text vs JSON: <code>--json</code> always wins; otherwise checks <code>stream.isatty()</code>. Pipe / redirect → JSON (machine-friendly default).</td>
 </tr>
 <tr>
-<td><code>CORPUS_VERSION</code></td>
-<td><code>"latest"</code></td>
-<td>OCI tag to pull when auto-download is active.</td>
+<td><code>render_data</code></td>
+<td>function</td>
+<td>Writes a success payload as JSON envelope <code>{"data": …, "error": null}</code> or as text via an optional <code>text_renderer(payload, console)</code>.</td>
 </tr>
 <tr>
-<td><code>CORPUS_CERT_IDENTITY</code></td>
-<td><code>None</code></td>
-<td>Enables cosign signature verification when set.</td>
+<td><code>render_error</code></td>
+<td>function</td>
+<td>Writes an error envelope <code>{"data": null, "error": {"code", "message", "details"}}</code> (matches HTTP <code>ErrorBody</code>). In JSON mode the envelope still goes to stdout (so <code>\| jq</code> works); in text mode it goes to stderr.</td>
 </tr>
 <tr>
-<td><code>STRICT_STARTUP</code> / <code>strict_startup</code></td>
-<td><code>true</code></td>
-<td>Fail process startup when the dataset is missing or invalid.</td>
-</tr>
-<tr>
-<td><code>HOST</code> / <code>host</code></td>
-<td><code>0.0.0.0</code></td>
-<td>MCP bind host.</td>
-</tr>
-<tr>
-<td><code>PORT</code> / <code>port</code></td>
-<td><code>8001</code></td>
-<td>MCP bind port.</td>
-</tr>
-<tr>
-<td><code>DEBUG</code> / <code>debug</code></td>
-<td><code>false</code></td>
-<td>FastMCP debug flag.</td>
+<td><code>render_table</code></td>
+<td>function</td>
+<td>Rich-table helper for text mode.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="test-coverage">Test Coverage<a class="headerlink" href="#test-coverage" title="Permanent link">¶</a></h2>
-<p>The release gate is <code>PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py</code>. It runs docs link/image checks, active workflow checks, fixture coverage, corpus manifest tests, generated-package validation tests, GII TOC fixture discovery tests, GII bulk fixture-gate tests, importer tests, parser/normalizer tests, resolver tests, search tests, operational corpus gate tests, MCP tool tests, HTTP/OpenAPI tests, structured error tests, scope checks, and local network E2E through <code>scripts/verify_e2e.py</code>. Live source matrix probes run only when explicitly enabled.</p>
-<p>The live GII TOC gate is opt-in:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>mcp<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/verify_gii_discovery.py<span class="w"> </span>--output<span class="w"> </span>.artifacts/gii-discovery/latest.json
+<h3 id="cli_runtimepy"><code>cli/_runtime.py</code><a class="headerlink" href="#cli_runtimepy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_runtime_or_die</code></td>
+<td>function</td>
+<td>Returns a ready <code>LegalTextRuntime</code>; instantiates <code>Settings()</code> (reads env vars at call time) and <code>LegalTextRuntime.from_settings(settings, strict=True)</code>. Caches the runtime per process. Raises <code>LegalTextError</code> when the dataset is missing/invalid.</td>
+</tr>
+<tr>
+<td><code>reset_runtime_cache</code></td>
+<td>function</td>
+<td>Clears the module-level cache. Used by tests that need to swap <code>DATASET_PATH</code> between cases.</td>
+</tr>
+<tr>
+<td><code>_cached_runtime</code></td>
+<td>module global</td>
+<td>The per-process cache.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cli_lookupspy"><code>cli/_lookups.py</code><a class="headerlink" href="#cli_lookupspy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lookups_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Holds 9 commands; lifted onto the root in <code>__init__.py</code> so they appear without a <code>lookups</code> prefix.</td>
+</tr>
+<tr>
+<td><code>laws</code>, <code>law</code>, <code>norm</code>, <code>cite</code>, <code>search</code>, <code>meta</code>, <code>coverage</code>, <code>limitations</code>, <code>related</code></td>
+<td>commands</td>
+<td>1:1 with <code>LegalTextRuntime.list_laws / get_law / get_norm / resolve_citation / search_laws / get_source_metadata / get_corpus_coverage / get_source_limitations / get_related_norms</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cli_serverpy"><code>cli/_server.py</code><a class="headerlink" href="#cli_serverpy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>server_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Holds <code>serve</code> and <code>http</code>; lifted onto the root.</td>
+</tr>
+<tr>
+<td><code>serve</code></td>
+<td>command</td>
+<td>Starts FastMCP over streamable HTTP. <strong>Replaces the pre-v2.1.0 bare invocation.</strong></td>
+</tr>
+<tr>
+<td><code>http</code></td>
+<td>command</td>
+<td>Starts FastAPI via <code>uvicorn.run("legal_text_mcp_de.http_api:app", …)</code>.</td>
+</tr>
+<tr>
+<td><code>_run_mcp</code>, <code>_run_http</code></td>
+<td>functions</td>
+<td>Test-friendly indirection so the lifecycle entries can be monkey-patched without reaching into MCP / uvicorn internals. Each only applies CLI-supplied flags when explicitly set; otherwise env-driven <code>Settings</code> win.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cli_researchpy"><code>cli/_research.py</code><a class="headerlink" href="#cli_researchpy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>research_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Holds the single <code>research</code> command; lifted onto the root.</td>
+</tr>
+<tr>
+<td><code>research</code></td>
+<td>command</td>
+<td>Wraps <code>_run_research(runtime, topic, max_candidates, detail, ctx=None)</code> and serialises the resulting <code>ResearchReport</code> Pydantic model.</td>
+</tr>
+<tr>
+<td><code>_run_async</code></td>
+<td>function</td>
+<td><code>asyncio.run(coro)</code> wrapper that restores a fresh default event loop afterwards (fixes test-ordering flakiness in <code>tests/test_resources</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cli_corpuspy"><code>cli/_corpus.py</code><a class="headerlink" href="#cli_corpuspy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>corpus_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Sub-Typer; attached via <code>app.add_typer(corpus_app, name="corpus")</code> so commands keep the <code>corpus</code> prefix.</td>
+</tr>
+<tr>
+<td><code>pull</code></td>
+<td>command</td>
+<td>Shells out to <code>oras pull ghcr.io/klein-business/legal-text-mcp-de-corpus:{version}</code> into the XDG cache.</td>
+</tr>
+<tr>
+<td><code>verify</code></td>
+<td>command</td>
+<td>Shells out to <code>cosign verify-blob</code> against the cached <code>*.tar.zst</code>.</td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td>command</td>
+<td>Lists cached bundles with size in bytes.</td>
+</tr>
+<tr>
+<td><code>_cache_dir</code></td>
+<td>function</td>
+<td>Returns <code>$XDG_CACHE_HOME/legal-text-mcp-de</code> (defaults to <code>~/.cache/legal-text-mcp-de</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cli_diagnosticpy"><code>cli/_diagnostic.py</code><a class="headerlink" href="#cli_diagnosticpy" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Kind</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diagnostic_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Holds <code>version</code> and <code>health</code>; lifted onto the root.</td>
+</tr>
+<tr>
+<td><code>completion_app</code></td>
+<td><code>typer.Typer</code></td>
+<td>Attached via <code>app.add_typer(completion_app, name="completion")</code> so commands keep the <code>completion</code> prefix.</td>
+</tr>
+<tr>
+<td><code>version_cmd</code></td>
+<td>command</td>
+<td>Prints <code>{version, python, platform}</code>.</td>
+</tr>
+<tr>
+<td><code>health</code></td>
+<td>command</td>
+<td><code>httpx.get(url)</code> against <code>/health</code>; exits <code>EXIT_CONNECTIVITY</code> on transport error or non-200.</td>
+</tr>
+<tr>
+<td><code>completion_show</code></td>
+<td>command</td>
+<td>Calls <code>typer.completion.get_completion_script</code> directly (because the root Typer is built with <code>add_completion=False</code>).</td>
+</tr>
+<tr>
+<td><code>completion_install</code></td>
+<td>command</td>
+<td>Prints shell-specific install instructions (does not write RC files unattended).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="subcommand-registration-pattern">Subcommand Registration Pattern<a class="headerlink" href="#subcommand-registration-pattern" title="Permanent link">¶</a></h2>
+<p>The root Typer follows two patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Flat tree — commands from these sub-Typers appear directly on `app`:</span>
+<span class="k">for</span> <span class="n">command_info</span> <span class="ow">in</span> <span class="n">lookups_app</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">registered_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_info</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">command_info</span> <span class="ow">in</span> <span class="n">server_app</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">registered_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_info</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">command_info</span> <span class="ow">in</span> <span class="n">research_app</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">registered_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_info</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">command_info</span> <span class="ow">in</span> <span class="n">diagnostic_app</span><span class="o">.</span><span class="n">registered_commands</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">registered_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_info</span><span class="p">)</span>
+
+<span class="c1"># Sub-Typers — these keep their prefix:</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_typer</span><span class="p">(</span><span class="n">corpus_app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"corpus"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_typer</span><span class="p">(</span><span class="n">completion_app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"completion"</span><span class="p">)</span>
 </code></pre></div>
-<p>It fetches only <code>gii-toc.xml</code>, writes a <code>gii-discovery-artifact.v1</code> file, and does not import every <code>xml.zip</code> payload.</p>
-<p>The GII corpus gate is also explicit:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>mcp<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/verify_gii_corpus_gate.py<span class="w"> </span>--discovery<span class="w"> </span>.artifacts/gii-discovery/latest.json<span class="w"> </span>--payload-dir<span class="w"> </span>&lt;payload-dir&gt;<span class="w"> </span>--package-dir<span class="w"> </span>.artifacts/gii-corpus/package<span class="w"> </span>--output<span class="w"> </span>.artifacts/gii-corpus/gate.json<span class="w"> </span>--parser-variant-matrix<span class="w"> </span>mcp/tests/fixtures/gii_bulk/parser_variant_matrix.json
-</code></pre></div>
-<p>It writes a <code>gii-corpus-gate.v1</code> file and generated package under explicit
-output paths. Explicit upstream outage evidence can be supplied with
-<code>--upstream-limitations &lt;path&gt;</code>. These artifacts are local evidence and stay
-outside Git.</p>
-<p>The DSGVO full-count gate is explicit:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>mcp<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/verify_dsgvo_full_counts.py<span class="w"> </span>--package<span class="w"> </span>&lt;package-dir&gt;<span class="w"> </span>--policy<span class="w"> </span>mcp/tests/fixtures/eurlex_dsgvo/source_policy.json<span class="w"> </span>--output<span class="w"> </span>.artifacts/dsgvo/full-counts.json
-</code></pre></div>
-<p>It validates generated article/recital counts and boundary samples against the
-official EUR-Lex/Cellar source policy; release verification uses reduced
-fixtures.</p>
-<p>The final full-corpus bundle gate is explicit:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PYTHONPATH</span><span class="o">=</span>mcp<span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>--group<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/verify_full_corpus_bundle.py<span class="w"> </span>--gii-artifact<span class="w"> </span>.artifacts/gii-corpus/gate.json<span class="w"> </span>--dsgvo-artifact<span class="w"> </span>.artifacts/dsgvo/full-counts.json<span class="w"> </span>--eu-neighbors-artifact<span class="w"> </span>.artifacts/eu-neighbors/evidence.json<span class="w"> </span>--state-law-artifact<span class="w"> </span>.artifacts/state-law/pdf-gate.json<span class="w"> </span>--relationships-artifact<span class="w"> </span>mcp/legal_texts/data/privacy_scope_seed.v1.json<span class="w"> </span>--benchmark-artifact<span class="w"> </span>.artifacts/benchmarks/generated-package-benchmark.json<span class="w"> </span>--output<span class="w"> </span>.artifacts/full-corpus/validation-bundle.json
-</code></pre></div>
-<p>It validates artifact schemas, section-specific evidence, critical-law runtime
-resolution, benchmark threshold decisions, and relationship seed status without
-performing network fetches itself.</p>
-<p>The E2E script starts temporary Uvicorn/FastMCP processes on free localhost ports for both the legacy fixture dataset and the generated-package fixture. It checks HTTP with real network requests, validates that OpenAPI exposes every documented path, covers generated-package recitals/search and representative error responses, and checks MCP through <code>mcp.client.streamable_http.streamablehttp_client</code> plus <code>ClientSession</code>. The MCP pass verifies the stable tool list and calls every registered tool, including source metadata, corpus coverage, source limitations, and relationship lookup. It intentionally waits for MCP TCP readiness rather than probing <code>/mcp</code> with a plain HTTP request because MCP streamable HTTP requires protocol-specific headers.</p>
+<p>The flat pattern keeps the day-to-day surface short
+(<code>legal-text-mcp-de search "widerruf"</code> rather than
+<code>legal-text-mcp-de lookups search "widerruf"</code>). The sub-Typer pattern is
+reserved for verbs that benefit from grouping (<code>corpus pull|verify|info</code>,
+<code>completion show|install</code>).</p>
+<h2 id="output-mode-and-json-contract">Output Mode and JSON Contract<a class="headerlink" href="#output-mode-and-json-contract" title="Permanent link">¶</a></h2>
+<p><code>render_data</code> and <code>render_error</code> decide their output format from the stream
+being written, not from the process's overall <code>--json</code> flag (the flag still
+takes precedence — it is OR-ed in). The default rules:</p>
+<ul>
+<li>stdout is a TTY → text (Rich); errors go to stderr.</li>
+<li>stdout is piped or redirected → JSON envelope on stdout; errors also go
+  to stdout so <code>\| jq '.error.message'</code> works.</li>
+</ul>
+<p>The JSON envelope shape matches <code>http_models.ErrorBody</code> for errors
+(<code>{code, message, details}</code>) and produces <code>{"data": …, "error": null}</code> on
+success. Subcommands that wrap an <code>LegalTextRuntime</code> method return the
+runtime's plain <code>dict</code> payload unchanged inside <code>data</code>, which means a CLI
+JSON response is interchangeable with the corresponding HTTP response body.</p>
+<h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Constant</th>
+<th>Triggered by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td><code>EXIT_SUCCESS</code></td>
+<td>Normal success; also degraded <code>research</code> runs without <code>ANTHROPIC_API_KEY</code>.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>EXIT_RUNTIME</code></td>
+<td><code>LegalTextError</code> from runtime (missing dataset, unknown law/norm, invalid citation).</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>EXIT_USAGE</code></td>
+<td>typer's default for usage errors (unknown flag, missing argument); also <code>completion {show,install}</code> on an unsupported shell name.</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>EXIT_SAMPLING</code></td>
+<td><code>SamplingError</code> raised by <code>_run_research</code> (timeout, schema violation, refusal).</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>EXIT_CORPUS</code></td>
+<td><code>corpus pull</code> (oras failure) and <code>corpus verify</code> (no bundle present or cosign failure).</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>EXIT_CONNECTIVITY</code></td>
+<td><code>health</code> subcommand: <code>httpx.HTTPError</code> or non-200 response.</td>
+</tr>
+<tr>
+<td><code>130</code></td>
+<td><code>EXIT_INTERRUPT</code></td>
+<td>SIGINT (typer / Python default).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-flow-surface-map">Data Flow / Surface Map<a class="headerlink" href="#data-flow-surface-map" title="Permanent link">¶</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    USER["User shell"]
+    ROOT["typer.Typer app<br/>cli/__init__.py"]
+    LOOKUPS["_lookups (9 cmds)"]
+    SERVER["_server (serve, http)"]
+    RESEARCH["_research (research)"]
+    CORPUS["_corpus (pull, verify, info)"]
+    DIAG["_diagnostic + completion"]
+    RUNTIME["LegalTextRuntime"]
+    MCP["create_mcp_app → FastMCP"]
+    HTTP["uvicorn → FastAPI app"]
+    RUN["_run_research"]
+    SHELL["oras / cosign subprocess"]
+    HTTPX["httpx GET /health"]
+
+    USER --&gt; ROOT
+    ROOT --&gt; LOOKUPS --&gt; RUNTIME
+    ROOT --&gt; SERVER
+    SERVER --&gt; MCP
+    SERVER --&gt; HTTP
+    ROOT --&gt; RESEARCH --&gt; RUN --&gt; RUNTIME
+    ROOT --&gt; CORPUS --&gt; SHELL
+    ROOT --&gt; DIAG
+    DIAG --&gt; HTTPX
+</code></pre>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">¶</a></h2>
+<p>Tests live under <code>tests/test_cli/</code> (8 modules):</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Tests</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_main.py</code></td>
+<td>3</td>
+<td>Bare invocation prints help and exits 0; <code>--version</code>; subcommand registration.</td>
+</tr>
+<tr>
+<td><code>test_output.py</code></td>
+<td>10</td>
+<td><code>is_json_mode</code>, <code>render_data</code>, <code>render_error</code>, <code>render_table</code>, TTY/pipe symmetry.</td>
+</tr>
+<tr>
+<td><code>test_runtime.py</code></td>
+<td>3</td>
+<td><code>get_runtime_or_die</code> happy path, missing-dataset failure, <code>reset_runtime_cache</code>.</td>
+</tr>
+<tr>
+<td><code>test_lookups.py</code></td>
+<td>14</td>
+<td>All 9 lookup subcommands in both text and JSON mode.</td>
+</tr>
+<tr>
+<td><code>test_server.py</code></td>
+<td>1</td>
+<td><code>serve</code> calls <code>_run_mcp</code> with the resolved settings.</td>
+</tr>
+<tr>
+<td><code>test_research.py</code></td>
+<td>3</td>
+<td>Degraded mode (exit 0), <code>SamplingError</code> mapped to exit 3, normal path with mocked runtime.</td>
+</tr>
+<tr>
+<td><code>test_corpus.py</code></td>
+<td>6</td>
+<td><code>pull</code> / <code>verify</code> / <code>info</code> with <code>subprocess.run</code> monkey-patched; missing-bundle path returns <code>EXIT_CORPUS</code>.</td>
+</tr>
+<tr>
+<td><code>test_diagnostic.py</code></td>
+<td>8</td>
+<td><code>version</code>, <code>health</code> (success / 5xx / transport error), <code>completion show</code> / <code>install</code> for bash/zsh/fish, unsupported shell.</td>
+</tr>
+</tbody>
+</table>
+<p>Coverage: ≥86% across <code>src/legal_text_mcp_de/cli/</code>. <code>_server.py</code> is
+intentionally at ~39% (its only meaningful uncovered branches reach into
+<code>mcp.run(transport=…)</code> and <code>uvicorn.run(…)</code> which are exercised end-to-end
+by <code>scripts/verify_e2e.py</code>, not by unit tests).</p>
 <h2 id="inventory-notes">Inventory Notes<a class="headerlink" href="#inventory-notes" title="Permanent link">¶</a></h2>
 <ul>
-<li><strong>Coverage</strong>: full for the supported runtime and tests.</li>
-<li><strong>Notes</strong>: The legacy Markdown parser remains documented as compatibility code, not as the production data source.</li>
+<li><strong>Coverage</strong>: full for argument parsing, output rendering, exit-code
+  mapping, and per-subcommand happy/sad paths. Live server lifecycle is
+  covered by the existing E2E gate, not by unit tests.</li>
+<li><strong>Console-script entry</strong>: as of v2.1.0,
+  <code>legal-text-mcp-de = legal_text_mcp_de.cli:main</code>. <code>server.py:main()</code> is
+  preserved as an internal entry but is no longer the user-facing entry —
+  the <code>serve</code> subcommand replaces it.</li>
+<li><strong>See also</strong>:</li>
+<li><a href="../../features/cli-shell-surface/">cli-shell-surface feature</a> — the
+    user-facing description, flow, and edge-case catalogue.</li>
+<li><a href="../../cli/">docs/cli/index.md</a> — the curated CLI reference for
+    end users.</li>
+<li><a href="../mcp-server/">mcp-server module</a> — the underlying FastMCP + HTTP
+    runtime that the CLI wraps.</li>
 </ul>
 <aside class="md-source-file">
 <span class="md-source-file__fact">
