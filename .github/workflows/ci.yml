@@ -91,7 +91,7 @@ jobs:
           retention-days: 14
 
   typecheck-strict-cli:
-    name: Mypy strict (cli)
+    name: Mypy strict (cli + http_api)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -107,10 +107,13 @@ jobs:
       - name: Sync
         run: uv sync --locked --all-groups
 
-      - name: Mypy strict on src/legal_text_mcp_de/cli/
-        # Strict-ratcheted as of v2.1.1+ (post #95). Hard-fail on any
-        # regression — keep this module strict-clean as we evolve the CLI.
-        run: uv run --group dev mypy --strict src/legal_text_mcp_de/cli/
+      - name: Mypy strict on cli/ + http_api
+        # Strict-ratcheted modules — hard-fail on any regression. Extends
+        # the v2.1.1 post-#96 ratchet (cli/*) with http_api (post-#97).
+        # Together these cover the user-facing API surface.
+        run: |
+          uv run --group dev mypy --strict src/legal_text_mcp_de/cli/
+          uv run --group dev mypy --strict src/legal_text_mcp_de/http_api.py
 
   test:
     name: Test (py${{ matrix.python-version }})
