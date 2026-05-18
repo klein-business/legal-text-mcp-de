@@ -107,3 +107,11 @@ def test_meta_for_dsgvo_includes_eur_lex_kind():
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert payload["data"]["sources"][0]["source"]["source_kind"] == "eur-lex-cellar"
+
+
+def test_coverage_returns_counts():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "coverage"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert "generated_package_present" in payload["data"]
