@@ -2899,9 +2899,61 @@ observations were filed for the next maintenance window:</p>
   (hashed test fixtures).</li>
 <li><strong>OpenSSF Scorecard</strong>: monthly run; baseline score ≥ 6 across all
   checks.</li>
-<li><strong>GitHub Dependency Review</strong>: 0 blocked dependencies on PR #16
-  (Phase 3+4 atomic rename) and all subsequent PRs.</li>
 </ul>
+<p><strong>Known structural deductions (solo-maintainer + repo age):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th style="text-align: right;">Score</th>
+<th>Reason (not a real risk)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code-Review</td>
+<td style="text-align: right;">0</td>
+<td>Solo-maintainer admin-merges PRs; no second reviewer exists. Same root cause as the OpenSSF Gold blockers <code>two_person_review</code> + <code>contributors_unassociated</code>. Mitigation in flight via the contributor-funnel (good-first-issues + awesome-list listing).</td>
+</tr>
+<tr>
+<td>Maintained</td>
+<td style="text-align: right;">0</td>
+<td>Repo created within the last 90 days. Recovers automatically as the project ages.</td>
+</tr>
+<tr>
+<td>Branch-Protection</td>
+<td style="text-align: right;">-1</td>
+<td><code>internal error: some github tokens can't read classic branch protection rules</code>. Scorecard's default <code>GITHUB_TOKEN</code> lacks <code>repo:admin</code> scope; needs a fine-grained PAT to read. The protection itself is in place (verified manually).</td>
+</tr>
+<tr>
+<td>Fuzzing</td>
+<td style="text-align: right;">0</td>
+<td>No fuzzer integration (out of scope: pure-Python text-processing library, no parsers exposed to untrusted input over the wire).</td>
+</tr>
+<tr>
+<td>Contributors</td>
+<td style="text-align: right;">3</td>
+<td>One contributing organisation. Same solo-maintainer root cause.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Known false positive (workflow_run in <code>mcp-registry.yml</code>):</strong> Scorecard's
+  <code>Dangerous-Workflow</code> check flags any dynamic checkout ref derived from
+  <code>github.event.workflow_run.head_sha</code> as untrusted-code-checkout
+  because, in the general case, a fork PR can trigger a <code>workflow_run</code>
+  event. Mitigated at the source:
+  - The upstream <code>release.yml</code> only listens for <code>push: tags: v*.*.*</code>
+    (never <code>pull_request</code>); branch protection requires push access for tag push.
+  - The <code>mcp-registry.yml</code> job <code>if:</code> rejects any <code>workflow_run</code> whose
+    triggering event is not <code>push</code> and whose <code>head_branch</code> does not match
+    the v-tag shape.
+  - The checkout step omits <code>ref:</code> entirely (defaults to <code>github.ref =
+    refs/heads/main</code>), eliminating the dynamic-ref pattern Scorecard
+    flags. Version drift between main and the tag is caught by a
+    subsequent <code>server.json</code> version-vs-tag guard.</p>
+<p>After the fix the check returns to score 10.
+- <strong>GitHub Dependency Review</strong>: 0 blocked dependencies on PR #16
+  (Phase 3+4 atomic rename) and all subsequent PRs.</p>
 <h3 id="architecture-review">Architecture review<a class="headerlink" href="#architecture-review" title="Permanent link">&para;</a></h3>
 <ul>
 <li>The Dockerfile runs as non-root UID 10001, uses a pinned base
@@ -2999,7 +3051,7 @@ matters, not exploitable vulnerabilities.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 16, 2026 19:02:56 UTC">May 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 14:38:58 UTC">May 18, 2026</span>
   </span>
 
     
