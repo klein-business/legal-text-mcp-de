@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2026-05-18
+
+Distribution / discovery release. No runtime behaviour changes.
+
+### Added
+- **Official MCP Registry integration**
+  ([registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io)):
+  - `server.json` at repo root (schema 2025-12-11) describes the PyPI
+    + OCI packages, env vars, and stdio transport. Auto-bumped by
+    release-please alongside `pyproject.toml`.
+  - `.github/workflows/mcp-registry.yml`: tag-push workflow that runs
+    `mcp-publisher validate` + version-vs-tag guard + GitHub OIDC
+    login + `mcp-publisher publish` — no long-lived tokens.
+- **Smithery.ai discovery**: `smithery.yaml` at repo root declares
+  `runtime: container`, `startCommand.type: stdio`, and the three
+  optional config fields (datasetPath, strictDataset, anthropicApiKey).
+- **Contributor on-ramp**: `CONTRIBUTING.md` gains a "Your first
+  contribution" section linking the curated `good first issue` filter
+  and a 6-step workflow, plus an "Architecture tour" with a
+  five-minute mental map of `src/`. Pairs with 4 newly-labelled
+  good-first-issues (#91–#94).
+- **GitHub Discussions**: welcome post in Announcements ([discussion
+  #90](https://github.com/klein-business/legal-text-mcp-de/discussions/90))
+  with 60-second quickstart + roadmap.
+- **awesome-mcp-servers listing**: PR open against
+  [punkpeye/awesome-mcp-servers#6544](https://github.com/punkpeye/awesome-mcp-servers/pull/6544)
+  (87 k ⭐) for the ⚖️ Legal section.
+
+### Fixed
+- **PyPI ownership marker**: `README.md` now ships
+  `mcp-name: io.github.klein-business/legal-text-mcp-de` so the
+  Official MCP Registry's PyPI verification flow succeeds.
+
+### Changed
+- `pytest --cov` floor stays at 86 % combined; CLI module total is now
+  91 % (was ~88 %), with `cli/_lookups.py` jumping 77 → 96 % via a
+  single parametrised "every lookup exits 1 on missing DATASET_PATH"
+  test.
+- `mypy --strict` ratchet extends to 7 modules total: `config`,
+  `http_models`, `legal_texts.{errors,models,sources}`, `cli.*`,
+  `http_api`. The entire user-facing API surface (CLI + HTTP) is
+  type-strict; a hard-failing `Mypy strict (cli + http_api)` CI job
+  guards regressions.
+- `.github/workflows/ci.yml`: stale `mypy mcp/` invocation (path no
+  longer exists) replaced with `mypy` against the real `src/` tree.
+- `docs/operations/openssf-application.md`: refreshed from a Silver
+  draft into an awarded-Silver / Gold-progress (78 %) reference with
+  live status pulled from `bestpractices.dev/projects/12860.json`,
+  including a "Refresh checklist" maintenance section.
+
 ## [2.1.1] - 2026-05-18
 
 Patch release rolling up the post-v2.1.0 follow-ups. No code changes;
