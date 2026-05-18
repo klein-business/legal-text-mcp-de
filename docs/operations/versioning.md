@@ -15,6 +15,11 @@ current **v2.0.0** GA:
   minor releases.
 - **Breaking changes** trigger a major version bump.
 
+The CLI invocation form (subcommand names, flag names, positional
+argument order) is **not** part of the v1.0.0 stability contract. CLI
+subcommand renames trigger a CHANGELOG entry with a clear migration
+note, but no major version bump.
+
 See [Migration v1 → v2](migration-v1-v2.md) for the v2.0 changes that required
 the major bump (corpus distribution model, `DATASET_PATH` default,
 `get_corpus_coverage` aggregate counts).

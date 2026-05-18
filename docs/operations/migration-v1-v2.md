@@ -74,3 +74,31 @@ v1.5.0 is the last v1 release; it contains the corpus pipeline expansion but NOT
 - State law tiers Mittel + Klein (11 more Bundesländer)
 
 See `docs/superpowers/specs/2026-05-17-v2-mcp-native-design.md` Section 13 for the full out-of-scope list.
+
+## v2.0 → v2.1 — CLI introduction (BREAKING for invocation form)
+
+v2.1.0 introduces a `typer`-based CLI as the new `legal-text-mcp-de`
+entry point. Bare invocation now prints `--help`; the MCP server
+requires the explicit `serve` subcommand.
+
+**Migration:**
+
+| Before (v2.0.x) | After (v2.1.0+) |
+|---|---|
+| `legal-text-mcp-de` | `legal-text-mcp-de serve` |
+| `uvx legal-text-mcp-de` | `uvx legal-text-mcp-de serve` |
+| `docker run … :2.0.1` | `docker run … :2.1.0 serve` |
+| Claude Desktop `"args": ["legal-text-mcp-de"]` | `"args": ["legal-text-mcp-de", "serve"]` |
+
+**Not breaking:**
+
+- All 9 v1 MCP tool signatures + `research_topic`
+- HTTP API surface
+- Environment variables (`DATASET_PATH`, `STRICT_STARTUP`,
+  `MAX_REQUEST_BODY_BYTES`, …)
+- Corpus bundle format
+
+**Why not v3.0.0:** the `docs/operations/versioning.md` stability
+contract explicitly enumerates "MCP tool signature, HTTP route, or
+dataset schema". CLI invocation form is outside that contract and
+evolves with minor versions.
