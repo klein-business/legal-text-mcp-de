@@ -21,7 +21,10 @@
 
 # legal-text-mcp-de
 
-MCP-native research agent for German federal + state law, with HTTP API as secondary surface.
+> **Cite-grade German legal-text infrastructure for LLM agents.**
+> ~8 500 federal + Länder + EU laws via MCP, HTTP API, and a typer
+> shell CLI — all over the same runtime, with cryptographic provenance
+> from gesetze-im-internet.de and EUR-Lex / Cellar.
 
 It is **local or server-side infrastructure**: no SaaS, no billing, no
 accounts, no tenant model, and **no legal advice**. The runtime loads
@@ -42,7 +45,7 @@ Older internal documentation has been archived under
 
 | | |
 | --- | --- |
-| Lifecycle | Stable `v2.1.0` (minor on `v2.0.0` GA) — MCP-native domain server with typer CLI |
+| Lifecycle | Stable `v2.1.1` (current patch on `v2.1.0` typer-CLI minor) — MCP-native domain server with typer CLI |
 | Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
 | Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
 | Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
@@ -66,7 +69,7 @@ Older internal documentation has been archived under
 ### Mode 1 — `pip install` from PyPI (smallest dependency)
 
 ```bash
-pip install legal-text-mcp-de==2.1.0
+pip install legal-text-mcp-de==2.1.1
 DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de serve
 ```
 
@@ -85,7 +88,7 @@ Server fetches the latest signed corpus bundle from GHCR on first run.
 ### Mode 3 — Docker with pre-bundled corpus
 
 ```bash
-docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.0 serve
+docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.1 serve
 ```
 
 ### Mode 4 — Self-built corpus (compliance-sensitive)
@@ -158,6 +161,16 @@ stdio transport instead — see
 
 ### Run the HTTP API
 
+Since v2.1 the easiest way is the new CLI:
+
+```bash
+DATASET_PATH=tests/fixtures/normalized \
+STRICT_STARTUP=true \
+uv run legal-text-mcp-de http --port 8080
+```
+
+Or directly via uvicorn (equivalent — same FastAPI app):
+
 ```bash
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
@@ -177,12 +190,12 @@ package at `/data/legal-texts`:
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.1.0 serve
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.1 serve
 ```
 
 ## MCP Resources
 
-v2.0 exposes the corpus as read-only `legal://` URIs that any MCP client can load directly into its LLM context. Examples:
+Since v2.0, the corpus is exposed as read-only `legal://` URIs that any MCP client can load directly into its LLM context. Examples:
 
 - `legal://laws` — paginated index
 - `legal://laws/bgb` — BGB header + norm index
@@ -285,20 +298,23 @@ Source-of-truth documents live in the repo: [README.md](README.md),
 
 ```bash
 uv sync --all-groups
-PYTHONPATH=mcp uv run --group dev pytest mcp/tests -v
+uv run --group dev pytest
 ```
 
 The full fixture-backed release gate:
 
 ```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_release.py
+uv run --group dev python scripts/verify_release.py
 ```
 
 The public-flip readiness gate:
 
 ```bash
-PYTHONPATH=mcp uv run --group dev python scripts/verify_pre_flip.py
+uv run --group dev python scripts/verify_pre_flip.py
 ```
+
+A [`Justfile`](Justfile) wraps the common targets (`just test`,
+`just lint`, `just docs`, `just run`, `just api`) for convenience.
 
 ## Contributing
 
@@ -306,15 +322,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, code of conduct, and secu
 All contributions must comply with the [Developer Certificate of Origin](https://developercertificate.org/)
 (sign-off with `git commit -s`).
 
-## Verification (post-v2.0.0)
+## Verification
 
-Each release is signed and accompanied by an SBOM and SLSA-3
-provenance. Examples below use `v2.1.0`; substitute the tag you pulled.
+Every release since v1.0.0 is signed and accompanied by an SBOM and
+SLSA-3 provenance. Examples below use `v2.1.1`; substitute the tag
+you actually pulled.
 
 ### Cosign image signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.0 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.1 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```

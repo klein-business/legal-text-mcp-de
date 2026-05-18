@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-05-18
+
+Patch release rolling up the post-v2.1.0 follow-ups. No code changes;
+docs polish + Dockerfile.hosted digest pin (the known follow-up listed
+in the v2.1.0 entry).
+
+### Fixed
+- `deployment/Dockerfile.hosted`: base image upgraded from tag-only
+  `:2.1.0` to digest-pinned
+  `:2.1.0@sha256:b9f091484814d8324c3462cdfd5966c155a3fb35a6290eb93a12e7cfe4d15ece`.
+  Closes the "known follow-up" listed in the v2.1.0 changelog.
+- `README.md`: 4 stale phrasings cleaned up (PYTHONPATH=mcp legacy
+  pytest invocation in Development section, "Verification (post-v2.0.0)"
+  heading, "v2.0 exposes the corpus" phrasing for MCP Resources,
+  HTTP API quickstart still showed only the bare uvicorn invocation).
+- Documentation: image-tag examples bumped `:2.1.0` → `:2.1.1`
+  across README + docs/quickstart/docker + docs/concepts/data-modes
+  + docs/operations/{slsa,verify-with-cosign,production-deployment}
+  + deployment/deploy.sh.
+
+### Added
+- `README.md`: 3-line "hero" subtitle under the H1 — concise
+  value-proposition for first-time visitors ("Cite-grade German
+  legal-text infrastructure for LLM agents").
+- `README.md` HTTP-API quickstart now shows `legal-text-mcp-de http`
+  as the primary command, with the raw uvicorn invocation listed as
+  the equivalent.
+- `README.md` Development section mentions the Justfile shortcuts.
+
+### Compatibility
+- All 10 MCP tool signatures (9 v1 + `research_topic`) unchanged.
+- HTTP API surface unchanged.
+- CLI surface unchanged (no new or renamed subcommands).
+
 ## [2.1.0] - 2026-05-18
 
 ### ⚠️ Breaking
