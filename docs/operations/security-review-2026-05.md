@@ -133,9 +133,10 @@ observations were filed for the next maintenance window:
   | Contributors | 3 | One contributing organisation. Same solo-maintainer root cause. |
 
   **Known false positive (workflow_run in `mcp-registry.yml`):** Scorecard's
-  `Dangerous-Workflow` check flags `${{ github.event.workflow_run.head_sha }}`
-  as untrusted-code-checkout because, in the general case, a fork PR can
-  trigger a `workflow_run` event. Mitigated at the source:
+  `Dangerous-Workflow` check flags any dynamic checkout ref derived from
+  `github.event.workflow_run.head_sha` as untrusted-code-checkout
+  because, in the general case, a fork PR can trigger a `workflow_run`
+  event. Mitigated at the source:
   - The upstream `release.yml` only listens for `push: tags: v*.*.*`
     (never `pull_request`); branch protection requires push access for tag push.
   - The `mcp-registry.yml` job `if:` rejects any `workflow_run` whose
