@@ -1,5 +1,10 @@
 FROM python:3.12-slim@sha256:401f6e1a67dad31a1bd78e9ad22d0ee0a3b52154e6bd30e90be696bb6a3d7461
 
+# Required by the official MCP Registry for OCI-package verification.
+# The label must match the `name` field in server.json. Used by the
+# registry to validate the OCI image really belongs to this MCP server.
+LABEL io.modelcontextprotocol.server.name="io.github.klein-business/legal-text-mcp-de"
+
 COPY --from=ghcr.io/astral-sh/uv:0.11.14 /uv /uvx /bin/
 
 WORKDIR /app
