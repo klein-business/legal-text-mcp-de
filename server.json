@@ -6,14 +6,14 @@
     "url": "https://github.com/klein-business/legal-text-mcp-de",
     "source": "github"
   },
-  "version": "2.1.1",
+  "version": "2.1.2",
   "websiteUrl": "https://klein-business.github.io/legal-text-mcp-de",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "legal-text-mcp-de",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
@@ -54,7 +54,7 @@
       "registryType": "oci",
       "registryBaseUrl": "https://ghcr.io",
       "identifier": "ghcr.io/klein-business/legal-text-mcp-de",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "transport": {
         "type": "stdio"
       },

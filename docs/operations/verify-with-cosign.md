@@ -3,7 +3,7 @@
 Every OCI image released since v1.0.0 is signed with
 [Sigstore cosign](https://docs.sigstore.dev/) using keyless OIDC
 signing from GitHub Actions. Examples below use the current image tag
-`2.1.1`; substitute the tag you actually pulled.
+`2.1.2`; substitute the tag you actually pulled.
 
 ## Install cosign
 
@@ -18,7 +18,7 @@ brew install cosign
 ## Verify the signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.1 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.2 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
@@ -34,13 +34,13 @@ cosign verify-attestation \
   --type cyclonedx \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  ghcr.io/klein-business/legal-text-mcp-de:2.1.1
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.2
 
 cosign verify-attestation \
   --type slsaprovenance \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-  ghcr.io/klein-business/legal-text-mcp-de:2.1.1
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.2
 ```
 
 Both return JSON predicates with the expected types when verification
