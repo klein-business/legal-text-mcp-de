@@ -14,6 +14,7 @@ from typing import Annotated
 import typer
 
 from legal_text_mcp_de.cli._corpus import corpus_app
+from legal_text_mcp_de.cli._diagnostic import completion_app, diagnostic_app
 from legal_text_mcp_de.cli._lookups import lookups_app
 from legal_text_mcp_de.cli._research import research_app
 from legal_text_mcp_de.cli._server import server_app
@@ -75,6 +76,11 @@ for command_info in research_app.registered_commands:
 
 # corpus is a sub-Typer (keeps its `corpus` prefix), not lifted onto root.
 app.add_typer(corpus_app, name="corpus")
+
+# Diagnostic commands (version, health) are lifted onto root; completion stays sub-Typer.
+for command_info in diagnostic_app.registered_commands:
+    app.registered_commands.append(command_info)
+app.add_typer(completion_app, name="completion")
 
 
 def main() -> None:
