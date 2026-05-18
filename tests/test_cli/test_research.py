@@ -39,3 +39,38 @@ def test_research_without_api_key_returns_ranked_search_fallback_exit_zero():
     # be None on a soft degradation.
     assert payload["error"] is None
     assert "topic" in payload["data"]
+
+
+def test_research_sampling_error_returns_exit_three(monkeypatch):
+    """When _run_research raises SamplingError, CLI exits 3 with structured error."""
+    from legal_text_mcp_de.sampling.errors import SamplingTimeout
+    import legal_text_mcp_de.cli._research as rmod
+
+    async def boom(*args, **kwargs):
+        raise SamplingTimeout("simulated timeout")
+
+    monkeypatch.setattr(rmod, "_run_research", boom)
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "research", "Werbung"])
+    assert result.exit_code == 3
+    payload = json.loads(result.stdout)
+    assert payload["error"]["code"] == "SAMPLING_FAILED"
+    assert "simulated timeout" in payload["error"]["message"]
+
+
+def test_research_legal_text_error_returns_exit_one(monkeypatch):
+    """When _run_research raises LegalTextError, CLI exits 1."""
+    from legal_text_mcp_de.legal_texts.errors import LegalTextError
+    import legal_text_mcp_de.cli._research as rmod
+
+    async def boom(*args, **kwargs):
+        raise LegalTextError("DATASET_NOT_READY", "dataset missing")
+
+    monkeypatch.setattr(rmod, "_run_research", boom)
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "research", "X"])
+    assert result.exit_code == 1
+    payload = json.loads(result.stdout)
+    assert payload["error"]["code"] == "DATASET_NOT_READY"

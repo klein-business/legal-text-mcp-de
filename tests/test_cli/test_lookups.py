@@ -143,3 +143,16 @@ def test_related_returns_count_field_zero_or_more():
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
     assert "count" in payload["data"]
+
+
+def test_law_missing_dataset_path_raises_runtime_error(monkeypatch):
+    """When DATASET_PATH is unset, every lookup exits 1 with structured error."""
+    # The autouse fixture sets DATASET_PATH; override with delenv
+    monkeypatch.delenv("DATASET_PATH", raising=False)
+    reset_runtime_cache()
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "law", "BGB"])
+    assert result.exit_code == 1
+    payload = json.loads(result.stdout)
+    assert payload["error"] is not None
+    assert payload["data"] is None

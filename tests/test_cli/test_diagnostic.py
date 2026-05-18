@@ -48,3 +48,35 @@ def test_completion_show_bash_prints_to_stdout():
     result = runner.invoke(app, ["completion", "show", "bash"])
     assert result.exit_code == 0
     assert "_LEGAL_TEXT_MCP_DE_COMPLETE" in result.stdout or "complete" in result.stdout.lower()
+
+
+def test_completion_show_unsupported_shell_exits_two():
+    runner = CliRunner()
+    result = runner.invoke(app, ["completion", "show", "powershell"])
+    assert result.exit_code == 2
+
+
+def test_completion_install_bash_prints_eval_instruction():
+    runner = CliRunner()
+    result = runner.invoke(app, ["completion", "install", "bash"])
+    assert result.exit_code == 0
+    assert "eval" in result.stdout.lower()
+    assert ".bashrc" in result.stdout
+
+
+def test_completion_install_unsupported_shell_exits_two():
+    runner = CliRunner()
+    result = runner.invoke(app, ["completion", "install", "powershell"])
+    assert result.exit_code == 2
+
+
+def test_health_non_200_returns_exit_five(monkeypatch):
+    def fake_get(url, timeout=None):
+        return httpx.Response(503, text="degraded")
+
+    import legal_text_mcp_de.cli._diagnostic as dmod
+
+    monkeypatch.setattr(dmod.httpx, "get", fake_get)
+    runner = CliRunner()
+    result = runner.invoke(app, ["health"])
+    assert result.exit_code == 5

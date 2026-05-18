@@ -65,3 +65,54 @@ def test_corpus_info_returns_zero_when_cache_empty(tmp_path, monkeypatch):
     runner = CliRunner()
     result = runner.invoke(app, ["--json", "corpus", "info"])
     assert result.exit_code == 0
+
+
+def test_corpus_pull_failure_returns_exit_four(monkeypatch):
+    """oras non-zero exit returns CORPUS_PULL_FAILED + exit 4."""
+
+    def fake_run(args, capture_output=False, check=False, **kw):
+        class _R:
+            returncode = 1
+            stdout = b""
+            stderr = b"network unreachable"
+
+        return _R()
+
+    import legal_text_mcp_de.cli._corpus as cmod
+
+    monkeypatch.setattr(cmod.subprocess, "run", fake_run)
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "corpus", "pull"])
+    assert result.exit_code == 4
+
+
+def test_corpus_verify_no_bundle_returns_exit_four(monkeypatch, tmp_path):
+    """No .tar.zst in cache → CORPUS_NOT_PRESENT + exit 4."""
+    monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
+    # cache dir doesn't exist or has no bundle
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "corpus", "verify"])
+    assert result.exit_code == 4
+
+
+def test_corpus_verify_failed_returns_exit_four(monkeypatch, tmp_path):
+    """cosign non-zero exit returns CORPUS_VERIFY_FAILED + exit 4."""
+    monkeypatch.setenv("XDG_CACHE_HOME", str(tmp_path))
+    (tmp_path / "legal-text-mcp-de").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "legal-text-mcp-de" / "corpus-1.0.tar.zst").write_bytes(b"x")
+
+    def fake_run(args, capture_output=False, check=False, **kw):
+        class _R:
+            returncode = 1
+            stdout = b""
+            stderr = b"verification failed"
+
+        return _R()
+
+    import legal_text_mcp_de.cli._corpus as cmod
+
+    monkeypatch.setattr(cmod.subprocess, "run", fake_run)
+
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "corpus", "verify"])
+    assert result.exit_code == 4
