@@ -45,7 +45,7 @@ Older internal documentation has been archived under
 
 | | |
 | --- | --- |
-| Lifecycle | Stable `v2.1.2` (current patch on `v2.1.0` typer-CLI minor) — MCP-native domain server with typer CLI |
+| Lifecycle | Stable `v2.1.3` (current patch on `v2.1.0` typer-CLI minor) — MCP-native domain server with typer CLI |
 | Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
 | Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
 | Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
@@ -69,7 +69,7 @@ Older internal documentation has been archived under
 ### Mode 1 — `pip install` from PyPI (smallest dependency)
 
 ```bash
-pip install legal-text-mcp-de==2.1.2
+pip install legal-text-mcp-de==2.1.3
 DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de serve
 ```
 
@@ -88,7 +88,7 @@ Server fetches the latest signed corpus bundle from GHCR on first run.
 ### Mode 3 — Docker with pre-bundled corpus
 
 ```bash
-docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.2 serve
+docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.3 serve
 ```
 
 ### Mode 4 — Self-built corpus (compliance-sensitive)
@@ -190,7 +190,7 @@ package at `/data/legal-texts`:
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.1.2 serve
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.3 serve
 ```
 
 ## MCP Resources
@@ -325,13 +325,13 @@ All contributions must comply with the [Developer Certificate of Origin](https:/
 ## Verification
 
 Every release since v1.0.0 is signed and accompanied by an SBOM and
-SLSA-3 provenance. Examples below use `v2.1.2`; substitute the tag
+SLSA-3 provenance. Examples below use `v2.1.3`; substitute the tag
 you actually pulled.
 
 ### Cosign image signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.2 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.3 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```

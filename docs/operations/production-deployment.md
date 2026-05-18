@@ -52,7 +52,7 @@ legal.example.org {
 ```yaml
 services:
   legal-text-mcp-de:
-    image: ghcr.io/klein-business/legal-text-mcp-de:2.1.2
+    image: ghcr.io/klein-business/legal-text-mcp-de:2.1.3
     restart: unless-stopped
     environment:
       DATASET_PATH: /data/legal-texts
@@ -143,7 +143,7 @@ docker run -d --name legal-text-mcp-de --restart unless-stopped \
   -e DATASET_PATH=/data/legal-texts \
   -e STRICT_STARTUP=true \
   -e MAX_REQUEST_BODY_BYTES=1048576 \
-  ghcr.io/klein-business/legal-text-mcp-de:2.1.2 serve
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.3 serve
 ```
 
 ```bash
