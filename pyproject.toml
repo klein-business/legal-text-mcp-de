@@ -44,6 +44,7 @@ dependencies = [
     "pydantic-settings",
     "fastapi",
     "uvicorn",
+    "typer>=0.20,<1",
 ]
 
 [project.urls]
