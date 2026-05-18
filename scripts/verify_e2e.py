@@ -334,18 +334,14 @@ def run_case(
 
 
 def smoke_cli_bare_invocation_prints_help() -> None:
-    result = subprocess.run(
-        ["legal-text-mcp-de"], capture_output=True, timeout=10
-    )
+    result = subprocess.run(["legal-text-mcp-de"], capture_output=True, timeout=10)
     assert result.returncode == 0, f"exit {result.returncode}"
     assert b"Usage:" in result.stdout, "no Usage: line in bare-invocation output"
     print("CLI bare-invocation OK")
 
 
 def smoke_cli_version_prints_2_x() -> None:
-    result = subprocess.run(
-        ["legal-text-mcp-de", "--version"], capture_output=True, timeout=10
-    )
+    result = subprocess.run(["legal-text-mcp-de", "--version"], capture_output=True, timeout=10)
     assert result.returncode == 0, f"exit {result.returncode}"
     assert b"2." in result.stdout, "version not in 2.x range"
     print("CLI --version OK")
