@@ -51,3 +51,16 @@ def test_laws_with_query_filter():
     # DSGVO must appear in at least one canonical_id
     ids = [law["canonical_id"] for law in payload["data"]["laws"]]
     assert any("dsgvo" in cid.lower() for cid in ids)
+
+
+def test_law_text_output_shows_canonical_id():
+    runner = CliRunner()
+    result = runner.invoke(app, ["law", "BGB"])
+    assert result.exit_code == 0
+    assert "BGB" in result.stdout or "bgb" in result.stdout
+
+
+def test_law_unknown_code_returns_runtime_error_exit_1():
+    runner = CliRunner()
+    result = runner.invoke(app, ["law", "DOES_NOT_EXIST"])
+    assert result.exit_code == 1

@@ -35,3 +35,30 @@ def laws(
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("law")
+def law(
+    ctx: typer.Context,
+    code: Annotated[str, typer.Argument(help="Law canonical ID or code (e.g. BGB, DSGVO).")],
+    full: Annotated[bool, typer.Option("--full", help="Include full text for every norm.")] = False,
+) -> None:
+    """Show law metadata; --full also dumps every norm's text."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        payload = runtime.get_law(code)
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    if not full and "law" in payload and "norms" in payload["law"]:
+        # Strip norm bodies in summary mode
+        payload["law"]["norms"] = [
+            {k: v for k, v in n.items() if k != "text"} for n in payload["law"].get("norms", [])
+        ]
+    render_data(payload, force_json=force_json)
