@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "container-runtime"
-version: 2.0
+version: 2.1
 ---
 
 # Module: container-runtime
@@ -52,8 +52,8 @@ image.
 | `COPY --from=ghcr.io/astral-sh/uv:0.10.12` | Docker instruction | `Dockerfile` | Adds the pinned uv binary. |
 | `RUN uv sync --frozen --no-dev --no-group prepare-data --no-install-project --compile-bytecode` | Docker instruction | `Dockerfile` | Installs locked runtime dependencies. |
 | `ENV DATASET_PATH=/data/legal-texts` | Docker instruction | `Dockerfile` | Points strict startup at the mounted normalized dataset. |
-| `CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de"]` | Docker instruction | `Dockerfile` | Starts the MCP server via the `legal-text-mcp-de` console script. |
-| `FROM ghcr.io/klein-business/legal-text-mcp-de:2.0.0-rc.4` | Docker instruction | `Dockerfile.hosted:4` | Extends the published base image. |
+| `CMD ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]` | Docker instruction | `Dockerfile` | Starts the MCP server via the `legal-text-mcp-de serve` CLI subcommand. The `serve` argument is required as of v2.1.0 because bare invocation now prints `--help`. |
+| `FROM ghcr.io/klein-business/legal-text-mcp-de:2.1.0` | Docker instruction | `Dockerfile.hosted:4` | Extends the published base image. |
 | `ENV HOSTED=true` | Docker instruction | `Dockerfile.hosted` | Activates rate-limit and logging middleware registration. |
 | `ENV DATASET_PATH=/data/corpus/latest.tar.zst` | Docker instruction | `Dockerfile.hosted` | Points to the daily-refreshed v2 bundle. |
 

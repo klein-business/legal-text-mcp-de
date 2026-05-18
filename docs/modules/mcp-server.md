@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "mcp-server"
-version: 2.0
+version: 2.1
 ---
 
 # Module: mcp-server
@@ -20,6 +20,14 @@ resource handlers, and prompt templates live in the dedicated sub-packages
 `tools/`, `resources/`, and `prompts/`. Corpus bundle loading is handled by the
 `corpus/` sub-package. The `sampling/` sub-package provides the smart-tool
 sampling helpers.
+
+Since v2.1.0 the user-facing entry point is the `cli/` sub-package, not
+`server.py`. The `legal-text-mcp-de` console script repoints to
+`legal_text_mcp_de.cli:main`, and the MCP server is started via the
+`serve` subcommand. `server.py:main()` is preserved as an internal entry
+point that the CLI's `serve` subcommand delegates to — bare invocation no
+longer reaches it. See [features/cli-shell-surface](../features/cli-shell-surface.md)
+for the BREAKING-change details.
 
 ### Responsibility
 

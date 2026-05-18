@@ -15,7 +15,7 @@ The Google ADK demo shows that an external LLM client can connect to the MCP end
 
 ## How It Works
 
-1. Start `legal-text-mcp-de` with a validated normalized dataset.
+1. Start the MCP server with `legal-text-mcp-de serve` and a validated normalized dataset (the `serve` subcommand is required as of v2.1.0; see [cli-shell-surface](cli-shell-surface.md)).
 2. Set `MCP_URL` if the server is not at `http://localhost:8001/mcp`.
 3. Set Gemini credentials such as `GEMINI_API_KEY`.
 4. Run the ADK app from `google-adk-agent`.

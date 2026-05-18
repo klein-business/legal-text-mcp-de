@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 2.0
+version: 2.1
 ---
 
 # legal-text-mcp-de
@@ -9,7 +9,9 @@ version: 2.0
 ## Purpose
 
 `legal-text-mcp-de` provides source-backed German and EU privacy-law texts
-through MCP (v2.0) and a small HTTP API. The runtime serves validated local
+through MCP (v2 surface), a small HTTP API, and — since v2.1 — a typer-based
+shell CLI that exposes the same tool surface, server lifecycle, and corpus
+pipeline behind explicit subcommands. The runtime serves validated local
 packages — small committed fixtures for fast CI — or a signed v2 corpus bundle
 (~8,500 laws from GII, 5 state portals, and EUR-Lex Cellar) distributed as an
 OCI artifact from GHCR. An optional public hosted instance is available at
@@ -65,13 +67,16 @@ benchmarks, and the final validation bundle.
 - `zstandard` for corpus bundle compression/decompression
 - `SPARQLWrapper` for EUR-Lex Cellar queries
 - `prometheus_client` for hosted-service metrics
-- Pytest + `pytest-asyncio` for unit, parser, service, transport, sampling, docs, and release-gate tests
+- `typer` (>=0.20, <1) as a direct dep since v2.1 — backs the user-facing CLI surface (promoted from transitive via `mcp[cli]`)
+- `httpx` for the CLI `health` subcommand probe
+- Pytest + `pytest-asyncio` for unit, parser, service, transport, sampling, CLI, docs, and release-gate tests
 
 ## Modules
 
 | Module | Description | Documentation |
 | ------ | ----------- | ------------- |
 | mcp-server | MCP server, HTTP app, legal text services, source adapters, generated package validation, operational gates, and tests. | [Detail](modules/mcp-server.md) |
+| cli | typer-based CLI: 14 subcommands wrapping the MCP/HTTP/corpus surfaces. | [Detail](modules/cli.md) |
 | corpus | v2 corpus bundle loader, XDG cache, cosign verifier, and `BundleManifest` schema. | [Detail](modules/corpus.md) |
 | resources | `legal://` URI resource handlers and Markdown renderer (10 URIs). | [Detail](modules/resources.md) |
 | prompts | 5 MCP slash-command templates for German legal workflows. | [Detail](modules/prompts.md) |
@@ -89,6 +94,7 @@ benchmarks, and the final validation bundle.
 | source-provenance | Official source provenance, source limitations, manifest terminal states, and relationship-source metadata. | [Detail](features/source-provenance.md) |
 | law-loading-and-indexing | Legacy and generated package loading, readiness, search indexing, and operational artifacts. | [Detail](features/law-loading-and-indexing.md) |
 | mcp-law-tools | Stable MCP tool surface including coverage, source limitation, and relationship lookups. | [Detail](features/mcp-law-tools.md) |
+| cli-shell-surface | typer-based CLI exposing every MCP tool + server lifecycle + corpus + diagnostics. BREAKING in v2.1.0: bare invocation prints --help. | [Detail](features/cli-shell-surface.md) |
 | mcp-resources | 10 `legal://` URIs exposing law and norm texts as Markdown resources. | [Detail](features/mcp-resources.md) |
 | mcp-prompts | 5 slash-command templates for common German legal workflows. | [Detail](features/mcp-prompts.md) |
 | mcp-sampling | MCP Sampling capability with `safe_sample` helper for smart tools. | [Detail](features/mcp-sampling.md) |
@@ -128,8 +134,12 @@ uv sync --all-groups
 ```bash
 DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run legal-text-mcp-de
+uv run legal-text-mcp-de serve
 ```
+
+> **Breaking change in v2.1.0:** the bare `uv run legal-text-mcp-de`
+> invocation now prints `--help` instead of starting the MCP server. Use the
+> explicit `serve` subcommand. See [features/cli-shell-surface](features/cli-shell-surface.md).
 
 ### Run HTTP API
 
@@ -137,6 +147,14 @@ uv run legal-text-mcp-de
 DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
+```
+
+The same FastAPI app is also reachable through the CLI (added in v2.1.0):
+
+```bash
+DATASET_PATH=src/tests/fixtures/normalized \
+STRICT_STARTUP=true \
+uv run legal-text-mcp-de http --port 8080
 ```
 
 ### Testing
