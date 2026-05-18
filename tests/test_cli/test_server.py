@@ -17,6 +17,7 @@ def test_serve_runs_mcp_app(monkeypatch):
 
     # Patch the create_mcp_app().run reference used by serve
     import legal_text_mcp_de.cli._server as srv_mod
+
     monkeypatch.setattr(srv_mod, "_run_mcp", lambda **kw: invoked.update(kw))
 
     runner = CliRunner()
