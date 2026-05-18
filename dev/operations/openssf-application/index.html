@@ -3507,11 +3507,12 @@ subcommand ships with at least one test in the matching <code>tests/test_*</code
 file.</p>
 <h3 id="warning-flags">Warning flags<a class="headerlink" href="#warning-flags" title="Permanent link">&para;</a></h3>
 <p><code>ruff</code> enforces lint rules and formatting. <code>mypy --strict</code> is enforced
-in CI on six modules: <code>config</code>, <code>http_models</code>, <code>legal_texts.errors</code>,
-<code>legal_texts.models</code>, <code>legal_texts.sources</code>, and <code>cli.*</code>. The remaining
-modules run under a warning-gate (<code>continue-on-error: true</code>) that
-surfaces issues without blocking CI; ratchet to strict continues
-module-by-module.</p>
+in CI on seven modules: <code>config</code>, <code>http_models</code>, <code>legal_texts.errors</code>,
+<code>legal_texts.models</code>, <code>legal_texts.sources</code>, <code>cli.*</code>, and <code>http_api</code>.
+Together these cover the entire user-facing API surface (CLI + HTTP +
+shared models). The remaining modules run under a warning-gate
+(<code>continue-on-error: true</code>) that surfaces issues without blocking CI;
+ratchet to strict continues module-by-module.</p>
 <h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
 <h3 id="knowledge-of-secure-design">Knowledge of secure design<a class="headerlink" href="#knowledge-of-secure-design" title="Permanent link">&para;</a></h3>
 <p>Threat model published at
@@ -3533,8 +3534,9 @@ ecosystems + <strong>CodeQL</strong> SAST + <strong>Trivy</strong> image scan. K
 tracked as GitHub Security Advisories.</p>
 <h2 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h2>
 <h3 id="static-analysis">Static analysis<a class="headerlink" href="#static-analysis" title="Permanent link">&para;</a></h3>
-<p>CodeQL (Python) runs on PR and weekly. Mypy <code>--strict</code> on <code>scripts/</code>
-and <code>src/legal_text_mcp_de/cli/</code>; mypy plain on the rest of <code>src/</code>.</p>
+<p>CodeQL (Python) runs on PR and weekly. Mypy <code>--strict</code> on <code>scripts/</code>,
+<code>src/legal_text_mcp_de/cli/</code>, and <code>src/legal_text_mcp_de/http_api.py</code>
+(hard-failing CI job); mypy plain on the rest of <code>src/</code>.</p>
 <h3 id="dynamic-analysis">Dynamic analysis<a class="headerlink" href="#dynamic-analysis" title="Permanent link">&para;</a></h3>
 <p>Test suite functions as dynamic analysis. End-to-end integration tests
 against the real HTTP and MCP surfaces live in <code>scripts/verify_e2e.py</code>
@@ -3637,7 +3639,7 @@ separately. Application planned after the Gold pathway settles.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 10:51:13 UTC">May 18, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 10:57:04 UTC">May 18, 2026</span>
   </span>
 
     
