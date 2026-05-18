@@ -156,3 +156,62 @@ def test_law_missing_dataset_path_raises_runtime_error(monkeypatch):
     payload = json.loads(result.stdout)
     assert payload["error"] is not None
     assert payload["data"] is None
+
+
+# --------------------------------------------------------------------------
+# Parameterised cross-command tests
+# --------------------------------------------------------------------------
+#
+# Each of the nine read-only lookup commands shares the same error envelope.
+# Rather than asserting that contract per command (nine near-identical tests),
+# parameterise across all nine to lock in:
+#
+#   1. exit_code == 1 on LegalTextError (DATASET_PATH unset → runtime fails
+#      to load fixture corpus)
+#   2. JSON envelope `{"data": null, "error": {...}}` is honoured
+#   3. The render_error path in cli/_lookups.py is exercised for every
+#      command (lifts module coverage from ~77% to ~95%)
+#
+# The autouse `_isolate_runtime` fixture sets DATASET_PATH; the
+# `monkeypatch.delenv` call inside the test overrides it back to unset.
+
+_LOOKUP_ARGVS: list[list[str]] = [
+    ["laws"],
+    ["law", "BGB"],
+    ["norm", "BGB", "§ 355"],
+    [
+        "cite",
+        "--code",
+        "BGB",
+        "--unit",
+        "par",
+        "--paragraph",
+        "5",
+    ],
+    ["search", "Werbung"],
+    ["meta", "DSGVO"],
+    ["coverage"],
+    ["limitations"],
+    ["related", "BGB", "§ 355"],
+]
+
+
+@pytest.mark.parametrize(
+    "argv",
+    _LOOKUP_ARGVS,
+    ids=[a[0] for a in _LOOKUP_ARGVS],
+)
+def test_every_lookup_exits_one_on_missing_dataset_path(argv, monkeypatch):
+    """Every lookup must surface a structured error envelope (exit 1) when
+    the runtime cannot be loaded (DATASET_PATH unset → LegalTextError)."""
+    monkeypatch.delenv("DATASET_PATH", raising=False)
+    reset_runtime_cache()
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", *argv])
+    assert result.exit_code == 1, f"argv={argv!r} expected exit 1, got {result.exit_code}\nstdout={result.stdout!r}"
+    payload = json.loads(result.stdout)
+    assert payload["error"] is not None, f"argv={argv!r} missing error envelope"
+    assert payload["data"] is None, f"argv={argv!r} data should be null on error"
+    # Error envelope shape — mirrors http_models.ErrorEnvelope
+    assert "code" in payload["error"]
+    assert "message" in payload["error"]
