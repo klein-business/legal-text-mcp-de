@@ -1,0 +1,45 @@
+# Smithery configuration file
+# Docs: https://smithery.ai/docs/build/project-config
+#
+# Smithery deploys legal-text-mcp-de via the official multi-arch GHCR
+# image (linux/amd64 + linux/arm64). The container ships with a bundled
+# fixture corpus so the server starts out-of-the-box; production
+# deployments mount a real corpus archive at /data/corpus/latest.tar.zst.
+
+runtime: container
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema for runtime configuration. Optional fields default to
+    # the bundled fixture corpus (smaller, deterministic, suitable for
+    # demo + integration tests). Hosted production should override
+    # datasetPath to point at a real corpus.
+    type: object
+    required: []
+    properties:
+      datasetPath:
+        type: string
+        title: "Dataset path"
+        description: "Path inside the container to a normalised corpus directory or a *.tar.zst archive. Defaults to the bundled fixture corpus shipped with the image."
+      strictDataset:
+        type: boolean
+        title: "Strict dataset loading"
+        description: "Refuse to start if the dataset cannot be loaded. Recommended for hosted production deployments."
+        default: false
+      anthropicApiKey:
+        type: string
+        title: "Anthropic API key"
+        description: "Optional. Enables the smart research_topic tool (LLM-assisted multi-step legal research). Without it, the tool degrades gracefully to a ranked-search fallback."
+        format: password
+  exampleConfig:
+    datasetPath: "/data/corpus/latest.tar.zst"
+    strictDataset: true
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
+
+# Environment defaults — Smithery will merge configSchema values on top.
+env:
+  PORT: "8001"

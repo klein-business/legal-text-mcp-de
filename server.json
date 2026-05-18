@@ -1,0 +1,80 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.klein-business/legal-text-mcp-de",
+  "description": "German federal & state legal texts (BGB, DSGVO, …) with canonical IDs and cite-grade provenance.",
+  "repository": {
+    "url": "https://github.com/klein-business/legal-text-mcp-de",
+    "source": "github"
+  },
+  "version": "2.1.1",
+  "websiteUrl": "https://klein-business.github.io/legal-text-mcp-de",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "legal-text-mcp-de",
+      "version": "2.1.1",
+      "runtimeHint": "uvx",
+      "runtimeArguments": [
+        {
+          "type": "positional",
+          "value": "serve",
+          "valueHint": "subcommand"
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DATASET_PATH",
+          "description": "Path to a normalised corpus directory or a corpus archive (legal-texts-de-*.tar.zst). Defaults to the bundled fixture; production deployments should mount /data/corpus/latest.tar.zst.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "filepath"
+        },
+        {
+          "name": "STRICT_DATASET",
+          "description": "Set to 'true' to refuse to start if the dataset cannot be loaded (recommended for hosted deployments).",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "false"
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "Optional. Required only for the smart `research_topic` tool which uses LLM-assisted synthesis. Without it, the tool degrades gracefully to a ranked-search fallback.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        }
+      ]
+    },
+    {
+      "registryType": "oci",
+      "registryBaseUrl": "https://ghcr.io",
+      "identifier": "ghcr.io/klein-business/legal-text-mcp-de",
+      "version": "2.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DATASET_PATH",
+          "description": "Mount path inside the container for the legal-text corpus.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "filepath"
+        },
+        {
+          "name": "STRICT_DATASET",
+          "description": "Set to 'true' to refuse to start if the dataset cannot be loaded.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string",
+          "default": "false"
+        }
+      ]
+    }
+  ]
+}
