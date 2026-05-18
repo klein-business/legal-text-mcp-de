@@ -799,13 +799,14 @@ wheels = [
 
 [[package]]
 name = "legal-text-mcp-de"
-version = "2.0.1"
+version = "2.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "mcp", extra = ["cli"] },
     { name = "pydantic-settings" },
     { name = "rapidfuzz" },
+    { name = "typer" },
     { name = "uvicorn" },
 ]
 
@@ -858,6 +859,7 @@ requires-dist = [
     { name = "mcp", extras = ["cli"], specifier = "==1.27.1" },
     { name = "pydantic-settings" },
     { name = "rapidfuzz" },
+    { name = "typer", specifier = ">=0.20,<1" },
     { name = "uvicorn" },
 ]
 

@@ -17,7 +17,7 @@ Edit Claude Desktop's MCP servers configuration (Settings → Developer
   "mcpServers": {
     "legal-text-mcp-de": {
       "command": "uvx",
-      "args": ["legal-text-mcp-de"],
+      "args": ["legal-text-mcp-de", "serve"],
       "env": {
         "DATASET_PATH": "/path/to/legal-text-package",
         "STRICT_STARTUP": "true"

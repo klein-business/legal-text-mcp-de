@@ -19,7 +19,7 @@ needed. To force stdio explicitly, set `MCP_TRANSPORT=stdio`:
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
 MCP_TRANSPORT=stdio \
-uv run legal-text-mcp-de
+uv run legal-text-mcp-de serve
 ```
 
 The server reads JSON-RPC frames from stdin and writes replies to
@@ -36,7 +36,7 @@ channel.
   "mcpServers": {
     "legal-de-stdio": {
       "command": "uvx",
-      "args": ["legal-text-mcp-de"],
+      "args": ["legal-text-mcp-de", "serve"],
       "env": {
         "DATASET_PATH": "/path/to/legal-text-package",
         "STRICT_STARTUP": "true",

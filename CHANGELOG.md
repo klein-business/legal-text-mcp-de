@@ -5,6 +5,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-05-18
+
+### ⚠️ Breaking
+
+- **Bare invocation prints help:** `legal-text-mcp-de` (no args) now
+  prints `--help` instead of silently starting the MCP server. Use
+  `legal-text-mcp-de serve` to start the MCP server explicitly.
+  Affects: Claude Desktop configs, Docker `CMD`, `uvx` invocations.
+  See [migration-v1-v2.md](docs/operations/migration-v1-v2.md) for the
+  copy-paste-ready migration matrix.
+
+### Added
+
+- **`typer`-based CLI** as the new `legal-text-mcp-de` entry point.
+  14 subcommands covering every MCP tool plus server lifecycle, corpus
+  management, and diagnostics. See
+  [docs/cli/index.md](docs/cli/index.md) for the full reference.
+- New subcommands:
+  - Server: `serve`, `http`
+  - Lookups: `laws`, `law`, `norm`, `cite`, `search`, `meta`,
+    `coverage`, `limitations`, `related`
+  - Smart tool: `research`
+  - Corpus: `corpus pull`, `corpus verify`, `corpus info`
+  - Diagnostics: `health`, `version`,
+    `completion show|install {bash|zsh|fish}`
+- Global flags: `--json`, `--quiet`, `--debug`, `--version`.
+- CLI JSON output schema mirrors `legal_text_mcp_de.http_models.*`
+  Pydantic shapes — same models the HTTP API uses.
+- Exit-code matrix: 0 success, 1 runtime, 2 usage, 3 sampling,
+  4 corpus, 5 connectivity, 130 SIGINT.
+
+### Changed
+
+- `[project.scripts] legal-text-mcp-de` console entry repointed from
+  `legal_text_mcp_de.server:main` to `legal_text_mcp_de.cli:main`.
+  Old entry point preserved as internal call surface for legacy
+  callers (still importable).
+- `typer >= 0.20, < 1` promoted from transitive dependency
+  (via `mcp[cli]==1.27.1`) to direct project dependency.
+
+### Docs
+
+- New: `docs/cli/index.md`, `mkdocs.yml` "CLI" nav entry.
+- `README.md`: new "CLI" section; install modes updated to `serve`.
+- All `docs/quickstart/*.md` updated to use `serve` in config snippets.
+- `docs/operations/versioning.md`: new paragraph clarifying that the
+  CLI invocation form is outside the v1.0.0 stability contract.
+- `docs/operations/migration-v1-v2.md`: new "v2.0 → v2.1" section.
+
+### Known follow-ups
+
+- `deployment/Dockerfile.hosted` base image is pinned to `:2.1.0` tag.
+  The digest pin returns in v2.1.1 once the v2.1.0 release workflow
+  publishes the image and the manifest digest is known.
+
+### Compatibility
+
+- MCP tool signatures (all 10 incl. `research_topic`) unchanged —
+  `tests/test_v1_compat.py` still green.
+- HTTP API surface unchanged.
+
 ## [2.0.1] - 2026-05-17
 
 Patch release rolling up post-GA cleanup. All changes are backwards-

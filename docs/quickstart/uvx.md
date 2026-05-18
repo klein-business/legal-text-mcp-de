@@ -11,7 +11,7 @@ permanent installation. This is the recommended way to start.
 ## Run
 
 ```bash
-uvx legal-text-mcp-de
+uvx legal-text-mcp-de serve
 ```
 
 This starts the MCP server on `http://localhost:8001/mcp` against
@@ -22,7 +22,7 @@ the committed fixture dataset.
 ```bash
 DATASET_PATH=/path/to/legal-text-package \
 STRICT_STARTUP=true \
-  uvx legal-text-mcp-de
+  uvx legal-text-mcp-de serve
 ```
 
 `STRICT_STARTUP=true` causes the server to fail-fast on dataset

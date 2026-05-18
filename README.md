@@ -42,7 +42,7 @@ Older internal documentation has been archived under
 
 | | |
 | --- | --- |
-| Lifecycle | Stable `v2.0.1` (patch on `v2.0.0` GA) — MCP-native domain server |
+| Lifecycle | Stable `v2.1.0` (minor on `v2.0.0` GA) — MCP-native domain server with typer CLI |
 | Versioning | [SemVer 2.0.0](https://semver.org/spec/v2.0.0.html) (stability contract starts at `v1.0.0`) |
 | Licence | Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE) |
 | Upstream | Derived from [floleuerer/deutsche-gesetze-mcp](https://github.com/floleuerer/deutsche-gesetze-mcp) (MIT, preserved) |
@@ -66,8 +66,8 @@ Older internal documentation has been archived under
 ### Mode 1 — `pip install` from PyPI (smallest dependency)
 
 ```bash
-pip install legal-text-mcp-de==2.0.1
-DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de
+pip install legal-text-mcp-de==2.1.0
+DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de serve
 ```
 
 The package ships the runtime only; provide a corpus bundle via
@@ -77,7 +77,7 @@ point at an existing `.tar.zst` you trust.
 ### Mode 2 — `uvx` + auto-download (recommended, easiest)
 
 ```bash
-uvx legal-text-mcp-de
+uvx legal-text-mcp-de serve
 ```
 
 Server fetches the latest signed corpus bundle from GHCR on first run.
@@ -85,7 +85,7 @@ Server fetches the latest signed corpus bundle from GHCR on first run.
 ### Mode 3 — Docker with pre-bundled corpus
 
 ```bash
-docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.1
+docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.0 serve
 ```
 
 ### Mode 4 — Self-built corpus (compliance-sensitive)
@@ -94,7 +94,7 @@ docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.0.1
 git clone https://github.com/klein-business/legal-text-mcp-de
 cd legal-text-mcp-de
 uv run python -m prepare_data.build_corpus --output ./my-corpus.tar.zst --sources land:by,land:nrw
-DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de
+DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de serve
 ```
 
 ### Mode 5 — Public-hosted service
@@ -111,6 +111,29 @@ DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de
 }
 ```
 
+## CLI
+
+`legal-text-mcp-de` ships a full subcommand CLI. Bare invocation prints
+`--help`. Common commands:
+
+```bash
+legal-text-mcp-de serve              # start the MCP server (replaces the v2.0 bare invocation)
+legal-text-mcp-de http               # start the FastAPI HTTP API
+legal-text-mcp-de laws --query DSGVO # list laws
+legal-text-mcp-de norm BGB "§ 433"   # fetch a single norm
+legal-text-mcp-de search Werbung     # full-text search
+legal-text-mcp-de corpus pull        # download the signed corpus bundle
+legal-text-mcp-de corpus verify      # cosign-verify the local bundle
+legal-text-mcp-de version            # version + Python + platform
+```
+
+Add `--json` to any subcommand for machine-readable output (matches the
+HTTP API's response schema). See [CLI reference](docs/cli/index.md) for
+the full subcommand list.
+
+> **BREAKING in v2.1.0:** bare `legal-text-mcp-de` now prints `--help`.
+> Append `serve` to keep the v2.0 behaviour (started the MCP server).
+
 ## Quickstart
 
 ### Run the MCP server with the committed fixture corpus
@@ -120,7 +143,7 @@ uv sync --all-groups
 
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run legal-text-mcp-de
+uv run legal-text-mcp-de serve
 ```
 
 The default transport is streamable HTTP at
@@ -154,7 +177,7 @@ package at `/data/legal-texts`:
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.0.1
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.0 serve
 ```
 
 ## MCP Resources
@@ -286,12 +309,12 @@ All contributions must comply with the [Developer Certificate of Origin](https:/
 ## Verification (post-v2.0.0)
 
 Each release is signed and accompanied by an SBOM and SLSA-3
-provenance. Examples below use `v2.0.1`; substitute the tag you pulled.
+provenance. Examples below use `v2.1.0`; substitute the tag you pulled.
 
 ### Cosign image signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.0.1 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.0 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
