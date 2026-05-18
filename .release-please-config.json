@@ -32,11 +32,7 @@
       "type": "json",
       "path": "server.json",
       "jsonpath": "$.packages[0].version"
-    },
-    {
-      "type": "generic",
-      "path": "server.json",
-      "lines-pattern": "^      \"identifier\": \"ghcr\\.io/klein-business/legal-text-mcp-de:.*\"$"
     }
-  ]
+  ],
+  "_comment_oci_package": "OCI package re-added to server.json once the Dockerfile LABEL has shipped in a published build. On re-add, restore a generic lines-pattern bumper for the ghcr.io identifier line so release-please keeps the OCI version in sync."
 }
