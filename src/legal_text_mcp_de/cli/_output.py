@@ -9,7 +9,10 @@ Conventions
   mode (so callers can pipe ``stdout`` into ``jq`` without losing the
   error body).
 * Every public renderer accepts ``stream=`` so unit tests can capture
-  output without monkey-patching ``sys.stdout``/``sys.stderr``.
+  output without monkey-patching ``sys.stdout``/``sys.stderr``. The
+  mode-detection (TTY vs piped) uses the same stream the data will be
+  written to, so injecting a buffer in tests is symmetric for both
+  ``render_data`` and ``render_error``.
 
 Exit-code constants follow the spec in section 3 and the de-facto Unix
 convention of reserving ``1`` for generic runtime failures and ``2`` for
@@ -90,12 +93,13 @@ def render_error(
     * Text mode → human-readable error written to ``stream`` (default
       ``sys.stderr``), so it does not collide with piped stdout payloads.
 
-    Mode detection uses ``sys.stdout`` (not the override stream), because
-    "is the user looking at a terminal" is a property of the real stdout,
-    not of any test buffer that happens to be passed in.
+    Mode detection uses the same stream the data will be written to —
+    symmetric with :func:`render_data` so unit tests can inject a buffer
+    and exercise both code paths without monkey-patching ``sys.stdout``.
     """
-    if is_json_mode(force_json=force_json, stream=sys.stdout):
-        json_stream = stream or sys.stdout
+    # JSON envelope goes to stdout by default but honours ``stream=`` for tests.
+    json_stream = stream or sys.stdout
+    if is_json_mode(force_json=force_json, stream=json_stream):
         payload = {
             "data": None,
             "error": {
@@ -107,8 +111,9 @@ def render_error(
         json_stream.write(json.dumps(payload, ensure_ascii=False))
         json_stream.write("\n")
         return
+    # Text errors go to stderr by default but honour ``stream=`` too.
     err_stream = stream or sys.stderr
-    console = Console(file=err_stream, stderr=True)
+    console = Console(file=err_stream, stderr=err_stream is sys.stderr)
     console.print(f"[red]error[/red] [{code}] {message}")
     if details:
         console.print(details)
