@@ -142,6 +142,13 @@ module = "legal_text_mcp_de.legal_texts.sources"
 strict = true
 
 [[tool.mypy.overrides]]
+module = "legal_text_mcp_de.cli.*"
+# Strict-ratcheted as of v2.1.1+ (post #95). cli/__init__.py, _output.py,
+# _runtime.py, _lookups.py, _server.py, _research.py, _corpus.py,
+# _diagnostic.py.
+strict = true
+
+[[tool.mypy.overrides]]
 module = "legal_text_mcp_de.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
