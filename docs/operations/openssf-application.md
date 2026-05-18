@@ -118,11 +118,12 @@ file.
 ### Warning flags
 
 `ruff` enforces lint rules and formatting. `mypy --strict` is enforced
-in CI on six modules: `config`, `http_models`, `legal_texts.errors`,
-`legal_texts.models`, `legal_texts.sources`, and `cli.*`. The remaining
-modules run under a warning-gate (`continue-on-error: true`) that
-surfaces issues without blocking CI; ratchet to strict continues
-module-by-module.
+in CI on seven modules: `config`, `http_models`, `legal_texts.errors`,
+`legal_texts.models`, `legal_texts.sources`, `cli.*`, and `http_api`.
+Together these cover the entire user-facing API surface (CLI + HTTP +
+shared models). The remaining modules run under a warning-gate
+(`continue-on-error: true`) that surfaces issues without blocking CI;
+ratchet to strict continues module-by-module.
 
 ## Security
 
@@ -156,8 +157,9 @@ tracked as GitHub Security Advisories.
 
 ### Static analysis
 
-CodeQL (Python) runs on PR and weekly. Mypy `--strict` on `scripts/`
-and `src/legal_text_mcp_de/cli/`; mypy plain on the rest of `src/`.
+CodeQL (Python) runs on PR and weekly. Mypy `--strict` on `scripts/`,
+`src/legal_text_mcp_de/cli/`, and `src/legal_text_mcp_de/http_api.py`
+(hard-failing CI job); mypy plain on the rest of `src/`.
 
 ### Dynamic analysis
 

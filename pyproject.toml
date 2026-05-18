@@ -149,6 +149,15 @@ module = "legal_text_mcp_de.cli.*"
 strict = true
 
 [[tool.mypy.overrides]]
+module = "legal_text_mcp_de.http_api"
+# Strict-ratcheted as of v2.1.1+ (post #96). FastAPI route handlers are
+# annotated `-> Any` because FastAPI validates the actual shape against
+# `response_model` at runtime — there is no narrower stable annotation
+# for handlers that may return either a model dict or a JSONResponse on
+# the LegalTextError path.
+strict = true
+
+[[tool.mypy.overrides]]
 module = "legal_text_mcp_de.*"
 # Per-module ratchet to strict planned. Currently plain mypy as warning-gate.
 strict = false
