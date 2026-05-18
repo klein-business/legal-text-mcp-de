@@ -1,0 +1,3236 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python MCP server and HTTP API for German legal texts with source provenance.">
+      
+      
+      
+        <link rel="canonical" href="https://klein-business.github.io/legal-text-mcp-de/latest/superpowers/specs/2026-05-18-cli-typer-design/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>CLI — typer-based subcommand surface for legal-text-mcp-de - legal-text-mcp-de</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cli-typer-based-subcommand-surface-for-legal-text-mcp-de" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="legal-text-mcp-de" class="md-header__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            legal-text-mcp-de
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI — typer-based subcommand surface for legal-text-mcp-de
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/klein-business/legal-text-mcp-de" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    klein-business/legal-text-mcp-de
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../quickstart/claude-desktop/" class="md-tabs__link">
+          
+  
+  
+  Quickstart
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../cli/" class="md-tabs__link">
+          
+  
+  
+  CLI
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../concepts/data-modes/" class="md-tabs__link">
+          
+  
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../resources/" class="md-tabs__link">
+          
+  
+  
+  MCP Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../prompts/" class="md-tabs__link">
+          
+  
+  
+  MCP Prompts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/list_laws/" class="md-tabs__link">
+          
+  
+  
+  MCP Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/research_topic/" class="md-tabs__link">
+          
+  
+  
+  Smart Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api/" class="md-tabs__link">
+          
+  
+  
+  HTTP API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../operations/security/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../contributing/" class="md-tabs__link">
+          
+  
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../community/governance/" class="md-tabs__link">
+          
+  
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../roadmap/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Roadmap
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="legal-text-mcp-de" class="md-nav__button md-logo" aria-label="legal-text-mcp-de" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    legal-text-mcp-de
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/klein-business/legal-text-mcp-de" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    klein-business/legal-text-mcp-de
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quickstart
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/claude-desktop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claude Desktop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/cursor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/uvx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    uvx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quickstart/stdio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stdio (offline / Claude Desktop)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/data-modes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data modes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/mcp-and-http-surface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP and HTTP surface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/mcp-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP-native architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Prompts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Prompts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../prompts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Slash-command reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/list_laws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    list_laws
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_law/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_law
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_norm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_norm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/resolve_citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    resolve_citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/search_laws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    search_laws
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_source_metadata/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_source_metadata
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_corpus_coverage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_corpus_coverage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_source_limitations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_source_limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/get_related_norms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    get_related_norms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Smart Tools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Smart Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/research_topic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    research_topic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HTTP API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/openapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenAPI reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/python-client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typed Python client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/production-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/sbom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SBOM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/verify-with-cosign/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verify with cosign
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threat model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/security-review-2026-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security review (2026-05)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/coverage-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coverage baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/openssf-application/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenSSF application
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/slsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SLSA-3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/launch-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Launch procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/migration-v1-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration v1 → v2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contributing/code-of-conduct/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of Conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../community/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../community/support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Non-goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-in-three-sentences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture in three sentences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tech-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tech stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-subcommand-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Subcommand inventory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-module-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Module structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-output-errors-exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Output, errors, exit codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-testing-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Testing &amp; verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-migration-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Migration &amp; versioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks &amp; mitigations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="cli-typer-based-subcommand-surface-for-legal-text-mcp-de">CLI — typer-based subcommand surface for <code>legal-text-mcp-de</code><a class="headerlink" href="#cli-typer-based-subcommand-surface-for-legal-text-mcp-de" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Date</td>
+<td>2026-05-18</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>draft</td>
+</tr>
+<tr>
+<td>Target release</td>
+<td>v2.1.0</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>Martin Klein</td>
+</tr>
+<tr>
+<td>Supersedes</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Related</td>
+<td>docs/superpowers/specs/2026-05-17-v2-mcp-native-design.md (v2.0 surface)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">&para;</a></h2>
+<p>Add a <code>typer</code>-based CLI to <code>legal-text-mcp-de</code> that exposes every MCP
+tool (<code>list_laws</code>, <code>get_law</code>, <code>get_norm</code>, <code>resolve_citation</code>,
+<code>search_laws</code>, <code>get_source_metadata</code>, <code>get_corpus_coverage</code>,
+<code>get_source_limitations</code>, <code>get_related_norms</code>, <code>research_topic</code>) as a
+shell subcommand, alongside server lifecycle (<code>serve</code>, <code>http</code>), corpus
+management (<code>corpus pull / verify / info</code>), and diagnostics (<code>health</code>,
+<code>version</code>, <code>completion</code>). The CLI complements the existing MCP server
+and HTTP API; the underlying <code>LegalTextRuntime</code> is shared between all
+three surfaces so behaviour stays identical.</p>
+<h2 id="non-goals">Non-goals<a class="headerlink" href="#non-goals" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No</strong> prompt invocation (<code>/rechtsfrage</code>, …) — prompts are interactive
+  and belong in an MCP client, not a CLI.</li>
+<li><strong>No</strong> <code>stop</code> / <code>restart</code> server-lifecycle commands — process
+  supervision (systemd, Docker, Kubernetes) is the operator's domain.</li>
+<li><strong>No</strong> config-file format — env-variables remain the single source of
+  truth.</li>
+<li><strong>No</strong> self-update / <code>legal-text-mcp-de update</code> — <code>pip</code>, <code>uvx</code>, and
+  the container registry already do this.</li>
+<li><strong>No</strong> REPL mode — out of scope; defeats the purpose of a structured
+  CLI.</li>
+<li><strong>No</strong> <code>corpus build</code> — stays a maintainer tool in
+  <code>prepare_data.build_corpus</code>.</li>
+</ul>
+<h2 id="architecture-in-three-sentences">Architecture in three sentences<a class="headerlink" href="#architecture-in-three-sentences" title="Permanent link">&para;</a></h2>
+<p>The CLI is a thin shell over the existing <code>LegalTextRuntime</code> (the same
+class that backs the MCP server and the FastAPI API). <code>typer</code> provides
+the subcommand graph and shell-completion infrastructure; output
+rendering and exit-code mapping live in a small <code>cli/_output.py</code> module
+that emits either Rich-formatted text (TTY) or JSON matching the
+existing <code>http_models</code> Pydantic shapes. The <code>legal-text-mcp-de</code> console
+script is repointed from <code>server:main</code> to <code>cli:main</code>; bare invocation
+prints <code>--help</code> (modern Git/Docker/Caddy convention) — explicit
+<code>legal-text-mcp-de serve</code> replaces the old implicit server start.</p>
+<h2 id="tech-stack">Tech stack<a class="headerlink" href="#tech-stack" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>typer ≥ 0.20</code> — already a transitive dependency via
+  <code>mcp[cli]==1.27.1</code>; this spec promotes it to a direct dep.</li>
+<li><code>rich</code> — already pulled by <code>typer</code>; used for tables, Markdown
+  rendering of norm text.</li>
+<li><code>pydantic v2</code> — already in use; CLI reuses <code>http_models.*</code> for the
+  JSON output schema (single source of truth shared with the HTTP API).</li>
+<li><code>httpx</code> — already in use; <code>health</code> subcommand uses it to probe a
+  running server.</li>
+<li>No new external runtime dependencies.</li>
+</ul>
+<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h2>
+<h3 id="1-subcommand-inventory">1. Subcommand inventory<a class="headerlink" href="#1-subcommand-inventory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de [--json] [--quiet] [--debug] [--version] &lt;subcommand&gt; ...
+
+Server lifecycle
+  serve   [--host H] [--port P] [--dataset PATH] [--strict]
+          Start the MCP server (streamable HTTP transport).
+
+  http    [--host H] [--port P] [--dataset PATH]
+          Start the FastAPI HTTP API.
+
+Read-only lookups (1:1 mapping to the 9 v1 MCP tools)
+  laws    [--query Q] [--code C ...]                  → list_laws
+  law     CODE [--full]                               → get_law
+  norm    CODE NORM_ID                                → get_norm
+  cite    CITATION                                    → resolve_citation
+                                                        (e.g. &quot;§ 433 Abs. 1 BGB&quot;)
+  search  QUERY [--code C ...] [--limit N]            → search_laws
+  meta    CODE                                        → get_source_metadata
+  coverage                                            → get_corpus_coverage
+  limitations [--source-family F] [--terminal-state S]
+                                                      → get_source_limitations
+  related CODE NORM_ID                                → get_related_norms
+
+Smart tools
+  research TOPIC [--max-norms N]                      → research_topic
+          Needs ANTHROPIC_API_KEY. Gracefully degrades to a
+          ranked-search-hits fallback when sampling is unavailable
+          (matches the existing Phase E behaviour).
+
+Corpus lifecycle
+  corpus pull   [--version V]                         ORAS download from GHCR
+  corpus verify [--cert-identity ID]                  cosign verify of the local bundle
+  corpus info                                         Show local bundle metadata + path
+
+Diagnostic / ops
+  health  [--url URL]                                 HTTP GET /health on a running server
+  version                                             Print version + git SHA + Python version
+  completion install {bash|zsh|fish}                  Install shell completion script
+  completion show    {bash|zsh|fish}                  Print completion script to stdout
+</code></pre></div>
+<p>= <strong>14 explicit subcommands</strong> + 4 global flags + <code>--version</code>.</p>
+<h3 id="2-module-structure">2. Module structure<a class="headerlink" href="#2-module-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>src/legal_text_mcp_de/cli/
+├── __init__.py        # Root Typer app + global flags + main() entry
+├── _output.py         # Text/JSON renderers, exit-code mapping, ErrorHandler
+├── _runtime.py        # Lazy LegalTextRuntime loader, shared CLI dependencies
+├── _lookups.py        # 9 read-only commands
+├── _server.py         # serve, http (thin wrappers over existing entrypoints)
+├── _research.py       # research smart-tool
+├── _corpus.py         # `corpus` sub-Typer: pull, verify, info
+└── _diagnostic.py     # health, version, completion (sub-Typer for completion)
+
+tests/test_cli/
+├── __init__.py
+├── test_main.py           # bare invocation → --help; --version; unknown subcommand → exit 2
+├── test_output.py         # JSON/Text formatters, error → exit-code mapping
+├── test_lookups.py        # one happy + one error path per lookup (= 18 tests)
+├── test_server.py         # flag parsing only; server.run() is mocked
+├── test_research.py       # MockSamplingClient happy + no-key degradation
+├── test_corpus.py         # subprocess mocked for oras / cosign
+└── test_diagnostic.py     # httpx mocked for health; completion stdout
+</code></pre></div>
+<p>Files <strong>not</strong> touched by this spec:</p>
+<ul>
+<li><code>src/legal_text_mcp_de/{config,http_api,http_models,tools/*,resources/*,prompts/*,sampling/*,legal_texts/*}</code> — the CLI consumes the runtime; the runtime stays untouched.</li>
+<li><code>tests/test_v1_compat.py</code> — the v1 tool contract is unaffected.</li>
+</ul>
+<p>Files updated outside <code>src/legal_text_mcp_de/cli/</code>:</p>
+<ul>
+<li><code>pyproject.toml</code> — <code>[project.scripts]</code> repointed to <code>cli:main</code>; <code>typer</code> promoted from transitive to direct dependency; version <code>2.0.1 → 2.1.0</code>.</li>
+<li><code>src/legal_text_mcp_de/server.py</code> — <code>def main()</code> kept for backwards compatibility (internal callers); no behaviour change.</li>
+<li><code>README.md</code>, all <code>docs/quickstart/*.md</code>, <code>docs/operations/production-deployment.md</code>, <code>deployment/Dockerfile.hosted</code>, <code>deployment/deploy.sh</code> — invocation form updated to <code>legal-text-mcp-de serve</code> (or <code>http</code>).</li>
+<li><code>mkdocs.yml</code> — new top-level "CLI" nav entry pointing to <code>docs/cli/index.md</code>.</li>
+<li><code>CHANGELOG.md</code> — new <code>[2.1.0]</code> block with a prominent <code>### Breaking</code> note.</li>
+<li><code>docs/operations/versioning.md</code> — CLI-stability clarification (CLI form is not part of the v1.0.0 contract).</li>
+<li><code>docs/operations/migration-v1-v2.md</code> — append "v2.0 → v2.1 (CLI introduction)" section.</li>
+<li><code>Justfile</code> — new targets: <code>just cli-help</code>, <code>just search</code>, etc.</li>
+<li><code>.release-please-manifest.json</code> — <code>2.0.1 → 2.1.0</code>.</li>
+</ul>
+<p>New documentation:</p>
+<ul>
+<li><code>docs/cli/index.md</code> — single curated CLI reference page (auto-generated from <code>typer</code> help via <code>typer --help</code> rendered into Markdown).</li>
+</ul>
+<h3 id="3-output-errors-exit-codes">3. Output, errors, exit codes<a class="headerlink" href="#3-output-errors-exit-codes" title="Permanent link">&para;</a></h3>
+<h4 id="default-output-detection">Default output detection<a class="headerlink" href="#default-output-detection" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>Default format</th>
+<th>Override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdout is TTY (interactive)</td>
+<td>Rich text</td>
+<td><code>--json</code> forces JSON</td>
+</tr>
+<tr>
+<td>stdout is piped / redirected</td>
+<td>JSON</td>
+<td><code>--json</code> is implicit; explicit on TTY too</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>--quiet</code> flag suppresses progress/headers on text mode without
+changing the data payload. The <code>--debug</code> flag enables verbose logging
+on stderr.</p>
+<h4 id="json-schema-single-source-of-truth">JSON schema (single source of truth)<a class="headerlink" href="#json-schema-single-source-of-truth" title="Permanent link">&para;</a></h4>
+<p>The CLI's JSON output <strong>is</strong> the HTTP API's JSON output. CLI consumers
+can use the same <code>legal_text_mcp_de.http_models</code> Pydantic models the
+HTTP API uses:</p>
+<div class="highlight"><pre><span></span><code>// success
+{
+  &quot;data&quot;: { /* matches LawListResponse / SearchResponse / etc. */ },
+  &quot;error&quot;: null
+}
+
+// error (matches the ErrorBody shape from #64 / PR #78)
+{
+  &quot;data&quot;: null,
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;NORM_NOT_FOUND&quot;,
+    &quot;message&quot;: &quot;Norm &#39;§ 999&#39; not found in BGB&quot;,
+    &quot;details&quot;: { &quot;code&quot;: &quot;BGB&quot;, &quot;norm&quot;: &quot;§ 999&quot; }
+  }
+}
+</code></pre></div>
+<h4 id="exit-code-matrix">Exit-code matrix<a class="headerlink" href="#exit-code-matrix" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Example trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Success</td>
+<td>data printed</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Runtime / business error</td>
+<td><code>LegalTextError</code>: <code>NORM_NOT_FOUND</code>, <code>LAW_NOT_FOUND</code>, <code>AMBIGUOUS_CITATION</code>, <code>DATASET_NOT_READY</code></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>CLI usage error</td>
+<td>invalid args, unknown subcommand (typer default)</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>Smart-tool <strong>hard</strong> failure</td>
+<td>sampling timeout, schema validation failure. <strong>Soft</strong> degradation (no <code>ANTHROPIC_API_KEY</code> → fall back to ranked search hits) prints a stderr warning and exits <code>0</code> — this matches the Phase E <code>research_topic</code> behaviour.</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>Corpus error</td>
+<td><code>corpus pull</code> ORAS failed, <code>corpus verify</code> signature mismatch</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>Connectivity error</td>
+<td><code>health</code> HTTP GET failed</td>
+</tr>
+<tr>
+<td><code>130</code></td>
+<td>SIGINT (Ctrl-C)</td>
+<td>standard Unix convention</td>
+</tr>
+</tbody>
+</table>
+<h4 id="stderr-conventions">Stderr conventions<a class="headerlink" href="#stderr-conventions" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>stdout</strong>: data only (text or JSON), never mixed.</li>
+<li><strong>stderr</strong>: logging, warnings, progress, error messages.</li>
+<li>Guarantee: <code>legal-text-mcp-de search "…" &gt; out.json &amp;&amp; jq . out.json</code>
+  works unfiltered.</li>
+</ul>
+<h4 id="unhandled-exceptions">Unhandled exceptions<a class="headerlink" href="#unhandled-exceptions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">LegalTextError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">render_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exit_code</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="n">SamplingError</span><span class="p">,</span> <span class="n">SchemaValidationError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">render_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exit_code</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">130</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># noqa: BLE001</span>
+    <span class="n">render_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">exit_code</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">include_traceback</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+</code></pre></div>
+<p>In <code>--json</code> mode the traceback is part of <code>error.details.traceback</code>
+only when <code>--debug</code> is active; otherwise the error is reduced to
+<code>{"code": "INTERNAL", "message": str(exc)}</code>.</p>
+<h3 id="4-testing-verification">4. Testing &amp; verification<a class="headerlink" href="#4-testing-verification" title="Permanent link">&para;</a></h3>
+<h4 id="strategy">Strategy<a class="headerlink" href="#strategy" title="Permanent link">&para;</a></h4>
+<p><code>typer.testing.CliRunner(mix_stderr=False)</code> drives every subcommand
+against the existing <code>tests/fixtures/normalized</code> dataset (same fixture
+the MCP / HTTP tests use). One happy-path test + one error-path test
+per subcommand. JSON output is validated against the relevant
+<code>http_models.*</code> Pydantic schema — this gives us a free contract check
+that CLI and HTTP API stay in lockstep.</p>
+<h4 id="coverage-targets">Coverage targets<a class="headerlink" href="#coverage-targets" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Statement</th>
+<th>Branch</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cli/__init__.py</code></td>
+<td>100%</td>
+<td>100%</td>
+<td>small + dispatch-critical</td>
+</tr>
+<tr>
+<td><code>cli/_output.py</code></td>
+<td>100%</td>
+<td>≥ 90%</td>
+<td>TTY/JSON matrix + every exit-code path</td>
+</tr>
+<tr>
+<td><code>cli/_runtime.py</code></td>
+<td>≥ 90%</td>
+<td>≥ 80%</td>
+<td>lazy loader</td>
+</tr>
+<tr>
+<td><code>cli/_lookups.py</code></td>
+<td>≥ 90%</td>
+<td>≥ 80%</td>
+<td>one happy + one error per command</td>
+</tr>
+<tr>
+<td><code>cli/_server.py</code></td>
+<td>flag-parsing only</td>
+<td>n/a</td>
+<td>server.run() mocked; real start is integration</td>
+</tr>
+<tr>
+<td><code>cli/_research.py</code></td>
+<td>≥ 90%</td>
+<td>≥ 80%</td>
+<td><code>MockSamplingClient</code></td>
+</tr>
+<tr>
+<td><code>cli/_corpus.py</code></td>
+<td>≥ 90%</td>
+<td>≥ 80%</td>
+<td>subprocess mocked</td>
+</tr>
+<tr>
+<td><code>cli/_diagnostic.py</code></td>
+<td>≥ 90%</td>
+<td>≥ 80%</td>
+<td>httpx mocked</td>
+</tr>
+</tbody>
+</table>
+<p>Project-wide floor stays <code>fail_under = 86</code> (combined statement + branch); CLI raises it slightly.</p>
+<h4 id="schema-drift-gate">Schema-drift gate<a class="headerlink" href="#schema-drift-gate" title="Permanent link">&para;</a></h4>
+<p>Each lookup test that asserts <code>--json</code> output deserialises the payload
+through the matching <code>http_models.*</code> Pydantic class
+(<code>LawListResponse</code>, <code>SearchResponse</code>, …). If a future change to
+<code>http_models</code> is not mirrored in the CLI's response shape (or
+vice-versa), these tests fail. Functions as a CLI-vs-HTTP contract
+check at zero extra maintenance cost.</p>
+<h4 id="mocking-strategy">Mocking strategy<a class="headerlink" href="#mocking-strategy" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>LegalTextRuntime</code>: real, loaded from <code>tests/fixtures/normalized</code>.</li>
+<li><code>oras pull</code> / <code>cosign verify</code>: <code>monkeypatch.setattr("subprocess.run", fake_run)</code>.</li>
+<li><code>research_topic</code> sampling: reuse <code>legal_text_mcp_de.sampling.testing.MockSamplingClient</code> (Phase D infra).</li>
+<li><code>health</code> httpx call: <code>httpx.MockTransport</code> for deterministic responses.</li>
+</ul>
+<h4 id="smoke-tests-in-scriptsverify_e2epy">Smoke tests in <code>scripts/verify_e2e.py</code><a class="headerlink" href="#smoke-tests-in-scriptsverify_e2epy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Smoke 1: bare invocation prints help and exits 0</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;legal-text-mcp-de&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="sa">b</span><span class="s2">&quot;Usage:&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">stdout</span>
+
+<span class="c1"># Smoke 2: --version emits a parseable version string</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;legal-text-mcp-de&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">r</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="sa">b</span><span class="s2">&quot;2.&quot;</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">stdout</span>
+</code></pre></div>
+<h4 id="acceptance-criteria-for-the-implementation-pr">Acceptance criteria for the implementation PR<a class="headerlink" href="#acceptance-criteria-for-the-implementation-pr" title="Permanent link">&para;</a></h4>
+<ul>
+<li>[ ] All 14 subcommands implemented; ≥ 1 happy + ≥ 1 error test per command.</li>
+<li>[ ] <code>pytest tests/test_cli/</code> green.</li>
+<li>[ ] <code>scripts/verify_e2e.py</code> smoke tests green.</li>
+<li>[ ] Project-wide <code>coverage</code> ≥ 86 %; CLI module ≥ 90 % statement.</li>
+<li>[ ] <code>legal-text-mcp-de --help</code> renders without error.</li>
+<li>[ ] <code>legal-text-mcp-de serve</code> behaves identically to the old
+  bare-<code>legal-text-mcp-de</code> entry point.</li>
+<li>[ ] <code>tests/test_v1_compat.py</code> still green (no v1-tool regression).</li>
+<li>[ ] <code>scripts/verify_release.check_docs_links()</code> green (no broken
+  cross-references in the new <code>docs/cli/</code> content).</li>
+<li>[ ] OpenSSF Scorecard re-runs; no regression vs. the 7.1 baseline.</li>
+</ul>
+<h3 id="5-migration-versioning">5. Migration &amp; versioning<a class="headerlink" href="#5-migration-versioning" title="Permanent link">&para;</a></h3>
+<h4 id="breaking-change-matrix">Breaking-change matrix<a class="headerlink" href="#breaking-change-matrix" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After (v2.1.0)</th>
+<th>Who is affected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>legal-text-mcp-de</code></td>
+<td><code>legal-text-mcp-de serve</code></td>
+<td>Claude Desktop configs, Docker <code>CMD</code>, <code>uvx</code>-examples</td>
+</tr>
+<tr>
+<td><code>uvx legal-text-mcp-de</code></td>
+<td><code>uvx legal-text-mcp-de serve</code></td>
+<td>uvx auto-download mode</td>
+</tr>
+<tr>
+<td><code>docker run … :2.0.1</code></td>
+<td><code>docker run … :2.1.0 serve</code></td>
+<td>Container default CMD; image bumped to 2.1.0</td>
+</tr>
+</tbody>
+</table>
+<p>Not breaking: MCP tool signatures, HTTP API surface, env-vars, corpus
+format. The v1 tool contract is still frozen by
+<code>tests/test_v1_compat.py</code>.</p>
+<h4 id="version-bump-v210-minor-not-v300">Version bump: v2.1.0 (Minor), not v3.0.0<a class="headerlink" href="#version-bump-v210-minor-not-v300" title="Permanent link">&para;</a></h4>
+<p>The repository's <code>docs/operations/versioning.md</code> defines MAJOR as
+"breaking change to any public API (MCP tool signature, HTTP route, or
+dataset schema)". CLI invocation form is not enumerated. The CLI did
+not previously exist as a user-facing surface (bare invocation simply
+started a server); we are not breaking a prior contract — we are
+defining one.</p>
+<p>User-base impact: zero (the repository was flipped to public on
+2026-05-17; v2.0.1 was published on 2026-05-17T19:31:30Z). No
+deprecation window is needed.</p>
+<p><code>docs/operations/versioning.md</code> will gain one paragraph clarifying the
+CLI's status:</p>
+<blockquote>
+<p>The CLI invocation form (subcommand names, flag names, positional
+argument order) is not part of the v1.0.0 stability contract. CLI
+subcommand renames trigger a CHANGELOG entry with a clear migration
+note, but no major version bump.</p>
+</blockquote>
+<h4 id="repo-internal-file-updates">Repo-internal file updates<a class="headerlink" href="#repo-internal-file-updates" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>pyproject.toml                       version 2.0.1 → 2.1.0
+.release-please-manifest.json        2.0.1 → 2.1.0
+CHANGELOG.md                         new [2.1.0] block with ### Breaking note
+README.md                            all bare invocations → `serve`; new &quot;CLI&quot; section
+docs/quickstart/{claude-desktop,cursor,uvx,docker,stdio}.md
+                                     config snippets → explicit `serve`
+docs/api/index.md                    uvicorn example + `legal-text-mcp-de http` alternative
+docs/operations/production-deployment.md  docker CMD with `serve`
+docs/operations/versioning.md        CLI-stability paragraph (above)
+docs/operations/migration-v1-v2.md   new &quot;v2.0 → v2.1 (CLI introduction)&quot; section
+deployment/Dockerfile.hosted         CMD updated; image tag bumped
+deployment/deploy.sh                 example tag bumped
+Justfile                             new targets: cli-help, search, norm, …
+mkdocs.yml                           new &quot;CLI&quot; top-level nav entry
+docs/cli/index.md                    NEW — curated CLI reference (typer --help rendered)
+</code></pre></div>
+<h4 id="announcement-plan">Announcement plan<a class="headerlink" href="#announcement-plan" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>CHANGELOG.md</code> <code>[2.1.0]</code> with a prominent <code>### Breaking</code> block at the top.</li>
+<li><code>docs/operations/migration-v1-v2.md</code>: new "v2.0 → v2.1 (CLI
+  introduction)" section with a copy-paste-ready <code>sed</code>-style migration
+  for Claude Desktop configs.</li>
+<li>GitHub Release notes (auto-generated from CHANGELOG).</li>
+<li>README v2.1.0 with a "BREAKING" note next to the install modes.</li>
+</ul>
+<h4 id="explicitly-out-of-scope-for-a-later-patch-minor">Explicitly out of scope (for a later patch / minor)<a class="headerlink" href="#explicitly-out-of-scope-for-a-later-patch-minor" title="Permanent link">&para;</a></h4>
+<ul>
+<li>~~Auto-generated mkdocs CLI reference from <code>typer</code> help~~ — nice but
+  YAGNI for v2.1; the curated <code>docs/cli/index.md</code> is enough.</li>
+<li>~~Interactive REPL mode~~ — defeats the CLI purpose.</li>
+<li>~~Self-update (<code>legal-text-mcp-de update</code>)~~ — collides with
+  pip / uvx / container.</li>
+<li>~~Pre-built completion scripts in <code>man/</code>~~ — <code>completion install</code> is
+  enough.</li>
+</ul>
+<h2 id="risks-mitigations">Risks &amp; mitigations<a class="headerlink" href="#risks-mitigations" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker <code>CMD</code> regression in third-party Dockerfiles inheriting from us</td>
+<td>Image base tag bumped from <code>:2.0.1</code> to <code>:2.1.0</code>; users opting into <code>:2.1.0</code> accept the migration. <code>:2</code> and <code>:latest</code> rolling tags update simultaneously.</td>
+</tr>
+<tr>
+<td>Typer auto-completion shells out to subprocess on install</td>
+<td><code>completion install</code> is opt-in; safe-default is "print to stdout".</td>
+</tr>
+<tr>
+<td><code>research</code> subcommand silently degrades on missing API key</td>
+<td>Always print a stderr warning when degradation kicks in; exit code 0 (success with degradation) vs. 3 (hard failure).</td>
+</tr>
+<tr>
+<td>Test fixture drift if <code>http_models</code> evolves and CLI JSON validates against them</td>
+<td>Schema-drift tests catch it; CI is the gate.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="open-questions">Open questions<a class="headerlink" href="#open-questions" title="Permanent link">&para;</a></h2>
+<p>None — every question raised in brainstorming has a decision recorded
+above (scope = D, bare-invocation = B, framework = <code>typer</code>, version =
+v2.1.0 as Minor).</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Existing v2.0 design: <code>docs/superpowers/specs/2026-05-17-v2-mcp-native-design.md</code></li>
+<li>HTTP body-size middleware (the same <code>ErrorBody</code> shape the CLI emits in JSON mode): PR #78 / Issue #64</li>
+<li>Versioning policy: <code>docs/operations/versioning.md</code></li>
+<li>typer documentation: https://typer.tiangolo.com/</li>
+<li>CLI guidelines (community reference): https://clig.dev/</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 05:47:32 UTC">May 18, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
