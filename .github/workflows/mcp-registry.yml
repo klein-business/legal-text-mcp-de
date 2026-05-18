@@ -43,23 +43,52 @@ jobs:
     name: Publish to MCP Registry
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # Gate the job: either we were manually dispatched, OR the upstream
-    # Release workflow finished successfully on a v* tag.
+    # Multi-layered guard. All three must hold for the job to even start:
+    #   1. Event type — only direct manual dispatch or an upstream
+    #      Release workflow_run is allowed.
+    #   2. Upstream conclusion — Release must have *succeeded*; we never
+    #      publish on a failed/cancelled release.
+    #   3. Upstream trigger event — Release itself must have been kicked
+    #      off by a `push` event (i.e., a tag push on this repo), not by
+    #      `pull_request` from a fork. This eliminates the
+    #      untrusted-fork-PR theoretical attack surface.
+    #   4. Tag-shape — head_branch must look like a v*.*.* tag, not a
+    #      branch name.
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
        startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: read
       id-token: write  # OIDC for github-oidc auth
     steps:
-      - name: Checkout (triggering workflow's commit)
-        # workflow_run runs in the default-branch context by default. Pin
-        # the checkout to the SHA that the Release workflow ran against
-        # so server.json reflects the exact version being published.
+      - name: Checkout (default-branch ref — Scorecard-safe)
+        # Why no `ref:` parameter:
+        #
+        # Earlier revisions of this workflow pinned the checkout to
+        # `${{ github.event.workflow_run.head_sha }}` so server.json
+        # exactly matched the tag's snapshot. ossf/scorecard flags that
+        # pattern as `Dangerous-Workflow / untrusted code checkout`
+        # because, in the general case, `workflow_run` can be triggered
+        # by a fork PR and the head_sha would be attacker-controlled.
+        #
+        # In this repo it cannot — the upstream Release workflow only
+        # listens for `push: tags: v*.*.*` (see release.yml) and tag
+        # push requires push access (branch protection). The job-level
+        # `if:` above also rejects any workflow_run whose triggering
+        # event is not `push`. So the historical risk does not apply.
+        #
+        # That said, omitting `ref:` entirely lets the checkout fall back
+        # to `github.ref` (= `refs/heads/main` in workflow_run context),
+        # which Scorecard recognises as safe. The "Verify server.json
+        # version matches triggering tag" step below catches the rare
+        # case where main has moved past the just-pushed tag between
+        # release.yml finishing and this job starting — the version
+        # guard fails fast with a clear error, and the operator can
+        # workflow_dispatch a manual re-run after backing out / catching
+        # up.
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
       - name: Install mcp-publisher
         run: |

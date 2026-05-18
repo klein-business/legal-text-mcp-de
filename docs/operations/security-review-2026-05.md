@@ -121,6 +121,33 @@ observations were filed for the next maintenance window:
   (hashed test fixtures).
 - **OpenSSF Scorecard**: monthly run; baseline score ≥ 6 across all
   checks.
+
+  **Known structural deductions (solo-maintainer + repo age):**
+
+  | Check | Score | Reason (not a real risk) |
+  | --- | ---: | --- |
+  | Code-Review | 0 | Solo-maintainer admin-merges PRs; no second reviewer exists. Same root cause as the OpenSSF Gold blockers `two_person_review` + `contributors_unassociated`. Mitigation in flight via the contributor-funnel (good-first-issues + awesome-list listing). |
+  | Maintained | 0 | Repo created within the last 90 days. Recovers automatically as the project ages. |
+  | Branch-Protection | -1 | `internal error: some github tokens can't read classic branch protection rules`. Scorecard's default `GITHUB_TOKEN` lacks `repo:admin` scope; needs a fine-grained PAT to read. The protection itself is in place (verified manually). |
+  | Fuzzing | 0 | No fuzzer integration (out of scope: pure-Python text-processing library, no parsers exposed to untrusted input over the wire). |
+  | Contributors | 3 | One contributing organisation. Same solo-maintainer root cause. |
+
+  **Known false positive (workflow_run in `mcp-registry.yml`):** Scorecard's
+  `Dangerous-Workflow` check flags any dynamic checkout ref derived from
+  `github.event.workflow_run.head_sha` as untrusted-code-checkout
+  because, in the general case, a fork PR can trigger a `workflow_run`
+  event. Mitigated at the source:
+  - The upstream `release.yml` only listens for `push: tags: v*.*.*`
+    (never `pull_request`); branch protection requires push access for tag push.
+  - The `mcp-registry.yml` job `if:` rejects any `workflow_run` whose
+    triggering event is not `push` and whose `head_branch` does not match
+    the v-tag shape.
+  - The checkout step omits `ref:` entirely (defaults to `github.ref =
+    refs/heads/main`), eliminating the dynamic-ref pattern Scorecard
+    flags. Version drift between main and the tag is caught by a
+    subsequent `server.json` version-vs-tag guard.
+
+  After the fix the check returns to score 10.
 - **GitHub Dependency Review**: 0 blocked dependencies on PR #16
   (Phase 3+4 atomic rename) and all subsequent PRs.
 
