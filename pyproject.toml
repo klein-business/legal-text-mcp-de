@@ -55,7 +55,7 @@ Changelog = "https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANG
 Security = "https://github.com/klein-business/legal-text-mcp-de/security/policy"
 
 [project.scripts]
-legal-text-mcp-de = "legal_text_mcp_de.server:main"
+legal-text-mcp-de = "legal_text_mcp_de.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/legal_text_mcp_de"]

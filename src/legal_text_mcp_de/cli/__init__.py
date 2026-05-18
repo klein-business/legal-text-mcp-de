@@ -14,6 +14,7 @@ from typing import Annotated
 import typer
 
 from legal_text_mcp_de.cli._lookups import lookups_app
+from legal_text_mcp_de.cli._server import server_app
 
 
 def _resolve_version() -> str:
@@ -62,6 +63,9 @@ def _root(
 
 # Register the lookups Typer's commands directly on the root (no `lookups` prefix).
 for command_info in lookups_app.registered_commands:
+    app.registered_commands.append(command_info)
+
+for command_info in server_app.registered_commands:
     app.registered_commands.append(command_info)
 
 
