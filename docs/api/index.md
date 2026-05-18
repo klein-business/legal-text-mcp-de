@@ -15,6 +15,12 @@ PYTHONPATH=mcp \
 uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
 ```
 
+Equivalent CLI subcommand (v2.1.0+):
+
+```bash
+legal-text-mcp-de http --host 127.0.0.1 --port 8080
+```
+
 ## Endpoints
 
 | Method | Path | Purpose |

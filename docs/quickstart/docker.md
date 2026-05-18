@@ -6,13 +6,13 @@ package at `/data/legal-texts`.
 ## Pull the image
 
 ```bash
-docker pull ghcr.io/klein-business/legal-text-mcp-de:2.0.1
+docker pull ghcr.io/klein-business/legal-text-mcp-de:2.1.0
 ```
 
 ## Verify the signature
 
 ```bash
-cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.0.1 \
+cosign verify ghcr.io/klein-business/legal-text-mcp-de:2.1.0 \
   --certificate-identity-regexp 'https://github.com/klein-business/.*' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 ```
@@ -25,7 +25,7 @@ details.
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.0.1
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.0 serve
 ```
 
 The container runs as UID 10001 (non-root). The dataset mount is
@@ -37,7 +37,7 @@ read-only.
 docker build -t legal-text-mcp-de:dev .
 docker run --rm -p 8001:8001 \
   -v $(pwd)/mcp/tests/fixtures/normalized:/data/legal-texts:ro \
-  legal-text-mcp-de:dev
+  legal-text-mcp-de:dev serve
 ```
 
 ## Verification

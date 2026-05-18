@@ -46,11 +46,24 @@ docs:
 
 # Run the MCP server against the committed fixture corpus.
 run:
-    DATASET_PATH=tests/fixtures/normalized STRICT_STARTUP=true uv run legal-text-mcp-de
+    DATASET_PATH=tests/fixtures/normalized STRICT_STARTUP=true uv run legal-text-mcp-de serve
 
 # Run the HTTP API against the committed fixture corpus on :8080.
 api:
-    DATASET_PATH=tests/fixtures/normalized STRICT_STARTUP=true uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
+    DATASET_PATH=tests/fixtures/normalized STRICT_STARTUP=true uv run legal-text-mcp-de http --port 8080
+
+# CLI shortcuts (v2.1.0+).
+cli-help:
+    uv run legal-text-mcp-de --help
+
+cli-search QUERY:
+    uv run legal-text-mcp-de search "{{QUERY}}"
+
+cli-norm CODE NORM:
+    uv run legal-text-mcp-de norm "{{CODE}}" "{{NORM}}"
+
+cli-version:
+    uv run legal-text-mcp-de version
 
 # Verify the docs-link checker + the smoke test that release.yml runs.
 verify-release:

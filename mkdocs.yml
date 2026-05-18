@@ -84,6 +84,8 @@ nav:
       - uvx: quickstart/uvx.md
       - Docker: quickstart/docker.md
       - stdio (offline / Claude Desktop): quickstart/stdio.md
+  - CLI:
+      - Reference: cli/index.md
   - Concepts:
       - Data modes: concepts/data-modes.md
       - Provenance: concepts/provenance.md

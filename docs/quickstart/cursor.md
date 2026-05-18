@@ -16,7 +16,7 @@ Edit Cursor's MCP configuration file (`~/.cursor/mcp.json`) and add:
   "mcpServers": {
     "legal-text-mcp-de": {
       "command": "uvx",
-      "args": ["legal-text-mcp-de"],
+      "args": ["legal-text-mcp-de", "serve"],
       "env": {
         "DATASET_PATH": "/path/to/legal-text-package",
         "STRICT_STARTUP": "true"
