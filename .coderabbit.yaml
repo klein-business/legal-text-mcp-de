@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 # CodeRabbit configuration for legal-text-mcp-de
 # Docs: https://docs.coderabbit.ai/reference/configuration
 #
@@ -7,12 +8,8 @@
 
 language: en-US
 
-tone_instructions: |
-  Professional, direct, German engineering culture: precise, concise,
-  no filler. When suggesting changes, prefer code-block diffs over prose.
-  Reference our conventions when relevant: Conventional Commits, DCO
-  sign-off (`git commit -s`), SemVer 2.0.0, Apache-2.0, pinned `uv`
-  toolchain. Avoid hedging; cite the file:line for every concrete claim.
+# Hard limit: 250 chars.
+tone_instructions: "Direct, concise, professional. Suggest fixes as code-block diffs, not prose. Cite file:line for every claim. Reference conventions when relevant: Conventional Commits, DCO sign-off, SemVer 2.0, pinned uv toolchain."
 
 early_access: false
 enable_free_tier: true
