@@ -78,3 +78,15 @@ def test_norm_unknown_returns_runtime_error_exit_1():
     runner = CliRunner()
     result = runner.invoke(app, ["norm", "BGB", "§ 999999"])
     assert result.exit_code == 1
+
+
+def test_cite_resolves_egbgb_art_246a_par_1():
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["--json", "cite", "--code", "EGBGB", "--unit", "art",
+         "--paragraph", "246a", "--child-unit", "par", "--child-value", "1"],
+    )
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["data"]["norm"]["canonical_id"] == "egbgb/art:246a/par:1"

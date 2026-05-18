@@ -84,3 +84,33 @@ def norm(
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("cite")
+def cite(
+    ctx: typer.Context,
+    code: Annotated[str, typer.Option("--code", help="Law code (e.g. BGB, EGBGB).")],
+    unit: Annotated[str, typer.Option("--unit", help="Norm unit: par, art, abs, satz, …")],
+    paragraph: Annotated[str, typer.Option("--paragraph", help="Paragraph or article number.")],
+    child_unit: Annotated[str | None, typer.Option("--child-unit", help="Optional child unit.")] = None,
+    child_value: Annotated[str | None, typer.Option("--child-value", help="Optional child value.")] = None,
+) -> None:
+    """Resolve a structured citation (e.g. '§ 433 Abs. 1 BGB' broken into parts)."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        kwargs = {"code": code, "unit": unit, "paragraph_or_article": paragraph}
+        if child_unit:
+            kwargs["child_unit"] = child_unit
+        if child_value:
+            kwargs["child_value"] = child_value
+        payload = runtime.resolve_citation(**kwargs)
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    render_data(payload, force_json=force_json)
