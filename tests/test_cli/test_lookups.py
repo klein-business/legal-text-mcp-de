@@ -64,3 +64,17 @@ def test_law_unknown_code_returns_runtime_error_exit_1():
     runner = CliRunner()
     result = runner.invoke(app, ["law", "DOES_NOT_EXIST"])
     assert result.exit_code == 1
+
+
+def test_norm_returns_norm_payload():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--json", "norm", "BGB", "§ 355"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["data"]["norm"]["canonical_id"] == "bgb/par:355"
+
+
+def test_norm_unknown_returns_runtime_error_exit_1():
+    runner = CliRunner()
+    result = runner.invoke(app, ["norm", "BGB", "§ 999999"])
+    assert result.exit_code == 1

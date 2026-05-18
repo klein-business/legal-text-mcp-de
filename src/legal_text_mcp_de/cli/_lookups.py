@@ -62,3 +62,25 @@ def law(
             {k: v for k, v in n.items() if k != "text"} for n in payload["law"].get("norms", [])
         ]
     render_data(payload, force_json=force_json)
+
+
+@lookups_app.command("norm")
+def norm(
+    ctx: typer.Context,
+    code: Annotated[str, typer.Argument(help="Law code (e.g. BGB).")],
+    norm_id: Annotated[str, typer.Argument(help="Norm identifier (e.g. '§ 355' or 'par:355').")],
+) -> None:
+    """Fetch a single norm with full text + provenance."""
+    force_json = bool(ctx.obj and ctx.obj.get("json"))
+    try:
+        runtime = get_runtime_or_die()
+        payload = runtime.get_norm(code, norm_id)
+    except LegalTextError as exc:
+        render_error(
+            code=exc.code,
+            message=str(exc),
+            details=getattr(exc, "details", None) or {},
+            force_json=force_json,
+        )
+        raise typer.Exit(code=EXIT_RUNTIME)
+    render_data(payload, force_json=force_json)
