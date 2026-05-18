@@ -71,7 +71,7 @@ dev = [
     "pre-commit~=4.0",
     "cyclonedx-bom~=7.3",
     "types-beautifulsoup4~=4.12",
-    "zstandard~=0.23.0",
+    "zstandard>=0.23,<0.26",
     "pytest-asyncio>=0.24,<2",
 ]
 docs = [
@@ -94,7 +94,7 @@ prepare-data = [
     "roman-numbers~=1.0.2",
     "types-beautifulsoup4~=4.12",
     "SPARQLWrapper~=2.0.0",
-    "zstandard~=0.23.0",
+    "zstandard>=0.23,<0.26",
 ]
 hosted = [
     "prometheus-client~=0.21",
