@@ -114,6 +114,7 @@ nav:
   - Operations:
       - Security: operations/security.md
       - Production deployment: operations/production-deployment.md
+      - Code review: operations/code-review.md
       - SBOM: operations/sbom.md
       - Verify with cosign: operations/verify-with-cosign.md
       - Versioning: operations/versioning.md

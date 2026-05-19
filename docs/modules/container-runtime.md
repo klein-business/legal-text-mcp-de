@@ -75,7 +75,7 @@ container startup. Operational artifacts remain outside the image and outside Gi
 ```bash
 docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
-  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.3
 ```
 
 **Self-host with v2 bundle:**
@@ -84,8 +84,19 @@ docker run --rm -p 8001:8001 \
 docker run --rm -p 8001:8001 \
   -v /path/to/corpus.tar.zst:/data/legal-texts:ro \
   -e STRICT_DATASET=true \
-  ghcr.io/klein-business/legal-text-mcp-de:2.0.0
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.3
 ```
+
+**Docker Compose (HTTP mode):**
+
+A minimal copy-pasteable Compose example lives at
+[`examples/docker-compose/http/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/http)
+in the repo. It boots the FastAPI HTTP transport on port 8001 against
+the bundled fixture corpus shipped inside the image, with the
+Dockerfile's Python-urllib HEALTHCHECK inherited automatically (no
+`curl` needed in the slim base). Pin to a different image digest and
+set `STRICT_DATASET=true` for production deployments — see
+[production-deployment](../operations/production-deployment.md).
 
 The mounted path may be:
 

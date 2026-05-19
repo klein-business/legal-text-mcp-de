@@ -124,7 +124,7 @@ subcommand delegates to existing runtime methods (`LegalTextRuntime.*`),
 | ------ | ---- | ------- |
 | `research_app` | `typer.Typer` | Holds the single `research` command; lifted onto the root. |
 | `research` | command | Wraps `_run_research(runtime, topic, max_candidates, detail, ctx=None)` and serialises the resulting `ResearchReport` Pydantic model. |
-| `_run_async` | function | `asyncio.run(coro)` wrapper that restores a fresh default event loop afterwards (fixes test-ordering flakiness in `tests/test_resources`). |
+| `_run_async` | function | `Coroutine[Any, Any, _T] -> _T` wrapper that delegates to `asyncio.run` and restores a fresh default event loop afterwards (fixes test-ordering flakiness in `tests/test_resources`). Typed strict-mypy-clean since v2.1.2 (the whole `cli.*` module is ratcheted to `mypy --strict` from that release on). |
 
 ### `cli/_corpus.py`
 
