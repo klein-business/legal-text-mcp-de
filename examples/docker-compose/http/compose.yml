@@ -1,0 +1,34 @@
+# Docker Compose example — HTTP-mode deployment of legal-text-mcp-de.
+#
+# This example boots the FastAPI HTTP transport against the bundled
+# fixture corpus shipped inside the image. For a real production
+# deployment, pin to a different image digest, set STRICT_DATASET=true,
+# and bind-mount a corpus archive at /data/corpus/latest.tar.zst. See
+# docs/operations/production-deployment.md.
+
+services:
+  legal-text-mcp-de:
+    # Digest-pinned to v2.1.3 (the first build carrying the
+    # `LABEL io.modelcontextprotocol.server.name=…` annotation required
+    # by the official MCP Registry). Bump alongside future releases.
+    image: ghcr.io/klein-business/legal-text-mcp-de:2.1.3@sha256:d53b9538a7c6c8f04d826f28f7e6b2215ce2e557c01c1de2b854edec44e4b98e
+
+    # The Dockerfile declares no ENTRYPOINT, so `command:` must supply
+    # the full argv. We reuse the `uv run --frozen --no-sync` prefix
+    # from the Dockerfile CMD and swap `serve` (default) for `http`.
+    command: ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "http"]
+
+    ports:
+      - "8001:8001"
+
+    environment:
+      # Use the bundled fixture corpus shipped inside the image. For
+      # production, set STRICT_DATASET=true and bind-mount a corpus
+      # archive (see docs/operations/production-deployment.md).
+      PORT: "8001"
+      HOST: "0.0.0.0"
+
+    # No `healthcheck:` block here — the upstream Dockerfile already
+    # declares a HEALTHCHECK using Python's urllib (curl is not
+    # available in the python:3.12-slim base image). Compose inherits
+    # it automatically.
