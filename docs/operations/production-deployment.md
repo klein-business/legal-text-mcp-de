@@ -1,5 +1,14 @@
 # Production deployment
 
+> **Looking for a minimal starting point?** A copy-pasteable Docker Compose
+> example for HTTP-mode deployment lives at
+> [`examples/docker-compose/http/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/http).
+> It boots the server on port 8001 against the bundled fixture corpus
+> with healthcheck and image-digest pin baked in. The two reverse-proxy
+> patterns below extend that baseline with TLS termination, rate
+> limiting, and the production-grade settings the example deliberately
+> omits.
+
 The HTTP API runs as a bare `uvicorn` on `http://0.0.0.0:8001`. For
 production exposure you need:
 

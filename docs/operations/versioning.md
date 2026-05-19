@@ -66,6 +66,24 @@ PR creates the tag and triggers `release.yml`, which:
 4. Publishes to PyPI via Trusted Publisher.
 5. Builds and signs the GHCR image with cosign.
 
+`release-please` also keeps the [MCP Registry](../features/mcp-registry-distribution.md)
+entry in lockstep with the package version via three `extra-files`
+bumpers on `server.json`:
+
+- `$.version` (top-level registry-entry version)
+- `$.packages[0].version` (PyPI package version)
+- the OCI `identifier` line (`ghcr.io/.../legal-text-mcp-de:X.Y.Z`)
+  — bumped via a generic line-pattern because the OCI spec disallows
+  a separate `version` field
+
+After `release.yml` finishes successfully, `mcp-registry.yml` fires via
+`workflow_run` and publishes the new entry to
+[`registry.modelcontextprotocol.io`](https://registry.modelcontextprotocol.io)
+without long-lived secrets (GitHub OIDC). The two-workflow split (build
+first, register second) is intentional: the registry's PyPI and OCI
+verification steps require the artefacts to be reachable before the
+publish, so `mcp-registry.yml` only starts after `release.yml` is done.
+
 ## Changelog
 
 Changes are documented in [`CHANGELOG.md`](https://github.com/klein-business/legal-text-mcp-de/blob/main/CHANGELOG.md)
