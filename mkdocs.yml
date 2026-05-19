@@ -1,5 +1,5 @@
 site_name: legal-text-mcp-de
-site_description: Python MCP server and HTTP API for German legal texts with source provenance.
+site_description: MCP server, HTTP API & CLI for German federal/state legal texts with canonical IDs and cite-grade source provenance.
 site_url: https://klein-business.github.io/legal-text-mcp-de
 repo_url: https://github.com/klein-business/legal-text-mcp-de
 repo_name: klein-business/legal-text-mcp-de
