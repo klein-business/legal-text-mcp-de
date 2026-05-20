@@ -112,8 +112,11 @@ curl -fsSL https://legal.example.org/health    # -> {"status":"ok"}
 
 ## Health checking
 
-The container exposes `/health` (lightweight) and `/ready`
-(includes dataset readiness). For Kubernetes:
+The `http` (FastAPI) transport exposes `/health` (lightweight liveness) and
+`/ready` (includes dataset readiness). The `serve` (MCP streamable-HTTP)
+transport exposes only `/health` — the Dockerfile `HEALTHCHECK` works for
+both transports. For Kubernetes (replace `/ready` with `/health` for the MCP
+transport):
 
 ```yaml
 readinessProbe:

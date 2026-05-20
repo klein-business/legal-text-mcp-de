@@ -167,15 +167,18 @@ Since v2.1 the easiest way is the new CLI:
 ```bash
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run legal-text-mcp-de http --port 8080
+uv run legal-text-mcp-de http
 ```
+
+The default port is `8001` (from `settings.port` / `PORT` env var); use
+`--port <N>` to override.
 
 Or directly via uvicorn (equivalent — same FastAPI app):
 
 ```bash
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8001
 ```
 
 The HTTP layer enforces `MAX_REQUEST_BODY_BYTES` (default `1048576` = 1 MiB)
@@ -193,7 +196,8 @@ docker run --rm -p 8001:8001 \
   -v /path/to/legal-text-package:/data/legal-texts:ro \
   ghcr.io/klein-business/legal-text-mcp-de:2.1.3 serve
 ```
-- See `examples/docker-compose/http` for a Docker Compose deployment example.
+- See [`examples/docker-compose/http/`](examples/docker-compose/http/) for a minimal HTTP-mode Compose example.
+- See [`examples/docker-compose/production/`](examples/docker-compose/production/) for a committed, CI-tested production stack (MCP + HTTP behind Caddy, switchable via Compose profiles).
 
 ## MCP Resources
 

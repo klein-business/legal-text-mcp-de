@@ -8,7 +8,7 @@ the STRIDE framework. It is reviewed at each major release.
 Components in scope:
 
 - **MCP transport** (streamable HTTP, default port 8001).
-- **HTTP API** (FastAPI, default port 8080).
+- **HTTP API** (FastAPI, default port 8001).
 - **Dataset loader** (validates and loads `DATASET_PATH` content).
 - **Source discovery / generation pipeline**
   (`prepare_data/prepare_gesetze_im_internet.sh` and the runtime

@@ -55,7 +55,7 @@ See [Quickstart → uvx](quickstart/uvx.md) for the full setup,
 ```mermaid
 flowchart LR
   Client[MCP client] -->|streamable HTTP :8001/mcp| Server
-  Client2[HTTP client] -->|FastAPI :8080| Server
+  Client2[HTTP client] -->|FastAPI :8001| Server
   Server[legal-text-mcp-de] -->|loads| Dataset
   Dataset[(DATASET_PATH)] -->|fixture or generated| Sources
   Sources[gesetze-im-internet.de<br/>EUR-Lex / Cellar]

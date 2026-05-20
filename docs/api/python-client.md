@@ -7,12 +7,12 @@ Swagger UI at `/docs`. For Python consumers, the simplest path is
 
 ## Setup
 
-Start the server (fixture corpus, default port `8080` for the example):
+Start the server (fixture corpus, default port `8001`):
 
 ```bash
 DATASET_PATH=tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8001
 ```
 
 Install the client deps (in another shell):
@@ -33,7 +33,7 @@ from legal_text_mcp_de.http_models import (
 )
 
 
-BASE = "http://127.0.0.1:8080"
+BASE = "http://127.0.0.1:8001"
 
 
 def list_laws(client: httpx.Client, query: str | None = None) -> LawListResponse:
@@ -115,7 +115,7 @@ from legal_text_mcp_de.http_models import LawListResponse
 
 
 async def list_laws_async(query: str | None = None) -> LawListResponse:
-    async with httpx.AsyncClient(base_url="http://127.0.0.1:8080", timeout=10.0) as client:
+    async with httpx.AsyncClient(base_url="http://127.0.0.1:8001", timeout=10.0) as client:
         response = await client.get("/laws", params={"query": query} if query else None)
         response.raise_for_status()
         return LawListResponse.model_validate(response.json())

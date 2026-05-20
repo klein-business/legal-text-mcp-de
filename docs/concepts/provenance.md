@@ -56,7 +56,7 @@ result = mcp_client.call_tool("get_source_metadata", {"code": "bgb"})
 Via HTTP API:
 
 ```bash
-curl http://localhost:8080/laws/bgb | jq '.provenance'
+curl http://localhost:8001/laws/bgb | jq '.provenance'
 ```
 
 ## Related

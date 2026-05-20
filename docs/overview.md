@@ -152,7 +152,7 @@ uv run legal-text-mcp-de serve
 ```bash
 DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn legal_text_mcp_de.http_api:app --host 127.0.0.1 --port 8001
 ```
 
 The same FastAPI app is also reachable through the CLI (added in v2.1.0):
@@ -160,8 +160,10 @@ The same FastAPI app is also reachable through the CLI (added in v2.1.0):
 ```bash
 DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run legal-text-mcp-de http --port 8080
+uv run legal-text-mcp-de http
 ```
+
+The default port is `8001` (from `PORT` env / `settings.port`); pass `--port <N>` to override.
 
 ### Testing
 

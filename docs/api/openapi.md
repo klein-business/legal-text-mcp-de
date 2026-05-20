@@ -11,19 +11,19 @@ and is updated on each release.
 When the server is running, the live OpenAPI document is available at:
 
 ```
-http://localhost:8080/openapi.json
+http://localhost:8001/openapi.json
 ```
 
 The interactive Swagger UI is at:
 
 ```
-http://localhost:8080/docs
+http://localhost:8001/docs
 ```
 
 And ReDoc at:
 
 ```
-http://localhost:8080/redoc
+http://localhost:8001/redoc
 ```
 
 ## Key schemas
