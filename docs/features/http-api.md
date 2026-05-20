@@ -46,7 +46,7 @@ GET /search?query=widerruf&codes=bgb&codes=egbgb
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8001
 ```
 
 Since v2.1.0, the HTTP API can also be started via the
@@ -55,10 +55,11 @@ Since v2.1.0, the HTTP API can also be started via the
 ```bash
 DATASET_PATH=src/tests/fixtures/normalized \
 STRICT_STARTUP=true \
-uv run legal-text-mcp-de http --port 8080
+uv run legal-text-mcp-de http
 ```
 
-The runtime is identical — `http` internally calls
+The default port is `8001` (from `settings.port` / `PORT` env var); pass
+`--port <N>` to override. The runtime is identical — `http` internally calls
 `uvicorn.run("legal_text_mcp_de.http_api:app", …)`. This is a convenience
 alternative to the direct uvicorn invocation; see
 [features/cli-shell-surface](cli-shell-surface.md).

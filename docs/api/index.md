@@ -4,7 +4,7 @@ The HTTP API is a FastAPI application exposing the same runtime as the
 MCP server. It is intended for non-MCP clients such as scripts, cURL,
 or other HTTP consumers.
 
-Default port: **8080**.
+Default port: **8001** (from `PORT` env / `settings.port`).
 
 ## Starting the HTTP API
 
@@ -12,14 +12,16 @@ Default port: **8080**.
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8001
 ```
 
 Equivalent CLI subcommand (v2.1.0+):
 
 ```bash
-legal-text-mcp-de http --host 127.0.0.1 --port 8080
+legal-text-mcp-de http --host 127.0.0.1
 ```
+
+Pass `--port <N>` to override the default.
 
 ## Endpoints
 
@@ -51,27 +53,27 @@ In MCP tool calls, use the canonical path directly: `art:246a/par:1`.
 ### List laws
 
 ```bash
-curl http://localhost:8080/laws
-curl "http://localhost:8080/laws?query=datenschutz"
+curl http://localhost:8001/laws
+curl "http://localhost:8001/laws?query=datenschutz"
 ```
 
 ### Fetch a norm
 
 ```bash
-curl http://localhost:8080/laws/bgb/norms/par%3A242
+curl http://localhost:8001/laws/bgb/norms/par%3A242
 ```
 
 ### Search
 
 ```bash
-curl "http://localhost:8080/search?q=Treu+und+Glauben"
-curl "http://localhost:8080/search?q=Datenschutz&codes=dsgvo"
+curl "http://localhost:8001/search?q=Treu+und+Glauben"
+curl "http://localhost:8001/search?q=Datenschutz&codes=dsgvo"
 ```
 
 ### Corpus coverage
 
 ```bash
-curl http://localhost:8080/corpus/coverage
+curl http://localhost:8001/corpus/coverage
 ```
 
 ## Error responses
@@ -93,7 +95,7 @@ The HTTP API reads these in addition to the MCP server's settings:
 | Variable | Default | Effect |
 | --- | --- | --- |
 | `HOST` | `0.0.0.0` | Bind address |
-| `PORT` | `8001` | Bind port (mapped to 8080 in the quickstart example) |
+| `PORT` | `8001` | Bind port used by both `http` CLI and direct uvicorn invocation |
 | `DATASET_PATH` | unset (auto-download) | Path to corpus bundle |
 | `STRICT_STARTUP` | `false` | Fail fast on dataset load errors |
 | `MAX_REQUEST_BODY_BYTES` | `1048576` | Reject `Content-Length > N` with 413 (defence-in-depth on top of the reverse-proxy limit) |

@@ -51,7 +51,7 @@ Expected: JSON response listing ten tools (9 v1 law tools +
 
 ## HTTP API (FastAPI)
 
-For non-MCP clients. Default port `8080`. OpenAPI document at
+For non-MCP clients. Default port `8001` (from `PORT` env / `settings.port`). OpenAPI document at
 `/openapi.json`; Swagger UI available at `/docs`.
 
 ```mermaid
@@ -71,7 +71,7 @@ sequenceDiagram
 DATASET_PATH=mcp/tests/fixtures/normalized \
 STRICT_STARTUP=true \
 PYTHONPATH=mcp \
-uv run uvicorn http_api:app --host 127.0.0.1 --port 8080
+uv run uvicorn http_api:app --host 127.0.0.1 --port 8001
 ```
 
 ### HTTP endpoints

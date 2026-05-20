@@ -101,7 +101,7 @@ It is not responsible for legal evaluation, user management, billing, tenant iso
 | Symbol | Kind | Location | Purpose |
 | ------ | ---- | -------- | ------- |
 | `Settings` | class | `src/legal_text_mcp_de/config.py` | Defines `DATASET_PATH`, `CORPUS_AUTO_DOWNLOAD`, `STRICT_STARTUP`, host, port, debug, and legacy parser settings. |
-| `create_mcp_app` | function | `src/legal_text_mcp_de/server.py` | Builds the FastMCP app and registers tools, resources, and prompts. |
+| `create_mcp_app` | function | `src/legal_text_mcp_de/server.py` | Builds the FastMCP app and registers tools, resources, prompts, and a `/health` custom route (`{"status":"ok"}`) so the Dockerfile HEALTHCHECK works for the MCP `serve` transport. |
 | `create_http_app` | function | `src/legal_text_mcp_de/http_api.py` | Builds the FastAPI app over an injected or configured runtime. |
 | `LegalTextRuntime` | class | `src/legal_text_mcp_de/legal_texts/runtime.py` | Shared application service used by both transports. |
 | `LawRegistry` | class | `src/legal_text_mcp_de/legal_texts/registry.py` | Resolves aliases to canonical IDs and validates collisions. |

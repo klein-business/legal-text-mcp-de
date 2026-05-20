@@ -65,3 +65,4 @@ Expected: JSON response listing ten tools (9 v1 law tools +
 - [uvx](uvx.md) — running without Docker.
 - [Verify with cosign](../operations/verify-with-cosign.md) — image signature verification.
 - [SBOM](../operations/sbom.md) — inspecting the image SBOM.
+- [Production deployment](../operations/production-deployment.md) — Caddy-fronted Compose stack with TLS, covering both `serve` (MCP) and `http` (FastAPI) transports; committed reference at `examples/docker-compose/production/`.

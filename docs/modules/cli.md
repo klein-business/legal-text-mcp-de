@@ -116,7 +116,7 @@ subcommand delegates to existing runtime methods (`LegalTextRuntime.*`),
 | `server_app` | `typer.Typer` | Holds `serve` and `http`; lifted onto the root. |
 | `serve` | command | Starts FastMCP over streamable HTTP. **Replaces the pre-v2.1.0 bare invocation.** |
 | `http` | command | Starts FastAPI via `uvicorn.run("legal_text_mcp_de.http_api:app", …)`. |
-| `_run_mcp`, `_run_http` | functions | Test-friendly indirection so the lifecycle entries can be monkey-patched without reaching into MCP / uvicorn internals. Each only applies CLI-supplied flags when explicitly set; otherwise env-driven `Settings` win. |
+| `_run_mcp`, `_run_http` | functions | Test-friendly indirection so the lifecycle entries can be monkey-patched without reaching into MCP / uvicorn internals. Each only applies CLI-supplied flags when explicitly set; otherwise env-driven `Settings` win. `_run_http` falls back to `settings.port` (default `8001`, overridable via `PORT` env) when `--port` is not passed — the old hard-coded `8080` fallback was removed. |
 
 ### `cli/_research.py`
 
@@ -240,7 +240,7 @@ Tests live under `tests/test_cli/` (8 modules):
 | `test_output.py` | 10 | `is_json_mode`, `render_data`, `render_error`, `render_table`, TTY/pipe symmetry. |
 | `test_runtime.py` | 3 | `get_runtime_or_die` happy path, missing-dataset failure, `reset_runtime_cache`. |
 | `test_lookups.py` | 14 | All 9 lookup subcommands in both text and JSON mode. |
-| `test_server.py` | 1 | `serve` calls `_run_mcp` with the resolved settings. |
+| `test_server.py` | 3 | `serve` calls `_run_mcp` with resolved settings; `http` uses `settings.port` when no `--port` flag is given; explicit `--port` overrides `settings.port`. |
 | `test_research.py` | 3 | Degraded mode (exit 0), `SamplingError` mapped to exit 3, normal path with mocked runtime. |
 | `test_corpus.py` | 6 | `pull` / `verify` / `info` with `subprocess.run` monkey-patched; missing-bundle path returns `EXIT_CORPUS`. |
 | `test_diagnostic.py` | 8 | `version`, `health` (success / 5xx / transport error), `completion show` / `install` for bash/zsh/fish, unsupported shell. |
