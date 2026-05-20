@@ -1,9 +1,9 @@
 # Docker Compose example — HTTP-mode deployment of legal-text-mcp-de.
 #
-# This example boots the FastAPI HTTP transport against the bundled
-# fixture corpus shipped inside the image. For a real production
-# deployment, pin to a different image digest, set STRICT_DATASET=true,
-# and bind-mount a corpus archive at /data/corpus/latest.tar.zst. See
+# This example boots the FastAPI HTTP transport with no corpus mounted:
+# the server starts and answers /health, but law and search endpoints
+# stay empty until a corpus is bind-mounted. For a corpus-backed
+# production stack see examples/docker-compose/production/ and
 # docs/operations/production-deployment.md.
 
 services:
@@ -22,9 +22,9 @@ services:
       - "8001:8001"
 
     environment:
-      # Use the bundled fixture corpus shipped inside the image. For
-      # production, set STRICT_DATASET=true and bind-mount a corpus
-      # archive (see docs/operations/production-deployment.md).
+      # No corpus is mounted here; /health works regardless. For a
+      # corpus-backed deployment, bind-mount one and set
+      # STRICT_DATASET=true — see examples/docker-compose/production/.
       PORT: "8001"
       HOST: "0.0.0.0"
 
