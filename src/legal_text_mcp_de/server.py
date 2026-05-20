@@ -62,7 +62,7 @@ def create_mcp_app(runtime: LegalTextRuntime | None = None) -> FastMCP:
     register_resources(app, runtime)
     register_prompts(app)
 
-    @app.custom_route("/health", methods=["GET"])
+    @app.custom_route("/health", methods=["GET"])  # type: ignore[untyped-decorator]
     async def _health(_request: Request) -> Response:
         """Liveness probe for the Dockerfile HEALTHCHECK and load balancers."""
         return JSONResponse({"status": "ok"})
