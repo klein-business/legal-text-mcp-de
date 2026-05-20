@@ -1,0 +1,73 @@
+# Production Docker Compose reference for legal-text-mcp-de.
+#
+# Copy .env.example to .env and edit it before `docker compose up -d`.
+# COMPOSE_PROFILES (set in .env) selects which transport surface runs:
+#   mcp       -> MCP streamable-HTTP (serve)  + caddy
+#   rest      -> FastAPI REST API   (http)    + caddy
+#   mcp,rest  -> both surfaces                + caddy
+#
+# Only caddy publishes host ports; the app services are reachable only on
+# the internal network. See README.md and
+# docs/operations/production-deployment.md.
+
+services:
+  serve:
+    image: ${IMAGE}
+    profiles: ["mcp"]
+    command: ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "serve"]
+    restart: unless-stopped
+    environment:
+      DATASET_PATH: /data/legal-texts
+      STRICT_STARTUP: "true"
+      STRICT_DATASET: "true"
+      MAX_REQUEST_BODY_BYTES: ${MAX_REQUEST_BODY_BYTES:-1048576}
+    volumes:
+      - ${CORPUS_HOST_PATH}:/data/legal-texts:ro
+    networks: [edge]
+
+  http:
+    image: ${IMAGE}
+    profiles: ["rest"]
+    command: ["uv", "run", "--frozen", "--no-sync", "legal-text-mcp-de", "http"]
+    restart: unless-stopped
+    environment:
+      DATASET_PATH: /data/legal-texts
+      # STRICT_* gate startup for the serve transport; the http app
+      # starts even without a corpus — see README "Corpus".
+      STRICT_STARTUP: "true"
+      STRICT_DATASET: "true"
+      MAX_REQUEST_BODY_BYTES: ${MAX_REQUEST_BODY_BYTES:-1048576}
+    volumes:
+      - ${CORPUS_HOST_PATH}:/data/legal-texts:ro
+    networks: [edge]
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["mcp", "rest"]
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [edge]
+    depends_on:
+      serve:
+        condition: service_healthy
+        required: false
+      http:
+        condition: service_healthy
+        required: false
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  edge:

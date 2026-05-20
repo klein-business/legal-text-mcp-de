@@ -3,8 +3,8 @@
 > **Looking for a minimal starting point?** A copy-pasteable Docker Compose
 > example for HTTP-mode deployment lives at
 > [`examples/docker-compose/http/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/http).
-> It boots the server on port 8001 against the bundled fixture corpus
-> with healthcheck and image-digest pin baked in. The two reverse-proxy
+> It boots the HTTP server on port 8001 with no corpus mounted — a
+> healthcheck and image-digest pin are baked in. The two reverse-proxy
 > patterns below extend that baseline with TLS termination, rate
 > limiting, and the production-grade settings the example deliberately
 > omits.
@@ -28,74 +28,24 @@ the GHCR container as the upstream; replace `legal-text-mcp-de` with
 
 ## Option 1 — Caddy (TLS-by-default, recommended)
 
-`Caddyfile`:
-
-```caddyfile
-legal.example.org {
-    # Automatic Let's Encrypt + HTTP/3
-    tls admin@example.org
-
-    # Defence-in-depth security headers
-    header {
-        Strict-Transport-Security "max-age=31536000; includeSubDomains"
-        X-Content-Type-Options "nosniff"
-        Content-Security-Policy "default-src 'none'; frame-ancestors 'none'"
-        -Server
-    }
-
-    # Proxy-level body cap (app cap is independently enforced)
-    request_body {
-        max_size 1MB
-    }
-
-    reverse_proxy legal-text-mcp-de:8001 {
-        health_uri /health
-        health_interval 30s
-        health_timeout 5s
-    }
-}
-```
-
-`docker-compose.yml`:
-
-```yaml
-services:
-  legal-text-mcp-de:
-    image: ghcr.io/klein-business/legal-text-mcp-de:2.1.3
-    restart: unless-stopped
-    environment:
-      DATASET_PATH: /data/legal-texts
-      STRICT_STARTUP: "true"
-      MAX_REQUEST_BODY_BYTES: "1048576"
-    volumes:
-      - /srv/legal-corpus:/data/legal-texts:ro
-    networks: [edge]
-
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
-    ports: ["80:80", "443:443", "443:443/udp"]
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    networks: [edge]
-    depends_on: [legal-text-mcp-de]
-
-volumes:
-  caddy_data:
-  caddy_config:
-
-networks:
-  edge:
-```
-
-Bring up:
+A committed, CI-tested reference stack lives at
+[`examples/docker-compose/production/`](../../examples/docker-compose/production/).
+It runs both transport surfaces (MCP `serve` and the FastAPI `http` API),
+selectable via Compose profiles, behind Caddy with automatic Let's Encrypt
+TLS, the security headers and proxy-level body cap described above, and a
+read-only corpus mount.
 
 ```bash
+cd examples/docker-compose/production
+cp .env.example .env      # then edit DOMAIN, ACME_EMAIL, IMAGE, CORPUS_HOST_PATH
 docker compose up -d
-curl -fsSL https://legal.example.org/health    # -> {"status":"ok"}
+curl -fsSL https://<your-domain>/health    # -> {"status":"ok"}
 ```
+
+See the
+[example README](../../examples/docker-compose/production/README.md)
+for profile switching, corpus preparation, and local testing with
+`tls internal`.
 
 ## Option 2 — nginx (manual cert config)
 

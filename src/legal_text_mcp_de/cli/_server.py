@@ -48,7 +48,7 @@ def _run_http(*, host: str | None, port: int | None, dataset: str | None) -> Non
     if dataset is not None:
         settings.dataset_path = dataset
     effective_host = host if host is not None else settings.host
-    effective_port = port if port is not None else 8080
+    effective_port = port if port is not None else settings.port
     uvicorn.run(
         "legal_text_mcp_de.http_api:app",
         host=effective_host,
@@ -71,7 +71,7 @@ def serve(
 @server_app.command("http")
 def http(
     host: Annotated[str | None, typer.Option("--host", help="Bind host (default from HOST env or 0.0.0.0).")] = None,
-    port: Annotated[int | None, typer.Option("--port", help="Bind port (default 8080).")] = None,
+    port: Annotated[int | None, typer.Option("--port", help="Bind port (default from PORT env or 8001).")] = None,
     dataset: Annotated[str | None, typer.Option("--dataset")] = None,
 ) -> None:
     """Start the FastAPI HTTP API."""

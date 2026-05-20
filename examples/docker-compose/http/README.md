@@ -1,12 +1,13 @@
 # Docker Compose HTTP Example
 
-Boots `legal-text-mcp-de` in HTTP mode against the bundled fixture
-corpus shipped inside the image — no external corpus download needed
-for the quickstart.
+Boots `legal-text-mcp-de` in HTTP mode with no corpus mounted — the
+server starts and `/health` responds, but `/laws` and `/search` return
+errors until a corpus is bind-mounted.
 
-> **For production deployments** pin to a different image digest,
-> set `STRICT_DATASET=true`, and bind-mount a real corpus archive at
-> `/data/corpus/latest.tar.zst`. See
+> **For a production stack** — both transport surfaces behind Caddy with
+> TLS, Compose profiles, and a corpus mount — see the committed
+> [`../production/`](../production/) example. Background and the nginx
+> alternative are in
 > [`docs/operations/production-deployment.md`](../../../docs/operations/production-deployment.md).
 
 ## Start
