@@ -90,7 +90,7 @@ docker run --rm -p 8001:8001 \
 **Docker Compose (HTTP mode):**
 
 A minimal copy-pasteable Compose example lives at
-[`examples/docker-compose/http/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/http)
+[`examples/docker-compose/http/`](../../examples/docker-compose/http/)
 in the repo. It boots the FastAPI HTTP transport on port 8001 with no
 corpus mounted — `/health` responds, but law and search endpoints
 return errors until a corpus is bind-mounted. The Dockerfile's

@@ -29,7 +29,7 @@ the GHCR container as the upstream; replace `legal-text-mcp-de` with
 ## Option 1 — Caddy (TLS-by-default, recommended)
 
 A committed, CI-tested reference stack lives at
-[`examples/docker-compose/production/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/production).
+[`examples/docker-compose/production/`](../../examples/docker-compose/production/).
 It runs both transport surfaces (MCP `serve` and the FastAPI `http` API),
 selectable via Compose profiles, behind Caddy with automatic Let's Encrypt
 TLS, the security headers and proxy-level body cap described above, and a
@@ -43,7 +43,7 @@ curl -fsSL https://<your-domain>/health    # -> {"status":"ok"}
 ```
 
 See the
-[example README](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/production)
+[example README](../../examples/docker-compose/production/README.md)
 for profile switching, corpus preparation, and local testing with
 `tls internal`.
 

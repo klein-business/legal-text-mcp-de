@@ -70,8 +70,8 @@ The `serve` (MCP) service fails fast — `STRICT_STARTUP`/`STRICT_DATASET`
 make the container exit, so `docker compose up` surfaces the failure.
 The `http` (REST) service starts regardless: `/health` still returns
 `200`, but `/laws` and `/search` return errors and `/ready` reports the
-corpus problem. On the `rest` profile, probe `/ready` (not `/health`)
-to detect a bad corpus.
+corpus problem. On the `rest` profile behind Caddy, probe `/api/ready`
+(not `/health`) to detect a bad corpus.
 
 ## Local testing without a public domain
 

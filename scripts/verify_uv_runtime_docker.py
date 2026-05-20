@@ -296,18 +296,28 @@ def verify_compose_config() -> None:
     print_step("Validating Docker Compose files")
     run_checked(
         [
-            "docker", "compose",
-            "-f", "examples/docker-compose/http/compose.yml",
-            "config", "--quiet",
+            "docker",
+            "compose",
+            "-f",
+            "examples/docker-compose/http/compose.yml",
+            "config",
+            "--quiet",
         ]
     )
     run_checked(
         [
-            "docker", "compose",
-            "-f", "examples/docker-compose/production/compose.yaml",
-            "--env-file", "examples/docker-compose/production/.env.example",
-            "--profile", "mcp", "--profile", "rest",
-            "config", "--quiet",
+            "docker",
+            "compose",
+            "-f",
+            "examples/docker-compose/production/compose.yaml",
+            "--env-file",
+            "examples/docker-compose/production/.env.example",
+            "--profile",
+            "mcp",
+            "--profile",
+            "rest",
+            "config",
+            "--quiet",
         ]
     )
 
@@ -319,7 +329,8 @@ def verify_compose_smoke() -> None:
     blocks until both app services report `healthy`, which exercises the
     `_run_http` port fix and the MCP `/health` route end-to-end.
     """
-    compose_args = ["docker", "compose", "-f", "examples/docker-compose/production/compose.yaml"]
+    compose_project = f"legal-text-mcp-de-smoke-{os.getpid()}"
+    compose_args = ["docker", "compose", "-p", compose_project, "-f", "examples/docker-compose/production/compose.yaml"]
     env = os.environ.copy()
     env.update(
         {
@@ -333,8 +344,11 @@ def verify_compose_smoke() -> None:
     run_checked(["docker", "build", "-t", IMAGE_TAG, "."])
     subprocess.run(
         [*compose_args, "down", "-v"],
-        cwd=ROOT, env=env, check=False,
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        cwd=ROOT,
+        env=env,
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
     )
     try:
         print_step("Compose smoke: docker compose up --wait serve http")
@@ -345,8 +359,12 @@ def verify_compose_smoke() -> None:
     except Exception:
         logs = subprocess.run(
             [*compose_args, "logs"],
-            cwd=ROOT, env=env, text=True,
-            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+            cwd=ROOT,
+            env=env,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
         ).stdout
         if logs:
             print(logs, file=sys.stderr)
@@ -354,8 +372,11 @@ def verify_compose_smoke() -> None:
     finally:
         subprocess.run(
             [*compose_args, "down", "-v"],
-            cwd=ROOT, env=env, check=False,
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            cwd=ROOT,
+            env=env,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
         )
 
 
