@@ -32,6 +32,8 @@ services:
     restart: unless-stopped
     environment:
       DATASET_PATH: /data/legal-texts
+      # STRICT_* gate startup for the serve transport; the http app
+      # starts even without a corpus — see README "Corpus".
       STRICT_STARTUP: "true"
       STRICT_DATASET: "true"
       MAX_REQUEST_BODY_BYTES: ${MAX_REQUEST_BODY_BYTES:-1048576}

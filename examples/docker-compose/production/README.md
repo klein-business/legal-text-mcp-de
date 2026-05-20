@@ -63,8 +63,15 @@ docker compose down
 The image ships no corpus. Produce a normalized corpus directory (see
 [`docs/features/data-preparation.md`](../../../docs/features/data-preparation.md))
 and point `CORPUS_HOST_PATH` at it. It is bind-mounted read-only at
-`/data/legal-texts`; `STRICT_DATASET` and `STRICT_STARTUP` make the
-container fail fast if the corpus is missing or invalid.
+`/data/legal-texts`.
+
+With a missing or invalid corpus the two surfaces behave differently.
+The `serve` (MCP) service fails fast — `STRICT_STARTUP`/`STRICT_DATASET`
+make the container exit, so `docker compose up` surfaces the failure.
+The `http` (REST) service starts regardless: `/health` still returns
+`200`, but `/laws` and `/search` return errors and `/ready` reports the
+corpus problem. On the `rest` profile, probe `/ready` (not `/health`)
+to detect a bad corpus.
 
 ## Local testing without a public domain
 
