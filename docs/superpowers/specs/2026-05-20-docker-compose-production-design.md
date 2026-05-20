@@ -2,14 +2,14 @@
 
 - **Date:** 2026-05-20
 - **Status:** Approved (brainstorming) — pending implementation plan
-- **Scope:** Fix the broken HTTP Compose example; add a committed, tested
-  production Compose reference.
+- **Scope:** Fix the broken HTTP Compose example and the MCP-mode health
+  check; add a committed, tested production Compose reference.
 
 ## 1. Context & problem
 
 The repository ships a Docker Compose example for HTTP-mode deployment
 (`examples/docker-compose/http/`, merged in #107) and documents production
-deployment in `docs/operations/production-deployment.md`. Two concrete
+deployment in `docs/operations/production-deployment.md`. Three concrete
 problems.
 
 ### 1.1 The merged example does not work
@@ -30,8 +30,7 @@ This contradicts the function's own docstring, which states it falls back to
 - The Compose `ports: "8001:8001"` mapping points at a dead container port.
 - The example README's verification step (`curl http://localhost:8001/health`)
   fails with connection refused.
-- The Dockerfile `HEALTHCHECK` (hard-coded to `:8001`) fails, so the container
-  is permanently marked `unhealthy`.
+- The Dockerfile `HEALTHCHECK` (hard-coded to `:8001`) fails.
 
 `_run_mcp` (the `serve` command) does it correctly via `settings.port`. Only
 the `http` command is affected.
@@ -44,7 +43,19 @@ of sync with the codebase. The HTTP example covers only the bundled-fixture
 quickstart; real operation (mounted corpus, `STRICT_DATASET`, TLS, rate
 limiting) is prose.
 
-### 1.3 Known but out of scope
+### 1.3 MCP `serve` mode has no `/health` endpoint
+
+`/health` is registered only on the FastAPI app (`http_api.py:112`).
+`create_mcp_app` (FastMCP) registers no such route, so the MCP `serve`
+transport does not answer `/health`. The Dockerfile `HEALTHCHECK` probes
+`:8001/health` and the default `CMD` is `serve` — so every `serve`-mode
+container is permanently `unhealthy`. This is currently unnoticed because
+nothing gates on health status (`scripts/verify_uv_runtime_docker.py` never
+inspects it), but it also breaks the Kubernetes `livenessProbe` example in
+`production-deployment.md` and blocks a health-gated `depends_on` in the
+production Compose file (§4.2).
+
+### 1.4 Known but out of scope
 
 The `deployment/` directory (the `mcp.klein.business` hosted service) is
 internally inconsistent — `deployment/Caddyfile` proxies the Compose DNS name
@@ -58,9 +69,12 @@ v2.1.3. This is real but deliberately excluded — see §6.
 **Goals**
 
 - The merged HTTP Compose example works exactly as its README documents.
+- The MCP `serve` transport answers `/health`, so the shipped image's
+  `HEALTHCHECK` and the Kubernetes liveness example are correct, and both
+  transport surfaces are symmetric.
 - A committed, runnable, CI-tested production Compose reference exists,
-  exposing both transport surfaces (MCP `serve`, FastAPI `http`) switchable via
-  Compose profiles, behind a Caddy reverse proxy.
+  exposing both transport surfaces (MCP `serve`, FastAPI `http`) switchable
+  via Compose profiles, behind a Caddy reverse proxy.
 - `production-deployment.md` references the committed file instead of carrying
   drift-prone inline snippets.
 
@@ -70,9 +84,11 @@ v2.1.3. This is real but deliberately excluded — see §6.
 - An nginx variant as a committed artifact (stays as prose).
 - Rate-limiting middleware, Kubernetes/Helm manifests.
 
-## 3. Part A — `_run_http` port fix
+## 3. Part A — Code fixes
 
-### 3.1 Fix
+Two small server-side fixes, both verified by unit tests.
+
+### 3.1 `_run_http` port fix
 
 In `src/legal_text_mcp_de/cli/_server.py`, `_run_http`:
 
@@ -94,15 +110,38 @@ The bare default of `http` (no `--port`, no `PORT`) moves **8080 → 8001**.
 - Trade-off: `serve` and a bare `http` now share `8001`; running both locally
   at once requires an explicit `--port`. Consistency is preferred over the
   previous implicit port avoidance.
+- No existing test hard-codes the `8080` default (verified — `tests/` contains
+  no reference to `8080` or the `http` command).
 
-### 3.3 Verification
+### 3.3 MCP `serve` `/health` route
 
-- A regression test asserts that `PORT` propagates to the uvicorn bind port
-  (monkeypatching `uvicorn.run`, consistent with the test indirection the
-  `_run_http` docstring describes).
-- Any existing test that hard-codes the `8080` default is updated.
-- `examples/docker-compose/http/compose.yml` needs **no change** — once the fix
-  lands, its `PORT=8001` takes effect and the `:8001` healthcheck turns green.
+`create_mcp_app` in `src/legal_text_mcp_de/server.py` registers a `/health`
+route on the FastMCP app via the SDK's `custom_route` decorator (mcp 1.27.1):
+
+```python
+@app.custom_route("/health", methods=["GET"])
+async def _health(_request: Request) -> JSONResponse:
+    return JSONResponse({"status": "ok"})
+```
+
+`custom_route` is the SDK's documented mechanism for public, unauthenticated
+endpoints such as health checks. The route returns the same `{"status":"ok"}`
+payload as the FastAPI `/health`, so the Dockerfile `HEALTHCHECK` succeeds in
+`serve` mode and both transport surfaces become symmetric.
+
+### 3.4 Verification
+
+- A regression test in `tests/test_cli/test_server.py` asserts that `_run_http`
+  passes `settings.port` to the uvicorn bind when no `--port` is given, and
+  that an explicit `--port` still wins (monkeypatching `uvicorn.run`).
+- A test in `tests/test_server.py` boots `create_mcp_app().streamable_http_app()`
+  with a Starlette `TestClient` and asserts `GET /health` returns `200` and
+  `{"status":"ok"}`.
+- `examples/docker-compose/http/compose.yml` needs no functional change — once
+  the Part A fix lands, its `PORT=8001` takes effect and the `:8001`
+  healthcheck turns green. Its misleading comment ("bundled fixture corpus
+  shipped inside the image" — the image ships only reference metadata, not a
+  queryable corpus) is corrected to accurate wording.
 
 ## 4. Part B — `examples/docker-compose/production/`
 
@@ -130,12 +169,15 @@ flowchart LR
 
 - Both app services bind `:8001` by default — `serve` via `settings.port`,
   `http` via the Part A fix — so the production compose needs no `PORT`
-  override, and the inherited `:8001` healthcheck and the Caddyfile upstreams
-  stay consistent.
+  override.
+- Only `caddy` publishes host ports. The app services are reachable only on
+  the internal `edge` network; the proxy is the single public ingress.
 - All services use `restart: unless-stopped`.
-- `serve` / `http` inherit the Dockerfile `HEALTHCHECK` (probes `:8001/health`,
-  exposed by both surfaces).
-- `caddy` uses `depends_on` with `condition: service_healthy`.
+- `serve` / `http` inherit the Dockerfile `HEALTHCHECK` (probes
+  `:8001/health`, answered by both surfaces after the Part A `/health` fix).
+- `caddy` uses long-form `depends_on` with `condition: service_healthy` and
+  `required: false` on both app services, so it waits for whichever surfaces
+  the active profile started (Docker Compose v2.20+).
 - The corpus is bind-mounted read-only into both app services.
 
 ### 4.3 Profiles
@@ -191,19 +233,23 @@ All operator-tunable values in one place:
 
 ### 5.1 Tests
 
-- **`docker compose config`** validates both Compose files (HTTP example +
-  production) including variable interpolation. Cheap; runs unconditionally.
-- **Compose smoke job** — a new CI job (the implementation plan picks the
-  workflow after reviewing the existing jobs; `ci.yml` and `e2e.yml` are the
-  candidates — there is no general docker-smoke workflow today, and
-  `docs/operations/ci-smoke.md` documents only the unrelated `research_topic`
-  smoke). It builds the image from the repository `Dockerfile`, boots the app
-  services against the bundled fixture corpus, and verifies:
-  - profile `mcp`: `POST /mcp` with `tools/list` returns the tool list;
-  - profile `rest`: `GET /health` returns `{"status":"ok"}`.
+- **Unit tests** (Part A) — see §3.4. Run by the existing `ci.yml` `test` job.
+- **Compose smoke** — extends `scripts/verify_uv_runtime_docker.py`, which is
+  already run by the `e2e.yml` job `uv-runtime-and-docker`. No new workflow or
+  job. The new step:
+  - validates both Compose files with `docker compose config` (the production
+    file resolved against `.env.example`);
+  - builds the image from the repository `Dockerfile`;
+  - boots the production stack's app services with
+    `docker compose up -d --wait serve http` against the bundled fixture
+    corpus (`tests/fixtures/normalized`), overriding `IMAGE` and
+    `CORPUS_HOST_PATH` via the environment. `--wait` blocks until both
+    services report `healthy`, which exercises both the Part A port fix and
+    the `/health` route.
 - Caddy is not booted in CI (a real domain would trigger a failing Let's
-  Encrypt challenge). The smoke job doubles as the regression test for the
-  Part A fix — it proves `PORT=8001` reaches the bind.
+  Encrypt challenge). MCP-protocol depth (`initialize` / `tools/list`) is
+  already covered by the existing `verify_docker_runtime()` in the same
+  script; the Compose smoke verifies the Compose wiring, not the protocol.
 
 ### 5.2 Docs
 
@@ -217,13 +263,14 @@ All operator-tunable values in one place:
   Kubernetes probe snippet) and the nginx option stay as prose.
 - A cross-link is added from `examples/docker-compose/http/README.md` to the
   new production example.
-- Changelog: the fix ships as a `fix(cli):` Conventional Commit. The project
-  uses `release-please` (`.github/workflows/release-please.yml`), which
-  generates `CHANGELOG.md` from commit messages — no manual changelog edit.
+- Changelog: the fixes ship as `fix(cli):` / `fix(server):` Conventional
+  Commits. The project uses `release-please`
+  (`.github/workflows/release-please.yml`), which generates `CHANGELOG.md`
+  from commit messages — no manual changelog edit.
 
 ## 6. Out of scope
 
-- `deployment/` directory (§1.3): Caddyfile/`deploy.sh` mismatch, stale
+- `deployment/` directory (§1.4): Caddyfile/`deploy.sh` mismatch, stale
   `Dockerfile.hosted` base-image pin.
 - nginx as a committed artifact.
 - Rate-limiting middleware, Kubernetes/Helm.
@@ -231,7 +278,7 @@ All operator-tunable values in one place:
 ## 7. Open points / risks
 
 - **`http` default port change** (§3.2) — confirmed acceptable during
-  brainstorming. Watch for tests that assume `8080`.
+  brainstorming; no existing test depends on the `8080` default.
 - **Caddy in CI** — excluded from the smoke job; the full TLS stack is verified
   manually or via the `tls internal` local path documented in the README.
 - **Corpus convention split** — the directory-vs-archive inconsistency (§4.5)
