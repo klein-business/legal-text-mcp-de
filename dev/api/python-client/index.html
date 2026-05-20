@@ -2687,10 +2687,10 @@ Swagger UI at <code>/docs</code>. For Python consumers, the simplest path is
 <code>httpx</code> + the published pydantic response models from
 <code>legal_text_mcp_de.http_models</code> — they are part of the public API.</p>
 <h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
-<p>Start the server (fixture corpus, default port <code>8080</code> for the example):</p>
+<p>Start the server (fixture corpus, default port <code>8001</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="nv">DATASET_PATH</span><span class="o">=</span>tests/fixtures/normalized<span class="w"> </span><span class="se">\</span>
 <span class="nv">STRICT_STARTUP</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>legal_text_mcp_de.http_api:app<span class="w"> </span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>--port<span class="w"> </span><span class="m">8080</span>
+uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>legal_text_mcp_de.http_api:app<span class="w"> </span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>--port<span class="w"> </span><span class="m">8001</span>
 </code></pre></div>
 <p>Install the client deps (in another shell):</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>legal-text-mcp-de<span class="w"> </span>httpx
@@ -2705,7 +2705,7 @@ uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </s
 <span class="p">)</span>
 
 
-<span class="n">BASE</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:8080&quot;</span>
+<span class="n">BASE</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:8001&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">list_laws</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LawListResponse</span><span class="p">:</span>
@@ -2778,7 +2778,7 @@ uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </s
 
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_laws_async</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LawListResponse</span><span class="p">:</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://127.0.0.1:8080&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://127.0.0.1:8001&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/laws&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">}</span> <span class="k">if</span> <span class="n">query</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">LawListResponse</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
@@ -2812,7 +2812,7 @@ uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </s
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 19:48:37 UTC">May 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 20, 2026 09:21:16 UTC">May 20, 2026</span>
   </span>
 
     
