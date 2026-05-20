@@ -292,7 +292,7 @@ def verify_docker_runtime() -> None:
 
 
 def verify_compose_config() -> None:
-    """Validate both committed Docker Compose files parse and interpolate."""
+    """Validate the committed Docker Compose files and the production Caddyfile."""
     print_step("Validating Docker Compose files")
     run_checked(
         [
@@ -318,6 +318,27 @@ def verify_compose_config() -> None:
             "rest",
             "config",
             "--quiet",
+        ]
+    )
+    print_step("Validating production Caddyfile")
+    run_checked(
+        [
+            "docker",
+            "run",
+            "--rm",
+            "-e",
+            "DOMAIN=smoke.invalid",
+            "-e",
+            "ACME_EMAIL=smoke@smoke.invalid",
+            "-v",
+            f"{ROOT / 'examples' / 'docker-compose' / 'production' / 'Caddyfile'}:/etc/caddy/Caddyfile:ro",
+            "caddy:2-alpine",
+            "caddy",
+            "validate",
+            "--config",
+            "/etc/caddy/Caddyfile",
+            "--adapter",
+            "caddyfile",
         ]
     )
 
