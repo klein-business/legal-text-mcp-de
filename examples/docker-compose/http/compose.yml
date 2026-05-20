@@ -2,7 +2,7 @@
 #
 # This example boots the FastAPI HTTP transport with no corpus mounted:
 # the server starts and answers /health, but law and search endpoints
-# stay empty until a corpus is bind-mounted. For a corpus-backed
+# return errors until a corpus is bind-mounted. For a corpus-backed
 # production stack see examples/docker-compose/production/ and
 # docs/operations/production-deployment.md.
 

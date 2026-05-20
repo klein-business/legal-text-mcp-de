@@ -91,11 +91,11 @@ docker run --rm -p 8001:8001 \
 
 A minimal copy-pasteable Compose example lives at
 [`examples/docker-compose/http/`](https://github.com/klein-business/legal-text-mcp-de/tree/main/examples/docker-compose/http)
-in the repo. It boots the FastAPI HTTP transport on port 8001 against
-the bundled fixture corpus shipped inside the image, with the
-Dockerfile's Python-urllib HEALTHCHECK inherited automatically (no
-`curl` needed in the slim base). Pin to a different image digest and
-set `STRICT_DATASET=true` for production deployments — see
+in the repo. It boots the FastAPI HTTP transport on port 8001 with no
+corpus mounted — `/health` responds, but law and search endpoints
+return errors until a corpus is bind-mounted. The Dockerfile's
+Python-urllib HEALTHCHECK is inherited automatically (no `curl` needed
+in the slim base). For a corpus-backed production stack see
 [production-deployment](../operations/production-deployment.md).
 
 The mounted path may be:
