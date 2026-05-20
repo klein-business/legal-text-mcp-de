@@ -291,6 +291,74 @@ def verify_docker_runtime() -> None:
         docker_rm(container_name)
 
 
+def verify_compose_config() -> None:
+    """Validate both committed Docker Compose files parse and interpolate."""
+    print_step("Validating Docker Compose files")
+    run_checked(
+        [
+            "docker", "compose",
+            "-f", "examples/docker-compose/http/compose.yml",
+            "config", "--quiet",
+        ]
+    )
+    run_checked(
+        [
+            "docker", "compose",
+            "-f", "examples/docker-compose/production/compose.yaml",
+            "--env-file", "examples/docker-compose/production/.env.example",
+            "--profile", "mcp", "--profile", "rest",
+            "config", "--quiet",
+        ]
+    )
+
+
+def verify_compose_smoke() -> None:
+    """Boot the production Compose app services against the fixture corpus.
+
+    Caddy is skipped (it would attempt a real ACME challenge). `--wait`
+    blocks until both app services report `healthy`, which exercises the
+    `_run_http` port fix and the MCP `/health` route end-to-end.
+    """
+    compose_args = ["docker", "compose", "-f", "examples/docker-compose/production/compose.yaml"]
+    env = os.environ.copy()
+    env.update(
+        {
+            "IMAGE": IMAGE_TAG,
+            "CORPUS_HOST_PATH": str(DATASET),
+            "DOMAIN": "smoke.invalid",
+            "ACME_EMAIL": "smoke@smoke.invalid",
+        }
+    )
+    print_step("Compose smoke: building image")
+    run_checked(["docker", "build", "-t", IMAGE_TAG, "."])
+    subprocess.run(
+        [*compose_args, "down", "-v"],
+        cwd=ROOT, env=env, check=False,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    try:
+        print_step("Compose smoke: docker compose up --wait serve http")
+        run_checked(
+            [*compose_args, "up", "-d", "--wait", "--wait-timeout", "120", "serve", "http"],
+            env=env,
+        )
+    except Exception:
+        logs = subprocess.run(
+            [*compose_args, "logs"],
+            cwd=ROOT, env=env, text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+        ).stdout
+        if logs:
+            print(logs, file=sys.stderr)
+        raise
+    finally:
+        subprocess.run(
+            [*compose_args, "down", "-v"],
+            cwd=ROOT, env=env, check=False,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+
+
 def main() -> int:
     verify_static_files()
     verify_prepare_data_script()
@@ -298,6 +366,8 @@ def main() -> int:
     verify_direct_mcp_startup()
     verify_direct_http_startup()
     verify_docker_runtime()
+    verify_compose_config()
+    verify_compose_smoke()
     print("uv runtime and Docker verification OK")
     return 0
 
