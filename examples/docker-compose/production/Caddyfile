@@ -1,0 +1,43 @@
+# Caddy reverse proxy for the legal-text-mcp-de production stack.
+# DOMAIN and ACME_EMAIL are read from the container environment
+# (set in compose.yaml from .env). Indentation is not significant to Caddy.
+
+{$DOMAIN} {
+    tls {$ACME_EMAIL}
+
+    encode zstd gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        Content-Security-Policy "default-src 'none'; frame-ancestors 'none'"
+        Referrer-Policy "no-referrer"
+        -Server
+    }
+
+    # Proxy-level request body cap. The FastAPI app enforces its own
+    # MAX_REQUEST_BODY_BYTES on top; the MCP transport relies on this.
+    request_body {
+        max_size 1MB
+    }
+
+    # MCP streamable-HTTP transport (profile: mcp).
+    handle /mcp* {
+        reverse_proxy serve:8001
+    }
+
+    # FastAPI REST API (profile: rest). /api is stripped before proxying,
+    # so /api/laws reaches the upstream as /laws.
+    handle_path /api/* {
+        reverse_proxy http:8001
+    }
+
+    # Liveness endpoint — answered by the MCP transport.
+    handle /health {
+        reverse_proxy serve:8001
+    }
+
+    handle {
+        respond "Not Found" 404
+    }
+}
