@@ -7,9 +7,6 @@ on:
       - "src/**"
       - "pyproject.toml"
       - "uv.lock"
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
