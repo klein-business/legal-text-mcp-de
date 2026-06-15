@@ -39,12 +39,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "mcp[cli]==1.27.1",
+    "mcp[cli]==1.27.2",
     "rapidfuzz",
     "pydantic-settings",
     "fastapi",
     "uvicorn",
-    "typer>=0.20,<1",
+    "typer>=0.26.7,<1",
 ]
 
 [project.urls]
@@ -65,7 +65,7 @@ dev = [
     "pytest",
     "httpx",
     "PyYAML~=6.0.1",
-    "ruff~=0.15.0",
+    "ruff~=0.15.17",
     "detect-secrets~=1.5.0",
     "mypy~=2.1.0",
     "pytest-cov~=7.1.0",
@@ -73,14 +73,14 @@ dev = [
     "cyclonedx-bom~=7.3",
     "types-beautifulsoup4~=4.12",
     "zstandard>=0.23,<0.26",
-    "pytest-asyncio>=0.24,<2",
+    "pytest-asyncio>=1.4.0,<2",
 ]
 docs = [
     "mkdocs~=1.6.0",
     "mkdocs-material~=9.7.6",
     "mkdocstrings[python]~=1.0.4",
     "mkdocs-mermaid2-plugin~=1.2.0",
-    "mkdocs-git-revision-date-localized-plugin~=1.5.2",
+    "mkdocs-git-revision-date-localized-plugin~=1.5.3",
     "mike~=2.2.0",
     "mkdocs-redirects~=1.2.0",
 ]
@@ -91,7 +91,7 @@ prepare-data = [
     "lxml",
     "cssselect~=1.4.0",
     "requests~=2.34.2",
-    "beautifulsoup4~=4.14.3",
+    "beautifulsoup4~=4.15.0",
     "roman-numbers~=1.0.2",
     "types-beautifulsoup4~=4.12",
     "SPARQLWrapper~=2.0.0",
