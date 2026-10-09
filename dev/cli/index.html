@@ -412,6 +412,26 @@
     
     
       <li class="md-tabs__item">
+        <a href="../schemas/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../operations/security/" class="md-tabs__link">
           
   
@@ -727,6 +747,34 @@
     
   
     Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/federal-corpus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Federal corpus
   
 
     
@@ -1932,7 +1980,7 @@
   <span class="md-ellipsis">
     
   
-    Operations
+    Reference
   
 
     
@@ -1945,6 +1993,95 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schemas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JSON Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2347,10 +2484,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
         
           
-          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -2368,8 +2505,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2464,10 +2601,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
         
           
-          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
             
   
   
@@ -2485,8 +2622,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2765,6 +2902,10 @@ for machine-readable output (matches the HTTP API response schema).</p>
 <td>Force JSON output even on a TTY</td>
 </tr>
 <tr>
+<td><code>--output text\|json\|yaml</code></td>
+<td>Select output format; put global flags before the command</td>
+</tr>
+<tr>
 <td><code>--quiet</code>, <code>-q</code></td>
 <td>Suppress non-essential stderr</td>
 </tr>
@@ -2778,6 +2919,14 @@ for machine-readable output (matches the HTTP API response schema).</p>
 </tr>
 </tbody>
 </table>
+<ul>
+<li>Without an explicit format: text on a terminal, JSON when piped.</li>
+<li><code>--json</code> remains an alias for JSON; combining it with <code>--output text</code> or <code>yaml</code> is a usage error.</li>
+<li>YAML uses the same <code>data</code> / <code>error</code> envelope as JSON, including failures on stdout.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>--output<span class="w"> </span>yaml<span class="w"> </span>laws
+legal-text-mcp-de<span class="w"> </span>--output<span class="w"> </span>text<span class="w"> </span>laws
+</code></pre></div>
 <h2 id="server-lifecycle">Server lifecycle<a class="headerlink" href="#server-lifecycle" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>legal-text-mcp-de<span class="w"> </span>serve<span class="w"> </span><span class="o">[</span>--host<span class="w"> </span>H<span class="o">]</span><span class="w"> </span><span class="o">[</span>--port<span class="w"> </span>P<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dataset<span class="w"> </span>PATH<span class="o">]</span><span class="w"> </span><span class="o">[</span>--strict<span class="o">]</span>
 legal-text-mcp-de<span class="w"> </span>http<span class="w">  </span><span class="o">[</span>--host<span class="w"> </span>H<span class="o">]</span><span class="w"> </span><span class="o">[</span>--port<span class="w"> </span>P<span class="o">]</span><span class="w"> </span><span class="o">[</span>--dataset<span class="w"> </span>PATH<span class="o">]</span>
@@ -2874,7 +3023,7 @@ legal-text-mcp-de<span class="w"> </span>completion<span class="w"> </span>insta
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 18, 2026 07:07:32 UTC">May 18, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 9, 2026 18:03:57 UTC">October 9, 2026</span>
   </span>
 
     

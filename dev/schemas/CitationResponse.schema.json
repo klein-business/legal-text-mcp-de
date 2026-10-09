@@ -1,0 +1,46 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "citation": {
+      "additionalProperties": true,
+      "title": "Citation",
+      "type": "object"
+    },
+    "law": {
+      "additionalProperties": true,
+      "title": "Law",
+      "type": "object"
+    },
+    "norm": {
+      "additionalProperties": true,
+      "title": "Norm",
+      "type": "object"
+    },
+    "selection": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selection"
+    },
+    "source": {
+      "additionalProperties": true,
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "required": [
+    "law",
+    "norm",
+    "citation",
+    "source"
+  ],
+  "title": "CitationResponse",
+  "type": "object"
+}

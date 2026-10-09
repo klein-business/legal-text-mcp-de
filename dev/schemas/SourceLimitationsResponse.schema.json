@@ -1,0 +1,29 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "filters": {
+      "additionalProperties": true,
+      "title": "Filters",
+      "type": "object"
+    },
+    "source_limitations": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Source Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_limitations",
+    "count",
+    "filters"
+  ],
+  "title": "SourceLimitationsResponse",
+  "type": "object"
+}

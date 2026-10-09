@@ -1,0 +1,29 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "norm": {
+      "additionalProperties": true,
+      "title": "Norm",
+      "type": "object"
+    },
+    "relationships": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Relationships",
+      "type": "array"
+    }
+  },
+  "required": [
+    "norm",
+    "relationships",
+    "count"
+  ],
+  "title": "RelationshipsResponse",
+  "type": "object"
+}

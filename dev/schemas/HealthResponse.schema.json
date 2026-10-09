@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "status": {
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "HealthResponse",
+  "type": "object"
+}
