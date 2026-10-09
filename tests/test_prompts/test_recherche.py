@@ -6,13 +6,7 @@ from legal_text_mcp_de.server import create_mcp_app
 
 
 def _get_prompt(app, name, args):
-    try:
-        result = app.get_prompt(name, args)
-    except TypeError:
-        result = asyncio.get_event_loop().run_until_complete(app.get_prompt(name, args))
-    if asyncio.iscoroutine(result):
-        result = asyncio.get_event_loop().run_until_complete(result)
-    return result
+    return asyncio.run(app.get_prompt(name, args))
 
 
 def _text(msg):

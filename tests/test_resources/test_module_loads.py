@@ -6,13 +6,7 @@ from legal_text_mcp_de.server import create_mcp_app
 
 
 def _list_resources(app):
-    try:
-        result = app.list_resources()
-    except TypeError:
-        result = asyncio.get_event_loop().run_until_complete(app.list_resources())
-    if asyncio.iscoroutine(result):
-        result = asyncio.get_event_loop().run_until_complete(result)
-    return result
+    return asyncio.run(app.list_resources())
 
 
 def test_resources_module_registers_at_least_one_resource():
