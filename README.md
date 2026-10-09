@@ -159,9 +159,8 @@ uv run legal-text-mcp-de serve
 ```
 
 The default transport is streamable HTTP at
-`http://localhost:8001/mcp`. For desktop / offline clients use the
-stdio transport instead — see
-[Quickstart → stdio](https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/stdio/).
+`http://localhost:8001/mcp`. The CLI does not expose stdio; see
+[stdio transport status](https://klein-business.github.io/legal-text-mcp-de/latest/quickstart/stdio/).
 
 > **Dev shortcut.** A [`Justfile`](Justfile) wraps the common `uv`
 > invocations (`just install`, `just test`, `just lint`, `just run`,
