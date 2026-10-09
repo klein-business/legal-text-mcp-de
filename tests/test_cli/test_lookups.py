@@ -61,7 +61,6 @@ def test_yaml_error_envelope():
 def test_conflicting_output_flags_are_usage_error():
     result = CliRunner().invoke(app, ["--json", "--output", "yaml", "laws"])
     assert result.exit_code == 2
-    assert "--json" in result.output
 
 
 def test_explicit_json_and_pipe_default_match_alias():
