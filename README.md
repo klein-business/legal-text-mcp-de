@@ -67,39 +67,34 @@ Older internal documentation has been archived under
 
 ## Installation
 
-### Mode 1 — `pip install` from PyPI (smallest dependency)
+### pip or uvx with an explicit dataset
 
 ```bash
 pip install legal-text-mcp-de==2.1.3
-DATASET_PATH=/path/to/corpus.tar.zst legal-text-mcp-de serve
+DATASET_PATH=/path/to/dataset legal-text-mcp-de serve
+# Or:
+DATASET_PATH=/path/to/dataset uvx legal-text-mcp-de==2.1.3 serve
 ```
 
-The package ships the runtime only; provide a corpus bundle via
-`DATASET_PATH` (build with `prepare_data.build_corpus`, see Mode 4) or
-point at an existing `.tar.zst` you trust.
+- The package and standard Docker image contain the runtime only.
+- `DATASET_PATH` must point to a normalized dataset directory with `laws.json`, `norms.json`, and `search-index.json`.
+- Public corpus OCI references and the `-full` image currently return `DENIED`; there is no verified public corpus download.
+- The CLI and HTTP runtime do not automatically prepare a usable dataset. A `.tar.zst` bundle is not a supported direct runtime path.
+- Build the nine registered federal laws from official sources using the [federal corpus guide](docs/quickstart/federal-corpus.md). This requires the current source checkout and includes a fix beyond v2.1.3.
+- `prepare_data.build_corpus --sources bund` is not implemented. Its archive output is separate from the serving dataset format.
 
-### Mode 2 — `uvx` + auto-download (recommended, easiest)
+### Docker with a mounted dataset
 
 ```bash
-uvx legal-text-mcp-de serve
+docker run -p 8001:8001 \
+  -v /absolute/path/to/dataset:/data/legal-texts:ro \
+  ghcr.io/klein-business/legal-text-mcp-de:2.1.3 \
+  uv run --frozen --no-sync legal-text-mcp-de http
 ```
 
-Server fetches the latest signed corpus bundle from GHCR on first run.
-
-### Mode 3 — Docker with pre-bundled corpus
-
-```bash
-docker run -p 8001:8001 ghcr.io/klein-business/legal-text-mcp-de-full:2.1.3 serve
-```
-
-### Mode 4 — Self-built corpus (compliance-sensitive)
-
-```bash
-git clone https://github.com/klein-business/legal-text-mcp-de
-cd legal-text-mcp-de
-uv run python -m prepare_data.build_corpus --output ./my-corpus.tar.zst --sources land:by,land:nrw
-DATASET_PATH=./my-corpus.tar.zst uvx legal-text-mcp-de serve
-```
+- Use a dataset compatible with the selected runtime version.
+- `/health` checks the process; `/ready` checks whether the HTTP API can serve its dataset.
+- For freshly built federal data, follow the guide's source-image build instructions.
 
 ### Mode 5 — Public-hosted service
 
@@ -126,19 +121,32 @@ legal-text-mcp-de http               # start the FastAPI HTTP API
 legal-text-mcp-de laws --query DSGVO # list laws
 legal-text-mcp-de norm BGB "§ 433"   # fetch a single norm
 legal-text-mcp-de search Werbung     # full-text search
-legal-text-mcp-de corpus pull        # download the signed corpus bundle
-legal-text-mcp-de corpus verify      # cosign-verify the local bundle
+legal-text-mcp-de corpus info        # inspect locally cached bundle metadata
 legal-text-mcp-de version            # version + Python + platform
 ```
 
-Add `--json` to any subcommand for machine-readable output (matches the
-HTTP API's response schema). See [CLI reference](docs/cli/index.md) for
+Place `--json` or `--output yaml` before the subcommand for machine-readable
+output; the `data` field contains the HTTP response shape. See [CLI reference](docs/cli/index.md) for
 the full subcommand list.
 
 > **BREAKING in v2.1.0:** bare `legal-text-mcp-de` now prints `--help`.
 > Append `serve` to keep the v2.0 behaviour (started the MCP server).
 
 ## Quickstart
+
+### MCP-client compatibility
+
+- **Tested** requires a recorded client version, transport, successful `tools/list`, and one successful tool call.
+- Configuration examples alone are not test evidence. Client runs below remain **[UNVERIFIED]**; protocol-level CI does not establish desktop-client compatibility.
+
+| Client | Tested | stdio | streamable-HTTP | Setup / evidence request |
+| --- | --- | --- | --- | --- |
+| Claude Desktop | Pending | [UNVERIFIED] | [UNVERIFIED] | [Quickstart](docs/quickstart/claude-desktop.md) |
+| Cursor | Pending | [UNVERIFIED] | [UNVERIFIED] | [Quickstart](docs/quickstart/cursor.md) |
+| Continue | Pending | [UNVERIFIED] | [UNVERIFIED] | [Report a client test](https://github.com/klein-business/legal-text-mcp-de/issues/93) |
+| Cline | Pending | [UNVERIFIED] | [UNVERIFIED] | [Report a client test](https://github.com/klein-business/legal-text-mcp-de/issues/93) |
+| Zed | Pending | [UNVERIFIED] | [UNVERIFIED] | [Report a client test](https://github.com/klein-business/legal-text-mcp-de/issues/93) |
+
 
 ### Run the MCP server with the committed fixture corpus
 

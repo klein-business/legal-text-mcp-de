@@ -43,8 +43,8 @@ Expected: JSON response listing ten tools (9 v1 law tools +
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `DATASET_PATH` | bundled fixture | Path to a generated corpus package or fixture directory. |
-| `STRICT_STARTUP` | `false` | Fail fast on dataset errors when `true`. |
+| `DATASET_PATH` | unset (required) | Path to a generated corpus package or fixture directory. |
+| `STRICT_STARTUP` | `true` | Fail fast on dataset errors when `true`. |
 | `HOST` | `127.0.0.1` | Bind address for the MCP server. |
 | `PORT` | `8001` | Port for the MCP server. |
 

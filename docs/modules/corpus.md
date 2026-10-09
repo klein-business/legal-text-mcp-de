@@ -12,9 +12,12 @@ version: 1.0
 ## Overview
 
 The `src/legal_text_mcp_de/corpus/` package manages v2 corpus bundle discovery,
-loading, caching, and signature verification. It replaces the v1 pattern of
-pointing `DATASET_PATH` at a raw directory; in v2, the corpus is a single
-signed `.tar.zst` OCI artifact.
+loading, caching, and signature verification.
+
+- These bundle helpers are separate from the serving dataset loader.
+- CLI and HTTP serving require a normalized directory in `DATASET_PATH`.
+- Public corpus OCI references currently return `DENIED`; availability and package visibility are [UNVERIFIED].
+- Archives are not automatically converted into serving datasets.
 
 ### Responsibility
 
@@ -63,7 +66,7 @@ responsibility belongs to `legal_texts/dataset.py` and the normalizer pipeline.
 
 ## Data Flow
 
-1. `server.py` calls `load_corpus_bundle` during startup (`_resolve_dataset_path`).
+1. The legacy `server.main()` calls `load_corpus_bundle` through `_resolve_dataset_path`; the current CLI `serve`/`http` path does not call this helper.
 2. If `settings.dataset_path` is set, the file is used directly (source `'local'`).
 3. Otherwise `CorpusCache.find_bundle` checks the XDG cache directory.
 4. If not cached and `CORPUS_AUTO_DOWNLOAD=true`, `oras pull` fetches the OCI

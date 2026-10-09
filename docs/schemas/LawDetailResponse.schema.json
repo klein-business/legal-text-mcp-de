@@ -1,0 +1,24 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "law": {
+      "additionalProperties": true,
+      "title": "Law",
+      "type": "object"
+    },
+    "norms": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Norms",
+      "type": "array"
+    }
+  },
+  "required": [
+    "law",
+    "norms"
+  ],
+  "title": "LawDetailResponse",
+  "type": "object"
+}

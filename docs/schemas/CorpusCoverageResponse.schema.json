@@ -1,0 +1,56 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Counts",
+      "type": "object"
+    },
+    "generated_package_present": {
+      "title": "Generated Package Present",
+      "type": "boolean"
+    },
+    "manifest": {
+      "additionalProperties": true,
+      "title": "Manifest",
+      "type": "object"
+    },
+    "package": {
+      "additionalProperties": true,
+      "title": "Package",
+      "type": "object"
+    },
+    "source_families": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Families",
+      "type": "array"
+    },
+    "state_law_coverage": {
+      "additionalProperties": true,
+      "title": "State Law Coverage",
+      "type": "object"
+    },
+    "terminal_states": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Terminal States",
+      "type": "object"
+    }
+  },
+  "required": [
+    "generated_package_present",
+    "package",
+    "manifest",
+    "counts",
+    "source_families",
+    "terminal_states",
+    "state_law_coverage"
+  ],
+  "title": "CorpusCoverageResponse",
+  "type": "object"
+}

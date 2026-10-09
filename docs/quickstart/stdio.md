@@ -56,8 +56,8 @@ variant — only the transport differs.
 | Variable | Default | Effect |
 | --- | --- | --- |
 | `MCP_TRANSPORT` | `streamable-http` if a TTY/port is available, else `stdio` | Force one transport explicitly |
-| `DATASET_PATH` | unset (auto-download) | Path to corpus bundle |
-| `STRICT_STARTUP` | `false` | Fail-fast on dataset load errors |
+| `DATASET_PATH` | unset | Required normalized dataset directory; no automatic corpus preparation |
+| `STRICT_STARTUP` | `true` | Fail-fast on dataset load errors |
 
 `HOST` and `PORT` are ignored in stdio mode.
 

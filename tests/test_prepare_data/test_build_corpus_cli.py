@@ -21,3 +21,14 @@ def test_build_corpus_rejects_missing_required_args():
 
     with pytest.raises(SystemExit):
         main(["--sources", "bund"])  # missing --output
+
+
+def test_unimplemented_federal_source_fails_without_writing_empty_bundle(tmp_path, capsys):
+    import pytest
+
+    out = tmp_path / "corpus.tar.zst"
+    with pytest.raises(SystemExit) as exc:
+        main(["--output", str(out), "--sources", "bund"])
+    assert exc.value.code == 2
+    assert not out.exists()
+    assert "not implemented" in capsys.readouterr().err

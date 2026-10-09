@@ -57,8 +57,8 @@ def _utc_now_iso() -> str:
 
 
 def _collect_bund_laws() -> list[dict[str, Any]]:
-    """Stub — lawde end-to-end integration is deferred to a later task."""
-    return []
+    """Reject the unsupported source instead of publishing an empty bundle."""
+    raise ValueError("bund is not implemented; see docs/quickstart/federal-corpus.md for a federal dataset build")
 
 
 def _collect_state_laws(state_codes: list[str]) -> list[dict[str, Any]]:
@@ -131,7 +131,10 @@ def main(argv: list[str] | None = None) -> int:
             eu_celexes.append(s.split(":", 1)[1])
 
     if do_bund:
-        laws += _collect_bund_laws()
+        try:
+            laws += _collect_bund_laws()
+        except ValueError as exc:
+            parser.error(str(exc))
     if state_codes:
         laws += _collect_state_laws(state_codes)
     if eu_celexes:

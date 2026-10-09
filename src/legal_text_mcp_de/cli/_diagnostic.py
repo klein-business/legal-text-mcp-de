@@ -36,7 +36,7 @@ def version_cmd(ctx: typer.Context) -> None:
         "python": platform.python_version(),
         "platform": platform.platform(),
     }
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @diagnostic_app.command("health")
@@ -54,6 +54,7 @@ def health(
             message=f"GET {url} failed: {exc}",
             details={"url": url, "error_type": type(exc).__name__},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_CONNECTIVITY)
     if resp.status_code != 200:
@@ -62,11 +63,13 @@ def health(
             message=f"GET {url} returned HTTP {resp.status_code}",
             details={"url": url, "status_code": resp.status_code},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_CONNECTIVITY)
     render_data(
         {"url": url, "status_code": 200, "body": resp.json()},
         force_json=force_json,
+        output=ctx.obj.get("output"),
     )
 
 

@@ -1,0 +1,43 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "codes": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Codes"
+    },
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "results": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Results",
+      "type": "array"
+    }
+  },
+  "required": [
+    "query",
+    "results",
+    "count"
+  ],
+  "title": "SearchResponse",
+  "type": "object"
+}

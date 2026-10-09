@@ -1,0 +1,35 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "laws": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Laws",
+      "type": "array"
+    },
+    "query": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Query"
+    }
+  },
+  "required": [
+    "laws",
+    "count"
+  ],
+  "title": "LawListResponse",
+  "type": "object"
+}

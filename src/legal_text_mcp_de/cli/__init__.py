@@ -16,6 +16,7 @@ import typer
 from legal_text_mcp_de.cli._corpus import corpus_app
 from legal_text_mcp_de.cli._diagnostic import completion_app, diagnostic_app
 from legal_text_mcp_de.cli._lookups import lookups_app
+from legal_text_mcp_de.cli._output import OutputMode
 from legal_text_mcp_de.cli._research import research_app
 from legal_text_mcp_de.cli._server import server_app
 
@@ -46,6 +47,7 @@ app = typer.Typer(
 def _root(
     ctx: typer.Context,
     json_output: Annotated[bool, typer.Option("--json", help="Force JSON output.")] = False,
+    output: Annotated[OutputMode | None, typer.Option("--output", help="Output format: text, json, or yaml.")] = None,
     quiet: Annotated[bool, typer.Option("--quiet", "-q", help="Suppress non-essential stderr.")] = False,
     debug: Annotated[bool, typer.Option("--debug", "-v", help="Verbose logging.")] = False,
     version_flag: Annotated[
@@ -55,7 +57,10 @@ def _root(
 ) -> None:
     """legal-text-mcp-de root callback."""
     ctx.ensure_object(dict)
+    if json_output and output not in (None, OutputMode.json):
+        raise typer.BadParameter("--json cannot be combined with --output text or yaml.")
     ctx.obj["json"] = json_output
+    ctx.obj["output"] = output
     ctx.obj["quiet"] = quiet
     ctx.obj["debug"] = debug
     # Bare invocation: print help and exit 0 (matches Task 1's contract).

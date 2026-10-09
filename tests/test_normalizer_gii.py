@@ -2,7 +2,28 @@
 # Copyright 2026 klein-business
 import zipfile
 
+import pytest
+
 from legal_text_mcp_de.legal_texts.gii_xml import parse_gii_zip
+from legal_text_mcp_de.legal_texts.importer import source_metadata
+from legal_text_mcp_de.legal_texts.sources import SOURCE_SPECS
+from legal_text_mcp_de.legal_texts.validation import validate_norms
+
+
+@pytest.mark.parametrize("label", ["§ 3", "Art 3"])
+@pytest.mark.parametrize("title", ["(weggefallen)", "(aufgehoben)"])
+def test_repealed_empty_norm_retains_identity_and_passes_validation(tmp_path, label, title):
+    xml = f"<dokumente><norm><metadaten><enbez>{label}</enbez><titel>{title}</titel></metadaten><textdaten><text><Content /></text></textdaten></norm></dokumente>"
+    zip_path = tmp_path / "xml.zip"
+    with zipfile.ZipFile(zip_path, "w") as archive:
+        archive.writestr("law.xml", xml)
+    source = source_metadata(SOURCE_SPECS["bgb"], zip_path.read_bytes(), "2026-10-09T00:00:00Z")
+    norms = parse_gii_zip(zip_path, {"canonical_id": "bgb"}, source)
+    assert len(norms) == 1
+    assert norms[0]["status"] == "repealed"
+    assert norms[0]["title"] == title
+    assert not norms[0]["text"]
+    assert validate_norms(norms) == []
 
 
 def test_gii_parser_extracts_paragraph_and_subdivision(tmp_path):

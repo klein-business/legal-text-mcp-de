@@ -103,9 +103,10 @@ The mounted path may be:
 - a legacy fixture directory with `laws.json` and `norms.json`;
 - a strict generated package with `package.json`, `manifest.json`,
   `source-limitations.json`, `relationships.json`, `readiness.json`, and
-  `search-index.json`;
-- a v2 `.tar.zst` corpus bundle (standard image with `CORPUS_AUTO_DOWNLOAD`
-  disabled, or hosted image).
+  `search-index.json`.
+
+- Direct `.tar.zst` paths are unsupported by the serving dataset loader.
+- No public pre-bundled `-full` image is currently verified; see the [federal corpus guide](../quickstart/federal-corpus.md).
 
 ## Inventory Notes
 

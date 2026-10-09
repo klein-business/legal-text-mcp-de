@@ -23,8 +23,10 @@ from __future__ import annotations
 
 import json
 import sys
+from enum import StrEnum
 from typing import IO, Any, Final
 
+import yaml  # type: ignore[import-untyped]
 from rich.console import Console
 from rich.table import Table
 
@@ -36,6 +38,12 @@ EXIT_SAMPLING: Final = 3
 EXIT_CORPUS: Final = 4
 EXIT_CONNECTIVITY: Final = 5
 EXIT_INTERRUPT: Final = 130
+
+
+class OutputMode(StrEnum):
+    text = "text"
+    json = "json"
+    yaml = "yaml"
 
 
 def is_json_mode(*, force_json: bool, stream: IO[str] | None = None) -> bool:
@@ -61,6 +69,7 @@ def render_data(
     stream: IO[str] | None = None,
     force_json: bool = False,
     text_renderer: Any = None,
+    output: OutputMode | None = None,
 ) -> None:
     """Write a success payload as text (TTY) or JSON envelope.
 
@@ -68,9 +77,13 @@ def render_data(
     otherwise falls back to ``console.print(payload)``.
     """
     s = stream or sys.stdout
-    if is_json_mode(force_json=force_json, stream=s):
-        s.write(json.dumps({"data": payload, "error": None}, ensure_ascii=False))
-        s.write("\n")
+    mode = output or (OutputMode.json if is_json_mode(force_json=force_json, stream=s) else OutputMode.text)
+    if mode != OutputMode.text:
+        envelope = {"data": payload, "error": None}
+        if mode == OutputMode.yaml:
+            yaml.safe_dump(envelope, s, sort_keys=False, allow_unicode=True)
+        else:
+            s.write(json.dumps(envelope, ensure_ascii=False) + "\n")
         return
     console = Console(file=s)
     if text_renderer is not None:
@@ -86,6 +99,7 @@ def render_error(
     details: dict[str, Any] | None = None,
     stream: IO[str] | None = None,
     force_json: bool = False,
+    output: OutputMode | None = None,
 ) -> None:
     """Write an error envelope (matches the #64 ErrorBody shape).
 
@@ -99,7 +113,8 @@ def render_error(
     """
     # JSON envelope goes to stdout by default but honours ``stream=`` for tests.
     json_stream = stream or sys.stdout
-    if is_json_mode(force_json=force_json, stream=json_stream):
+    mode = output or (OutputMode.json if is_json_mode(force_json=force_json, stream=json_stream) else OutputMode.text)
+    if mode != OutputMode.text:
         payload = {
             "data": None,
             "error": {
@@ -108,8 +123,10 @@ def render_error(
                 "details": details or {},
             },
         }
-        json_stream.write(json.dumps(payload, ensure_ascii=False))
-        json_stream.write("\n")
+        if mode == OutputMode.yaml:
+            yaml.safe_dump(payload, json_stream, sort_keys=False, allow_unicode=True)
+        else:
+            json_stream.write(json.dumps(payload, ensure_ascii=False) + "\n")
         return
     # Text errors go to stderr by default but honour ``stream=`` too.
     err_stream = stream or sys.stderr

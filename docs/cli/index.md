@@ -9,9 +9,19 @@ for machine-readable output (matches the HTTP API response schema).
 | Flag | Purpose |
 |---|---|
 | `--json` | Force JSON output even on a TTY |
+| `--output text\|json\|yaml` | Select output format; put global flags before the command |
 | `--quiet`, `-q` | Suppress non-essential stderr |
 | `--debug`, `-v` | Verbose logging |
 | `--version` | Print version and exit |
+
+- Without an explicit format: text on a terminal, JSON when piped.
+- `--json` remains an alias for JSON; combining it with `--output text` or `yaml` is a usage error.
+- YAML uses the same `data` / `error` envelope as JSON, including failures on stdout.
+
+```bash
+legal-text-mcp-de --output yaml laws
+legal-text-mcp-de --output text laws
+```
 
 ## Server lifecycle
 
