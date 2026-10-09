@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 from typer.testing import CliRunner
 
 from legal_text_mcp_de.cli import app
@@ -41,6 +42,34 @@ def test_laws_json_output_validates_against_http_schema():
     payload = json.loads(result.stdout)
     assert payload["error"] is None
     LawListResponse.model_validate(payload["data"])  # contract check
+
+
+def test_laws_yaml_output_matches_json():
+    runner = CliRunner()
+    result = runner.invoke(app, ["--output", "yaml", "laws"])
+    assert result.exit_code == 0, result.output
+    expected = json.loads(runner.invoke(app, ["--json", "laws"]).stdout)
+    assert yaml.safe_load(result.stdout) == expected
+
+
+def test_yaml_error_envelope():
+    result = CliRunner().invoke(app, ["--output", "yaml", "law", "DOES_NOT_EXIST"])
+    assert result.exit_code == 1
+    assert yaml.safe_load(result.stdout)["error"]["code"] == "LAW_NOT_FOUND"
+
+
+def test_conflicting_output_flags_are_usage_error():
+    result = CliRunner().invoke(app, ["--json", "--output", "yaml", "laws"])
+    assert result.exit_code == 2
+
+
+def test_explicit_json_and_pipe_default_match_alias():
+    runner = CliRunner()
+    expected = json.loads(runner.invoke(app, ["--json", "laws"]).stdout)
+    for flags in ([], ["--output", "json"], ["--json", "--output", "json"]):
+        result = runner.invoke(app, [*flags, "laws"])
+        assert result.exit_code == 0
+        assert json.loads(result.stdout) == expected
 
 
 def test_laws_with_query_filter():

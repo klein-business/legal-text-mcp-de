@@ -45,6 +45,7 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "typer>=0.26.7,<1",
+    "PyYAML~=6.0.1",
 ]
 
 [project.urls]
@@ -64,7 +65,6 @@ packages = ["src/legal_text_mcp_de"]
 dev = [
     "pytest",
     "httpx",
-    "PyYAML~=6.0.1",
     "ruff~=0.15.17",
     "detect-secrets~=1.5.0",
     "mypy~=2.1.0",
@@ -164,6 +164,7 @@ strict = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+pythonpath = ["."]
 
 [tool.coverage.run]
 source = ["src/legal_text_mcp_de"]

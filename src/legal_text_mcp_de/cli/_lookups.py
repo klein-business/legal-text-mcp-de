@@ -32,9 +32,10 @@ def laws(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("law")
@@ -54,12 +55,13 @@ def law(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
     if not full and "law" in payload and "norms" in payload["law"]:
         # Strip norm bodies in summary mode
         payload["law"]["norms"] = [{k: v for k, v in n.items() if k != "text"} for n in payload["law"].get("norms", [])]
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("norm")
@@ -79,9 +81,10 @@ def norm(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("cite")
@@ -109,9 +112,10 @@ def cite(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("search")
@@ -138,9 +142,10 @@ def search(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("meta")
@@ -159,9 +164,10 @@ def meta(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("coverage")
@@ -177,9 +183,10 @@ def coverage(ctx: typer.Context) -> None:
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("limitations")
@@ -206,9 +213,10 @@ def limitations(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @lookups_app.command("related")
@@ -228,6 +236,7 @@ def related(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))

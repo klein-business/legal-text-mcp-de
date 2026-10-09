@@ -25,7 +25,7 @@ Two minor breaks; both can be opted out with env vars.
 ### 1. `DATASET_PATH` default behaviour
 
 - **v1.0:** unset `DATASET_PATH` → server fails to start.
-- **v2.0:** unset `DATASET_PATH` → server auto-downloads the latest signed bundle from GHCR.
+- **Current CLI/HTTP runtime:** provide an explicit normalized dataset directory. The previously documented public auto-download path is unavailable; see [federal corpus setup](../quickstart/federal-corpus.md).
 - **Restore v1 behaviour:** set `STRICT_DATASET=true` to require an explicit path.
 
 ### 2. `get_corpus_coverage` schema bump
@@ -41,7 +41,7 @@ Two minor breaks; both can be opted out with env vars.
 # 1. Update the package
 uv pip install -U legal-text-mcp-de   # → 2.0.0
 
-# 2. (optional) drop explicit DATASET_PATH — auto-download now handles it
+# 2. Keep DATASET_PATH pointing at a compatible normalized dataset directory
 
 # 3. Restart your MCP client; new Resources + Prompts appear automatically
 ```

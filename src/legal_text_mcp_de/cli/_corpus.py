@@ -49,9 +49,10 @@ def pull(
                 "stderr": result.stderr.decode("utf-8", errors="replace"),
             },
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_CORPUS)
-    render_data({"pulled": oci_ref, "cache_dir": str(cache)}, force_json=force_json)
+    render_data({"pulled": oci_ref, "cache_dir": str(cache)}, force_json=force_json, output=ctx.obj.get("output"))
 
 
 @corpus_app.command("verify")
@@ -71,6 +72,7 @@ def verify(
             message=f"No .tar.zst bundle found in {cache}; run 'corpus pull' first.",
             details={"cache_dir": str(cache)},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_CORPUS)
     bundle = bundle_glob[0]
@@ -96,11 +98,13 @@ def verify(
                 "stderr": result.stderr.decode("utf-8", errors="replace"),
             },
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_CORPUS)
     render_data(
         {"verified": str(bundle), "cert_identity": cert_identity},
         force_json=force_json,
+        output=ctx.obj.get("output"),
     )
 
 
@@ -115,4 +119,4 @@ def info(ctx: typer.Context) -> None:
         "bundles": [{"path": str(b), "bytes": b.stat().st_size} for b in bundles],
         "count": len(bundles),
     }
-    render_data(payload, force_json=force_json)
+    render_data(payload, force_json=force_json, output=ctx.obj.get("output"))

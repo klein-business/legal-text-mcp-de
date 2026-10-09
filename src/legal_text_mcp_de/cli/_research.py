@@ -60,13 +60,14 @@ def research(
     try:
         runtime = get_runtime_or_die()
         report = _run_async(_run_research(runtime, topic, max_candidates, detail, ctx=None))
-        render_data(report.model_dump(), force_json=force_json)
+        render_data(report.model_dump(), force_json=force_json, output=ctx.obj.get("output"))
     except SamplingError as exc:
         render_error(
             code="SAMPLING_FAILED",
             message=str(exc),
             details={"type": type(exc).__name__},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_SAMPLING)
     except LegalTextError as exc:
@@ -75,5 +76,6 @@ def research(
             message=str(exc),
             details=getattr(exc, "details", None) or {},
             force_json=force_json,
+            output=ctx.obj.get("output"),
         )
         raise typer.Exit(code=EXIT_RUNTIME)

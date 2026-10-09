@@ -7,6 +7,8 @@ from __future__ import annotations
 import io
 import json
 
+import yaml
+
 from legal_text_mcp_de.cli._output import (
     EXIT_CONNECTIVITY,
     EXIT_CORPUS,
@@ -138,3 +140,26 @@ def test_render_table_emits_columns_and_rows():
     output = buf.getvalue()
     assert "a" in output and "b" in output
     assert "1" in output and "4" in output
+
+
+def test_yaml_output_round_trips():
+    buf = io.StringIO()
+    render_data({"law": "BGB", "text": "§ 1", "count": 1}, stream=buf, output="yaml")
+    assert yaml.safe_load(buf.getvalue()) == {"data": {"law": "BGB", "text": "§ 1", "count": 1}, "error": None}
+
+
+def test_yaml_error_uses_same_envelope():
+    buf = io.StringIO()
+    render_error(code="NOT_FOUND", message="Missing law", details={"code": "X"}, stream=buf, output="yaml")
+    assert yaml.safe_load(buf.getvalue()) == {
+        "data": None,
+        "error": {"code": "NOT_FOUND", "message": "Missing law", "details": {"code": "X"}},
+    }
+
+
+def test_explicit_text_overrides_pipe_default():
+    buf = io.StringIO()
+    render_data(
+        {"law": "BGB"}, stream=buf, output="text", text_renderer=lambda data, console: console.print(data["law"])
+    )
+    assert buf.getvalue() == "BGB\n"

@@ -83,6 +83,7 @@ nav:
       - Cursor: quickstart/cursor.md
       - uvx: quickstart/uvx.md
       - Docker: quickstart/docker.md
+      - Federal corpus: quickstart/federal-corpus.md
       - stdio (offline / Claude Desktop): quickstart/stdio.md
   - CLI:
       - Reference: cli/index.md
@@ -111,6 +112,8 @@ nav:
       - Overview: api/index.md
       - OpenAPI reference: api/openapi.md
       - Typed Python client: api/python-client.md
+  - Reference:
+      - JSON Schemas: schemas/index.md
   - Operations:
       - Security: operations/security.md
       - Production deployment: operations/production-deployment.md

@@ -1,0 +1,23 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "count": {
+      "title": "Count",
+      "type": "integer"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sources",
+    "count"
+  ],
+  "title": "SourceMetadataResponse",
+  "type": "object"
+}

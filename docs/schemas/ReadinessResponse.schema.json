@@ -1,0 +1,25 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "details": {
+      "additionalProperties": true,
+      "title": "Details",
+      "type": "object"
+    },
+    "stage": {
+      "title": "Stage",
+      "type": "string"
+    },
+    "state": {
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stage",
+    "state",
+    "details"
+  ],
+  "title": "ReadinessResponse",
+  "type": "object"
+}

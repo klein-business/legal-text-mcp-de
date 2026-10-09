@@ -1,63 +1,30 @@
-# Quickstart with Claude Desktop
+# Claude Desktop compatibility and setup status
 
-Wire `legal-text-mcp-de` into Claude Desktop as a custom MCP server.
+- First-hand client compatibility: **[UNVERIFIED]**. Track evidence in [issue #93](https://github.com/klein-business/legal-text-mcp-de/issues/93).
+- The current `serve` command uses Streamable HTTP. It does not implement stdio or honor `MCP_TRANSPORT=stdio`.
+- A client configuration that launches `uvx legal-text-mcp-de serve` as a stdio subprocess will not work.
+- The package contains no bundled fixture corpus. Provide a compatible normalized dataset directory.
 
-## Prerequisites
+## Start the HTTP MCP server
 
-- Claude Desktop installed.
-- `uv` available on PATH ([installation](https://docs.astral.sh/uv/getting-started/installation/)).
-
-## Configuration
-
-Edit Claude Desktop's MCP servers configuration (Settings → Developer
-→ Edit Config) and add:
-
-```json
-{
-  "mcpServers": {
-    "legal-text-mcp-de": {
-      "command": "uvx",
-      "args": ["legal-text-mcp-de", "serve"],
-      "env": {
-        "DATASET_PATH": "/path/to/legal-text-package",
-        "STRICT_STARTUP": "true"
-      }
-    }
-  }
-}
+```bash
+DATASET_PATH=/absolute/path/to/compatible-dataset \
+  uvx legal-text-mcp-de==2.1.3 serve --host 127.0.0.1
 ```
 
-Replace the `DATASET_PATH` with your generated package directory, or
-omit the `env` block to use the bundled fixture corpus for quick
-exploration.
+- Endpoint: `http://localhost:8001/mcp`.
+- Use a Streamable HTTP client connection; desktop-version-specific configuration remains [UNVERIFIED].
+- For a current-source federal dataset, follow the [federal corpus guide](federal-corpus.md), including its runtime version requirement.
 
-!!! tip "Fixture corpus"
-    Omit the `env` block entirely to use the bundled fixture corpus.
-    This starts the server against ~10 German federal laws and is useful
-    for trying out the tools before you have a full generated corpus.
+## Evidence needed before marking tested
 
-Restart Claude Desktop. The ten tools (9 v1 law tools + `research_topic`)
-appear in the tool list, alongside the 10 `legal://` resources and 5
-slash-prompts.
-
-## Verification
-
-In a new Claude conversation:
-
-> List the available German law codes.
-
-Claude should invoke `list_laws` and return a list including
-abbreviations like `BGB`, `StGB`, `DSGVO`.
-
-## Configuration file location
-
-| Platform | Path |
-| --- | --- |
-| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+1. Record the client version, operating system, server revision, and transport.
+2. Confirm successful MCP initialization and `tools/list`.
+3. Run `list_laws` and record the result.
+4. Add that evidence to issue #93.
 
 ## Related
 
-- [Cursor](cursor.md) — same approach with Cursor's config path.
-- [uvx](uvx.md) — running the server standalone.
-- [MCP tools reference](../tools/list_laws.md) — what each tool does.
+- [uvx](uvx.md)
+- [Transport limitations](stdio.md)
+- [MCP tools reference](../tools/list_laws.md)

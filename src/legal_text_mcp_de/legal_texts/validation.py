@@ -246,7 +246,7 @@ def validate_norms(norms: list[dict[str, Any]], *, require_generated_container_s
             expected = f"{law_id}/{norm_id}"
             if canonical_id != expected:
                 errors.append(f"{canonical_id}: canonical_id must equal {expected}")
-        if norm.get("status") not in {"container"} and not norm.get("text"):
+        if norm.get("status") not in {"container", "repealed"} and not norm.get("text"):
             errors.append(f"{canonical_id}: active norm requires text")
         if not str(norm.get("url", "")).startswith("https://"):
             errors.append(f"{canonical_id}: URL must be HTTPS")

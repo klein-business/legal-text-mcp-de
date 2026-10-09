@@ -32,6 +32,7 @@ def parse_gii_zip(zip_path: Path, law: dict[str, Any], source: dict[str, Any]) -
         title = _first_text(norm_el, "titel") or _first_text(norm_el, "gliederungstitel")
         gliederungsbez = _first_text(norm_el, "gliederungsbez")
         content = _content_text(norm_el)
+        repealed = not content and (title or "").strip("() ").casefold() in {"weggefallen", "aufgehoben"}
         article_value = _extract(ART_RE, gliederungsbez or enbez or "")
         par_value = _extract(PAR_RE, enbez or "")
 
@@ -46,7 +47,7 @@ def parse_gii_zip(zip_path: Path, law: dict[str, Any], source: dict[str, Any]) -
                     "unit": "art",
                     "value": current_article,
                     "title": title,
-                    "status": "container" if not content else "active",
+                    "status": "repealed" if repealed else "container" if not content else "active",
                     "text": content or None,
                     "url": f"https://www.gesetze-im-internet.de/{source_path}/art_{current_article}.html",
                     "source": source,
@@ -75,7 +76,7 @@ def parse_gii_zip(zip_path: Path, law: dict[str, Any], source: dict[str, Any]) -
                     "value": par_value,
                     "title": title,
                     "text": content,
-                    "status": "active" if content else "known_issue",
+                    "status": "repealed" if repealed else "active" if content else "known_issue",
                     "url": url,
                     "source": source,
                     "subdivisions": _subdivisions(content),
