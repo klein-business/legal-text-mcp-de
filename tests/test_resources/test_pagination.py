@@ -30,13 +30,7 @@ def _fixture_app():
 
 
 def _read(app, uri: str):
-    try:
-        result = app.read_resource(uri)
-    except TypeError:
-        result = asyncio.get_event_loop().run_until_complete(app.read_resource(uri))
-    if asyncio.iscoroutine(result):
-        result = asyncio.get_event_loop().run_until_complete(result)
-    return result
+    return asyncio.run(app.read_resource(uri))
 
 
 def _text(out) -> str:
