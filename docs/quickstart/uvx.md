@@ -12,6 +12,7 @@ permanent installation. This is the recommended way to start.
 
 ```bash
 DATASET_PATH=/absolute/path/to/compatible-dataset \
+HOST=127.0.0.1 \
   uvx legal-text-mcp-de==2.1.3 serve
 ```
 
@@ -22,14 +23,25 @@ DATASET_PATH=/absolute/path/to/compatible-dataset \
 
 ## Verification
 
+Keep the server running. In a second terminal, use an MCP client that initializes the session:
+
 ```bash
-curl http://localhost:8001/mcp -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+uvx --from mcp==1.28.1 python - <<'PYCLIENT'
+import asyncio
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
+
+async def main():
+    async with streamablehttp_client("http://127.0.0.1:8001/mcp") as (read, write, _):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            print([tool.name for tool in (await session.list_tools()).tools])
+
+asyncio.run(main())
+PYCLIENT
 ```
 
-Expected: JSON response listing ten tools (9 v1 law tools +
-`research_topic`).
+Expected: tool names including `list_laws` and `research_topic`.
 
 ## Environment variables
 

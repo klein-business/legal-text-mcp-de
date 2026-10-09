@@ -56,7 +56,12 @@ PY
 ## Serve from the same checkout
 
 ```bash
-DATASET_PATH="$PWD/federal-corpus/dataset" uv run legal-text-mcp-de http
+DATASET_PATH="$PWD/federal-corpus/dataset" HOST=127.0.0.1 uv run legal-text-mcp-de http
+```
+
+Keep the server running. In a second terminal:
+
+```bash
 curl --fail http://localhost:8001/ready
 curl --fail http://localhost:8001/laws/BGB
 ```
@@ -65,7 +70,7 @@ curl --fail http://localhost:8001/laws/BGB
 
 ```bash
 docker build -t legal-text-mcp-de:local .
-docker run --rm -p 8001:8001 \
+docker run --rm -p 127.0.0.1:8001:8001 \
   -v "$PWD/federal-corpus/dataset:/data/legal-texts:ro" \
   legal-text-mcp-de:local \
   uv run --frozen --no-sync legal-text-mcp-de http

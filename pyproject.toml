@@ -164,6 +164,7 @@ strict = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+pythonpath = ["."]
 
 [tool.coverage.run]
 source = ["src/legal_text_mcp_de"]
