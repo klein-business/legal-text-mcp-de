@@ -44,7 +44,7 @@ dependencies = [
     "pydantic-settings",
     "fastapi",
     "uvicorn",
-    "typer>=0.26.7,<1",
+    "typer>=0.27.3,<1",
     "PyYAML~=6.0.1",
 ]
 
@@ -65,22 +65,22 @@ packages = ["src/legal_text_mcp_de"]
 dev = [
     "pytest",
     "httpx",
-    "ruff~=0.15.17",
+    "ruff~=0.17.1",
     "detect-secrets~=1.5.0",
-    "mypy~=2.1.0",
+    "mypy~=2.4.0",
     "pytest-cov~=7.1.0",
-    "pre-commit~=4.0",
-    "cyclonedx-bom~=7.3",
+    "pre-commit~=4.7",
+    "cyclonedx-bom~=7.5",
     "types-beautifulsoup4~=4.12",
     "zstandard>=0.23,<0.26",
     "pytest-asyncio>=1.4.0,<2",
 ]
 docs = [
     "mkdocs~=1.6.0",
-    "mkdocs-material~=9.7.6",
+    "mkdocs-material~=9.7.7",
     "mkdocstrings[python]~=1.0.4",
     "mkdocs-mermaid2-plugin~=1.2.0",
-    "mkdocs-git-revision-date-localized-plugin~=1.5.3",
+    "mkdocs-git-revision-date-localized-plugin~=1.6.0",
     "mike~=2.2.0",
     "mkdocs-redirects~=1.2.0",
 ]
@@ -89,7 +89,7 @@ prepare-data = [
     "PyYAML~=6.0.1",
     "docopt~=0.6.2",
     "lxml",
-    "cssselect~=1.4.0",
+    "cssselect~=1.6.0",
     "requests~=2.34.2",
     "beautifulsoup4~=4.15.0",
     "roman-numbers~=1.0.2",
@@ -98,7 +98,7 @@ prepare-data = [
     "zstandard>=0.23,<0.26",
 ]
 hosted = [
-    "prometheus-client~=0.21",
+    "prometheus-client~=0.26",
     "fastapi",
     "starlette",
 ]
