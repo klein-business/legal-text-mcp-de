@@ -125,7 +125,7 @@ jobs:
 
       - name: Extract image metadata
         id: meta
-        uses: docker/metadata-action@020b7354dd55a28effcab0f3b19639fe24d3f58b # v5.6.0
+        uses: docker/metadata-action@8e671d84a3bd81afdfc4fdbb96a42b07c2a80934 # v5.6.0
         with:
           images: ghcr.io/klein-business/legal-text-mcp-de
           tags: |
