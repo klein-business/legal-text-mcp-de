@@ -1,4 +1,4 @@
-FROM python:3.12-slim@sha256:401f6e1a67dad31a1bd78e9ad22d0ee0a3b52154e6bd30e90be696bb6a3d7461
+FROM python:3.15-slim@sha256:65a65fc7b30b06cb6df4930fd4650697cb23f4c2698ab81fc87e4b031bc36928
 
 # Required by the official MCP Registry for OCI-package verification.
 # The label must match the `name` field in server.json. Used by the
